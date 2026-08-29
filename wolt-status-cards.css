@@ -2,7 +2,7 @@
 .status-options{grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .status-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:330px;padding:32px 28px 27px;overflow:hidden;text-align:center}
 .status-card:before{content:"";position:absolute;inset:9px;border:1px solid rgba(245,209,111,.2);border-radius:12px;pointer-events:none}
-.status-card:after{content:"✦";position:absolute;top:18px;right:22px;color:#f1cd67;font:600 15px Cinzel,serif;opacity:.86}
+.status-card:after{content:"✦";position:absolute;top:18px;left:22px;color:#f1cd67;font:600 15px Cinzel,serif;opacity:.86}
 .status-card-copy{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;width:100%}
 .status-card .status-symbol{display:grid;place-items:center;order:1;position:relative;width:74px;height:74px;margin:0 0 22px;border:1px solid #f5d36f;border-radius:50%;background:radial-gradient(circle at 42% 34%,#d7a341 0,#8a591b 35%,#4b2a10 62%,#211128 78%);color:#fff0ad;font:600 29px Cinzel,serif;box-shadow:0 0 0 7px rgba(194,132,35,.11),0 0 30px rgba(245,204,91,.28),inset 0 1px 0 rgba(255,250,211,.45)}
 .status-card .status-symbol:before,.status-card .status-symbol:after{content:"";position:absolute;top:50%;width:34px;height:1px;background:linear-gradient(90deg,transparent,#e8c45f)}
