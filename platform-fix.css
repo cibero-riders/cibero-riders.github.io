@@ -1,0 +1,2 @@
+/* Folosește emblema Bolt originală furnizată pentru a păstra wordmark-ul corect. */
+.bolt-mark .bolt-symbol{overflow:hidden;background:#39c98a}.bolt-mark .bolt-symbol img{display:block;width:182%;max-width:none;height:182%;object-fit:cover;transform:translate(-22.5%,-22.5%);filter:none}.bolt-mark .bolt-symbol:before,.bolt-mark .bolt-symbol b,.bolt-mark .bolt-symbol em{display:none}
