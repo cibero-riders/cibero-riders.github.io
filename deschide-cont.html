@@ -30,6 +30,7 @@
   <link rel="stylesheet" href="deschide-cont-mobile-fixes.css?v=2" />
   <link rel="stylesheet" href="wolt-transfer-flow.css" />
   <link rel="stylesheet" href="glovo-amber-flow.css" />
+  <link rel="stylesheet" href="wolt-standalone-flows.css" />
 </head>
 <body>
   <header><a href="index.html" class="brand brand-image" aria-label="CibeRO"><img src="assets/cibero-text-logo.png" alt="CibeRO" /></a></header>
@@ -149,10 +150,32 @@
       <div id="transfer-detail" class="status-detail transfer-standalone" aria-live="polite"></div>
     </section>
 
+    <section id="wolt-client-question-flow" class="view flow-shell wolt-standalone-page">
+      <button class="text-back" data-wolt-target="status-flow">← Înapoi la alegerea anterioară</button>
+      <p class="wolt-info-note">Atenție: acest pas este obligatoriu. Conturile Wolt se influențează între ele, conform politicii platformei.</p>
+      <div class="flow-head compact"><h2><span class="step-inline">3 / 5</span>Ai cont de <mark class="role-highlight">client</mark> Wolt? <small class="title-explain">(contul din care comanzi)</small></h2></div>
+      <div class="status-options client-status-options">
+        <button class="status-card" data-status="client"><div class="status-card-copy"><b>Da, am cont de client Wolt</b><span class="status-symbol">▣</span><small class="status-action">Verifică datele înainte de formular</small></div><i>○</i></button>
+        <button class="status-card" data-status="none"><div class="status-card-copy"><b>Nu, nu am cont de client Wolt</b><span class="status-symbol">✚</span><small class="status-action">Creează contul Wolt Client</small></div><i>○</i></button>
+      </div>
+    </section>
+
+    <section id="wolt-client-existing-flow" class="view flow-shell wolt-standalone-page">
+      <button class="text-back" data-wolt-target="wolt-client-question-flow">← Înapoi la alegere</button>
+      <div class="flow-head compact"><h2><span class="step-inline">3 / 5</span>Verifică datele contului.</h2><p>Folosește exact informațiile din aplicația Wolt Client.</p></div>
+      <div id="client-existing-detail" class="status-detail wolt-standalone-detail" aria-live="polite"></div>
+    </section>
+
+    <section id="wolt-client-new-flow" class="view flow-shell wolt-standalone-page">
+      <button class="text-back" data-wolt-target="wolt-client-question-flow">← Înapoi la alegere</button>
+      <div class="flow-head compact"><h2><span class="step-inline">3 / 5</span>Creează contul Wolt Client.</h2><p>Contul de client este obligatoriu înainte de formularul de curier.</p></div>
+      <div id="client-new-detail" class="status-detail wolt-standalone-detail" aria-live="polite"></div>
+    </section>
+
     <section id="form-flow" class="view flow-shell form-shell"><button class="text-back" data-status-back>← Înapoi la verificare</button><div class="flow-head compact"><h2><span class="step-inline">4 / 5</span>Formular de interes.</h2><p id="form-description">Completează datele tale pentru platforma Wolt.</p></div><form id="wolt-form"><div class="two"><label>Prenume *<input required name="prenume" placeholder="Ion" /></label><label>Nume *<input required name="nume" placeholder="Popescu" /></label></div><label>Email * <small class="client-tag">identic cu Wolt Client</small><input required type="email" name="email" placeholder="ion.popescu@email.com" /></label><label>Număr de telefon * <small class="client-tag">identic cu Wolt Client</small><input required name="telefon" placeholder="07XX XXX XXX" /></label><label>Oraș *<select required name="oras"><option value="">Selectează orașul tău...</option><option>București</option><option>Cluj-Napoca</option><option>Brașov</option><option>Iași</option><option>Timișoara</option><option>Alt oraș activ</option></select></label><label>Tip vehicul<select name="vehicul"><option>Selec­tează...</option><option>Bicicletă</option><option>Scuter</option><option>Mașină</option></select></label><label>Mesaj opțional<textarea name="mesaj" placeholder="Orice informație suplimentară..."></textarea></label><label class="final-confirm"><input required type="checkbox" /><span><b>Confirmare finală obligatorie</b>Verific poza încărcată și confirm că datele introduse sunt identice cu cele din aplicația Wolt Client.</span></label><button class="continue">Trimite cererea →</button><p class="gdpr">Datele tale sunt procesate conform GDPR și nu vor fi distribuite terților.</p></form></section>
 
     <section id="final-flow" class="view flow-shell"><div class="flow-head compact"><h2><span class="step-inline">5 / 5</span>Citește înainte de a trimite.</h2><p>Înscrierea este o cerere, nu o activare automată.</p></div><div class="rule-card"><div class="rule blue"><b>1</b><span><strong>Înscrierea este o cerere, nu o activare</strong><small>Vei fi plasat/ă pe lista de așteptare.</small></span></div><div class="rule gold"><b>2</b><span><strong>Wolt decide activarea</strong><small>Activarea depinde de locurile disponibile în orașul tău.</small></span></div><div class="rule red"><b>3</b><span><strong>Regula de 48 de ore rămâne valabilă</strong><small>După activare, trebuie să livrezi minimum o comandă.</small></span></div><label class="accept"><input type="checkbox" id="final-accept" /> <span>Am citit și am înțeles toate punctele de mai sus.</span></label><button class="continue" id="submit-request" disabled>Confirmă și trimite cererea →</button></div></section>
 
     <section id="success-flow" class="view success"><div class="success-seal">✓</div><p class="eyebrow">Cerere trimisă</p><h2>Mulțumim.<br><em>Ai făcut primul pas.</em></h2><p>Cererea ta a fost înregistrată. Vei fi contactat/ă atunci când apare un loc disponibil pentru orașul tău.</p><a href="index.html" class="continue">Înapoi la CibeRO →</a></section>
-  </main><script src="deschide-cont.js?v=3"></script>
+  </main><script src="deschide-cont.js?v=4"></script>
 </body></html>
