@@ -26,14 +26,15 @@
   <link rel="stylesheet" href="wolt-client-downloads.css" />
   <link rel="stylesheet" href="wolt-content-type.css?v=2" />
   <link rel="stylesheet" href="wolt-warning-note.css" />
-  <link rel="stylesheet" href="wolt-marble-cards.css" />
-  <link rel="stylesheet" href="deschide-cont-mobile-fixes.css" />
+  <link rel="stylesheet" href="wolt-glass-cards.css?v=2" />
+  <link rel="stylesheet" href="deschide-cont-mobile-fixes.css?v=2" />
+  <link rel="stylesheet" href="wolt-transfer-flow.css" />
 </head>
 <body>
   <header><a href="index.html" class="brand brand-image" aria-label="CibeRO"><img src="assets/cibero-text-logo.png" alt="CibeRO" /></a></header>
   <main>
     <section id="platform-step" class="view active">
-      <p class="eyebrow">Activare platforme</p><h1>La ce platformă vrei să-ți<br><em>deschizi cont nou?</em></h1>
+      <p class="eyebrow">Activare platforme</p><h1>La ce platformă vrei<br class="mobile-title-break" /> să-ți<br class="desktop-title-break" /> <em>deschizi cont nou?</em></h1>
       <div class="platform-choice">
         <button type="button" class="platform-card glovo" data-platform="glovo"><span class="platform-center"><img src="assets/glovo-round.png" alt="Logo Glovo" /><b>Glovo</b></span><i>→</i></button>
         <button type="button" class="platform-card wolt" data-platform="wolt"><span class="platform-center"><img src="assets/wolt-round.png" alt="Logo Wolt" /><b>Wolt</b></span><i>→</i></button>
@@ -61,10 +62,19 @@
       </div><div id="status-detail" class="status-detail" aria-live="polite"></div></div>
     </section>
 
+    <section id="transfer-flow" class="view flow-shell transfer-shell">
+      <button class="text-back" data-transfer-back>← Înapoi la alegere</button>
+      <div class="flow-head compact">
+        <h2><span class="step-inline">3 / 4</span>Transferă contul Wolt.</h2>
+        <p>Urmează pașii de mai jos înainte de a solicita mutarea contului la flota CibeRO.</p>
+      </div>
+      <div id="transfer-detail" class="status-detail transfer-standalone" aria-live="polite"></div>
+    </section>
+
     <section id="form-flow" class="view flow-shell form-shell"><button class="text-back" data-status-back>← Înapoi la verificare</button><div class="flow-head compact"><h2><span class="step-inline">4 / 5</span>Formular de interes.</h2><p id="form-description">Completează datele tale pentru platforma Wolt.</p></div><form id="wolt-form"><div class="two"><label>Prenume *<input required name="prenume" placeholder="Ion" /></label><label>Nume *<input required name="nume" placeholder="Popescu" /></label></div><label>Email * <small class="client-tag">identic cu Wolt Client</small><input required type="email" name="email" placeholder="ion.popescu@email.com" /></label><label>Număr de telefon * <small class="client-tag">identic cu Wolt Client</small><input required name="telefon" placeholder="07XX XXX XXX" /></label><label>Oraș *<select required name="oras"><option value="">Selectează orașul tău...</option><option>București</option><option>Cluj-Napoca</option><option>Brașov</option><option>Iași</option><option>Timișoara</option><option>Alt oraș activ</option></select></label><label>Tip vehicul<select name="vehicul"><option>Selec­tează...</option><option>Bicicletă</option><option>Scuter</option><option>Mașină</option></select></label><label>Mesaj opțional<textarea name="mesaj" placeholder="Orice informație suplimentară..."></textarea></label><label class="final-confirm"><input required type="checkbox" /><span><b>Confirmare finală obligatorie</b>Verific poza încărcată și confirm că datele introduse sunt identice cu cele din aplicația Wolt Client.</span></label><button class="continue">Trimite cererea →</button><p class="gdpr">Datele tale sunt procesate conform GDPR și nu vor fi distribuite terților.</p></form></section>
 
     <section id="final-flow" class="view flow-shell"><div class="flow-head compact"><h2><span class="step-inline">5 / 5</span>Citește înainte de a trimite.</h2><p>Înscrierea este o cerere, nu o activare automată.</p></div><div class="rule-card"><div class="rule blue"><b>1</b><span><strong>Înscrierea este o cerere, nu o activare</strong><small>Vei fi plasat/ă pe lista de așteptare.</small></span></div><div class="rule gold"><b>2</b><span><strong>Wolt decide activarea</strong><small>Activarea depinde de locurile disponibile în orașul tău.</small></span></div><div class="rule red"><b>3</b><span><strong>Regula de 48 de ore rămâne valabilă</strong><small>După activare, trebuie să livrezi minimum o comandă.</small></span></div><label class="accept"><input type="checkbox" id="final-accept" /> <span>Am citit și am înțeles toate punctele de mai sus.</span></label><button class="continue" id="submit-request" disabled>Confirmă și trimite cererea →</button></div></section>
 
     <section id="success-flow" class="view success"><div class="success-seal">✓</div><p class="eyebrow">Cerere trimisă</p><h2>Mulțumim.<br><em>Ai făcut primul pas.</em></h2><p>Cererea ta a fost înregistrată. Vei fi contactat/ă atunci când apare un loc disponibil pentru orașul tău.</p><a href="index.html" class="continue">Înapoi la CibeRO →</a></section>
-  </main><script src="deschide-cont.js"></script>
+  </main><script src="deschide-cont.js?v=2"></script>
 </body></html>
