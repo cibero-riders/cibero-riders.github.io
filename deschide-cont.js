@@ -1,7 +1,7 @@
 const views = document.querySelectorAll('.view');
 const show = id => { views.forEach(view => view.classList.toggle('active', view.id === id)); window.scrollTo({top:0,behavior:'smooth'}); };
 let selectedStatus = '';
-document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => { if(button.dataset.platform === 'wolt') show('wolt-flow'); else alert('Flow-ul Glovo va fi disponibil în curând.'); }));
+document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => { if(button.dataset.platform === 'wolt') show('wolt-flow'); else show('glovo-info-flow'); }));
 document.querySelectorAll('.platform-card[data-platform]').forEach(card => card.addEventListener('keydown', event => { if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); card.click(); } }));
 document.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => show('platform-step')));
 document.querySelectorAll('[data-wolt-back]').forEach(button => button.addEventListener('click', () => { if (statusOptions?.querySelector('[data-status="new"]')) show('wolt-flow'); else resetStatusChoices(); }));
@@ -22,3 +22,25 @@ const renderStatus = card => { selectedStatus = card.dataset.status; if (selecte
 const bindStatusCards = () => statusOptions.querySelectorAll('.status-card').forEach(card => card.addEventListener('click', () => renderStatus(card)));
 bindStatusCards();
 document.querySelector('#wolt-form').addEventListener('submit', event => { event.preventDefault(); show('final-flow'); }); const finalAccept = document.querySelector('#final-accept'); const submit = document.querySelector('#submit-request'); finalAccept.addEventListener('change', () => submit.disabled = !finalAccept.checked); submit.addEventListener('click', () => show('success-flow'));
+
+document.querySelectorAll('[data-glovo-target]').forEach(button => button.addEventListener('click', () => show(button.dataset.glovoTarget)));
+document.querySelectorAll('[data-glovo-reveal]').forEach(stack => {
+  const items = [...stack.querySelectorAll('.glovo-reveal-item')];
+  const button = stack.querySelector('.glovo-next');
+  const nextView = stack.dataset.nextView;
+  let visible = 1;
+  button.addEventListener('click', () => {
+    if (visible < items.length) {
+      items[visible].classList.add('visible');
+      visible += 1;
+      button.innerHTML = visible === items.length ? 'Continuă <span>→</span>' : 'Mai departe <span>→</span>';
+      return;
+    }
+    show(nextView);
+  });
+});
+const glovoChecks = [...document.querySelectorAll('.glovo-confirm-card input[type="checkbox"]')];
+const glovoConfirmNext = document.querySelector('#glovo-confirm-next');
+glovoChecks.forEach(check => check.addEventListener('change', () => { glovoConfirmNext.disabled = !glovoChecks.every(item => item.checked); }));
+glovoConfirmNext.addEventListener('click', () => show('glovo-activation-flow'));
+document.querySelector('#glovo-form').addEventListener('submit', event => { event.preventDefault(); show('glovo-success-flow'); });
