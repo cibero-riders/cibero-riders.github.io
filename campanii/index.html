@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Campaniile și premiile CibeRO pentru curierii flotei." />
+  <title>Campanii | CibeRO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="campanii.css" />
+</head>
+<body>
+  <header class="site-header">
+    <a class="back" href="../">← Înapoi la CibeRO</a>
+    <a class="brand" href="../" aria-label="Pagina principală CibeRO">
+      <img src="../assets/cibero-text-logo.png" alt="CibeRO" />
+    </a>
+    <span class="header-spacer" aria-hidden="true"></span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="eyebrow">RECOMPENSE PENTRU CURIERI IMPLICAȚI</p>
+      <h1>Campaniile <em>CibeRO</em></h1>
+      <p>Două moduri de a câștiga. Alege campania și descoperă regulile, perioada și premiile.</p>
+    </section>
+
+    <section class="campaign-shell" aria-label="Campanii CibeRO">
+      <div class="tabs" role="tablist" aria-label="Selectează campania">
+        <button id="tab-veteran" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="panel-veteran" data-tab="veteran">
+          <span class="tab-icon">🏆</span>
+          <span><small>Campanie extinsă</small><strong>Veteran</strong></span>
+        </button>
+        <button id="tab-tombola" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-tombola" data-tab="tombola" tabindex="-1">
+          <span class="tab-icon">🎟️</span>
+          <span><small>Campanie săptămânală</small><strong>Tombolă</strong></span>
+        </button>
+      </div>
+
+      <div class="panels">
+        <article id="panel-veteran" class="campaign-panel active" role="tabpanel" aria-labelledby="tab-veteran" data-panel="veteran">
+          <header class="panel-header">
+            <div class="campaign-seal">🏆</div>
+            <div>
+              <p>CAMPANIE EXTINSĂ</p>
+              <h2>Veteran</h2>
+              <span>31 August, 00:00 — 01 Noiembrie, 23:59 · 2 luni</span>
+            </div>
+          </header>
+
+          <div class="info-card goal">
+            <span>🎯</span><div><h3>Scop</h3><p>Cele mai mari venituri realizate în intervalul <strong>31 August 00:00 – 01 Noiembrie 23:59</strong>.</p></div>
+          </div>
+          <div class="info-card strategy">
+            <span>🤞</span><div><h3>Folosește toate platformele</h3><p>Se iau în calcul veniturile de pe toate cele 3 platforme, așa că puteți fi ingenioși.</p></div>
+          </div>
+
+          <section class="prizes">
+            <div class="section-title"><span>🎁</span><h3>Premii</h3></div>
+            <ol class="prize-list veteran-prizes">
+              <li class="podium first"><span>🥇</span><div><b>Locul 1</b><p>Premiu surpriză în valoare de <strong>1.500 lei</strong> sau contravaloarea în bani.</p></div></li>
+              <li class="podium second"><span>🥈</span><div><b>Locul 2</b><p>Premiu surpriză în valoare de <strong>1.000 lei</strong> sau contravaloarea în bani.</p></div></li>
+              <li class="podium third"><span>🥉</span><div><b>Locul 3</b><p>Premiu surpriză în valoare de <strong>500 lei</strong> sau contravaloarea în bani.</p></div></li>
+              <li><span>🏅</span><div><b>Locul 4</b><p>Un plin din partea flotei sau contravaloarea în bani.</p></div></li>
+              <li><span>🏅</span><div><b>Locul 5</b><p>Comision 0 timp de <strong>2 săptămâni</strong>.</p></div></li>
+              <li><span>🏅</span><div><b>Locul 6</b><p>Comision 0 timp de <strong>o săptămână</strong>.</p></div></li>
+            </ol>
+          </section>
+
+          <div class="result-note"><span>ℹ️</span><p>Rezultatele vor fi afișate la începutul lunii Noiembrie.</p></div>
+          <p class="closing">🔥 Spor și hype pe traseu! Cei mai implicați vor fi recompensați! 🙏</p>
+        </article>
+
+        <article id="panel-tombola" class="campaign-panel" role="tabpanel" aria-labelledby="tab-tombola" data-panel="tombola" hidden>
+          <header class="panel-header raffle-header">
+            <div class="campaign-seal">🎟️</div>
+            <div>
+              <p>CAMPANIE SĂPTĂMÂNALĂ</p>
+              <h2>Tombolă</h2>
+              <span>Fiecare prag de 500 lei înseamnă o șansă nouă.</span>
+            </div>
+          </header>
+
+          <div class="info-card goal">
+            <span>🎯</span><div><h3>Scop</h3><p>La fiecare <strong>500 lei</strong> câștigați într-o săptămână, primești un bilet la tragerea la sorți. Mai multe bilete înseamnă mai multe șanse de câștig.</p></div>
+          </div>
+          <div class="example-card">
+            <span>👉</span><div><h3>Exemplu</h3><p>Ai venituri de <strong>1.800 lei</strong> într-o săptămână → primești <strong>3 bilete</strong> și o probabilitate mai mare de a ieși câștigător.</p></div>
+          </div>
+
+          <div class="raffle-steps">
+            <div><b>500 lei</b><span>1 bilet</span></div><i>→</i><div><b>3 extrageri</b><span>3 câștigători</span></div>
+          </div>
+
+          <div class="info-card enrollment">
+            <span>📌</span><div><h3>Cine participă?</h3><p>Toți curierii cu încasări de cel puțin 500 lei într-o săptămână sunt înscriși. Roata se învârte de 3 ori, iar cei nominalizați devin câștigători.</p></div>
+          </div>
+
+          <section class="prizes">
+            <div class="section-title"><span>🎁</span><h3>Premii</h3></div>
+            <div class="raffle-prize"><span>🏅</span><p>Fiecare dintre cei 3 curieri alege un premiu:</p><div><b>100 lei</b><i>sau</i><b>Comision 0% timp de o săptămână</b></div></div>
+          </section>
+
+          <div class="result-note"><span>ℹ️</span><p>Rezultatele vor fi afișate la începutul săptămânii următoare celei în care are loc campania.</p></div>
+          <p class="chance">😉 Toți au o șansă la câștig, însă cei care colectează mai multe bilete au mai multe șanse.</p>
+          <p class="closing">Spor și succes! 🙏</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer><img src="../assets/cibero-text-logo.png" alt="CibeRO" /><p>Împreună, livrăm mai mult.</p></footer>
+  <script src="campanii.js"></script>
+</body>
+</html>
