@@ -18,20 +18,25 @@
   </header>
 
   <main>
+    <div class="language-switch" role="group" aria-label="Alege limba paginii">
+      <button class="active" type="button" data-language="ro" aria-pressed="true">RO</button>
+      <button type="button" data-language="en" aria-pressed="false">EN</button>
+    </div>
+
     <section class="hero">
-      <h1>Campaniile <em>CibeRO</em></h1>
-      <p>Două moduri de a câștiga. Alege campania și descoperă regulile, perioada și premiile.</p>
+      <h1 data-i18n="heroTitle">Campaniile <em>CibeRO</em></h1>
+      <p data-i18n="heroSubtitle">Două moduri de a câștiga. Alege campania și descoperă regulile, perioada și premiile.</p>
     </section>
 
-    <section class="campaign-shell" aria-label="Campanii CibeRO">
-      <div class="tabs" role="tablist" aria-label="Selectează campania">
+    <section class="campaign-shell" aria-label="Campanii CibeRO" data-i18n-aria="campaignShellLabel">
+      <div class="tabs" role="tablist" aria-label="Selectează campania" data-i18n-aria="tabListLabel">
         <button id="tab-veteran" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="panel-veteran" data-tab="veteran">
           <span class="tab-icon">🏆</span>
-          <span><small>Campanie extinsă</small><strong>Veteran</strong></span>
+          <span><small data-i18n="extendedCampaign">Campanie extinsă</small><strong>Veteran</strong></span>
         </button>
         <button id="tab-tombola" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-tombola" data-tab="tombola" tabindex="-1">
           <span class="tab-icon">🎟️</span>
-          <span><small>Campanie săptămânală</small><strong>Tombolă</strong></span>
+          <span><small data-i18n="weeklyCampaign">Campanie săptămânală</small><strong data-i18n="raffleTitle">Tombolă</strong></span>
         </button>
       </div>
 
@@ -40,74 +45,74 @@
           <header class="panel-header">
             <div class="campaign-seal">🏆</div>
             <div>
-              <p>CAMPANIE EXTINSĂ</p>
+              <p data-i18n="extendedCampaign">CAMPANIE EXTINSĂ</p>
               <h2>Veteran</h2>
               <div class="campaign-period">
-                <span class="period-value">07 Septembrie, 00:00 — 07 Noiembrie, 23:59 · 2 luni</span>
+                <span class="period-value" data-i18n="veteranPeriod">07 Septembrie, 00:00 — 07 Noiembrie, 23:59 · 2 luni</span>
               </div>
             </div>
           </header>
 
           <div class="info-card goal">
-            <span>🎯</span><div><h3>Scop</h3><p>Cele mai mari venituri realizate în intervalul <strong>07 Septembrie 00:00 – 07 Noiembrie 23:59</strong>.</p></div>
+            <span>🎯</span><div><h3 data-i18n="goalTitle">Scop</h3><p data-i18n="veteranGoal">Cele mai mari venituri realizate în intervalul <strong>07 Septembrie 00:00 – 07 Noiembrie 23:59</strong>.</p></div>
           </div>
           <div class="info-card strategy">
-            <span>🤞</span><div><h3>Folosește toate platformele</h3><p>Se iau în calcul veniturile de pe toate cele 3 platforme, așa că puteți fi ingenioși.</p></div>
+            <span>🤞</span><div><h3 data-i18n="allPlatformsTitle">Folosește toate platformele</h3><p data-i18n="allPlatformsBody">Se iau în calcul veniturile de pe toate cele 3 platforme, așa că puteți fi ingenioși.</p></div>
           </div>
 
           <section class="prizes">
-            <div class="section-title"><span>🎁</span><h3>Premii</h3></div>
+            <div class="section-title"><span>🎁</span><h3 data-i18n="prizesTitle">Premii</h3></div>
             <ol class="prize-list veteran-prizes">
-              <li class="podium first"><span>🥇</span><div><b>Locul 1</b><p>Premiu surpriză în valoare de <strong>1.500 lei</strong> sau contravaloarea în bani.</p></div></li>
-              <li class="podium second"><span>🥈</span><div><b>Locul 2</b><p>Premiu surpriză în valoare de <strong>1.000 lei</strong> sau contravaloarea în bani.</p></div></li>
-              <li class="podium third"><span>🥉</span><div><b>Locul 3</b><p>Premiu surpriză în valoare de <strong>500 lei</strong> sau contravaloarea în bani.</p></div></li>
-              <li><span>🏅</span><div><b>Locul 4</b><p>Un plin din partea flotei sau contravaloarea în bani.</p></div></li>
-              <li><span>🏅</span><div><b>Locul 5</b><p>Comision 0 timp de <strong>2 săptămâni</strong>.</p></div></li>
-              <li><span>🏅</span><div><b>Locul 6</b><p>Comision 0 timp de <strong>o săptămână</strong>.</p></div></li>
+              <li class="podium first"><span>🥇</span><div><b data-i18n="place1">Locul 1</b><p data-i18n="prize1">Premiu surpriză în valoare de <strong>1.500 lei</strong> sau contravaloarea în bani.</p></div></li>
+              <li class="podium second"><span>🥈</span><div><b data-i18n="place2">Locul 2</b><p data-i18n="prize2">Premiu surpriză în valoare de <strong>1.000 lei</strong> sau contravaloarea în bani.</p></div></li>
+              <li class="podium third"><span>🥉</span><div><b data-i18n="place3">Locul 3</b><p data-i18n="prize3">Premiu surpriză în valoare de <strong>500 lei</strong> sau contravaloarea în bani.</p></div></li>
+              <li><span>🏅</span><div><b data-i18n="place4">Locul 4</b><p data-i18n="prize4">Un plin din partea flotei sau contravaloarea în bani.</p></div></li>
+              <li><span>🏅</span><div><b data-i18n="place5">Locul 5</b><p data-i18n="prize5">Comision 0 timp de <strong>2 săptămâni</strong>.</p></div></li>
+              <li><span>🏅</span><div><b data-i18n="place6">Locul 6</b><p data-i18n="prize6">Comision 0 timp de <strong>o săptămână</strong>.</p></div></li>
             </ol>
           </section>
 
-          <div class="result-note"><span>ℹ️</span><p>Rezultatele vor fi afișate la scurt timp după încheierea campaniei.</p></div>
-          <p class="closing">🔥 Spor și hype pe traseu! Cei mai implicați vor fi recompensați! 🙏</p>
+          <div class="result-note"><span>ℹ️</span><p data-i18n="veteranResults">Rezultatele vor fi afișate la scurt timp după încheierea campaniei.</p></div>
+          <p class="closing" data-i18n="veteranClosing">🔥 Spor și hype pe traseu! Cei mai implicați vor fi recompensați! 🙏</p>
         </article>
 
         <article id="panel-tombola" class="campaign-panel" role="tabpanel" aria-labelledby="tab-tombola" data-panel="tombola" hidden>
           <header class="panel-header raffle-header">
             <div class="campaign-seal">🎟️</div>
             <div>
-              <p>CAMPANIE SĂPTĂMÂNALĂ</p>
-              <h2>Tombolă</h2>
+              <p data-i18n="weeklyCampaign">CAMPANIE SĂPTĂMÂNALĂ</p>
+              <h2 data-i18n="raffleTitle">Tombolă</h2>
               <div class="campaign-period">
-                <span class="period-value">Prima săptămână de Tombolă: 07 Septembrie, 00:00 — 13 Septembrie, 23:59</span>
+                <span class="period-value" data-i18n="rafflePeriod">Prima săptămână de Tombolă: 07 Septembrie, 00:00 — 13 Septembrie, 23:59</span>
               </div>
             </div>
           </header>
 
           <div class="info-card goal">
-            <span>🎯</span><div><h3>Scop</h3><p>La fiecare <strong>500 lei</strong> câștigați într-o săptămână, primești un bilet la tragerea la sorți. Mai multe bilete înseamnă mai multe șanse de câștig.</p></div>
+            <span>🎯</span><div><h3 data-i18n="goalTitle">Scop</h3><p data-i18n="raffleGoal">La fiecare <strong>500 lei</strong> câștigați într-o săptămână, primești un bilet la tragerea la sorți. Mai multe bilete înseamnă mai multe șanse de câștig.</p></div>
           </div>
           <div class="example-card">
-            <span>👉</span><div><h3>Exemplu</h3><p>Ai venituri de <strong>1.800 lei</strong> într-o săptămână → primești <strong>3 bilete</strong> și o probabilitate mai mare de a ieși câștigător.</p></div>
+            <span>👉</span><div><h3 data-i18n="exampleTitle">Exemplu</h3><p data-i18n="raffleExample">Ai venituri de <strong>1.800 lei</strong> într-o săptămână → primești <strong>3 bilete</strong> și o probabilitate mai mare de a ieși câștigător.</p></div>
           </div>
 
           <div class="info-card enrollment">
-            <span>📌</span><div><h3>Cine participă?</h3><p>Toți curierii cu încasări de cel puțin 500 lei într-o săptămână sunt înscriși. Roata se învârte de 3 ori, iar cei nominalizați devin câștigători.</p></div>
+            <span>📌</span><div><h3 data-i18n="eligibilityTitle">Cine participă?</h3><p data-i18n="eligibilityBody">Toți curierii cu încasări de cel puțin 500 lei într-o săptămână sunt înscriși. Roata se învârte de 3 ori, iar cei nominalizați devin câștigători.</p></div>
           </div>
 
           <section class="prizes">
-            <div class="section-title"><span>🎁</span><h3>Premii</h3></div>
-            <div class="raffle-prize"><span>🏅</span><p>Fiecare dintre cei 3 curieri alege un premiu:</p><div><b>100 lei</b><i>sau</i><b>Comision 0% timp de o săptămână</b></div></div>
+            <div class="section-title"><span>🎁</span><h3 data-i18n="prizesTitle">Premii</h3></div>
+            <div class="raffle-prize"><span>🏅</span><p data-i18n="rafflePrizeIntro">Fiecare dintre cei 3 curieri alege un premiu:</p><div><b data-i18n="raffleCashPrize">100 lei</b><i data-i18n="orLabel">sau</i><b data-i18n="raffleCommissionPrize">Comision 0% timp de o săptămână</b></div></div>
           </section>
 
-          <div class="result-note"><span>ℹ️</span><p>Rezultatele vor fi afișate la începutul săptămânii următoare celei în care are loc campania.</p></div>
-          <p class="chance">😉 Toți au o șansă la câștig, însă cei care colectează mai multe bilete au mai multe șanse.</p>
-          <p class="closing">Spor și succes! 🙏</p>
+          <div class="result-note"><span>ℹ️</span><p data-i18n="raffleResults">Rezultatele vor fi afișate la începutul săptămânii următoare celei în care are loc campania.</p></div>
+          <p class="chance" data-i18n="raffleChance">😉 Toți au o șansă la câștig, însă cei care colectează mai multe bilete au mai multe șanse.</p>
+          <p class="closing" data-i18n="raffleClosing">Spor și succes! 🙏</p>
         </article>
       </div>
     </section>
   </main>
 
-  <footer><img src="../assets/cibero-text-logo.png" alt="CibeRO" /><p>Împreună, livrăm mai mult.</p></footer>
+  <footer><img src="../assets/cibero-text-logo.png" alt="CibeRO" /><p data-i18n="footerText">Împreună, livrăm mai mult.</p></footer>
   <script src="campanii.js"></script>
 </body>
 </html>
