@@ -82,7 +82,14 @@
       </header>
 
       <div class="map-shell">
-        <div class="map-summary"><strong id="map-active-count">41</strong><span>orașe active</span></div>
+        <div class="map-controls">
+          <div class="map-summary"><strong id="map-active-count">41</strong><span>orașe active</span></div>
+          <label class="city-search" for="city-search-input">
+            <span>Caută un oraș activ</span>
+            <span class="city-search-field"><i aria-hidden="true">⌕</i><input id="city-search-input" type="text" autocomplete="off" placeholder="Începe să scrii numele orașului…" /><button id="city-search-clear" type="button" aria-label="Șterge căutarea" hidden>×</button></span>
+            <small id="city-search-status" aria-live="polite">41 de orașe afișate</small>
+          </label>
+        </div>
         <div class="map-frame">
           <svg id="romania-map" class="romania-map" viewBox="0 0 1000 620" role="group" aria-labelledby="map-svg-title map-svg-description">
             <title id="map-svg-title">Harta orașelor active CibeRO din România</title>
@@ -90,12 +97,11 @@
           </svg>
           <div class="map-tooltip" id="map-tooltip" role="status" aria-live="polite"></div>
         </div>
-        <p class="map-key"><i aria-hidden="true"></i> Flota CibeRO este activă</p>
       </div>
     </section>
   </main>
   <script src="assets/romania-map-data.js?v=2"></script>
   <script src="assets/romania-counties.js?v=1"></script>
-  <script src="main-page.js?v=2"></script>
+  <script src="main-page.js?v=3"></script>
 </body>
 </html>

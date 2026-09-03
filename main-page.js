@@ -81,6 +81,9 @@ const mapSvg = document.querySelector("#romania-map");
 const mapFrame = document.querySelector(".map-frame");
 const mapTooltip = document.querySelector("#map-tooltip");
 const mapActiveCount = document.querySelector("#map-active-count");
+const citySearchInput = document.querySelector("#city-search-input");
+const citySearchClear = document.querySelector("#city-search-clear");
+const citySearchStatus = document.querySelector("#city-search-status");
 const svgNs = "http://www.w3.org/2000/svg";
 
 const citiesForMap = mapData.cities
@@ -192,13 +195,11 @@ function renderActiveCitiesMap() {
     const marker = svgElement("g", {
       class: "city-marker",
       transform: `translate(${anchorX.toFixed(2)} ${anchorY.toFixed(2)})`,
+      "data-city-key": normalizeCity(city.name),
       tabindex: "0",
       role: "img",
       "aria-label": `${city.code}, ${city.name}: flota CibeRO este activă`
     });
-
-    if (dx || dy) marker.append(svgElement("line", { class: "marker-leader", x1: "0", y1: "0", x2: dx, y2: dy }));
-    marker.append(svgElement("circle", { class: "marker-anchor", r: "3" }));
 
     const badge = svgElement("g", { class: "marker-badge", transform: `translate(${dx} ${dy})` });
     badge.append(svgElement("rect", { x: "-27", y: "-15", width: "54", height: "30", rx: "11" }));
@@ -222,3 +223,52 @@ function renderActiveCitiesMap() {
 renderActiveCitiesMap();
 
 mapSvg?.addEventListener("mouseleave", () => mapTooltip?.classList.remove("visible"));
+
+function filterCitiesOnMap() {
+  const query = normalizeCity(citySearchInput?.value.trim() || "");
+  let visibleCount = 0;
+  let soleMatch = null;
+
+  document.querySelectorAll(".city-marker").forEach(marker => {
+    const matches = !query || marker.dataset.cityKey.includes(query);
+    marker.style.display = matches ? "" : "none";
+    marker.classList.toggle("is-filtered-match", Boolean(query && matches));
+    if (matches) {
+      visibleCount += 1;
+      soleMatch = marker;
+    }
+  });
+
+  if (citySearchClear) citySearchClear.hidden = !query;
+  if (citySearchStatus) {
+    citySearchStatus.textContent = query
+      ? `${visibleCount} ${visibleCount === 1 ? "oraș găsit" : "orașe găsite"}`
+      : `${citiesForMap.length} de orașe afișate`;
+  }
+  mapTooltip?.classList.remove("visible");
+
+  if (!query) {
+    mapFrame?.scrollTo({ left: 0, behavior: "smooth" });
+  } else if (visibleCount === 1 && soleMatch && mapFrame) {
+    requestAnimationFrame(() => {
+      const markerRect = soleMatch.getBoundingClientRect();
+      const frameRect = mapFrame.getBoundingClientRect();
+      const markerCenterInFrame = mapFrame.scrollLeft + markerRect.left - frameRect.left + markerRect.width / 2;
+      mapFrame.scrollTo({ left: Math.max(0, markerCenterInFrame - frameRect.width / 2), behavior: "smooth" });
+    });
+  }
+}
+
+citySearchInput?.addEventListener("input", filterCitiesOnMap);
+citySearchInput?.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    citySearchInput.value = "";
+    filterCitiesOnMap();
+  }
+});
+
+citySearchClear?.addEventListener("click", () => {
+  citySearchInput.value = "";
+  filterCitiesOnMap();
+  citySearchInput.focus();
+});
