@@ -1,0 +1,240 @@
+:root {
+  --ink: #0c0710;
+  --plum: #1a0c22;
+  --plum-soft: #33163c;
+  --ivory: #fff6dc;
+  --muted: #cfbfd1;
+  --gold: #d8a52f;
+  --gold-bright: #ffe590;
+  --lilac: #dda8eb;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  color: var(--ivory);
+  background: var(--ink);
+  font-family: "DM Sans", sans-serif;
+}
+
+button { font: inherit; }
+
+.preview-bar {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 72px;
+  padding: 10px max(22px, calc((100vw - 1240px) / 2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid #e2bd5142;
+  background: #0d0712e8;
+  box-shadow: 0 12px 32px #0008;
+  backdrop-filter: blur(18px);
+}
+
+.preview-bar > div { display: grid; gap: 2px; }
+.preview-bar span { color: #c9a957; font: 700 9px/1.2 Cinzel, serif; letter-spacing: 2px; }
+.preview-bar strong { color: #fff3ce; font: 600 15px/1.2 Cinzel, serif; }
+.preview-bar nav { display: flex; gap: 8px; }
+.preview-bar button {
+  padding: 8px 13px;
+  border: 1px solid #d4af4d42;
+  border-radius: 99px;
+  color: #bfaec2;
+  background: #1f1026;
+  cursor: pointer;
+}
+.preview-bar button b { margin-right: 5px; color: #d9b850; font-family: Cinzel, serif; }
+.preview-bar button.active { border-color: #f2d270; color: #fff7df; background: linear-gradient(135deg, #583020, #2a1234); box-shadow: 0 0 18px #dba62b26; }
+
+main { min-height: 100vh; }
+.concept[hidden] { display: none; }
+.concept {
+  position: relative;
+  min-height: 100vh;
+  padding: 118px max(34px, calc((100vw - 1240px) / 2)) 56px;
+  overflow: hidden;
+  animation: conceptIn .45s ease both;
+}
+
+.kicker {
+  margin: 0 0 12px;
+  color: #dcb94f;
+  font: 700 11px/1.3 Cinzel, serif;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: var(--ivory);
+  font: 700 clamp(42px, 5vw, 72px)/.98 Cinzel, serif;
+  letter-spacing: -2.4px;
+}
+
+h1 em { color: var(--lilac); font-style: normal; font-weight: 500; }
+.intro { max-width: 640px; margin: 18px 0 25px; color: var(--muted); font-size: 15px; line-height: 1.65; }
+
+.benefit-entry { outline: none; }
+.benefit-details strong { display: block; color: #fff7e0; }
+.benefit-details p { color: #cfbed1; }
+.atrium-logo img, .arc-emblem img, .stela-logo img { mix-blend-mode: screen; }
+
+/* I — ATRIUM */
+.concept-atrium {
+  display: grid;
+  grid-template-columns: minmax(340px, .88fr) minmax(560px, 1.35fr);
+  align-items: center;
+  gap: clamp(45px, 6vw, 92px);
+  background:
+    radial-gradient(circle at 17% 53%, #b7792730 0%, transparent 31%),
+    radial-gradient(circle at 78% 20%, #813b8d24 0%, transparent 34%),
+    linear-gradient(145deg, #110815, #200d29 56%, #0d0711);
+}
+.ambient-orb { position: absolute; left: -10%; bottom: -35%; width: 650px; aspect-ratio: 1; border-radius: 50%; border: 1px solid #d2a7452e; box-shadow: 0 0 100px #bd7e2c18, inset 0 0 90px #8d3e7a15; }
+.atrium-logo { position: relative; text-align: center; }
+.atrium-logo::after { content: ""; position: absolute; inset: 8% 4%; z-index: 0; border-radius: 50%; background: radial-gradient(circle, #d29b2c35, transparent 68%); filter: blur(20px); }
+.atrium-logo img { position: relative; z-index: 1; display: block; width: min(500px, 100%); filter: drop-shadow(0 30px 30px #000b); }
+.atrium-logo p { display: flex; align-items: center; gap: 9px; justify-content: center; margin: 0 0 4px; color: #d5b761; font: 600 9px Cinzel, serif; letter-spacing: 1.8px; text-transform: uppercase; }
+.atrium-logo p span { width: 38px; height: 1px; background: linear-gradient(90deg, transparent, #d5b761); }
+.atrium-logo p span:last-child { transform: rotate(180deg); }
+.atrium-copy { position: relative; z-index: 2; }
+.atrium-benefits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.atrium-benefits .benefit-entry {
+  position: relative;
+  min-height: 66px;
+  padding: 15px 44px 14px 56px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #d8b44c47;
+  border-radius: 7px;
+  background: linear-gradient(135deg, #30153bcc, #150a1bd9);
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.atrium-benefits .benefit-entry:last-child { grid-column: 1 / -1; }
+.atrium-benefits .benefit-entry:hover, .atrium-benefits .benefit-entry:focus-visible, .atrium-benefits .benefit-entry.is-open { border-color: #f1cf6b; background: linear-gradient(135deg, #4a234f, #1c0d24); transform: translateY(-2px); }
+.atrium-benefits .benefit-index { position: absolute; left: 14px; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid #e1ba4d; border-radius: 50%; color: #ffe591; background: #5c321d; font: 700 13px Cinzel, serif; }
+.atrium-benefits h2 { margin: 0; color: #ffe492; font: 700 13px/1.25 Cinzel, serif; }
+.atrium-benefits .benefit-details { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .25s ease, margin .2s ease, opacity .2s ease; }
+.atrium-benefits .benefit-entry:hover .benefit-details, .atrium-benefits .benefit-entry:focus-visible .benefit-details, .atrium-benefits .benefit-entry.is-open .benefit-details { max-height: 120px; margin-top: 7px; opacity: 1; }
+.atrium-benefits strong { font-size: 12px; line-height: 1.35; }
+.atrium-benefits p { margin: 3px 0 0; font-size: 11px; line-height: 1.4; }
+.benefit-open { position: absolute; right: 15px; color: #d2ae4e; font-size: 16px; transition: transform .2s ease; }
+.benefit-entry:hover .benefit-open, .benefit-entry:focus-visible .benefit-open, .benefit-entry.is-open .benefit-open { transform: rotate(45deg); }
+
+/* II — ARC ROMAN */
+.concept-arc {
+  display: grid;
+  grid-template-columns: minmax(320px, 430px) 1fr;
+  grid-template-areas: "head head" "emblem benefits";
+  align-content: center;
+  gap: 24px 54px;
+  background:
+    linear-gradient(#100812e8, #100812e8),
+    repeating-linear-gradient(90deg, transparent 0 90px, #d1a9440a 90px 91px),
+    radial-gradient(circle at 50% 48%, #7a3e7d44, transparent 50%),
+    #130918;
+}
+.arc-header { grid-area: head; text-align: center; }
+.arc-header h1 { font-size: clamp(36px, 4vw, 60px); }
+.arc-header .intro { margin: 11px auto 0; }
+.arc-rule { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 10px; color: #f0cb62; }
+.arc-rule i { width: min(180px, 18vw); height: 1px; background: linear-gradient(90deg, transparent, #cda540); }
+.arc-rule i:last-child { transform: rotate(180deg); }
+.arc-emblem { grid-area: emblem; position: relative; display: grid; place-items: center; }
+.arc-emblem .halo { position: absolute; width: 88%; aspect-ratio: 1; border: 1px solid #d9b44a45; border-radius: 50%; box-shadow: 0 0 0 16px #d9b44a08, 0 0 80px #9b5d2430; }
+.arc-emblem img { position: relative; z-index: 1; width: min(390px, 100%); filter: drop-shadow(0 24px 28px #000c); }
+.arc-benefits { grid-area: benefits; display: grid; grid-template-columns: repeat(4, minmax(120px, 1fr)); gap: 12px; align-content: center; }
+.arc-benefits .benefit-entry { position: relative; min-height: 132px; padding: 15px 10px; display: grid; align-content: center; justify-items: center; text-align: center; border: 1px solid #b990394a; border-radius: 50% 50% 12px 12px / 28px 28px 12px 12px; background: radial-gradient(circle at 50% 0, #6b392541, transparent 48%), #211028cc; cursor: pointer; transition: transform .2s ease, border-color .2s ease, background .2s ease; }
+.arc-benefits .benefit-entry:hover, .arc-benefits .benefit-entry:focus-visible, .arc-benefits .benefit-entry.is-open { z-index: 4; border-color: #f1cd66; background: radial-gradient(circle at 50% 0, #9b61295c, transparent 55%), #32163bdd; transform: translateY(-4px); }
+.arc-benefits .benefit-entry:last-child { grid-column: 2 / 4; }
+.arc-benefits .benefit-index { width: 32px; height: 32px; margin-bottom: 9px; display: grid; place-items: center; border: 1px solid #e0b94e; border-radius: 50%; color: #ffe493; background: radial-gradient(circle at 35% 30%, #8a551e, #25102b 72%); }
+.arc-benefits h2 { margin: 0; color: #ffe697; font: 700 11px/1.25 Cinzel, serif; }
+.arc-benefits .benefit-details { position: absolute; z-index: 5; left: 50%; bottom: calc(100% + 9px); width: 235px; padding: 12px; border: 1px solid #e0bb55; border-radius: 8px; background: #170a1df2; box-shadow: 0 14px 30px #000a; opacity: 0; pointer-events: none; transform: translate(-50%, 8px); transition: opacity .18s ease, transform .18s ease; }
+.arc-benefits .benefit-entry:hover .benefit-details, .arc-benefits .benefit-entry:focus-visible .benefit-details, .arc-benefits .benefit-entry.is-open .benefit-details { opacity: 1; transform: translate(-50%, 0); }
+.arc-benefits strong { font-size: 11px; line-height: 1.35; }
+.arc-benefits p { margin: 4px 0 0; font-size: 10px; line-height: 1.4; }
+.arc-benefits .benefit-open { display: none; }
+
+/* III — STELA */
+.concept-stela {
+  display: grid;
+  grid-template-columns: minmax(560px, 1.2fr) minmax(350px, .8fr);
+  align-items: center;
+  gap: clamp(50px, 8vw, 110px);
+  background:
+    radial-gradient(circle at 80% 50%, #c7842530, transparent 28%),
+    linear-gradient(120deg, #2b102f, #140919 54%, #0b0710);
+}
+.concept-stela::before { content: ""; position: absolute; inset: 94px 35px 35px; border: 1px solid #d4ad4340; border-radius: 160px 160px 18px 18px / 48px 48px 18px 18px; pointer-events: none; }
+.stela-copy { position: relative; z-index: 2; }
+.stela-copy h1 { font-size: clamp(42px, 4.8vw, 62px); }
+.stela-copy .intro { margin-top: 13px; margin-bottom: 12px; }
+.stela-rule { height: 1px; margin: 17px 0; background: linear-gradient(90deg, #e5bd4e, transparent); }
+.stela-rule span { position: relative; top: -9px; padding-right: 11px; color: #e5bd4e; background: #260e2c; }
+.stela-benefits { display: grid; gap: 5px; }
+.stela-benefits .benefit-entry { position: relative; min-height: 42px; padding: 8px 44px 8px 54px; display: flex; align-items: center; border-bottom: 1px solid #d7b14c42; background: linear-gradient(90deg, #5a254022, transparent); cursor: pointer; transition: background .2s ease, padding .2s ease; }
+.stela-benefits .benefit-entry:hover, .stela-benefits .benefit-entry:focus-visible, .stela-benefits .benefit-entry.is-open { padding-top: 14px; padding-bottom: 14px; background: linear-gradient(90deg, #9c57333c, transparent); }
+.stela-benefits .benefit-index { position: absolute; left: 11px; width: 27px; height: 27px; display: grid; place-items: center; color: #ffdf79; border-left: 1px solid #d4aa3f; border-right: 1px solid #d4aa3f; font: 700 12px Cinzel, serif; }
+.stela-benefits h2 { margin: 0; color: #ffe79e; font: 700 12px/1.25 Cinzel, serif; letter-spacing: .2px; }
+.stela-benefits .benefit-details { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .24s ease, margin .2s ease, opacity .2s ease; }
+.stela-benefits .benefit-entry:hover .benefit-details, .stela-benefits .benefit-entry:focus-visible .benefit-details, .stela-benefits .benefit-entry.is-open .benefit-details { max-height: 100px; margin-top: 5px; opacity: 1; }
+.stela-benefits strong { font-size: 11.5px; line-height: 1.35; }
+.stela-benefits p { margin: 3px 0 0; font-size: 10.5px; line-height: 1.4; }
+.stela-logo { position: relative; z-index: 2; text-align: center; }
+.stela-logo img { display: block; width: min(470px, 100%); margin: -8px auto 0; filter: drop-shadow(0 30px 30px #000c); }
+.stela-logo p { margin: -4px 0 0; color: #d7b550; font: 600 9px Cinzel, serif; letter-spacing: 2.5px; }
+.column-cap { display: flex; align-items: flex-end; justify-content: center; gap: 7px; margin-bottom: -40px; opacity: .64; }
+.column-cap i { width: 70px; height: 11px; border: 1px solid #d8b148; transform: skewX(-24deg); }
+.column-cap b { width: 105px; height: 18px; border: 1px solid #e0bd59; border-radius: 50% 50% 0 0; }
+
+@keyframes conceptIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 980px) {
+  .concept-atrium, .concept-stela { grid-template-columns: 1fr; text-align: center; }
+  .atrium-logo, .stela-logo { width: min(420px, 72vw); margin: 0 auto; }
+  .atrium-copy .intro, .stela-copy .intro { margin-left: auto; margin-right: auto; }
+  .concept-arc { grid-template-columns: 1fr; grid-template-areas: "head" "emblem" "benefits"; }
+  .arc-emblem { width: min(340px, 65vw); margin: 0 auto; }
+  .arc-benefits { grid-template-columns: repeat(4, 1fr); }
+  .concept-stela::before { display: none; }
+  .stela-logo { order: -1; }
+}
+
+@media (max-width: 680px) {
+  .preview-bar { position: sticky; min-height: 0; padding: 8px 10px; display: block; }
+  .preview-bar > div { display: none; }
+  .preview-bar nav { width: 100%; }
+  .preview-bar button { flex: 1; padding: 9px 5px; font-size: 11px; }
+  .concept { min-height: calc(100vh - 49px); padding: 34px 16px 45px; }
+  h1 { font-size: clamp(34px, 10.5vw, 48px); letter-spacing: -1.4px; }
+  .intro { font-size: 14px; }
+  .atrium-logo { width: min(315px, 88vw); }
+  .atrium-benefits { grid-template-columns: 1fr; text-align: left; }
+  .atrium-benefits .benefit-entry:last-child { grid-column: auto; }
+  .concept-arc { align-content: start; }
+  .arc-header h1 { font-size: 34px; }
+  .arc-emblem { width: min(260px, 68vw); }
+  .arc-benefits { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .arc-benefits .benefit-entry { min-height: 108px; }
+  .arc-benefits .benefit-entry:last-child { grid-column: 1 / -1; }
+  .arc-benefits .benefit-details { position: fixed; left: 14px; right: 14px; bottom: 15px; width: auto; transform: translateY(8px); }
+  .arc-benefits .benefit-entry:hover .benefit-details, .arc-benefits .benefit-entry:focus-visible .benefit-details, .arc-benefits .benefit-entry.is-open .benefit-details { transform: none; }
+  .stela-logo { width: min(290px, 78vw); }
+  .stela-copy h1 { font-size: 40px; }
+  .stela-benefits { text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}

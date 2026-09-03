@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Variante prima secțiune | CibeRO</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="prima-sectiune-variante.css?v=1" />
+</head>
+<body>
+  <header class="preview-bar">
+    <div><span>STUDIU DE DIRECȚIE</span><strong>Prima secțiune CibeRO</strong></div>
+    <nav aria-label="Selectează varianta">
+      <button class="active" type="button" data-variant="atrium"><b>I</b> Atrium</button>
+      <button type="button" data-variant="arc"><b>II</b> Arc Roman</button>
+      <button type="button" data-variant="stela"><b>III</b> Stela</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="concept concept-atrium active" data-concept="atrium" aria-label="Varianta 1, Atrium">
+      <div class="ambient-orb"></div>
+      <div class="atrium-logo">
+        <p><span></span> Varianta I · Atrium <span></span></p>
+        <img src="assets/cibero-rapid-activation-seal.png" alt="CibeRO — Flotă parteneră, activare rapidă Bolt, Wolt și Glovo" />
+      </div>
+      <div class="atrium-copy">
+        <p class="kicker">Parteneriat construit pentru curieri</p>
+        <h1>De ce să colaborezi<br /><em>cu noi?</em></h1>
+        <p class="intro">Șapte repere simple pentru o colaborare stabilă, clară și construită în jurul muncii tale.</p>
+        <div class="benefit-stage atrium-benefits" data-benefit-list></div>
+      </div>
+    </section>
+
+    <section class="concept concept-arc" data-concept="arc" aria-label="Varianta 2, Arc Roman" hidden>
+      <div class="arc-header">
+        <div class="arc-rule"><i></i><span>✦</span><i></i></div>
+        <p class="kicker">Varianta II · Arc Roman</p>
+        <h1>De ce să colaborezi <em>cu noi?</em></h1>
+        <p class="intro">Un parteneriat așezat pe șapte principii.</p>
+      </div>
+      <div class="arc-emblem">
+        <span class="halo"></span>
+        <img src="assets/cibero-rapid-activation-seal.png" alt="CibeRO — Flotă parteneră, activare rapidă Bolt, Wolt și Glovo" />
+      </div>
+      <div class="benefit-stage arc-benefits" data-benefit-list></div>
+    </section>
+
+    <section class="concept concept-stela" data-concept="stela" aria-label="Varianta 3, Stela" hidden>
+      <div class="stela-copy">
+        <p class="kicker">Varianta III · Stela</p>
+        <h1>De ce să<br />colaborezi <em>cu noi?</em></h1>
+        <p class="intro">Valorile unei colaborări bune nu au nevoie de zgomot. Doar de claritate și consecvență.</p>
+        <div class="stela-rule"><span>✦</span></div>
+        <div class="benefit-stage stela-benefits" data-benefit-list></div>
+      </div>
+      <div class="stela-logo">
+        <div class="column-cap" aria-hidden="true"><i></i><b></b><i></i></div>
+        <img src="assets/cibero-rapid-activation-seal.png" alt="CibeRO — Flotă parteneră, activare rapidă Bolt, Wolt și Glovo" />
+        <p>FLOTĂ PARTENERĂ · ROMÂNIA</p>
+      </div>
+    </section>
+  </main>
+
+  <template id="benefit-template">
+    <article class="benefit-entry" tabindex="0">
+      <span class="benefit-index"></span>
+      <div class="benefit-copy">
+        <h2></h2>
+        <div class="benefit-details"><strong></strong><p></p></div>
+      </div>
+      <span class="benefit-open" aria-hidden="true">+</span>
+    </article>
+  </template>
+
+  <script src="prima-sectiune-variante.js?v=1"></script>
+</body>
+</html>
