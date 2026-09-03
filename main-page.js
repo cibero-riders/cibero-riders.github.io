@@ -144,7 +144,10 @@ function showMapTooltip(city, x, y) {
   const frameRect = mapFrame.getBoundingClientRect();
   mapTooltip.innerHTML = `<strong>${city.code} · ${city.name}</strong><span>✓ Flota CibeRO este activă</span>`;
   mapTooltip.classList.add("visible");
-  mapTooltip.style.left = `${svgRect.left - frameRect.left + (x / 1000) * svgRect.width}px`;
+  const rawLeft = svgRect.left - frameRect.left + (x / 1000) * svgRect.width;
+  const halfTooltip = mapTooltip.offsetWidth / 2;
+  const safeLeft = Math.min(frameRect.width - halfTooltip - 10, Math.max(halfTooltip + 10, rawLeft));
+  mapTooltip.style.left = `${safeLeft}px`;
   mapTooltip.style.top = `${svgRect.top - frameRect.top + (y / 620) * svgRect.height}px`;
 }
 
@@ -202,14 +205,18 @@ function renderActiveCitiesMap() {
     });
 
     const badge = svgElement("g", { class: "marker-badge", transform: `translate(${dx} ${dy})` });
-    badge.append(svgElement("rect", { x: "-27", y: "-15", width: "54", height: "30", rx: "11" }));
-    badge.append(svgElement("circle", { class: "marker-status", cx: "-14", cy: "0", r: "7" }));
+    badge.append(svgElement("circle", { class: "marker-mobile-hit", cx: "0", cy: "0", r: "34" }));
+    badge.append(svgElement("circle", { class: "marker-mobile-dot", cx: "0", cy: "0", r: "17" }));
+    const visual = svgElement("g", { class: "marker-visual" });
+    visual.append(svgElement("rect", { x: "-27", y: "-15", width: "54", height: "30", rx: "11" }));
+    visual.append(svgElement("circle", { class: "marker-status", cx: "-14", cy: "0", r: "7" }));
     const check = svgElement("text", { class: "marker-check", x: "-14", y: ".5", "text-anchor": "middle", "dominant-baseline": "middle" });
     check.textContent = "✓";
-    badge.append(check);
+    visual.append(check);
     const code = svgElement("text", { class: "marker-code", x: "7", y: ".5", "text-anchor": "middle", "dominant-baseline": "middle" });
     code.textContent = city.code;
-    badge.append(code);
+    visual.append(code);
+    badge.append(visual);
     marker.append(badge);
 
     marker.addEventListener("mouseenter", () => showMapTooltip(city, x, y));
@@ -232,12 +239,14 @@ function filterCitiesOnMap() {
   document.querySelectorAll(".city-marker").forEach(marker => {
     const matches = !query || marker.dataset.cityKey.includes(query);
     marker.style.display = matches ? "" : "none";
-    marker.classList.toggle("is-filtered-match", Boolean(query && matches));
+    marker.classList.remove("is-filtered-match");
     if (matches) {
       visibleCount += 1;
       soleMatch = marker;
     }
   });
+
+  if (query && visibleCount === 1 && soleMatch) soleMatch.classList.add("is-filtered-match");
 
   if (citySearchClear) citySearchClear.hidden = !query;
   if (citySearchStatus) {

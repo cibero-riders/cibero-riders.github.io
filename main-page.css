@@ -137,7 +137,8 @@ body {
 .county-shape:hover { fill: #55305f; stroke: #ffe48bd1; }
 .country-outline { fill: none; stroke: #efd36c; stroke-width: 2.4; vector-effect: non-scaling-stroke; pointer-events: none; }
 .city-marker { cursor: default; outline: none; }
-.marker-badge { transform-box: fill-box; transform-origin: center; }
+.marker-visual { transform-box: fill-box; transform-origin: center; transition: transform .2s ease; }
+.marker-mobile-dot, .marker-mobile-hit { display: none; }
 .marker-badge rect { fill: #163d2b; stroke: #7cf2a0; stroke-width: 1.35; vector-effect: non-scaling-stroke; filter: drop-shadow(0 4px 5px #050208a8); transition: fill .18s ease, stroke .18s ease; }
 .marker-status { fill: #35c96c; stroke: #c9ffda; stroke-width: .8; vector-effect: non-scaling-stroke; }
 .marker-check { fill: #0a2617; font: 800 9px/1 "DM Sans", sans-serif; pointer-events: none; }
@@ -160,8 +161,15 @@ body {
   .city-search { order: -1; width: 100%; text-align: left; }
   .city-search > span:first-child { font-size: 14px; }
   .city-search input { height: 50px; font-size: 16px; }
-  .map-frame { overflow-x: auto; overflow-y: hidden; border-radius: 9px; scrollbar-color: #b9963e #160b1e; scrollbar-width: thin; }
-  .romania-map { min-width: 720px; }
+  .map-frame { overflow: visible; border-radius: 9px; }
+  .romania-map { width: 100%; min-width: 0; }
+  .marker-visual { display: none; }
+  .marker-mobile-hit { display: block; fill: transparent; pointer-events: all; }
+  .marker-mobile-dot { display: block; fill: #35c96c; stroke: #d5ffe0; stroke-width: 3; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 8px #50ea7e); }
+  .marker-code { font-size: 17px; }
+  .marker-check { font-size: 10px; }
+  .city-marker.is-filtered-match .marker-visual { display: block; transform: scale(2.15); }
+  .city-marker.is-filtered-match .marker-mobile-dot { display: none; }
   .map-summary { align-self: flex-start; min-width: 123px; padding: 8px 11px; }
   .map-summary strong { font-size: 20px; }
   .map-summary span { font-size: 11px; }
