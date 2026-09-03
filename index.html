@@ -9,10 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="map.css" />
-  <link rel="stylesheet" href="platform-fix.css" />
-  <link rel="stylesheet" href="map-v2.css" />
-  <link rel="stylesheet" href="css-map.css" />
+  <link rel="stylesheet" href="main-page.css" />
 </head>
 <body>
   <div class="page-glow"></div>
@@ -20,49 +17,39 @@
     <a class="brand" href="#acasa" aria-label="CibeRO, acasă"><span class="brand-mark">C</span><span>Cibe<span>RO</span></span></a>
     <button class="menu-toggle" aria-label="Deschide meniul" aria-expanded="false">☰</button>
     <nav id="main-nav">
+      <a href="#orase">Orașe</a>
       <a href="#despre">Despre CibeRO</a>
       <a href="#beneficii">Beneficii</a>
+      <a href="campanii/">Campanii</a>
       <a href="#faq">FAQ</a>
-      <a href="deschide-cont.html">Deschide cont</a>
     </nav>
-    <div class="header-actions">
-      <button class="link-button" data-open-auth="login">Intră în cont</button>
-      <button class="small-cta" data-open-auth="signup">Creează cont</button>
-    </div>
   </header>
 
   <main id="acasa">
-    <section class="hero">
+    <section class="hero hero-logo-stage" aria-label="CibeRO">
       <div class="hero-ornament ornament-left" aria-hidden="true">✦</div>
       <div class="hero-ornament ornament-right" aria-hidden="true">✦</div>
-      <p class="eyebrow">Flotă parteneră · România</p>
-      <img class="seal" src="assets/cibero-seal.png" alt="Emblema CibeRO" />
-      <p class="hero-kicker">Împreună, livrăm mai mult.</p>
-      <h1>Drumul tău în livrări<br><em>începe cu încredere.</em></h1>
-      <p class="hero-copy">Un loc unde curierii pornesc bine, cresc sigur și au o echipă aproape la fiecare pas.</p>
-      <div class="hero-actions">
-        <a class="primary-cta" href="#onboarding">Începe onboarding-ul <span>→</span></a>
-        <button class="city-cta" data-open-city>⌖ Vezi dacă flota activează în orașul tău</button>
-      </div>
-      <div class="platform-rail" aria-label="Platforme disponibile">
-        <span class="platform-pill bolt-mark" title="Bolt Food"><i class="bolt-symbol"><img src="assets/bolt-logo-source.png" alt="" /></i> Bolt</span>
-        <span class="platform-pill glovo-mark" title="Glovo"><i class="glovo-symbol"></i> Glovo</span>
-        <span class="platform-pill wolt-mark" title="Wolt"><i class="wolt-symbol">W</i> Wolt</span>
-      </div>
+      <img class="seal main-seal" src="assets/cibero-logo-final.png" alt="Emblema CibeRO" />
       <div class="hero-rule"><span>✦</span></div>
     </section>
 
-    <section class="city-banner" id="orase">
-      <div class="city-banner-copy"><span class="mini-label">Harta CibeRO</span><h2>Orașul tău ne așteaptă?</h2><p>Verifică în câteva secunde dacă activăm în zona ta.</p></div>
-      <button class="primary-cta" data-open-city>Verifică orașul <span>→</span></button>
-    </section>
-
-    <section class="map-section section" aria-labelledby="map-title">
-      <div class="section-heading centered"><p class="eyebrow">Harta CibeRO</p><h2 id="map-title">Găsește-ți locul<br>pe hartă.</h2><p class="map-intro">Apasă pe un oraș pentru a-i vedea statutul. Harta se actualizează odată cu flota.</p></div>
+    <section class="map-section section map-showcase" id="orase" aria-labelledby="map-title">
+      <div class="section-heading centered"><p class="eyebrow">Acoperire națională</p><h1 id="map-title">Harta orașelor CibeRO</h1><p class="map-intro">Descoperă unde suntem deja activi și unde urmează să ajungem. Selectează orice punct sau caută direct orașul tău.</p></div>
       <div class="map-layout map-full">
-        <div class="map-frame"><div id="romania-map" class="romania-map" role="region" aria-label="Hartă interactivă a orașelor CibeRO"></div></div>
+        <div class="map-toolbar">
+          <div class="map-stat"><strong>41</strong><span>orașe active</span></div>
+          <div class="map-stat"><strong>320</strong><span>orașe pe hartă</span></div>
+          <button class="primary-cta map-search" data-open-city>⌖ Caută orașul tău <span>→</span></button>
+        </div>
+        <div class="map-frame">
+          <svg id="romania-map" class="romania-map" viewBox="0 0 1000 620" role="img" aria-labelledby="map-svg-title map-svg-description">
+            <title id="map-svg-title">Harta interactivă a orașelor CibeRO</title>
+            <desc id="map-svg-description">Orașele active sunt marcate cu verde, iar cele în care flota nu operează momentan sunt marcate cu roșu.</desc>
+          </svg>
+          <div class="map-tooltip" id="map-tooltip" role="status" aria-live="polite"></div>
+        </div>
       </div>
-      <p class="map-key"><b><i class="active-dot">✓</i> Activ</b><b><i class="soon-dot">SOON</i> În curând</b><b><i class="off-dot">×</i> Neactiv momentan</b></p>
+      <p class="map-key"><b><i class="active-dot"></i> Flota este activă</b><b><i class="off-dot"></i> Flota nu operează momentan</b></p>
     </section>
 
     <section class="section about" id="despre">
@@ -80,7 +67,7 @@
     </section>
 
     <section class="journey" id="onboarding">
-      <div class="journey-copy"><p class="eyebrow">Parcursul tău</p><h2>Începe bine.<br><em>Crește așezat.</em></h2><p>Finalizează onboarding-ul pentru Bolt Food și intră în contul tău CibeRO. Acolo îți vei vedea următoarele oportunități de activare.</p><a class="primary-cta" href="#" data-onboarding-link>Deschide onboarding-ul <span>→</span></a></div>
+      <div class="journey-copy"><p class="eyebrow">Parcursul tău</p><h2>Începe bine.<br><em>Crește așezat.</em></h2><p>Intră în parcursul dedicat platformei pe care vrei să lucrezi. Vei fi ghidat pas cu pas, de la alegerea situației tale până la trimiterea cererii.</p><a class="primary-cta" href="deschide-cont.html">Deschide onboarding-ul <span>→</span></a></div>
       <div class="timeline" aria-label="Etapele parcursului">
         <div class="timeline-item active"><span>01</span><div><h3>Onboarding Bolt Food</h3><p>Finalizează pașii de pornire.</p></div></div>
         <div class="timeline-item"><span>02</span><div><h3>Wolt</h3><p>Se deblochează după 2 săptămâni de activitate.</p></div></div>
@@ -88,21 +75,14 @@
       </div>
     </section>
 
-    <section class="account-preview">
-      <div class="account-card">
-        <div><p class="eyebrow">Contul tău CibeRO</p><h2>Tot parcursul,<br>într-un singur loc.</h2><p>Contul tău păstrează activările și arată exact ce urmează să poți solicita.</p><button class="primary-cta" data-open-auth="signup">Creează-ți contul <span>→</span></button></div>
-        <div class="unlock-list"><div class="unlocked"><b>✓</b><span><strong>Onboarding Bolt Food</strong><small>Primul pas spre activare</small></span></div><div><b>⌁</b><span><strong>Încearcă și Wolt</strong><small>Disponibil după 2 săptămâni</small></span></div><div><b>⌁</b><span><strong>Încearcă și Glovo</strong><small>Disponibil după 1 lună</small></span></div></div>
-      </div>
-    </section>
-
-    <section class="section faq" id="faq"><div class="section-heading centered"><p class="eyebrow">Întrebări frecvente</p><h2>Lucrurile importante,<br>spuse pe înțeles.</h2></div><div class="faq-list"><details><summary>Pot începe dacă nu am mai lucrat în livrări?<span>+</span></summary><p>Da. Onboarding-ul este gândit tocmai ca să te conducă prin pașii de început.</p></details><details><summary>Ce se întâmplă după ce finalizez onboarding-ul?<span>+</span></summary><p>După validare, activarea ta este urmărită în contul CibeRO, unde apar și oportunitățile următoare.</p></details><details><summary>Când pot solicita activare pentru Wolt sau Glovo?<span>+</span></summary><p>Wolt devine disponibil după două săptămâni de la finalizarea onboarding-ului, iar Glovo după o lună.</p></details><details><summary>Flota activează și în orașul meu?<span>+</span></summary><p>Folosește verificatorul de mai sus pentru un răspuns imediat.</p></details></div></section>
+    <section class="section faq" id="faq"><div class="section-heading centered"><p class="eyebrow">Întrebări frecvente</p><h2>Lucrurile importante,<br>spuse pe înțeles.</h2></div><div class="faq-list"><details><summary>Pot începe dacă nu am mai lucrat în livrări?<span>+</span></summary><p>Da. Onboarding-ul este gândit tocmai ca să te conducă prin pașii de început.</p></details><details><summary>Ce se întâmplă după ce finalizez onboarding-ul?<span>+</span></summary><p>După validare, echipa noastră verifică solicitarea și îți comunică pașii următori pentru activare.</p></details><details><summary>Când pot solicita activare pentru Wolt sau Glovo?<span>+</span></summary><p>Poți alege platforma potrivită direct din onboarding, iar parcursul se adaptează situației tale.</p></details><details><summary>Flota activează și în orașul meu?<span>+</span></summary><p>Folosește harta sau verificatorul de mai sus pentru un răspuns imediat.</p></details></div></section>
   </main>
 
-  <footer><div class="footer-brand">Cibe<span>RO</span></div><p>Flotă parteneră · România</p><a href="#acasa">Înapoi sus ↑</a></footer>
+  <footer><div class="footer-brand">Cibe<span>RO</span></div><p>Curieri conectați. Parcursuri mai clare.</p><a href="#acasa">Înapoi sus ↑</a></footer>
 
-  <dialog class="modal" id="city-modal"><button class="close" aria-label="Închide">×</button><p class="eyebrow">Harta CibeRO</p><h2>În ce oraș vrei să începi?</h2><p>Scrie numele orașului și îți spunem imediat dacă flota activează acolo.</p><form id="city-form"><label for="city-input">Oraș</label><input id="city-input" name="city" autocomplete="address-level2" placeholder="De exemplu: Brașov" required /><button class="primary-cta" type="submit">Verifică <span>→</span></button></form><div class="city-result" id="city-result" aria-live="polite"></div></dialog>
+  <dialog class="modal" id="city-modal"><button class="close" aria-label="Închide">×</button><p class="eyebrow">Harta CibeRO</p><h2>În ce oraș vrei să începi?</h2><p>Scrie numele orașului și îți spunem imediat dacă flota activează acolo.</p><form id="city-form"><label for="city-input">Oraș</label><input id="city-input" name="city" list="city-options" autocomplete="address-level2" placeholder="De exemplu: Brașov" required /><datalist id="city-options"></datalist><button class="primary-cta" type="submit">Verifică <span>→</span></button></form><div class="city-result" id="city-result" aria-live="polite"></div></dialog>
 
-  <dialog class="modal auth-modal" id="auth-modal"><button class="close" aria-label="Închide">×</button><div id="auth-content"></div></dialog>
+  <script src="assets/romania-map-data.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
