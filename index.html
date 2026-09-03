@@ -3,114 +3,76 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="CibeRO — flota parteneră pentru curieri." />
+  <meta name="description" content="CibeRO — flotă parteneră pentru curieri Bolt Food, Wolt și Glovo." />
   <title>CibeRO | Flotă parteneră</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="main-page.css?v=3" />
+  <link rel="stylesheet" href="main-page.css?v=4" />
 </head>
 <body>
-  <div class="page-glow"></div>
   <header class="site-header">
-    <a class="brand brand-wordmark" href="#acasa" aria-label="CibeRO, acasă"><img src="assets/cibero-wordmark.png" alt="CibeRO" /></a>
-    <button class="menu-toggle" aria-label="Deschide meniul" aria-expanded="false">☰</button>
-    <nav id="main-nav">
-      <a href="#orase">Orașe</a>
-      <a href="#despre">Despre CibeRO</a>
-      <a href="#beneficii">Beneficii</a>
+    <a class="brand brand-wordmark" href="./" aria-label="CibeRO, pagina principală">
+      <img src="assets/cibero-wordmark.png" alt="CibeRO" />
+    </a>
+    <button class="menu-toggle" type="button" aria-label="Deschide meniul" aria-controls="main-nav" aria-expanded="false">☰</button>
+    <nav id="main-nav" aria-label="Navigație principală">
+      <a aria-current="page" href="./">Acasă</a>
+      <a href="deschide-cont.html">Onboarding</a>
       <a href="campanii/">Campanii</a>
-      <a href="#faq">FAQ</a>
     </nav>
   </header>
 
   <main id="acasa">
-    <section class="hero collaboration-showcase" id="beneficii" aria-labelledby="collaboration-title">
-      <div class="collaboration-brand">
-        <span class="brand-aura" aria-hidden="true"></span>
-        <img class="seal main-seal" src="assets/cibero-partner-seal.png" alt="CibeRO — Flotă parteneră" />
+    <section class="atrium" aria-labelledby="atrium-title">
+      <div class="ambient-orb" aria-hidden="true"></div>
+      <div class="atrium-logo">
+        <p><span></span> CibeRO · Flotă parteneră <span></span></p>
+        <img src="assets/cibero-rapid-activation-seal.png" alt="CibeRO — Flotă parteneră, activare rapidă Bolt, Wolt și Glovo" />
       </div>
-      <div class="collaboration-content">
-        <p class="eyebrow">Parteneriat CibeRO</p>
-        <h1 id="collaboration-title">De ce să colaborezi<br><em>cu noi?</em></h1>
-        <p class="collaboration-intro">Ai libertatea de a-ți construi propriul ritm, cu o flotă care îți păstrează munca organizată, plățile clare și suportul aproape.</p>
-        <div class="collaboration-benefits">
-          <article tabindex="0">
-            <span class="benefit-glyph">◷</span>
-            <div><h2>Flexibilitate</h2><div class="benefit-details"><strong>Tu îți faci programul</strong><p>dar ține minte că productivitatea se realizează prin disciplină și consistență</p></div></div>
+      <div class="atrium-copy">
+        <h1 id="atrium-title"><span>De ce să colaborezi</span> <em>cu noi?</em></h1>
+        <div class="atrium-benefits">
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">◷</span>
+            <div class="benefit-copy"><h2>Flexibilitate</h2><div class="benefit-details"><strong>Tu îți faci programul</strong><p>dar ține minte că productivitatea se realizează prin disciplină și consistență</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
-          <article tabindex="0">
-            <span class="benefit-glyph">◈</span>
-            <div><h2>Autonomie</h2><div class="benefit-details"><strong>Ești propriul șef - tu decizi nivelul de muncă și cum o faci</strong><p>dar sperăm să ții cont de conduita de bun simț și cooperare a platformelor și flotei 🙏</p></div></div>
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">◈</span>
+            <div class="benefit-copy"><h2>Autonomie</h2><div class="benefit-details"><strong>Ești propriul șef - tu decizi nivelul de muncă și cum o faci</strong><p>dar sperăm să ții cont de conduita de bun simț și cooperare a platformelor și flotei 🙏</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
-          <article tabindex="0">
-            <span class="benefit-glyph">◉</span>
-            <div><h2>Câștiguri competitive</h2><div class="benefit-details"><strong>3.000-6.000 lei/lună venit net</strong><p>noi îți oferim sfaturi, bonusuri și campanii pentru a-ți maximiza profitul - tu decizi unde pui pragul 💪</p></div></div>
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">◉</span>
+            <div class="benefit-copy"><h2>Câștiguri competitive</h2><div class="benefit-details"><strong>3.000-6.000 lei/lună venit net</strong><p>noi îți oferim sfaturi, bonusuri și campanii pentru a-ți maximiza profitul - tu decizi unde pui pragul 💪</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
-          <article tabindex="0">
-            <span class="benefit-glyph">▤</span>
-            <div><h2>Plăți și rapoarte săptămânale stabile</h2><div class="benefit-details"><strong>Încasările tale sunt în siguranță cu noi</strong><p>primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</p></div></div>
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">▤</span>
+            <div class="benefit-copy"><h2>Plăți și rapoarte săptămânale stabile</h2><div class="benefit-details"><strong>Încasările tale sunt în siguranță cu noi</strong><p>primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
-          <article tabindex="0">
-            <span class="benefit-glyph">◌</span>
-            <div><h2>Suport dedicat</h2><div class="benefit-details"><strong>Staff-ul și comunitatea îți sunt alături</strong><p>oricând ai probleme, nu ești singur - comunitatea, staff-ul flotei, cât și asistența de la platforme îți sunt alături</p></div></div>
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">◌</span>
+            <div class="benefit-copy"><h2>Suport dedicat</h2><div class="benefit-details"><strong>Staff-ul și comunitatea îți sunt alături</strong><p>oricând ai probleme, nu ești singur - comunitatea, staff-ul flotei, cât și asistența de la platforme îți sunt alături</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
-          <article tabindex="0">
-            <span class="benefit-glyph">◇</span>
-            <div><h2>Siguranță</h2><div class="benefit-details"><strong>Un mediu sigur și stabil</strong><p>datele și activitatea ta din cadrul flotei sunt în siguranță cu noi - adică, ești în siguranță cu noi ✌️</p></div></div>
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">◇</span>
+            <div class="benefit-copy"><h2>Siguranță</h2><div class="benefit-details"><strong>Un mediu sigur și stabil</strong><p>datele și activitatea ta din cadrul flotei sunt în siguranță cu noi - adică, ești în siguranță cu noi ✌️</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
-          <article tabindex="0">
-            <span class="benefit-glyph">✦</span>
-            <div><h2>Sistemul flotei</h2><div class="benefit-details"><strong>Platforme unice, tehnologie intuitivă</strong><p>avem aplicație mobilă, grup de comunitate, canal de anunțuri, sistem de ticketing și multe altele</p></div></div>
+          <article class="benefit-entry">
+            <span class="benefit-index" aria-hidden="true">✦</span>
+            <div class="benefit-copy"><h2>Sistemul flotei</h2><div class="benefit-details"><strong>Platforme unice, tehnologie intuitivă</strong><p>avem aplicație mobilă, grup de comunitate, canal de anunțuri, sistem de ticketing și multe altele</p></div></div>
+            <span class="benefit-open" aria-hidden="true">+</span>
           </article>
         </div>
       </div>
-      <div class="hero-rule"><span>✦</span></div>
     </section>
-
-    <section class="map-section section map-showcase" id="orase" aria-labelledby="map-title">
-      <div class="section-heading centered"><p class="eyebrow">Acoperire națională</p><h2 id="map-title">Harta orașelor CibeRO</h2><p class="map-intro">Harta afișează doar orașele în care este disponibilă cel puțin una dintre platformele Bolt Food, Wolt sau Glovo. Selectează o abreviere pentru detalii.</p></div>
-      <div class="map-layout map-full">
-        <div class="map-toolbar">
-          <div class="map-stat"><strong id="map-active-count">—</strong><span>orașe active</span></div>
-          <div class="map-stat"><strong id="map-total-count">—</strong><span>orașe ale platformelor</span></div>
-          <button class="primary-cta map-search" data-open-city>⌖ Caută orașul tău <span>→</span></button>
-        </div>
-        <div class="map-frame">
-          <svg id="romania-map" class="romania-map" viewBox="0 0 1000 620" role="group" aria-labelledby="map-svg-title map-svg-description">
-            <title id="map-svg-title">Harta României segmentată pe județe, cu orașele platformelor de livrare</title>
-            <desc id="map-svg-description">Abrevierile verzi indică orașele în care CibeRO este activă, iar cele roșii indică orașele în care există cel puțin o platformă, dar flota nu operează momentan.</desc>
-          </svg>
-          <div class="map-tooltip" id="map-tooltip" role="status" aria-live="polite"></div>
-        </div>
-      </div>
-      <p class="map-key"><b><i class="active-dot"></i> Flota este activă</b><b><i class="off-dot"></i> Flota nu operează momentan</b></p>
-    </section>
-
-    <section class="section about" id="despre">
-      <div class="section-heading"><p class="eyebrow">Despre CibeRO</p><h2>O flotă construită<br>pentru oameni în mișcare.</h2></div>
-      <div class="about-copy"><p>Începerea unei activități noi ar trebui să fie limpede, nu complicată. CibeRO îți oferă un parcurs clar de activare și sprijinul de care ai nevoie pentru a porni cu capul sus.</p><p>De la primul pas până la următoarea platformă, păstrăm totul simplu, corect și aproape de tine.</p><a href="#onboarding" class="text-link">Află cum începi <span>→</span></a></div>
-    </section>
-
-    <section class="journey" id="onboarding">
-      <div class="journey-copy"><p class="eyebrow">Parcursul tău</p><h2>Începe bine.<br><em>Crește așezat.</em></h2><p>Intră în parcursul dedicat platformei pe care vrei să lucrezi. Vei fi ghidat pas cu pas, de la alegerea situației tale până la trimiterea cererii.</p><a class="primary-cta" href="deschide-cont.html">Deschide onboarding-ul <span>→</span></a></div>
-      <div class="timeline" aria-label="Etapele parcursului">
-        <div class="timeline-item active"><span>01</span><div><h3>Onboarding Bolt Food</h3><p>Finalizează pașii de pornire.</p></div></div>
-        <div class="timeline-item"><span>02</span><div><h3>Wolt</h3><p>Se deblochează după 2 săptămâni de activitate.</p></div></div>
-        <div class="timeline-item"><span>03</span><div><h3>Glovo</h3><p>Se deblochează după o lună de activitate.</p></div></div>
-      </div>
-    </section>
-
-    <section class="section faq" id="faq"><div class="section-heading centered"><p class="eyebrow">Întrebări frecvente</p><h2>Lucrurile importante,<br>spuse pe înțeles.</h2></div><div class="faq-list"><details><summary>Pot începe dacă nu am mai lucrat în livrări?<span>+</span></summary><p>Da. Onboarding-ul este gândit tocmai ca să te conducă prin pașii de început.</p></details><details><summary>Ce se întâmplă după ce finalizez onboarding-ul?<span>+</span></summary><p>După validare, echipa noastră verifică solicitarea și îți comunică pașii următori pentru activare.</p></details><details><summary>Când pot solicita activare pentru Wolt sau Glovo?<span>+</span></summary><p>Poți alege platforma potrivită direct din onboarding, iar parcursul se adaptează situației tale.</p></details><details><summary>Flota activează și în orașul meu?<span>+</span></summary><p>Folosește harta sau verificatorul de mai sus pentru un răspuns imediat.</p></details></div></section>
   </main>
-
-  <footer><div class="footer-brand">Cibe<span>RO</span></div><p>Curieri conectați. Parcursuri mai clare.</p><a href="#acasa">Înapoi sus ↑</a></footer>
-
-  <dialog class="modal" id="city-modal"><button class="close" aria-label="Închide">×</button><p class="eyebrow">Harta CibeRO</p><h2>În ce oraș vrei să începi?</h2><p>Scrie numele orașului și îți spunem imediat dacă flota activează acolo.</p><form id="city-form"><label for="city-input">Oraș</label><input id="city-input" name="city" list="city-options" autocomplete="address-level2" placeholder="De exemplu: Brașov" required /><datalist id="city-options"></datalist><button class="primary-cta" type="submit">Verifică <span>→</span></button></form><div class="city-result" id="city-result" aria-live="polite"></div></dialog>
-
-  <script src="assets/romania-map-data.js?v=2"></script>
-  <script src="assets/romania-counties.js?v=1"></script>
-  <script src="app.js?v=3"></script>
+  <script src="main-page.js?v=1"></script>
 </body>
 </html>
