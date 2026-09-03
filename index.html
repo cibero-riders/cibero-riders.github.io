@@ -19,6 +19,7 @@
     <button class="menu-toggle" type="button" aria-label="Deschide meniul" aria-controls="main-nav" aria-expanded="false">☰</button>
     <nav id="main-nav" aria-label="Navigație principală">
       <a aria-current="page" href="./">Acasă</a>
+      <a href="#orase">Orașe</a>
       <a href="deschide-cont.html">Onboarding</a>
       <a href="campanii/">Campanii</a>
     </nav>
@@ -72,7 +73,29 @@
         </div>
       </div>
     </section>
+
+    <section class="cities-section" id="orase" aria-labelledby="cities-title">
+      <header class="cities-heading">
+        <p>Acoperire CibeRO</p>
+        <h2 id="cities-title">Orașele în care flota este activă</h2>
+        <span>Harta prezintă exclusiv orașele în care poți colabora în prezent cu flota noastră.</span>
+      </header>
+
+      <div class="map-shell">
+        <div class="map-summary"><strong id="map-active-count">41</strong><span>orașe active</span></div>
+        <div class="map-frame">
+          <svg id="romania-map" class="romania-map" viewBox="0 0 1000 620" role="group" aria-labelledby="map-svg-title map-svg-description">
+            <title id="map-svg-title">Harta orașelor active CibeRO din România</title>
+            <desc id="map-svg-description">Harta României este segmentată pe județe. Etichetele verzi indică exclusiv orașele în care flota CibeRO este activă.</desc>
+          </svg>
+          <div class="map-tooltip" id="map-tooltip" role="status" aria-live="polite"></div>
+        </div>
+        <p class="map-key"><i aria-hidden="true"></i> Flota CibeRO este activă</p>
+      </div>
+    </section>
   </main>
-  <script src="main-page.js?v=1"></script>
+  <script src="assets/romania-map-data.js?v=2"></script>
+  <script src="assets/romania-counties.js?v=1"></script>
+  <script src="main-page.js?v=2"></script>
 </body>
 </html>
