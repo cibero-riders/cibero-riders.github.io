@@ -108,28 +108,64 @@ h1 em { color: var(--lilac); font-style: normal; font-weight: 500; }
 .atrium-logo p span { width: 38px; height: 1px; background: linear-gradient(90deg, transparent, #d5b761); }
 .atrium-logo p span:last-child { transform: rotate(180deg); }
 .atrium-copy { position: relative; z-index: 2; }
-.atrium-benefits { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.atrium-copy h1 {
+  margin-bottom: 25px;
+  white-space: nowrap;
+  font-size: clamp(36px, 3.05vw, 42px);
+}
+.atrium-benefits { display: grid; grid-template-columns: 1fr; gap: 7px; }
 .atrium-benefits .benefit-entry {
   position: relative;
-  min-height: 66px;
-  padding: 15px 44px 14px 56px;
+  min-height: 57px;
+  padding: 0;
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+.atrium-benefits .benefit-entry:hover, .atrium-benefits .benefit-entry:focus-visible, .atrium-benefits .benefit-entry.is-open { z-index: 3; transform: translateX(3px); }
+.atrium-benefits .benefit-copy { display: grid; grid-template-columns: minmax(220px, 255px) minmax(0, 1fr); align-items: stretch; }
+.atrium-benefits h2 {
+  min-height: 57px;
+  margin: 0;
+  padding: 12px 40px 12px 56px;
   display: flex;
   align-items: center;
-  border: 1px solid #d8b44c47;
+  border: 1px solid #d8b44c61;
   border-radius: 7px;
-  background: linear-gradient(135deg, #30153bcc, #150a1bd9);
-  cursor: pointer;
-  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+  color: #ffe492;
+  background: linear-gradient(135deg, #32163edb, #160a1cde);
+  font: 700 13px/1.25 Cinzel, serif;
+  box-shadow: inset 0 1px 0 #fff1b00d;
+  transition: border-radius .2s ease, border-color .2s ease, background .2s ease;
 }
-.atrium-benefits .benefit-entry:last-child { grid-column: 1 / -1; }
-.atrium-benefits .benefit-entry:hover, .atrium-benefits .benefit-entry:focus-visible, .atrium-benefits .benefit-entry.is-open { border-color: #f1cf6b; background: linear-gradient(135deg, #4a234f, #1c0d24); transform: translateY(-2px); }
-.atrium-benefits .benefit-index { position: absolute; left: 14px; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid #e1ba4d; border-radius: 50%; color: #ffe591; background: #5c321d; font: 700 13px Cinzel, serif; }
-.atrium-benefits h2 { margin: 0; color: #ffe492; font: 700 13px/1.25 Cinzel, serif; }
-.atrium-benefits .benefit-details { max-height: 0; overflow: hidden; opacity: 0; transition: max-height .25s ease, margin .2s ease, opacity .2s ease; }
-.atrium-benefits .benefit-entry:hover .benefit-details, .atrium-benefits .benefit-entry:focus-visible .benefit-details, .atrium-benefits .benefit-entry.is-open .benefit-details { max-height: 120px; margin-top: 7px; opacity: 1; }
-.atrium-benefits strong { font-size: 12px; line-height: 1.35; }
-.atrium-benefits p { margin: 3px 0 0; font-size: 11px; line-height: 1.4; }
+.atrium-benefits .benefit-entry:hover h2, .atrium-benefits .benefit-entry:focus-visible h2, .atrium-benefits .benefit-entry.is-open h2 {
+  border-color: #f1cf6b;
+  border-radius: 7px 0 0 7px;
+  background: linear-gradient(135deg, #4a234f, #241029);
+}
+.atrium-benefits .benefit-index { position: absolute; z-index: 2; left: 14px; top: 50%; width: 30px; height: 30px; display: grid; place-items: center; border: 1px solid #e1ba4d; border-radius: 50%; color: #ffe591; background: #5c321d; font: 700 13px Cinzel, serif; transform: translateY(-50%); }
+.atrium-benefits .benefit-details {
+  min-height: 57px;
+  max-height: none;
+  margin: 0;
+  padding: 9px 17px;
+  display: grid;
+  align-content: center;
+  overflow: hidden;
+  border: 1px solid #e0bd596b;
+  border-left: 0;
+  border-radius: 0 7px 7px 0;
+  background: linear-gradient(100deg, #2c1434f2, #190c20ec);
+  box-shadow: 12px 8px 24px #05020752;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(-15px);
+  transition: opacity .2s ease, transform .22s ease;
+}
+.atrium-benefits .benefit-entry:hover .benefit-details, .atrium-benefits .benefit-entry:focus-visible .benefit-details, .atrium-benefits .benefit-entry.is-open .benefit-details { opacity: 1; transform: translateX(0); }
+.atrium-benefits strong { font-size: 15px; line-height: 1.35; }
+.atrium-benefits p { margin: 4px 0 0; font-size: 14px; line-height: 1.45; }
 .benefit-open { position: absolute; right: 15px; color: #d2ae4e; font-size: 16px; transition: transform .2s ease; }
+.atrium-benefits .benefit-open { left: 226px; right: auto; top: 19px; z-index: 3; }
 .benefit-entry:hover .benefit-open, .benefit-entry:focus-visible .benefit-open, .benefit-entry.is-open .benefit-open { transform: rotate(45deg); }
 
 /* II — ARC ROMAN */
@@ -211,6 +247,11 @@ h1 em { color: var(--lilac); font-style: normal; font-weight: 500; }
   .stela-logo { order: -1; }
 }
 
+@media (min-width: 981px) and (max-width: 1180px) {
+  .atrium-copy h1 { white-space: normal; }
+  .atrium-copy h1 span, .atrium-copy h1 em { display: block; }
+}
+
 @media (max-width: 680px) {
   .preview-bar { position: sticky; min-height: 0; padding: 8px 10px; display: block; }
   .preview-bar > div { display: none; }
@@ -221,7 +262,16 @@ h1 em { color: var(--lilac); font-style: normal; font-weight: 500; }
   .intro { font-size: 14px; }
   .atrium-logo { width: min(315px, 88vw); }
   .atrium-benefits { grid-template-columns: 1fr; text-align: left; }
-  .atrium-benefits .benefit-entry:last-child { grid-column: auto; }
+  .atrium-copy h1 { font-size: clamp(28px, 7.8vw, 31px); white-space: normal; }
+  .atrium-copy h1 span, .atrium-copy h1 em { display: block; }
+  .atrium-copy h1 span { white-space: nowrap; }
+  .atrium-benefits .benefit-copy { grid-template-columns: 1fr; }
+  .atrium-benefits .benefit-index { top: 28px; }
+  .atrium-benefits h2 { border-radius: 7px; }
+  .atrium-benefits .benefit-entry:hover h2, .atrium-benefits .benefit-entry:focus-visible h2, .atrium-benefits .benefit-entry.is-open h2 { border-radius: 7px 7px 0 0; }
+  .atrium-benefits .benefit-details { min-height: 0; max-height: 0; padding-top: 0; padding-bottom: 0; border: 1px solid #e0bd596b; border-top: 0; border-radius: 0 0 7px 7px; opacity: 0; transform: translateY(-10px); transition: max-height .25s ease, padding .2s ease, opacity .2s ease, transform .2s ease; }
+  .atrium-benefits .benefit-entry:hover .benefit-details, .atrium-benefits .benefit-entry:focus-visible .benefit-details, .atrium-benefits .benefit-entry.is-open .benefit-details { max-height: 155px; padding-top: 12px; padding-bottom: 12px; opacity: 1; transform: translateY(0); }
+  .atrium-benefits .benefit-open { left: auto; right: 15px; }
   .concept-arc { align-content: start; }
   .arc-header h1 { font-size: 34px; }
   .arc-emblem { width: min(260px, 68vw); }
