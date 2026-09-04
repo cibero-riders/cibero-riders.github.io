@@ -1,6 +1,7 @@
 const views = document.querySelectorAll('.view');
 const show = id => { views.forEach(view => view.classList.toggle('active', view.id === id)); window.scrollTo({top:0,behavior:'smooth'}); };
 let selectedStatus = '';
+document.querySelectorAll('[data-account-answer="yes"]').forEach(button => button.addEventListener('click', () => show('platform-step')));
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => { if(button.dataset.platform === 'wolt') show('wolt-flow'); else show('glovo-info-flow'); }));
 document.querySelectorAll('.platform-card[data-platform]').forEach(card => card.addEventListener('keydown', event => { if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); card.click(); } }));
 document.querySelectorAll('[data-back]').forEach(button => button.addEventListener('click', () => show('platform-step')));
