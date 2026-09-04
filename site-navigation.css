@@ -1,0 +1,114 @@
+.global-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  width: 100%;
+  height: 82px;
+  margin: 0;
+  padding: 0 max(24px, calc((100% - 1200px) / 2));
+  border-bottom: 1px solid #f6d8783b;
+  background: #170b20e8;
+  box-shadow: 0 10px 30px #08030b35;
+  backdrop-filter: blur(16px);
+}
+
+.global-header .brand-wordmark {
+  display: block;
+  flex: 0 0 auto;
+  width: 142px;
+  height: 52px;
+}
+
+.global-header .brand-wordmark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 4px 8px #0201038a);
+}
+
+.global-header nav {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+  margin-left: auto;
+}
+
+.global-header nav a {
+  position: relative;
+  padding: 9px 0;
+  color: #f1e3e6;
+  background: none;
+  font: 500 14px "DM Sans", sans-serif;
+  text-decoration: none;
+}
+
+.global-header nav a::after {
+  content: "";
+  position: absolute;
+  right: 100%;
+  bottom: 3px;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, #9f6819, #fff0aa);
+  transition: right .22s ease;
+}
+
+.global-header nav a:hover::after,
+.global-header nav a:focus-visible::after,
+.global-header nav a[aria-current="page"]::after { right: 0; }
+
+.global-header .menu-toggle { display: none; }
+
+@media (max-width: 760px) {
+  .global-header {
+    height: 72px;
+    padding: 0 16px;
+    gap: 14px;
+  }
+
+  .global-header .brand-wordmark {
+    width: 126px;
+    height: 44px;
+  }
+
+  .global-header .menu-toggle {
+    display: block;
+    margin-left: auto;
+    padding: 8px;
+    border: 0;
+    color: #f6d878;
+    background: transparent;
+    font-size: 23px;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .global-header nav {
+    position: absolute;
+    top: 71px;
+    right: 16px;
+    left: 16px;
+    z-index: 101;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 5px;
+    margin: 0;
+    padding: 12px;
+    border: 1px solid #be964c;
+    border-radius: 10px;
+    background: #211027f7;
+    box-shadow: 0 18px 40px #050207a6;
+  }
+
+  .global-header nav.open { display: flex; }
+  .global-header nav a { padding: 11px 10px; }
+  .global-header nav a::after { right: auto; width: 0; }
+  .global-header nav a:hover::after,
+  .global-header nav a:focus-visible::after,
+  .global-header nav a[aria-current="page"]::after { width: 34px; }
+}

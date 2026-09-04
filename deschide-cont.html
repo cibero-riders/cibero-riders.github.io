@@ -31,9 +31,19 @@
   <link rel="stylesheet" href="wolt-transfer-flow.css" />
   <link rel="stylesheet" href="glovo-amber-flow.css" />
   <link rel="stylesheet" href="wolt-standalone-flows.css" />
+  <link rel="stylesheet" href="site-navigation.css?v=1" />
 </head>
 <body>
-  <header><a href="index.html" class="back">← Înapoi la CibeRO</a><a href="index.html" class="brand brand-image" aria-label="Pagina principală CibeRO"><img src="assets/cibero-text-logo.png" alt="CibeRO" /></a><span class="header-spacer" aria-hidden="true"></span></header>
+  <header class="site-header global-header">
+    <a class="brand brand-wordmark" href="index.html" aria-label="CibeRO, pagina principală"><img src="assets/cibero-wordmark.png" alt="CibeRO" /></a>
+    <button class="menu-toggle" type="button" aria-label="Deschide meniul" aria-controls="main-nav" aria-expanded="false">☰</button>
+    <nav id="main-nav" aria-label="Navigație principală">
+      <a href="index.html">Acasă</a>
+      <a href="orase/">Orașe</a>
+      <a aria-current="page" href="deschide-cont.html">Onboarding</a>
+      <a href="campanii/">Campanii</a>
+    </nav>
+  </header>
   <main>
     <section id="platform-step" class="view active">
       <p class="eyebrow">Activare platforme</p><h1>La ce platformă vrei<br class="mobile-title-break" /> să-ți<br class="desktop-title-break" /> <em>deschizi cont nou?</em></h1>
@@ -44,7 +54,7 @@
     </section>
 
     <section id="glovo-info-flow" class="view flow-shell glovo-flow-shell">
-      <button class="text-back glovo-back" data-glovo-target="platform-step">← Alege altă platformă</button>
+      <button class="text-back glovo-back" data-glovo-target="platform-step">← Înapoi la pasul 0/4</button>
       <div class="glovo-flow-head">
         <img src="assets/glovo-round.png" alt="Glovo" />
         <span><small>1 / 4</small><strong>Cum funcționează Glovo</strong></span>
@@ -61,7 +71,7 @@
     </section>
 
     <section id="glovo-confirm-flow" class="view flow-shell glovo-flow-shell">
-      <button class="text-back glovo-back" data-glovo-target="glovo-info-flow">← Înapoi</button>
+      <button class="text-back glovo-back" data-glovo-target="glovo-info-flow">← Înapoi la pasul 1/4</button>
       <div class="glovo-flow-head compact">
         <img src="assets/glovo-round.png" alt="Glovo" />
         <span><small>2 / 4</small><strong>Confirmă că ai înțeles</strong></span>
@@ -79,7 +89,7 @@
     </section>
 
     <section id="glovo-activation-flow" class="view flow-shell glovo-flow-shell">
-      <button class="text-back glovo-back" data-glovo-target="glovo-confirm-flow">← Înapoi</button>
+      <button class="text-back glovo-back" data-glovo-target="glovo-confirm-flow">← Înapoi la pasul 2/4</button>
       <div class="glovo-flow-head compact">
         <img src="assets/glovo-round.png" alt="Glovo" />
         <span><small>3 / 4</small><strong>Cum funcționează activarea</strong></span>
@@ -94,7 +104,7 @@
     </section>
 
     <section id="glovo-form-flow" class="view flow-shell glovo-flow-shell glovo-form-shell">
-      <button class="text-back glovo-back" data-glovo-target="glovo-activation-flow">← Înapoi</button>
+      <button class="text-back glovo-back" data-glovo-target="glovo-activation-flow">← Înapoi la pasul 3/4</button>
       <div class="glovo-flow-head compact">
         <img src="assets/glovo-round.png" alt="Glovo" />
         <span><small>4 / 4</small><strong>Înscriere Glovo</strong></span>
@@ -121,7 +131,7 @@
     </section>
 
     <section id="wolt-flow" class="view flow-shell">
-      <button class="text-back" data-back>← Alege altă platformă</button>
+      <button class="text-back" data-back>← Înapoi la pasul 0/4</button>
       <div class="flow-head wolt-rule-head">
         <img class="wolt-round-header" src="assets/wolt-round.png" alt="Wolt" />
         <h2><span class="step-inline">1 / 4</span>Regula de 48h.</h2>
@@ -134,7 +144,7 @@
     </section>
 
     <section id="status-flow" class="view flow-shell">
-      <button class="text-back" data-wolt-back>← Înapoi</button><p id="status-note" class="wolt-info-note">Conturile deja existente la Wolt influențează procesarea cererii de activare a contului de curier.</p><div class="flow-head compact"><h2 id="status-title"><span class="step-inline">2 / 5</span>Ai deja cont activ de <mark class="role-highlight">curier</mark> la Wolt?</h2></div><div class="header-branches" aria-hidden="true"><svg viewBox="0 0 800 70" preserveAspectRatio="none"><defs><linearGradient id="branch-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#52216d"/><stop offset=".5" stop-color="#bf8120"/><stop offset="1" stop-color="#ffe49a"/></linearGradient></defs><path d="M400 0 C400 30 205 24 205 70"/><path d="M400 0 C400 30 595 24 595 70"/></svg></div>
+      <button class="text-back" data-wolt-back>← Înapoi la pasul 1/4</button><p id="status-note" class="wolt-info-note">Conturile deja existente la Wolt influențează procesarea cererii de activare a contului de curier.</p><div class="flow-head compact"><h2 id="status-title"><span class="step-inline">2 / 5</span>Ai deja cont activ de <mark class="role-highlight">curier</mark> la Wolt?</h2></div><div class="header-branches" aria-hidden="true"><svg viewBox="0 0 800 70" preserveAspectRatio="none"><defs><linearGradient id="branch-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#52216d"/><stop offset=".5" stop-color="#bf8120"/><stop offset="1" stop-color="#ffe49a"/></linearGradient></defs><path d="M400 0 C400 30 205 24 205 70"/><path d="M400 0 C400 30 595 24 595 70"/></svg></div>
       <div class="status-flow-tree"><div class="status-options">
         <button class="status-card" data-status="courier"><div class="status-card-copy"><b>Da, am cont la altă flotă</b><span class="status-symbol">⇄</span><small class="status-action">Transferă contul la flota noastră</small></div><i>○</i></button>
         <button class="status-card" data-status="new"><div class="status-card-copy"><b>Nu, nu am cont existent la Wolt</b><span class="status-symbol">✚</span><small class="status-action">Deschide cont nou de curier Wolt</small></div><i>○</i></button>
@@ -142,7 +152,7 @@
     </section>
 
     <section id="transfer-flow" class="view flow-shell transfer-shell">
-      <button class="text-back" data-transfer-back>← Înapoi la alegere</button>
+      <button class="text-back" data-transfer-back>← Înapoi la pasul 2/5</button>
       <div class="flow-head compact">
         <h2><span class="step-inline">3 / 4</span>Transferă contul Wolt.</h2>
         <p>Urmează pașii de mai jos înainte de a solicita mutarea contului la flota CibeRO.</p>
@@ -151,7 +161,7 @@
     </section>
 
     <section id="wolt-client-question-flow" class="view flow-shell wolt-standalone-page">
-      <button class="text-back" data-wolt-target="status-flow">← Înapoi la alegerea anterioară</button>
+      <button class="text-back" data-wolt-target="status-flow">← Înapoi la pasul 2/5</button>
       <p class="wolt-info-note">Atenție: acest pas este obligatoriu. Conturile Wolt se influențează între ele, conform politicii platformei.</p>
       <div class="flow-head compact"><h2><span class="step-inline">3 / 5</span>Ai cont de <mark class="role-highlight">client</mark> Wolt? <small class="title-explain">(contul din care comanzi)</small></h2></div>
       <div class="status-options client-status-options">
@@ -161,19 +171,19 @@
     </section>
 
     <section id="wolt-client-existing-flow" class="view flow-shell wolt-standalone-page">
-      <button class="text-back" data-wolt-target="wolt-client-question-flow">← Înapoi la alegere</button>
+      <button class="text-back" data-wolt-target="wolt-client-question-flow">← Înapoi la pasul 3/5</button>
       <div class="flow-head compact"><h2><span class="step-inline">3 / 5</span>Verifică datele contului.</h2><p>Folosește exact informațiile din aplicația Wolt Client.</p></div>
       <div id="client-existing-detail" class="status-detail wolt-standalone-detail" aria-live="polite"></div>
     </section>
 
     <section id="wolt-client-new-flow" class="view flow-shell wolt-standalone-page">
-      <button class="text-back" data-wolt-target="wolt-client-question-flow">← Înapoi la alegere</button>
+      <button class="text-back" data-wolt-target="wolt-client-question-flow">← Înapoi la pasul 3/5</button>
       <div class="flow-head compact"><h2><span class="step-inline">3 / 5</span>Creează contul Wolt Client.</h2><p>Contul de client este obligatoriu înainte de formularul de curier.</p></div>
       <div id="client-new-detail" class="status-detail wolt-standalone-detail" aria-live="polite"></div>
     </section>
 
     <section id="form-flow" class="view flow-shell form-shell">
-      <button class="text-back" data-status-back>← Înapoi la verificare</button>
+      <button class="text-back" data-status-back>← Înapoi la pasul 3/5</button>
       <div class="flow-head compact">
         <h2><span class="step-inline">4 / 5</span>Formular de interes.</h2>
         <p id="form-description">Completează datele tale pentru platforma Wolt.</p>
@@ -245,8 +255,8 @@
       </form>
     </section>
 
-    <section id="final-flow" class="view flow-shell"><div class="flow-head compact"><h2><span class="step-inline">5 / 5</span>Citește înainte de a trimite.</h2><p>Înscrierea este o cerere, nu o activare automată.</p></div><div class="rule-card"><div class="rule blue"><b>1</b><span><strong>Înscrierea este o cerere, nu o activare</strong><small>Vei fi plasat/ă pe lista de așteptare.</small></span></div><div class="rule gold"><b>2</b><span><strong>Wolt decide activarea</strong><small>Activarea depinde de locurile disponibile în orașul tău.</small></span></div><div class="rule red"><b>3</b><span><strong>Regula de 48 de ore rămâne valabilă</strong><small>După activare, trebuie să livrezi minimum o comandă.</small></span></div><label class="accept"><input type="checkbox" id="final-accept" /> <span>Am citit și am înțeles toate punctele de mai sus.</span></label><button class="continue" id="submit-request" disabled>Confirmă și trimite cererea →</button></div></section>
+    <section id="final-flow" class="view flow-shell"><button class="text-back" data-wolt-target="form-flow">← Înapoi la pasul 4/5</button><div class="flow-head compact"><h2><span class="step-inline">5 / 5</span>Citește înainte de a trimite.</h2><p>Înscrierea este o cerere, nu o activare automată.</p></div><div class="rule-card"><div class="rule blue"><b>1</b><span><strong>Înscrierea este o cerere, nu o activare</strong><small>Vei fi plasat/ă pe lista de așteptare.</small></span></div><div class="rule gold"><b>2</b><span><strong>Wolt decide activarea</strong><small>Activarea depinde de locurile disponibile în orașul tău.</small></span></div><div class="rule red"><b>3</b><span><strong>Regula de 48 de ore rămâne valabilă</strong><small>După activare, trebuie să livrezi minimum o comandă.</small></span></div><label class="accept"><input type="checkbox" id="final-accept" /> <span>Am citit și am înțeles toate punctele de mai sus.</span></label><button class="continue" id="submit-request" disabled>Confirmă și trimite cererea →</button></div></section>
 
     <section id="success-flow" class="view success"><div class="success-seal">✓</div><p class="eyebrow">Cerere trimisă</p><h2>Mulțumim.<br><em>Ai făcut primul pas.</em></h2><p>Cererea ta a fost înregistrată. Vei fi contactat/ă atunci când apare un loc disponibil pentru orașul tău.</p><a href="index.html" class="continue">Înapoi la CibeRO →</a></section>
-  </main><script src="deschide-cont.js?v=4"></script>
+  </main><script src="deschide-cont.js?v=4"></script><script src="main-page.js?v=7"></script>
 </body></html>
