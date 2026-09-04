@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="deschide-cont.css" />
   <link rel="stylesheet" href="deschide-cont-enhancements.css" />
   <link rel="stylesheet" href="deschide-cont-logo-assets.css?v=2" />
-  <link rel="stylesheet" href="deschide-cont-header.css" />
+  <link rel="stylesheet" href="deschide-cont-header.css?v=2" />
   <link rel="stylesheet" href="deschide-cont-buttons.css" />
   <link rel="stylesheet" href="deschide-cont-card-click.css" />
   <link rel="stylesheet" href="deschide-cont-onboarding-font.css" />
@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="wolt-status-cards.css?v=4" />
   <link rel="stylesheet" href="wolt-status-detail-section.css" />
   <link rel="stylesheet" href="wolt-rule-notes.css" />
-  <link rel="stylesheet" href="wolt-client-downloads.css" />
+  <link rel="stylesheet" href="wolt-client-downloads.css?v=2" />
   <link rel="stylesheet" href="wolt-content-type.css?v=2" />
   <link rel="stylesheet" href="wolt-warning-note.css" />
   <link rel="stylesheet" href="wolt-glass-cards.css?v=2" />
@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="wolt-standalone-flows.css" />
 </head>
 <body>
-  <header><a href="index.html" class="brand brand-image" aria-label="CibeRO"><img src="assets/cibero-text-logo.png" alt="CibeRO" /></a></header>
+  <header><a href="index.html" class="back">← Înapoi la CibeRO</a><a href="index.html" class="brand brand-image" aria-label="Pagina principală CibeRO"><img src="assets/cibero-text-logo.png" alt="CibeRO" /></a><span class="header-spacer" aria-hidden="true"></span></header>
   <main>
     <section id="platform-step" class="view active">
       <p class="eyebrow">Activare platforme</p><h1>La ce platformă vrei<br class="mobile-title-break" /> să-ți<br class="desktop-title-break" /> <em>deschizi cont nou?</em></h1>
@@ -172,7 +172,78 @@
       <div id="client-new-detail" class="status-detail wolt-standalone-detail" aria-live="polite"></div>
     </section>
 
-    <section id="form-flow" class="view flow-shell form-shell"><button class="text-back" data-status-back>← Înapoi la verificare</button><div class="flow-head compact"><h2><span class="step-inline">4 / 5</span>Formular de interes.</h2><p id="form-description">Completează datele tale pentru platforma Wolt.</p></div><form id="wolt-form"><div class="two"><label>Prenume *<input required name="prenume" placeholder="Ion" /></label><label>Nume *<input required name="nume" placeholder="Popescu" /></label></div><label>Email * <small class="client-tag">identic cu Wolt Client</small><input required type="email" name="email" placeholder="ion.popescu@email.com" /></label><label>Număr de telefon * <small class="client-tag">identic cu Wolt Client</small><input required name="telefon" placeholder="07XX XXX XXX" /></label><label>Oraș *<select required name="oras"><option value="">Selectează orașul tău...</option><option>București</option><option>Cluj-Napoca</option><option>Brașov</option><option>Iași</option><option>Timișoara</option><option>Alt oraș activ</option></select></label><label>Tip vehicul<select name="vehicul"><option>Selec­tează...</option><option>Bicicletă</option><option>Scuter</option><option>Mașină</option></select></label><label>Mesaj opțional<textarea name="mesaj" placeholder="Orice informație suplimentară..."></textarea></label><label class="final-confirm"><input required type="checkbox" /><span><b>Confirmare finală obligatorie</b>Verific poza încărcată și confirm că datele introduse sunt identice cu cele din aplicația Wolt Client.</span></label><button class="continue">Trimite cererea →</button><p class="gdpr">Datele tale sunt procesate conform GDPR și nu vor fi distribuite terților.</p></form></section>
+    <section id="form-flow" class="view flow-shell form-shell">
+      <button class="text-back" data-status-back>← Înapoi la verificare</button>
+      <div class="flow-head compact">
+        <h2><span class="step-inline">4 / 5</span>Formular de interes.</h2>
+        <p id="form-description">Completează datele tale pentru platforma Wolt.</p>
+      </div>
+      <form id="wolt-form">
+        <div class="two"><label>Prenume *<input required name="prenume" placeholder="Ion" /></label><label>Nume *<input required name="nume" placeholder="Popescu" /></label></div>
+        <label>Email * <small class="client-tag">identic cu Wolt Client</small><input required type="email" name="email" placeholder="ion.popescu@email.com" /></label>
+        <label>Număr de telefon * <small class="client-tag">identic cu Wolt Client</small><input required name="telefon" placeholder="07XX XXX XXX" /></label>
+        <label>Oraș *
+          <select required name="oras">
+            <option value="" selected disabled hidden>Selectează orașul tău...</option>
+            <option>Alba Iulia</option>
+            <option>Arad</option>
+            <option>Bacău</option>
+            <option>Baia Mare</option>
+            <option>Botoșani</option>
+            <option>Brăila</option>
+            <option>Brașov</option>
+            <option>București</option>
+            <option>Buzău</option>
+            <option>Cluj-Napoca</option>
+            <option>Constanța</option>
+            <option>Craiova</option>
+            <option>Deva</option>
+            <option>Drobeta-Turnu Severin</option>
+            <option>Focșani</option>
+            <option>Galați</option>
+            <option>Hunedoara</option>
+            <option>Iași</option>
+            <option>Mediaș</option>
+            <option>Miercurea-Ciuc</option>
+            <option>Onești</option>
+            <option>Oradea</option>
+            <option>Piatra Neamț</option>
+            <option>Pitești</option>
+            <option>Ploiești</option>
+            <option>Râmnicu Vâlcea</option>
+            <option>Reșița</option>
+            <option>Roman</option>
+            <option>Satu Mare</option>
+            <option>Sfântu Gheorghe</option>
+            <option>Sibiu</option>
+            <option>Sighișoara</option>
+            <option>Slatina</option>
+            <option>Suceava</option>
+            <option>Târgoviște</option>
+            <option>Târgu Mureș</option>
+            <option>Tecuci</option>
+            <option>Timișoara</option>
+            <option>Tulcea</option>
+            <option>Vaslui</option>
+            <option>Zalău</option>
+          </select>
+        </label>
+        <label>Tip vehicul
+          <select name="vehicul">
+            <option value="" selected disabled hidden>Selectează...</option>
+            <option>Bicicletă</option>
+            <option>Bicicletă electrică</option>
+            <option>Scuter</option>
+            <option>Trotinetă electrică</option>
+            <option>Mașină</option>
+          </select>
+        </label>
+        <label>Mesaj opțional<textarea name="mesaj" placeholder="Orice informație suplimentară..."></textarea></label>
+        <label class="final-confirm"><input required type="checkbox" /><span><b>Confirmare finală obligatorie</b>Verific poza încărcată și confirm că datele introduse sunt identice cu cele din aplicația Wolt Client.</span></label>
+        <button class="continue">Trimite cererea →</button>
+        <p class="gdpr">Datele tale sunt procesate conform GDPR și nu vor fi distribuite terților.</p>
+      </form>
+    </section>
 
     <section id="final-flow" class="view flow-shell"><div class="flow-head compact"><h2><span class="step-inline">5 / 5</span>Citește înainte de a trimite.</h2><p>Înscrierea este o cerere, nu o activare automată.</p></div><div class="rule-card"><div class="rule blue"><b>1</b><span><strong>Înscrierea este o cerere, nu o activare</strong><small>Vei fi plasat/ă pe lista de așteptare.</small></span></div><div class="rule gold"><b>2</b><span><strong>Wolt decide activarea</strong><small>Activarea depinde de locurile disponibile în orașul tău.</small></span></div><div class="rule red"><b>3</b><span><strong>Regula de 48 de ore rămâne valabilă</strong><small>După activare, trebuie să livrezi minimum o comandă.</small></span></div><label class="accept"><input type="checkbox" id="final-accept" /> <span>Am citit și am înțeles toate punctele de mai sus.</span></label><button class="continue" id="submit-request" disabled>Confirmă și trimite cererea →</button></div></section>
 

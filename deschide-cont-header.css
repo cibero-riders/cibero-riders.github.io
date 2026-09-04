@@ -1,4 +1,17 @@
 /* Antet dedicat paginii „Deschide cont”. */
 header {
-  justify-content: center;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+header .back { justify-self: start; }
+header .brand { justify-self: center; }
+header .header-spacer { width: 100%; }
+
+@media (max-width: 620px) {
+  header { grid-template-columns: 1fr auto; }
+  header .header-spacer { display: none; }
+  header .back { font-size: 0; }
+  header .back::before { content: "←"; font-size: 20px; }
 }

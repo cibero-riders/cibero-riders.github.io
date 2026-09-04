@@ -1,0 +1,25 @@
+.site-header {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.site-header .back {
+  justify-self: start;
+  color: #f2d579;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.site-header .back:hover,
+.site-header .back:focus-visible { color: #fff0aa; }
+.site-header .brand { justify-self: center; }
+.site-header .header-spacer { width: 100%; }
+
+@media (max-width: 680px) {
+  .site-header { grid-template-columns: 1fr auto; }
+  .site-header .header-spacer { display: none; }
+  .site-header .back { font-size: 0; }
+  .site-header .back::before { content: "←"; font-size: 20px; }
+}
