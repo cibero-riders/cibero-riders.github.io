@@ -30,9 +30,18 @@ const statusFilter = document.querySelector("#status-filter");
 const platformTabs = [...document.querySelectorAll("[data-platform-tab]")];
 const applicationDialog = document.querySelector("#application-dialog");
 const applicationDetails = document.querySelector("#application-details");
+const selectAllApplications = document.querySelector("#select-all-applications");
+const deleteSelectedButton = document.querySelector("#delete-selected-button");
+const deleteDialog = document.querySelector("#delete-dialog");
+const deleteDialogTitle = document.querySelector("#delete-dialog-title");
+const deleteDialogCopy = document.querySelector("#delete-dialog-copy");
+const cancelDeleteButton = document.querySelector("#cancel-delete-button");
+const confirmDeleteButton = document.querySelector("#confirm-delete-button");
+const deleteFeedback = document.querySelector("#delete-feedback");
 
 let applications = [];
 let activePlatform = "wolt";
+const selectedApplicationIds = new Set();
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -80,6 +89,7 @@ async function isAdmin(userId) {
 }
 
 async function loadApplications() {
+  dashboardFeedback.classList.remove("success");
   dashboardFeedback.textContent = "Se încarcă cererile…";
   refreshButton.disabled = true;
 
@@ -125,24 +135,54 @@ function filteredApplications() {
   });
 }
 
+function updateSelectionControls(rows = filteredApplications()) {
+  const visibleIds = rows.map(item => item.id);
+  const selectedVisibleCount = visibleIds.filter(id => selectedApplicationIds.has(id)).length;
+  selectAllApplications.checked = visibleIds.length > 0 && selectedVisibleCount === visibleIds.length;
+  selectAllApplications.indeterminate = selectedVisibleCount > 0 && selectedVisibleCount < visibleIds.length;
+  selectAllApplications.disabled = visibleIds.length === 0;
+  deleteSelectedButton.hidden = selectedApplicationIds.size === 0;
+  deleteSelectedButton.querySelector("span").textContent = selectedApplicationIds.size;
+}
+
 function renderApplications() {
   const rows = filteredApplications();
+  const visibleIds = new Set(rows.map(item => item.id));
+  [...selectedApplicationIds].forEach(id => {
+    if (!visibleIds.has(id)) selectedApplicationIds.delete(id);
+  });
   applicationsList.innerHTML = rows.map(item => `
-    <button class="application-row" type="button" data-application-id="${escapeHtml(item.id)}">
-      <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
-      <span class="platform">${escapeHtml(item.platform)}</span>
-      <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
-      <span class="city">${escapeHtml(item.city)}</span>
-      <span class="status-pill" data-status="${escapeHtml(item.status)}">${escapeHtml(statusLabels[item.status] ?? item.status)}</span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </button>
+    <div class="application-row${selectedApplicationIds.has(item.id) ? " selected" : ""}" data-application-row="${escapeHtml(item.id)}">
+      <label class="row-selector" title="Selectează cererea">
+        <input type="checkbox" data-select-application="${escapeHtml(item.id)}" aria-label="Selectează cererea lui ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}"${selectedApplicationIds.has(item.id) ? " checked" : ""} />
+        <span aria-hidden="true"></span>
+      </label>
+      <button class="application-open" type="button" data-application-id="${escapeHtml(item.id)}">
+        <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
+        <span class="platform">${escapeHtml(item.platform)}</span>
+        <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
+        <span class="city">${escapeHtml(item.city)}</span>
+        <span class="status-pill" data-status="${escapeHtml(item.status)}">${escapeHtml(statusLabels[item.status] ?? item.status)}</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+    </div>
   `).join("");
 
   emptyState.hidden = rows.length > 0;
   emptyState.textContent = `Nu există cereri ${activePlatform === "wolt" ? "Wolt" : "Glovo"} pentru filtrele selectate.`;
+  applicationsList.querySelectorAll("[data-select-application]").forEach(checkbox => {
+    checkbox.addEventListener("change", () => {
+      const id = checkbox.dataset.selectApplication;
+      if (checkbox.checked) selectedApplicationIds.add(id);
+      else selectedApplicationIds.delete(id);
+      checkbox.closest(".application-row").classList.toggle("selected", checkbox.checked);
+      updateSelectionControls(rows);
+    });
+  });
   applicationsList.querySelectorAll("[data-application-id]").forEach(button => {
     button.addEventListener("click", () => openApplication(button.dataset.applicationId));
   });
+  updateSelectionControls(rows);
 }
 
 function detailField(label, value, full = false) {
@@ -208,6 +248,65 @@ async function saveApplication(item) {
   applications = applications.map(application => application.id === data.id ? data : application);
   feedback.style.color = "var(--success)";
   feedback.textContent = "Modificările au fost salvate.";
+  updateSummary();
+  renderApplications();
+}
+
+function openDeleteConfirmation() {
+  const count = selectedApplicationIds.size;
+  if (!count) return;
+  deleteDialogTitle.textContent = count === 1 ? "Ștergi cererea selectată?" : "Ștergi cererile selectate?";
+  deleteDialogCopy.textContent = count === 1
+    ? "Cererea selectată și captura asociată vor fi șterse definitiv. Acțiunea nu poate fi anulată."
+    : `Cele ${count} cereri selectate și capturile asociate vor fi șterse definitiv. Acțiunea nu poate fi anulată.`;
+  deleteFeedback.textContent = "";
+  confirmDeleteButton.disabled = false;
+  deleteDialog.showModal();
+}
+
+async function deleteSelectedApplications() {
+  const ids = [...selectedApplicationIds];
+  if (!ids.length) return;
+
+  const selectedItems = applications.filter(item => selectedApplicationIds.has(item.id));
+  const proofPaths = selectedItems.map(item => item.proof_path).filter(Boolean);
+  confirmDeleteButton.disabled = true;
+  cancelDeleteButton.disabled = true;
+  deleteFeedback.textContent = ids.length === 1 ? "Se șterge cererea…" : `Se șterg cele ${ids.length} cereri…`;
+
+  const { data, error } = await supabase
+    .from("applications")
+    .delete()
+    .in("id", ids)
+    .select("id");
+
+  if (error || data?.length !== ids.length) {
+    confirmDeleteButton.disabled = false;
+    cancelDeleteButton.disabled = false;
+    deleteFeedback.textContent = "Cererile nu au putut fi șterse. Verifică permisiunile și încearcă din nou.";
+    if (error) console.error(error);
+    return;
+  }
+
+  let proofCleanupFailed = false;
+  if (proofPaths.length) {
+    const { error: proofError } = await supabase.storage
+      .from("application-proofs")
+      .remove(proofPaths);
+    proofCleanupFailed = Boolean(proofError);
+    if (proofError) console.error(proofError);
+  }
+
+  const deletedIds = new Set(data.map(item => item.id));
+  applications = applications.filter(item => !deletedIds.has(item.id));
+  selectedApplicationIds.clear();
+  confirmDeleteButton.disabled = false;
+  cancelDeleteButton.disabled = false;
+  deleteDialog.close();
+  dashboardFeedback.classList.toggle("success", !proofCleanupFailed);
+  dashboardFeedback.textContent = proofCleanupFailed
+    ? "Cererile au fost șterse, dar unele capturi nu au putut fi eliminate din spațiul de stocare."
+    : ids.length === 1 ? "Cererea a fost ștearsă definitiv." : `Cele ${ids.length} cereri au fost șterse definitiv.`;
   updateSummary();
   renderApplications();
 }
@@ -282,12 +381,23 @@ loginForm.addEventListener("submit", async event => {
 logoutButton.addEventListener("click", async () => {
   await supabase.auth.signOut();
   applications = [];
+  selectedApplicationIds.clear();
   loginForm.reset();
   showLogin();
 });
 
 refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
+selectAllApplications.addEventListener("change", () => {
+  filteredApplications().forEach(item => {
+    if (selectAllApplications.checked) selectedApplicationIds.add(item.id);
+    else selectedApplicationIds.delete(item.id);
+  });
+  renderApplications();
+});
+deleteSelectedButton.addEventListener("click", openDeleteConfirmation);
+cancelDeleteButton.addEventListener("click", () => deleteDialog.close());
+confirmDeleteButton.addEventListener("click", deleteSelectedApplications);
 [searchFilter, statusFilter].forEach(control => control.addEventListener("input", renderApplications));
 platformTabs.forEach(tab => {
   tab.addEventListener("click", () => {
