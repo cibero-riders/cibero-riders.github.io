@@ -54,6 +54,21 @@ benefitEntries.forEach(entry => {
 touchQuery.addEventListener?.("change", configureBenefitInteraction);
 configureBenefitInteraction();
 
+document.querySelectorAll(".video-frame[data-youtube-id]").forEach(frame => {
+  const poster = frame.querySelector(".video-poster");
+  poster?.addEventListener("click", () => {
+    const videoId = frame.dataset.youtubeId;
+    if (!videoId) return;
+
+    const iframe = document.createElement("iframe");
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&playsinline=1&rel=0`;
+    iframe.title = "Videoclip de prezentare CibeRO";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    frame.replaceChildren(iframe);
+  }, { once: true });
+});
+
 const activeCities = [
   ["Alba Iulia", "AI"], ["Arad", "AR"], ["Bacău", "BC"], ["Baia Mare", "BM"],
   ["Botoșani", "BT"], ["Brăila", "BR"], ["Brașov", "BV"], ["București", "B"],

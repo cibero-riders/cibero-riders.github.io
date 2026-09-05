@@ -32,9 +32,9 @@ body {
   margin: 0 auto;
   padding: 34px 0 48px;
   display: grid;
-  grid-template-columns: minmax(340px, .88fr) minmax(560px, 1.35fr);
+  grid-template-columns: minmax(250px, .7fr) minmax(190px, .46fr) minmax(480px, 1.3fr);
   align-items: center;
-  gap: clamp(45px, 6vw, 92px);
+  gap: clamp(24px, 3vw, 46px);
 }
 
 .ambient-orb { position: fixed; z-index: -1; left: -10%; bottom: -35%; width: 650px; aspect-ratio: 1; border: 1px solid #d2a7452e; border-radius: 50%; box-shadow: 0 0 100px #bd7e2c18, inset 0 0 90px #8d3e7a15; pointer-events: none; }
@@ -45,7 +45,25 @@ body {
 .atrium-logo p span { width: 38px; height: 1px; background: linear-gradient(90deg, transparent, #d5b761); }
 .atrium-logo p span:last-child { transform: rotate(180deg); }
 
-.atrium-copy { position: relative; z-index: 2; min-width: 0; }
+.atrium-video { position: relative; z-index: 3; width: min(250px, 100%); justify-self: center; align-self: start; text-align: center; }
+.atrium-video > p { margin: 0 0 10px; display: flex; align-items: center; justify-content: center; gap: 8px; color: #d5b761; font: 600 9px Cinzel, serif; letter-spacing: 1.55px; text-transform: uppercase; white-space: nowrap; }
+.atrium-video > p span { width: 24px; height: 1px; background: linear-gradient(90deg, transparent, #d5b761); }
+.atrium-video > p span:last-child { transform: rotate(180deg); }
+.video-frame { position: relative; width: 100%; aspect-ratio: 9 / 16; overflow: hidden; border: 1px solid #e6c45d9c; border-radius: 18px; background: #09040d; box-shadow: inset 0 0 0 1px #fff2b714, 0 24px 60px #030104a8, 0 0 34px #b5762924; }
+.video-frame::before { content: ""; position: absolute; inset: 7px; z-index: 2; border: 1px solid #f0d47738; border-radius: 13px; pointer-events: none; }
+.video-poster { position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; overflow: hidden; border: 0; background: #100714; color: #fff; cursor: pointer; }
+.video-poster img { width: 100%; height: 100%; display: block; object-fit: cover; transition: transform .45s ease, filter .35s ease; }
+.video-shade { position: absolute; inset: 0; background: linear-gradient(180deg, #0c071018 42%, #0c0710d9 100%); }
+.video-play { position: absolute; left: 50%; top: 50%; width: 62px; height: 62px; display: grid; place-items: center; border: 1px solid #ffe18d; border-radius: 50%; background: linear-gradient(145deg, #f2c44a, #aa6714); box-shadow: 0 11px 30px #000a, 0 0 0 7px #190b22a8; transform: translate(-50%, -50%); transition: transform .22s ease, filter .22s ease; }
+.video-play i { width: 0; height: 0; margin-left: 4px; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 14px solid #24101c; }
+.video-action { position: absolute; left: 20px; right: 20px; bottom: 25px; color: #fff4d2; font: 700 11px Cinzel, serif; letter-spacing: 1.25px; text-transform: uppercase; text-shadow: 0 2px 10px #000; }
+.video-poster:hover img, .video-poster:focus-visible img { transform: scale(1.035); filter: brightness(1.08); }
+.video-poster:hover .video-play, .video-poster:focus-visible .video-play { transform: translate(-50%, -50%) scale(1.08); filter: brightness(1.08); }
+.video-poster:focus-visible { outline: 2px solid #ffe18d; outline-offset: -5px; }
+.video-frame iframe { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; border: 0; }
+.video-frame noscript a { color: #ffe492; }
+
+.atrium-copy { position: relative; z-index: 2; min-width: 0; align-self: start; }
 .atrium-copy h1 { margin: 0 0 25px; color: var(--atrium-ivory); white-space: nowrap; font: 700 clamp(36px, 3.05vw, 42px)/.98 Cinzel, serif; letter-spacing: -1.6px; }
 .atrium-copy h1 em { color: var(--atrium-lilac); font-style: normal; font-weight: 500; }
 .atrium-benefits { display: grid; grid-template-columns: 1fr; gap: 7px; }
@@ -65,14 +83,17 @@ body {
   .benefit-entry:hover .benefit-open { transform: rotate(45deg); }
 }
 
-@media (min-width: 981px) and (max-width: 1180px) {
+@media (min-width: 1101px) and (max-width: 1240px) {
   .atrium-copy h1 { white-space: normal; }
   .atrium-copy h1 span, .atrium-copy h1 em { display: block; }
 }
 
-@media (max-width: 980px) {
-  .atrium { grid-template-columns: 1fr; gap: 28px; text-align: center; }
-  .atrium-logo { width: min(420px, 72vw); margin: 0 auto; }
+@media (max-width: 1100px) {
+  .atrium { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; text-align: center; }
+  .atrium-logo { width: min(420px, 72vw); margin: 0 auto; justify-self: end; }
+  .atrium-video { width: min(220px, 48vw); justify-self: start; }
+  .atrium-copy { grid-column: 1 / -1; width: min(760px, 100%); margin: 0 auto; text-align: left; }
+  .atrium-copy h1 { text-align: center; }
 }
 
 @media (hover: none), (pointer: coarse), (max-width: 760px) {
@@ -90,7 +111,10 @@ body {
   .site-header { height: 74px; }
   .brand-wordmark { width: 126px; height: 44px; }
   .atrium { width: calc(100% - 32px); min-height: calc(100vh - 74px); padding: 25px 0 45px; gap: 24px; }
-  .atrium-logo { width: min(315px, 88vw); }
+  .atrium { grid-template-columns: 1fr; }
+  .atrium-logo { width: min(315px, 88vw); justify-self: center; }
+  .atrium-video { width: min(290px, 77vw); justify-self: center; }
+  .atrium-copy { grid-column: auto; }
   .atrium-copy h1 { margin-bottom: 25px; white-space: normal; font-size: clamp(28px, 7.8vw, 31px); letter-spacing: -1px; }
   .atrium-copy h1 span, .atrium-copy h1 em { display: block; }
   .atrium-copy h1 span { white-space: nowrap; }
