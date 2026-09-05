@@ -47,6 +47,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 14px;
+  margin-top: 34px;
 }
 
 .account-answer {
@@ -108,6 +109,6 @@
   .account-gate-card::before,
   .account-gate-card::after { width: 46px; }
   .account-gate-intro { margin: 17px auto 25px; font-size: 14px; }
-  .account-gate-actions { grid-template-columns: 1fr; gap: 11px; }
+  .account-gate-actions { grid-template-columns: 1fr; gap: 11px; margin-top: 27px; }
   .account-answer { min-height: 86px; padding: 15px; }
 }
