@@ -37,7 +37,7 @@ function isAllowedOrigin(origin: string): boolean {
 
 function corsHeaders(origin: string): HeadersInit {
   return {
-    "Access-Control-Allow-Origin": ALLOWED_ORIGINS.has(origin)
+    "Access-Control-Allow-Origin": origin && isAllowedOrigin(origin)
       ? origin
       : "https://cibero-riders.github.io",
     "Access-Control-Allow-Headers": "apikey, authorization, content-type, x-client-info",

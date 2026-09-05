@@ -1,6 +1,9 @@
 const views = document.querySelectorAll('.view');
 const show = id => { views.forEach(view => view.classList.toggle('active', view.id === id)); window.scrollTo({top:0,behavior:'smooth'}); };
 let selectedStatus = '';
+let selectedWoltProof = null;
+const applicationEndpoint = 'https://xpzgvknnrkyvcnncfqrq.supabase.co/functions/v1/submit-application';
+const supabasePublishableKey = 'sb_publishable_yqSB3WMkNNxujsJhLMqLJA_8Q99BmbN';
 document.querySelectorAll('[data-account-answer="yes"]').forEach(button => button.addEventListener('click', () => show('platform-step')));
 document.querySelectorAll('[data-platform]').forEach(button => button.addEventListener('click', () => { if(button.dataset.platform === 'wolt') show('wolt-flow'); else show('glovo-info-flow'); }));
 document.querySelectorAll('.platform-card[data-platform]').forEach(card => card.addEventListener('keydown', event => { if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); card.click(); } }));
@@ -19,7 +22,7 @@ const transferDetail = document.querySelector('#transfer-detail');
 const clientExistingDetail = document.querySelector('#client-existing-detail');
 const clientNewDetail = document.querySelector('#client-new-detail');
 statusNote.textContent = 'Atenție: conturile deja existente la Wolt influențează procesarea cererii de activare a contului de curier. Verifică atent situația contului tău înainte de a continua.';
-const resetStatusChoices = () => { selectedStatus = ''; detail.innerHTML = ''; detail.className = 'status-detail'; document.querySelectorAll('.status-card').forEach(card => card.classList.remove('selected')); };
+const resetStatusChoices = () => { selectedStatus = ''; selectedWoltProof = null; detail.innerHTML = ''; detail.className = 'status-detail'; document.querySelectorAll('.status-card').forEach(card => card.classList.remove('selected')); };
 document.querySelectorAll('[data-transfer-back]').forEach(button => button.addEventListener('click', () => { resetStatusChoices(); show('status-flow'); }));
 const showClientQuestion = () => { selectedStatus = ''; show('wolt-client-question-flow'); };
 const openClientDetail = type => {
@@ -31,7 +34,7 @@ const openClientDetail = type => {
   const verify = target.querySelector('.verify-client');
   const advance = target.querySelector('.to-form');
   const update = () => { if (advance) advance.disabled = !(proof?.files.length && (!verify || verify.checked)); };
-  proof?.addEventListener('change', update);
+  proof?.addEventListener('change', () => { selectedWoltProof = proof.files[0] || null; update(); });
   verify?.addEventListener('change', update);
   advance?.addEventListener('click', () => {
     document.querySelector('#form-description').textContent = type === 'client' ? 'Introdu exact datele verificate în Wolt Client.' : 'Introdu datele din contul Wolt Client pe care tocmai l-ai creat.';
@@ -48,7 +51,91 @@ const renderStatus = card => {
 const bindStatusCards = root => root.querySelectorAll('.status-card').forEach(card => card.addEventListener('click', () => renderStatus(card)));
 bindStatusCards(statusOptions);
 bindStatusCards(clientStatusOptions);
-document.querySelector('#wolt-form').addEventListener('submit', event => { event.preventDefault(); show('final-flow'); }); const finalAccept = document.querySelector('#final-accept'); const submit = document.querySelector('#submit-request'); finalAccept.addEventListener('change', () => submit.disabled = !finalAccept.checked); submit.addEventListener('click', () => show('success-flow'));
+const woltForm = document.querySelector('#wolt-form');
+const glovoForm = document.querySelector('#glovo-form');
+const finalAccept = document.querySelector('#final-accept');
+const submit = document.querySelector('#submit-request');
+
+const setSubmitFeedback = (element, message = '', success = false) => {
+  element.textContent = message;
+  element.classList.toggle('success', success);
+};
+
+const applicationPayload = (form, platform) => {
+  const source = new FormData(form);
+  const payload = new FormData();
+  payload.set('platform', platform);
+  payload.set('application_type', 'new_account');
+  payload.set('first_name', String(source.get('prenume') || ''));
+  payload.set('last_name', String(source.get('nume') || ''));
+  payload.set('email', String(source.get('email') || ''));
+  payload.set('phone', String(source.get('telefon') || ''));
+  payload.set('city', String(source.get('oras') || ''));
+  payload.set('vehicle', String(source.get('vehicul') || ''));
+  payload.set('message', String(source.get('mesaj') || ''));
+  payload.set('website', String(source.get('website') || ''));
+  payload.set('consent_privacy', 'true');
+  payload.set('consent_data_accuracy', platform === 'wolt' ? 'true' : 'false');
+  if (platform === 'wolt' && selectedWoltProof) payload.set('proof', selectedWoltProof, selectedWoltProof.name);
+  return payload;
+};
+
+const submitApplication = async (form, platform) => {
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 30000);
+  try {
+    const response = await fetch(applicationEndpoint, {
+      method: 'POST',
+      headers: { apikey: supabasePublishableKey },
+      body: applicationPayload(form, platform),
+      signal: controller.signal,
+    });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok || !result.ok) throw new Error(result.error || 'Cererea nu a putut fi trimisă.');
+    return result;
+  } catch (error) {
+    if (error?.name === 'AbortError') throw new Error('Conexiunea a durat prea mult. Verifică internetul și încearcă din nou.');
+    if (error instanceof TypeError) throw new Error('Nu ne-am putut conecta la serviciul de înscriere. Încearcă din nou.');
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
+};
+
+const setButtonBusy = (button, busy, busyLabel, originalContent) => {
+  button.disabled = busy;
+  button.setAttribute('aria-busy', String(busy));
+  if (busy) button.textContent = busyLabel;
+  else button.innerHTML = originalContent;
+};
+
+woltForm.addEventListener('submit', event => {
+  event.preventDefault();
+  if (!selectedWoltProof) return;
+  finalAccept.checked = false;
+  submit.disabled = true;
+  setSubmitFeedback(document.querySelector('#wolt-submit-feedback'));
+  show('final-flow');
+});
+
+finalAccept.addEventListener('change', () => submit.disabled = !finalAccept.checked);
+submit.addEventListener('click', async () => {
+  if (!finalAccept.checked || !woltForm.reportValidity()) return;
+  const feedback = document.querySelector('#wolt-submit-feedback');
+  const originalContent = submit.innerHTML;
+  setSubmitFeedback(feedback, 'Cererea se trimite în siguranță…');
+  setButtonBusy(submit, true, 'Se trimite…', originalContent);
+  try {
+    await submitApplication(woltForm, 'wolt');
+    setSubmitFeedback(feedback, '', true);
+    woltForm.reset();
+    selectedWoltProof = null;
+    show('success-flow');
+  } catch (error) {
+    setSubmitFeedback(feedback, error.message || 'Cererea nu a putut fi trimisă.');
+    setButtonBusy(submit, false, '', originalContent);
+  }
+});
 
 document.querySelectorAll('[data-glovo-target]').forEach(button => button.addEventListener('click', () => show(button.dataset.glovoTarget)));
 document.querySelectorAll('[data-glovo-reveal]').forEach(stack => {
@@ -70,4 +157,20 @@ const glovoChecks = [...document.querySelectorAll('.glovo-confirm-card input[typ
 const glovoConfirmNext = document.querySelector('#glovo-confirm-next');
 glovoChecks.forEach(check => check.addEventListener('change', () => { glovoConfirmNext.disabled = !glovoChecks.every(item => item.checked); }));
 glovoConfirmNext.addEventListener('click', () => show('glovo-activation-flow'));
-document.querySelector('#glovo-form').addEventListener('submit', event => { event.preventDefault(); show('glovo-success-flow'); });
+glovoForm.addEventListener('submit', async event => {
+  event.preventDefault();
+  const button = glovoForm.querySelector('button[type="submit"], button:not([type])');
+  const feedback = document.querySelector('#glovo-submit-feedback');
+  const originalContent = button.innerHTML;
+  setSubmitFeedback(feedback, 'Cererea se trimite în siguranță…');
+  setButtonBusy(button, true, 'Se trimite…', originalContent);
+  try {
+    await submitApplication(glovoForm, 'glovo');
+    setSubmitFeedback(feedback, '', true);
+    glovoForm.reset();
+    show('glovo-success-flow');
+  } catch (error) {
+    setSubmitFeedback(feedback, error.message || 'Cererea nu a putut fi trimisă.');
+    setButtonBusy(button, false, '', originalContent);
+  }
+});
