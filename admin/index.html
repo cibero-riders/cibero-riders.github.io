@@ -4,21 +4,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
-  <title>Administrare cereri | CibeRO</title>
+  <title>Panou administrativ | CibeRO</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=1" />
+  <link rel="stylesheet" href="admin.css?v=2" />
 </head>
 <body>
   <header class="admin-header">
     <a href="../" aria-label="Înapoi la CibeRO"><img src="../assets/cibero-wordmark.png" alt="CibeRO" /></a>
-    <span>Administrare cereri</span>
+    <span>Panou administrativ</span>
     <button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button>
   </header>
 
   <main>
-    <section id="login-view" class="login-view" aria-labelledby="login-title">
+    <section id="session-loading" class="session-loading" aria-live="polite">
+      <span class="loading-mark" aria-hidden="true"></span>
+      <p>Se verifică sesiunea…</p>
+    </section>
+
+    <section id="login-view" class="login-view" aria-labelledby="login-title" hidden>
       <form id="login-form" class="panel login-panel">
         <p class="eyebrow">Acces protejat</p>
         <h1 id="login-title">Panou administrativ</h1>
@@ -32,27 +37,52 @@
 
     <section id="dashboard-view" class="dashboard" hidden>
       <div class="dashboard-heading">
-        <div><p class="eyebrow">CibeRO Operations</p><h1>Cereri de deschidere cont</h1></div>
-        <button id="refresh-button" class="quiet-button" type="button">Actualizează</button>
+        <div><p class="eyebrow">CibeRO Operations</p><h1>Panou administrativ</h1></div>
       </div>
 
-      <div class="summary-grid" aria-label="Rezumat cereri">
-        <article><span>Total</span><strong id="total-count">0</strong></article>
-        <article><span>Noi</span><strong id="new-count">0</strong></article>
-        <article><span>În verificare</span><strong id="reviewing-count">0</strong></article>
-        <article><span>Activate</span><strong id="activated-count">0</strong></article>
-      </div>
+      <nav class="admin-primary-tabs" aria-label="Secțiuni administrare" role="tablist">
+        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel">
+          <span class="tab-icon" aria-hidden="true">⌑</span>
+          <span><strong>Cereri de Deschidere Cont</strong><small>Wolt și Glovo</small></span>
+        </button>
+      </nav>
 
-      <div class="panel toolbar">
-        <label>Caută<input id="search-filter" type="search" placeholder="Nume, email, telefon sau oraș" /></label>
-        <label>Platformă<select id="platform-filter"><option value="">Toate</option><option value="wolt">Wolt</option><option value="glovo">Glovo</option></select></label>
-        <label>Status<select id="status-filter"><option value="">Toate</option><option value="new">Nouă</option><option value="reviewing">În verificare</option><option value="sent_to_platform">Trimisă platformei</option><option value="activated">Activată</option><option value="rejected">Respinsă</option><option value="archived">Arhivată</option></select></label>
-        <button id="export-button" class="quiet-button" type="button">Exportă CSV</button>
-      </div>
+      <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Cereri primite</p>
+            <h2>Cereri de Deschidere Cont</h2>
+            <p>Verifică și gestionează separat solicitările pentru fiecare platformă.</p>
+          </div>
+          <button id="refresh-button" class="quiet-button" type="button">Actualizează</button>
+        </div>
 
-      <p id="dashboard-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
-      <div id="applications-list" class="applications-list"></div>
-      <p id="empty-state" class="empty-state" hidden>Nu există cereri pentru filtrele selectate.</p>
+        <div class="platform-tabs" role="tablist" aria-label="Platformă">
+          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-platform-tab="wolt">
+            Wolt <span id="wolt-tab-count">0</span>
+          </button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="glovo">
+            Glovo <span id="glovo-tab-count">0</span>
+          </button>
+        </div>
+
+        <div class="summary-grid" aria-label="Rezumat cereri pentru platforma selectată">
+          <article><span>Total</span><strong id="total-count">0</strong></article>
+          <article><span>Noi</span><strong id="new-count">0</strong></article>
+          <article><span>În verificare</span><strong id="reviewing-count">0</strong></article>
+          <article><span>Activate</span><strong id="activated-count">0</strong></article>
+        </div>
+
+        <div class="toolbar">
+          <label>Caută<input id="search-filter" type="search" placeholder="Nume, email, telefon sau oraș" /></label>
+          <label>Status<select id="status-filter"><option value="">Toate</option><option value="new">Nouă</option><option value="reviewing">În verificare</option><option value="sent_to_platform">Trimisă platformei</option><option value="activated">Activată</option><option value="rejected">Respinsă</option><option value="archived">Arhivată</option></select></label>
+          <button id="export-button" class="quiet-button" type="button">Exportă CSV</button>
+        </div>
+
+        <p id="dashboard-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
+        <div id="applications-list" class="applications-list"></div>
+        <p id="empty-state" class="empty-state" hidden>Nu există cereri pentru filtrele selectate.</p>
+      </section>
     </section>
   </main>
 
@@ -61,6 +91,6 @@
     <div id="application-details"></div>
   </dialog>
 
-  <script type="module" src="admin.js?v=1"></script>
+  <script type="module" src="admin.js?v=2"></script>
 </body>
 </html>

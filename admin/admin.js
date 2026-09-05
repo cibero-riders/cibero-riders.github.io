@@ -13,9 +13,11 @@ const statusLabels = {
   archived: "Arhivată",
 };
 
+const sessionLoading = document.querySelector("#session-loading");
 const loginView = document.querySelector("#login-view");
 const dashboardView = document.querySelector("#dashboard-view");
 const loginForm = document.querySelector("#login-form");
+const loginButton = loginForm.querySelector("button[type='submit']");
 const loginFeedback = document.querySelector("#login-feedback");
 const dashboardFeedback = document.querySelector("#dashboard-feedback");
 const logoutButton = document.querySelector("#logout-button");
@@ -24,12 +26,13 @@ const exportButton = document.querySelector("#export-button");
 const applicationsList = document.querySelector("#applications-list");
 const emptyState = document.querySelector("#empty-state");
 const searchFilter = document.querySelector("#search-filter");
-const platformFilter = document.querySelector("#platform-filter");
 const statusFilter = document.querySelector("#status-filter");
+const platformTabs = [...document.querySelectorAll("[data-platform-tab]")];
 const applicationDialog = document.querySelector("#application-dialog");
 const applicationDetails = document.querySelector("#application-details");
 
 let applications = [];
+let activePlatform = "wolt";
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -48,16 +51,21 @@ function formatDate(value) {
 }
 
 function showLogin(message = "") {
+  sessionLoading.hidden = true;
   loginView.hidden = false;
   dashboardView.hidden = true;
   logoutButton.hidden = true;
+  loginButton.disabled = false;
   loginFeedback.textContent = message;
 }
 
 function showDashboard() {
+  sessionLoading.hidden = true;
   loginView.hidden = true;
   dashboardView.hidden = false;
   logoutButton.hidden = false;
+  loginForm.reset();
+  loginFeedback.textContent = "";
 }
 
 async function isAdmin(userId) {
@@ -94,23 +102,25 @@ async function loadApplications() {
 }
 
 function updateSummary() {
-  document.querySelector("#total-count").textContent = applications.length;
-  document.querySelector("#new-count").textContent = applications.filter(item => item.status === "new").length;
-  document.querySelector("#reviewing-count").textContent = applications.filter(item => item.status === "reviewing").length;
-  document.querySelector("#activated-count").textContent = applications.filter(item => item.status === "activated").length;
+  const platformApplications = applications.filter(item => item.platform === activePlatform);
+  document.querySelector("#wolt-tab-count").textContent = applications.filter(item => item.platform === "wolt").length;
+  document.querySelector("#glovo-tab-count").textContent = applications.filter(item => item.platform === "glovo").length;
+  document.querySelector("#total-count").textContent = platformApplications.length;
+  document.querySelector("#new-count").textContent = platformApplications.filter(item => item.status === "new").length;
+  document.querySelector("#reviewing-count").textContent = platformApplications.filter(item => item.status === "reviewing").length;
+  document.querySelector("#activated-count").textContent = platformApplications.filter(item => item.status === "activated").length;
 }
 
 function filteredApplications() {
   const query = searchFilter.value.trim().toLocaleLowerCase("ro-RO");
-  const platform = platformFilter.value;
   const status = statusFilter.value;
 
   return applications.filter(item => {
     const haystack = [item.first_name, item.last_name, item.email, item.phone, item.city]
       .join(" ")
       .toLocaleLowerCase("ro-RO");
-    return (!query || haystack.includes(query)) &&
-      (!platform || item.platform === platform) &&
+    return item.platform === activePlatform &&
+      (!query || haystack.includes(query)) &&
       (!status || item.status === status);
   });
 }
@@ -129,6 +139,7 @@ function renderApplications() {
   `).join("");
 
   emptyState.hidden = rows.length > 0;
+  emptyState.textContent = `Nu există cereri ${activePlatform === "wolt" ? "Wolt" : "Glovo"} pentru filtrele selectate.`;
   applicationsList.querySelectorAll("[data-application-id]").forEach(button => {
     button.addEventListener("click", () => openApplication(button.dataset.applicationId));
   });
@@ -236,9 +247,8 @@ function exportCsv() {
 
 loginForm.addEventListener("submit", async event => {
   event.preventDefault();
-  const button = loginForm.querySelector("button");
   const data = new FormData(loginForm);
-  button.disabled = true;
+  loginButton.disabled = true;
   loginFeedback.textContent = "Se verifică accesul…";
 
   const { data: authData, error } = await supabase.auth.signInWithPassword({
@@ -247,7 +257,7 @@ loginForm.addEventListener("submit", async event => {
   });
 
   if (error || !authData.user) {
-    button.disabled = false;
+    loginButton.disabled = false;
     loginFeedback.textContent = "Emailul sau parola nu sunt corecte.";
     return;
   }
@@ -255,7 +265,7 @@ loginForm.addEventListener("submit", async event => {
   try {
     if (!await isAdmin(authData.user.id)) {
       await supabase.auth.signOut();
-      button.disabled = false;
+      loginButton.disabled = false;
       loginFeedback.textContent = "Acest utilizator nu are acces administrativ.";
       return;
     }
@@ -264,7 +274,7 @@ loginForm.addEventListener("submit", async event => {
   } catch (adminError) {
     console.error(adminError);
     await supabase.auth.signOut();
-    button.disabled = false;
+    loginButton.disabled = false;
     loginFeedback.textContent = "Accesul administrativ nu a putut fi verificat.";
   }
 });
@@ -278,7 +288,19 @@ logoutButton.addEventListener("click", async () => {
 
 refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
-[searchFilter, platformFilter, statusFilter].forEach(control => control.addEventListener("input", renderApplications));
+[searchFilter, statusFilter].forEach(control => control.addEventListener("input", renderApplications));
+platformTabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    activePlatform = tab.dataset.platformTab;
+    platformTabs.forEach(candidate => {
+      const isActive = candidate === tab;
+      candidate.classList.toggle("active", isActive);
+      candidate.setAttribute("aria-selected", String(isActive));
+    });
+    updateSummary();
+    renderApplications();
+  });
+});
 
 const { data: { session } } = await supabase.auth.getSession();
 if (!session?.user) {
