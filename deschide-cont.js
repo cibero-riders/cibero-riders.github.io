@@ -2,6 +2,7 @@ const views = document.querySelectorAll('.view');
 const show = id => { views.forEach(view => view.classList.toggle('active', view.id === id)); window.scrollTo({top:0,behavior:'smooth'}); };
 let selectedStatus = '';
 let selectedWoltProof = null;
+let woltProofPreviewUrl = '';
 const applicationEndpoint = 'https://xpzgvknnrkyvcnncfqrq.supabase.co/functions/v1/submit-application';
 const supabasePublishableKey = 'sb_publishable_yqSB3WMkNNxujsJhLMqLJA_8Q99BmbN';
 document.querySelectorAll('[data-account-answer="yes"]').forEach(button => button.addEventListener('click', () => show('platform-step')));
@@ -22,19 +23,48 @@ const transferDetail = document.querySelector('#transfer-detail');
 const clientExistingDetail = document.querySelector('#client-existing-detail');
 const clientNewDetail = document.querySelector('#client-new-detail');
 statusNote.textContent = 'Atenție: conturile deja existente la Wolt influențează procesarea cererii de activare a contului de curier. Verifică atent situația contului tău înainte de a continua.';
-const resetStatusChoices = () => { selectedStatus = ''; selectedWoltProof = null; detail.innerHTML = ''; detail.className = 'status-detail'; document.querySelectorAll('.status-card').forEach(card => card.classList.remove('selected')); };
+const clearWoltProofPreview = () => {
+  if (woltProofPreviewUrl) URL.revokeObjectURL(woltProofPreviewUrl);
+  woltProofPreviewUrl = '';
+};
+const resetStatusChoices = () => { selectedStatus = ''; selectedWoltProof = null; clearWoltProofPreview(); detail.innerHTML = ''; detail.className = 'status-detail'; document.querySelectorAll('.status-card').forEach(card => card.classList.remove('selected')); };
 document.querySelectorAll('[data-transfer-back]').forEach(button => button.addEventListener('click', () => { resetStatusChoices(); show('status-flow'); }));
 const showClientQuestion = () => { selectedStatus = ''; show('wolt-client-question-flow'); };
 const openClientDetail = type => {
   selectedStatus = type;
+  selectedWoltProof = null;
+  clearWoltProofPreview();
   const target = type === 'client' ? clientExistingDetail : clientNewDetail;
   target.innerHTML = details[type];
   target.className = 'status-detail show wolt-standalone-detail';
   const proof = target.querySelector('.proof');
+  const upload = target.querySelector('.upload');
+  const preview = document.createElement('figure');
+  preview.className = 'proof-preview';
+  preview.hidden = true;
+  preview.innerHTML = '<img alt="Previzualizarea screenshot-ului Wolt Client" /><figcaption><strong>Screenshot încărcat</strong><span class="proof-file-name"></span><small>Apasă din nou pe căsuța de încărcare pentru a înlocui imaginea.</small></figcaption>';
+  upload?.insertAdjacentElement('afterend', preview);
+  const previewImage = preview.querySelector('img');
+  const previewName = preview.querySelector('.proof-file-name');
   const verify = target.querySelector('.verify-client');
   const advance = target.querySelector('.to-form');
   const update = () => { if (advance) advance.disabled = !(proof?.files.length && (!verify || verify.checked)); };
-  proof?.addEventListener('change', () => { selectedWoltProof = proof.files[0] || null; update(); });
+  proof?.addEventListener('change', () => {
+    selectedWoltProof = proof.files[0] || null;
+    clearWoltProofPreview();
+    upload?.classList.toggle('has-file', Boolean(selectedWoltProof));
+    if (selectedWoltProof) {
+      woltProofPreviewUrl = URL.createObjectURL(selectedWoltProof);
+      previewImage.src = woltProofPreviewUrl;
+      previewName.textContent = selectedWoltProof.name;
+      preview.hidden = false;
+    } else {
+      previewImage.removeAttribute('src');
+      previewName.textContent = '';
+      preview.hidden = true;
+    }
+    update();
+  });
   verify?.addEventListener('change', update);
   advance?.addEventListener('click', () => {
     document.querySelector('#form-description').textContent = type === 'client' ? 'Introdu exact datele verificate în Wolt Client.' : 'Introdu datele din contul Wolt Client pe care tocmai l-ai creat.';

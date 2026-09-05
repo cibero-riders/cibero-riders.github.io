@@ -1,0 +1,55 @@
+.status-detail .upload {
+  transition: border-color .2s ease, background .2s ease, box-shadow .2s ease;
+}
+
+.status-detail .upload.has-file {
+  border-style: solid;
+  border-color: #7ee3f3;
+  background: linear-gradient(145deg, #133a4c, #251334);
+  box-shadow: inset 0 0 28px #08bde11e;
+}
+
+.status-detail .upload.has-file::after {
+  content: "Imagine selectată — apasă pentru a o înlocui";
+  display: block;
+  margin-top: 7px;
+  color: #b9edf5;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.proof-preview {
+  margin: 14px 0 0;
+  padding: 12px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 190px;
+  align-items: center;
+  gap: 15px;
+  border: 1px solid #74d8e777;
+  border-radius: 12px;
+  background: linear-gradient(145deg, #102b3bd9, #1c1028e8);
+  box-shadow: 0 12px 28px #05020961;
+}
+
+.proof-preview[hidden] { display: none; }
+
+.proof-preview img {
+  display: block;
+  width: 100%;
+  max-height: 430px;
+  object-fit: contain;
+  border: 1px solid #d9bd6e66;
+  border-radius: 9px;
+  background: #09050d;
+}
+
+.proof-preview figcaption { min-width: 0; text-align: left; }
+.proof-preview figcaption strong { display: block; color: #fff0b4; font-size: 17px; }
+.proof-preview .proof-file-name { display: block; margin-top: 5px; overflow: hidden; color: #dff9ff; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.proof-preview figcaption small { display: block; margin-top: 11px; color: #cdbbd2; font-size: 13px; line-height: 1.45; }
+
+@media (max-width: 680px) {
+  .proof-preview { grid-template-columns: 1fr; padding: 9px; }
+  .proof-preview img { max-height: 480px; }
+  .proof-preview figcaption { padding: 3px 3px 5px; text-align: center; }
+}
