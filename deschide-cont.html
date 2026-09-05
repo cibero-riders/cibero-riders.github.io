@@ -141,8 +141,62 @@
         <div class="two"><label>Prenume *<input required name="prenume" placeholder="Ion" /></label><label>Nume *<input required name="nume" placeholder="Popescu" /></label></div>
         <label>Email *<input required type="email" name="email" placeholder="ion.popescu@email.com" /></label>
         <label>Număr de telefon *<input required name="telefon" placeholder="07XX XXX XXX" /></label>
-        <label>Oraș *<select required name="oras"><option value="">Selectează orașul tău...</option><option>București</option><option>Cluj-Napoca</option><option>Brașov</option><option>Iași</option><option>Timișoara</option><option>Alt oraș activ</option></select></label>
-        <label>Tip vehicul<select name="vehicul"><option>Selectează...</option><option>Bicicletă</option><option>Scuter</option><option>Mașină</option></select></label>
+        <label>Oraș *
+          <select required name="oras">
+            <option value="" selected disabled hidden>Selectează orașul tău...</option>
+            <option>Alba Iulia</option>
+            <option>Arad</option>
+            <option>Bacău</option>
+            <option>Baia Mare</option>
+            <option>Botoșani</option>
+            <option>Brăila</option>
+            <option>Brașov</option>
+            <option>București</option>
+            <option>Buzău</option>
+            <option>Cluj-Napoca</option>
+            <option>Constanța</option>
+            <option>Craiova</option>
+            <option>Deva</option>
+            <option>Drobeta-Turnu Severin</option>
+            <option>Focșani</option>
+            <option>Galați</option>
+            <option>Hunedoara</option>
+            <option>Iași</option>
+            <option>Mediaș</option>
+            <option>Miercurea-Ciuc</option>
+            <option>Onești</option>
+            <option>Oradea</option>
+            <option>Piatra Neamț</option>
+            <option>Pitești</option>
+            <option>Ploiești</option>
+            <option>Râmnicu Vâlcea</option>
+            <option>Reșița</option>
+            <option>Roman</option>
+            <option>Satu Mare</option>
+            <option>Sfântu Gheorghe</option>
+            <option>Sibiu</option>
+            <option>Sighișoara</option>
+            <option>Slatina</option>
+            <option>Suceava</option>
+            <option>Târgoviște</option>
+            <option>Târgu Mureș</option>
+            <option>Tecuci</option>
+            <option>Timișoara</option>
+            <option>Tulcea</option>
+            <option>Vaslui</option>
+            <option>Zalău</option>
+          </select>
+        </label>
+        <label>Tip vehicul
+          <select name="vehicul">
+            <option value="" selected disabled hidden>Selectează...</option>
+            <option>Bicicletă</option>
+            <option>Bicicletă electrică</option>
+            <option>Scuter</option>
+            <option>Trotinetă electrică</option>
+            <option>Mașină</option>
+          </select>
+        </label>
         <label>Mesaj opțional<textarea name="mesaj" placeholder="Orice informație suplimentară..."></textarea></label>
         <button class="glovo-next">Trimite cererea <span>→</span></button>
         <p id="glovo-submit-feedback" class="submit-feedback" role="status" aria-live="polite"></p>
