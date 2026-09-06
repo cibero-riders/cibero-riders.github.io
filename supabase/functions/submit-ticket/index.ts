@@ -3,12 +3,12 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 const ALLOWED_ORIGINS = new Set(["https://cibero-riders.github.io"]);
 const CATEGORIES = new Set(["bolt", "glovo", "wolt", "rapoarte_plati", "probleme_admin", "deconturi", "inactivitate"]);
 const TYPE_SETS: Record<string, Set<string>> = {
-  bolt: new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"]),
-  glovo: new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other", "comanda_anulata"]),
-  wolt: new Set(["transfer_cont", "phone", "email", "iban", "city", "vehicle", "other"]),
+  bolt: new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"]),
+  glovo: new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other", "comanda_anulata", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"]),
+  wolt: new Set(["transfer_cont", "phone", "email", "iban", "city", "vehicle", "other", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"]),
   rapoarte_plati: new Set(["suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"]),
   probleme_admin: new Set(["actualizare_documente", "problema_contract", "alta_problema_admin"]),
-  deconturi: new Set(["deconturi"]),
+  deconturi: new Set(["deconturi", "problema_decontare", "trimite_bonuri_pdf"]),
   inactivitate: new Set(["inactivitate"]),
 };
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
@@ -127,6 +127,7 @@ Deno.serve(async (request: Request) => {
     if (requestType === "other" && !fields.description) return json(origin, { error: "Descrierea solicitării este obligatorie." }, 400);
     if (requestType === "transfer_cont" && (!fields.wolt_app_phone || !fields.wolt_courier_id || !fields.wolt_email)) return json(origin, { error: "Completează toate datele contului Wolt." }, 400);
     if (requestType === "comanda_anulata" && !/^\d{12}$/.test(fields.order_code ?? "")) return json(origin, { error: "Codul comenzii trebuie să aibă 12 cifre." }, 400);
+    if (requestType === "problema_decontare" && !fields.description) return json(origin, { error: "Descrierea solicitării de decontare este obligatorie." }, 400);
     if (category === "inactivitate") {
       const allowedPlatforms = new Set(["Bolt Food", "Glovo", "Wolt"]);
       if (!fields.platforms.length || fields.platforms.some(platform => !allowedPlatforms.has(platform)) || !fields.inactive_start || !fields.inactive_end) return json(origin, { error: "Completează platformele și perioada de inactivitate." }, 400);
@@ -144,12 +145,12 @@ Deno.serve(async (request: Request) => {
     if (supportFiles.length > 5 || supportFiles.some(file => !SUPPORT_TYPES.has(file.type) || file.size > MAX_SUPPORT)) return json(origin, { error: "Documentele suport nu au un format sau o dimensiune acceptată." }, 400);
     if (requestType === "comanda_anulata" && (!receipt || !IMAGE_TYPES.has(receipt.type) || receipt.size > MAX_SUPPORT)) return json(origin, { error: "Poza bonului este obligatorie și trebuie să aibă maximum 10 MB." }, 400);
     const declaredAmount = Number(value(form, "declared_amount", 30).replace(",", "."));
-    if (category === "deconturi" && (!receiptsPdf || receiptsPdf.type !== "application/pdf" || receiptsPdf.size > MAX_PDF || !Number.isFinite(declaredAmount) || declaredAmount <= 0)) return json(origin, { error: "Suma și PDF-ul cu bonuri sunt obligatorii." }, 400);
+    if (["deconturi", "trimite_bonuri_pdf"].includes(requestType) && (!receiptsPdf || receiptsPdf.type !== "application/pdf" || receiptsPdf.size > MAX_PDF || !Number.isFinite(declaredAmount) || declaredAmount <= 0)) return json(origin, { error: "Suma și PDF-ul cu bonuri sunt obligatorii." }, 400);
 
     const ticketId = crypto.randomUUID();
     const { error: insertError } = await supabase.from("tickets").insert({
       id: ticketId, category, request_type: requestType, first_name: firstName, last_name: lastName, phone, email,
-      ...fields, declared_amount: category === "deconturi" ? declaredAmount : null, confirmed: true,
+      ...fields, declared_amount: ["deconturi", "trimite_bonuri_pdf"].includes(requestType) ? declaredAmount : null, confirmed: true,
     });
     if (insertError) throw insertError;
 

@@ -6,7 +6,9 @@ const copy = {
     steps: ["Categorie", "Identitate", "Tip", "Detalii", "Confirmare"],
     categoryTitle: "Alege categoria solicitării",
     categorySubtitle: "Selectează platforma sau categoria pentru care ai o solicitare.",
-    adminSeparator: "Solicitări administrative și financiare",
+    platformSeparator: "Platforme · Bolt | Glovo | Wolt.",
+    adminSeparator: "Administrativ și financiar",
+    paymentSeparator: "Rapoarte și Plăți",
     continue: "Continuă",
     back: "Pasul anterior",
     identityTitle: "Datele tale de contact",
@@ -73,7 +75,9 @@ const copy = {
     steps: ["Category", "Identity", "Type", "Details", "Confirm"],
     categoryTitle: "Choose request category",
     categorySubtitle: "Select the platform or category for your request.",
-    adminSeparator: "Administrative and financial requests",
+    platformSeparator: "Platforms · Bolt | Glovo | Wolt.",
+    adminSeparator: "Administrative and financial",
+    paymentSeparator: "Reports and Payments",
     continue: "Continue",
     back: "Previous step",
     identityTitle: "Your contact details",
@@ -139,13 +143,13 @@ const copy = {
 };
 
 const categories = [
-  { id: "bolt", label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Solicitări procesate în 24–48h", en: "Requests processed in 24–48h" }, icon: "BO", accent: "#38d188" },
-  { id: "glovo", label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Solicitări procesate în 24–48h", en: "Requests processed in 24–48h" }, icon: "GL", accent: "#ffc244" },
-  { id: "wolt", label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Solicitări procesate în 24–48h", en: "Requests processed in 24–48h" }, icon: "WO", accent: "#20c4e7" },
-  { separator: true },
-  { id: "rapoarte_plati", label: { ro: "Rapoarte și Plăți", en: "Reports and Payments" }, desc: { ro: "Probleme cu plata sau raportul săptămânal", en: "Issues with payment or weekly report" }, icon: "▤", accent: "#65a1ff" },
+  { separator: "platforms" },
+  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Cont, activitate, rapoarte și plăți", en: "Account, activity, reports and payments" }, icon: "B", logo: "../assets/bolt-logo-source.png", accent: "#38d188" },
+  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Cont, comenzi, rapoarte și plăți", en: "Account, orders, reports and payments" }, icon: "G", logo: "../assets/glovo-round.png", accent: "#ffc244" },
+  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Cont, transfer, rapoarte și plăți", en: "Account, transfer, reports and payments" }, icon: "W", logo: "../assets/wolt-round.png", accent: "#20c4e7" },
+  { separator: "admin" },
   { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", accent: "#c49ac8" },
-  { id: "deconturi", label: { ro: "Deconturi", en: "Reimbursements" }, desc: { ro: "Toate bonurile într-un singur PDF", en: "All receipts in a single PDF" }, icon: "RON", accent: "#7bdca9" },
+  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", accent: "#7bdca9" },
   { id: "inactivitate", label: { ro: "Concediu/Inactivitate", en: "Leave/Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", accent: "#efc45f" },
 ];
 
@@ -156,8 +160,8 @@ const typeCatalog = {
   city: ["Oraș activ", "Active city", "Schimbă orașul în care livrezi", "Change the city where you deliver", "⌖"],
   vehicle: ["Tip vehicul", "Vehicle type", "Schimbă tipul vehiculului cu care livrezi", "Change the type of vehicle you deliver with", "◉"],
   plate_number: ["Nr. înmatriculare", "Registration number", "Actualizează numărul de înmatriculare al vehiculului", "Update the vehicle registration number", "№"],
-  activate_chas: ["Activare CHAS", "Activate CHAS", "Activează opțiunea CHAS pe contul tău", "Activate the CHAS option on your account", "+"],
-  deactivate_chas: ["Dezactivare CHAS", "Deactivate CHAS", "Dezactivează opțiunea CHAS pe contul tău", "Deactivate the CHAS option on your account", "−"],
+  activate_chas: ["Activează CASH", "Activate CASH", "Activează comenzile cash pe contul tău", "Activate cash orders on your account", "+"],
+  deactivate_chas: ["Dezactivează CASH", "Deactivate CASH", "Dezactivează comenzile cash pe contul tău", "Deactivate cash orders on your account", "−"],
   transfer_cont: ["Solicită transfer cont", "Request account transfer", "Transferă contul Wolt Courier în flota noastră", "Transfer your Wolt Courier account to our fleet", "⇄"],
   other: ["Altă problemă", "Other issue", "Cont blocat, deblocare sau altă solicitare", "Blocked account, unblocking or another request", "?"],
   suma_incorecta: ["Sumă incorectă în raport", "Incorrect amount in report", "Suma din raportul săptămânal nu este corectă", "The amount in my weekly report is incorrect", "∑"],
@@ -169,15 +173,18 @@ const typeCatalog = {
   alta_problema_admin: ["Altă problemă administrativă", "Other administrative issue", "Altă solicitare administrativă", "Another administrative request", "?"],
   comanda_anulata: ["Comandă anulată", "Cancelled order", "Raportează o comandă Glovo anulată, cu cod și bon", "Report a cancelled Glovo order with code and receipt", "×"],
   inactivitate: ["Concediu/Inactivitate", "Leave/Inactivity", "Anunță perioada în care nu vei fi activ", "Report the period when you will be inactive", "CAL"],
+  problema_decontare: ["Problemă cu decontarea", "Reimbursement issue", "Nu ai primit banii la timp sau ai o solicitare despre decontare", "Payment is late or you have another reimbursement request", "!"],
+  trimite_bonuri_pdf: ["Trimite bonurile în PDF", "Submit receipts as PDF", "Încarcă toate bonurile decontabile într-un singur document PDF", "Upload all reimbursable receipts in one PDF document", "PDF"],
 };
 
 const platformBaseTypes = ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"];
+const paymentTypes = ["suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"];
 const typeSets = {
-  bolt: platformBaseTypes,
-  glovo: [...platformBaseTypes, "comanda_anulata"],
-  wolt: ["transfer_cont", "phone", "email", "iban", "city", "vehicle", "other"],
-  rapoarte_plati: ["suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"],
+  bolt: [...platformBaseTypes, ...paymentTypes],
+  glovo: [...platformBaseTypes, "comanda_anulata", ...paymentTypes],
+  wolt: ["transfer_cont", "phone", "email", "iban", "city", "vehicle", "other", ...paymentTypes],
   probleme_admin: ["actualizare_documente", "problema_contract", "alta_problema_admin"],
+  deconturi: ["problema_decontare", "trimite_bonuri_pdf"],
 };
 
 const vehicles = ["Bicicletă", "Scuter / Moped", "Motocicletă", "Mașină", "Pe jos"];
@@ -204,7 +211,7 @@ function scrollTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 function renderStepper() {
   stepper.innerHTML = t("steps").map((label, index) => {
     const number = index + 1;
-    const skipsType = ["deconturi", "inactivitate"].includes(state.category);
+    const skipsType = state.category === "inactivitate";
     const completed = state.step > number || (skipsType && number === 3 && state.step > 2);
     return `<div class="step-item${state.step === number ? " active" : ""}${completed ? " complete" : ""}"><span class="step-number">${completed ? "✓" : number}</span><span class="step-label">${escapeHtml(label)}</span></div>`;
   }).join("");
@@ -220,9 +227,10 @@ function actions(showBack = true, nextLabel = t("continue"), nextId = "next") {
 
 function renderCategories() {
   stage.innerHTML = `${heading(t("categoryTitle"), t("categorySubtitle"))}<div class="stage-body"><div class="category-grid">${categories.map(item => {
-    if (item.separator) return `<div class="category-separator">${escapeHtml(t("adminSeparator"))}</div>`;
+    if (item.separator) return `<div class="category-separator">${escapeHtml(t(item.separator === "platforms" ? "platformSeparator" : "adminSeparator"))}</div>`;
     const selected = state.category === item.id;
-    return `<button class="choice-card${selected ? " selected" : ""}" style="--accent:${item.accent};--accent-soft:${item.accent}35" type="button" data-category="${item.id}"><span class="radio-mark"></span><span class="choice-icon">${escapeHtml(item.icon)}</span><strong>${escapeHtml(item.label[state.language])}</strong><span>${escapeHtml(item.desc[state.language])}</span></button>`;
+    const logo = item.logo ? `<img class="platform-logo" src="${item.logo}" alt="" />` : escapeHtml(item.icon);
+    return `<button class="choice-card${item.platform ? " platform-card" : ""}${selected ? " selected" : ""}" style="--accent:${item.accent};--accent-soft:${item.accent}35" type="button" data-category="${item.id}"><span class="radio-mark"></span><span class="choice-icon">${logo}</span><strong>${escapeHtml(item.label[state.language])}</strong><span>${escapeHtml(item.desc[state.language])}</span></button>`;
   }).join("")}</div>${actions(false)}</div>`;
 }
 
@@ -244,7 +252,8 @@ function renderIdentity() {
 function renderTypes() {
   const ids = typeSets[state.category] || [];
   const woltGuide = state.category === "wolt" ? `<div class="info-note wolt-guide"><b>W</b><div><strong>${state.language === "ro" ? "Schimbarea vehiculului la Wolt" : "Changing your vehicle on Wolt"}</strong><div>${state.language === "ro" ? "Se face direct din aplicația Wolt Client: Asistență Curieri → Contul meu de partener → schimbare vehicul → chat." : "It is completed directly in Wolt Client: Courier Assistance → My partner account → change vehicle → chat."}</div></div></div>` : "";
-  stage.innerHTML = `${heading(t("typeTitle"), t("typeSubtitle"))}<div class="stage-body"><div class="category-grid">${woltGuide}${ids.map(id => `<button class="choice-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${escapeHtml(typeCatalog[id][4])}</span><strong>${escapeHtml(typeLabel(id))}</strong><span>${escapeHtml(typeDescription(id))}</span></button>`).join("")}</div>${actions()}</div>`;
+  const cards = ids.map((id, index) => `${paymentTypes.includes(id) && !paymentTypes.includes(ids[index - 1]) ? `<div class="category-separator type-separator">${escapeHtml(t("paymentSeparator"))}</div>` : ""}<button class="choice-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${escapeHtml(typeCatalog[id][4])}</span><strong>${escapeHtml(typeLabel(id))}</strong><span>${escapeHtml(typeDescription(id))}</span></button>`).join("");
+  stage.innerHTML = `${heading(t("typeTitle"), t("typeSubtitle"))}<div class="stage-body"><div class="category-grid">${woltGuide}${cards}</div>${actions()}</div>`;
 }
 
 function detailValue() {
@@ -287,7 +296,9 @@ function renderDetails() {
   } else if (state.type === "comanda_anulata") {
     content += field("orderCode", t("orderCode"), state.details.orderCode || "", { placeholder: "123456789012", full: true });
     content += uploadField("receipt", t("receipt"), t("receiptHelp"), "image/jpeg,image/png,image/webp", state.receipt);
-  } else if (state.category === "deconturi") {
+  } else if (state.type === "problema_decontare") {
+    content += field("description", state.language === "ro" ? "Descrie solicitarea de decontare" : "Describe the reimbursement request", state.details.description || "", { textarea: true, placeholder: state.language === "ro" ? "Spune-ne ce sumă sau perioadă este afectată și ce s-a întâmplat." : "Tell us which amount or period is affected and what happened.", full: true });
+  } else if (state.type === "trimite_bonuri_pdf") {
     content += field("declaredAmount", t("amount"), state.details.declaredAmount || "", { type: "number", placeholder: "0,00", full: true });
     content += uploadField("receiptsPdf", t("receiptsPdf"), t("receiptsHelp"), "application/pdf", state.receiptsPdf);
   } else if (state.category === "inactivitate") {
@@ -296,7 +307,7 @@ function renderDetails() {
     content += field("inactiveStart", t("inactivityStart"), state.details.inactiveStart || "", { type: "date" });
     content += field("inactiveEnd", t("inactivityEnd"), state.details.inactiveEnd || "", { type: "date" });
   }
-  stage.innerHTML = `${heading(["deconturi", "inactivitate"].includes(state.category) ? categoryById(state.category).label[state.language] : typeLabel(state.type), t("detailsSubtitle"))}<div class="stage-body"><div class="form-grid">${content}</div>${actions()}</div>`;
+  stage.innerHTML = `${heading(state.category === "inactivitate" ? categoryById(state.category).label[state.language] : typeLabel(state.type), t("detailsSubtitle"))}<div class="stage-body"><div class="form-grid">${content}</div>${actions()}</div>`;
 }
 
 function summaryItem(label, value, full = false) { return `<div class="summary-item${full ? " full" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || "—")}</strong></div>`; }
@@ -320,7 +331,7 @@ function renderConfirm() {
   if (state.details.inactiveStart) details.push(summaryItem(t("inactivityStart"), state.details.inactiveStart));
   if (state.details.inactiveEnd) details.push(summaryItem(t("inactivityEnd"), state.details.inactiveEnd));
   const fileNames = [...state.files.map(file => file.name), state.receipt?.name, state.receiptsPdf?.name].filter(Boolean).join(", ");
-  stage.innerHTML = `${heading(t("confirmTitle"), t("confirmSubtitle"))}<div class="stage-body"><div class="summary-list">${summaryItem(state.language === "ro" ? "Curier" : "Courier", `${state.firstName} ${state.lastName}`)}${summaryItem(t("phone"), state.phone)}${summaryItem(state.language === "ro" ? "Categorie" : "Category", category.label[state.language])}${summaryItem(state.language === "ro" ? "Tip solicitare" : "Request type", ["deconturi", "inactivitate"].includes(state.category) ? category.label[state.language] : typeLabel(state.type))}${details.join("")}${fileNames ? summaryItem(t("supportFiles"), fileNames, true) : ""}</div><div class="form-grid" style="margin-top:18px">${uploadField("support", t("addFiles"), t("supportHelp"), "image/jpeg,image/png,image/webp,application/pdf", null, true)}<div class="file-list">${state.files.map((file, index) => `<div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-support="${index}">${escapeHtml(t("remove"))}</button></div>`).join("")}</div>${field("notes", t("notes"), state.notes, { textarea: true, placeholder: t("notesPlaceholder"), required: false, full: true })}</div><label class="confirm-control"><input name="confirmed" type="checkbox"${state.confirmed ? " checked" : ""} /><span>${escapeHtml(t("confirmation"))}</span></label>${actions(true, state.submitting ? t("submitting") : t("submit"), "submit")}</div>`;
+  stage.innerHTML = `${heading(t("confirmTitle"), t("confirmSubtitle"))}<div class="stage-body"><div class="summary-list">${summaryItem(state.language === "ro" ? "Curier" : "Courier", `${state.firstName} ${state.lastName}`)}${summaryItem(t("phone"), state.phone)}${summaryItem(state.language === "ro" ? "Categorie" : "Category", category.label[state.language])}${summaryItem(state.language === "ro" ? "Tip solicitare" : "Request type", state.category === "inactivitate" ? category.label[state.language] : typeLabel(state.type))}${details.join("")}${fileNames ? summaryItem(t("supportFiles"), fileNames, true) : ""}</div><div class="form-grid" style="margin-top:18px">${uploadField("support", t("addFiles"), t("supportHelp"), "image/jpeg,image/png,image/webp,application/pdf", null, true)}<div class="file-list">${state.files.map((file, index) => `<div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-support="${index}">${escapeHtml(t("remove"))}</button></div>`).join("")}</div>${field("notes", t("notes"), state.notes, { textarea: true, placeholder: t("notesPlaceholder"), required: false, full: true })}</div><label class="confirm-control"><input name="confirmed" type="checkbox"${state.confirmed ? " checked" : ""} /><span>${escapeHtml(t("confirmation"))}</span></label>${actions(true, state.submitting ? t("submitting") : t("submit"), "submit")}</div>`;
   stage.querySelector('[data-action="submit"]').disabled = state.submitting;
 }
 
@@ -368,8 +379,10 @@ function validateIdentity() {
 
 function validateDetails() {
   const d = state.details;
-  if (state.category === "deconturi") {
+  if (state.type === "trimite_bonuri_pdf") {
     if (!d.declaredAmount || Number(String(d.declaredAmount).replace(",", ".")) <= 0 || !state.receiptsPdf) return t("required");
+  } else if (state.type === "problema_decontare" && !d.description?.trim()) {
+    return t("required");
   } else if (state.category === "inactivitate") {
     if (!d.platforms?.length || !d.inactiveStart || !d.inactiveEnd) return t("required");
     const start = new Date(`${d.inactiveStart}T00:00:00`);
@@ -420,7 +433,7 @@ function categoryIntro() {
   const descriptions = {
     rapoarte_plati: { ro: "Raportează o sumă plătită incorect, un raport săptămânal greșit sau o plată lipsă.", en: "Report an incorrect paid amount, weekly report or missing payment." },
     probleme_admin: { ro: "Trimite o cerere legată de documente, contract, datele contului sau alte probleme administrative.", en: "Submit a request about documents, contract, account details or another administrative issue." },
-    deconturi: { ro: "Adună toate bonurile într-un singur document PDF înainte de a continua.", en: "Combine all receipts into a single PDF document before continuing." },
+    deconturi: { ro: "Alege dacă vrei să semnalezi o problemă cu decontarea sau să trimiți bonurile decontabile într-un singur PDF.", en: "Choose whether you want to report a reimbursement issue or submit reimbursable receipts in one PDF." },
     inactivitate: { ro: "Pentru a-ți menține contul în siguranță, anunță-ți întotdeauna din timp inactivitatea care e pe o perioadă de o săptămână sau mai mult.", en: "To keep your account safe, always notify us in advance about inactivity lasting one week or more." },
   };
   return descriptions[state.category]?.[state.language] || item.desc[state.language];
@@ -441,7 +454,7 @@ async function next() {
     try {
       if (await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
     } catch (error) { console.warn("Duplicate check unavailable", error); }
-    state.step = ["deconturi", "inactivitate"].includes(state.category) ? 4 : 3;
+    state.step = state.category === "inactivitate" ? 4 : 3;
   } else if (state.step === 3) {
     if (!state.type) { state.error = state.language === "ro" ? "Selectează tipul solicitării." : "Select the request type."; render(); return; }
     if (["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type)) state.step = 5;
@@ -466,7 +479,7 @@ function back() {
   if (state.step === 5) {
     const skipsDetails = ["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type);
     state.step = skipsDetails ? 3 : 4;
-  } else if (state.step === 4) state.step = ["deconturi", "inactivitate"].includes(state.category) ? 2 : 3;
+  } else if (state.step === 4) state.step = state.category === "inactivitate" ? 2 : 3;
   else if (state.step === 3) state.step = 2;
   else if (state.step === 2) state.step = 1;
   render(); scrollTop();
@@ -486,7 +499,7 @@ async function submitTicket() {
   const form = new FormData();
   form.set("action", "submit");
   form.set("category", state.category);
-  form.set("request_type", ["deconturi", "inactivitate"].includes(state.category) ? state.category : state.type);
+  form.set("request_type", state.category === "inactivitate" ? state.category : state.type);
   form.set("first_name", state.firstName.trim());
   form.set("last_name", state.lastName.trim());
   form.set("phone", state.phone.trim());

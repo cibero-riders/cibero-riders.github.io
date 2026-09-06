@@ -29,18 +29,19 @@ const ticketCategoryLabels = {
   wolt: "Wolt",
   rapoarte_plati: "Rapoarte și Plăți",
   probleme_admin: "Probleme Administrative",
-  deconturi: "Deconturi",
+  deconturi: "5% Decontare",
   inactivitate: "Concediu/Inactivitate",
 };
 
 const ticketTypeLabels = {
   phone: "Schimbare telefon", email: "Schimbare email", iban: "Schimbare IBAN", city: "Schimbare oraș",
-  vehicle: "Schimbare vehicul", plate_number: "Schimbare număr înmatriculare", activate_chas: "Activare CHAS",
-  deactivate_chas: "Dezactivare CHAS", transfer_cont: "Transfer cont Wolt", other: "Altă problemă",
+  vehicle: "Schimbare vehicul", plate_number: "Schimbare număr înmatriculare", activate_chas: "Activează CASH",
+  deactivate_chas: "Dezactivează CASH", transfer_cont: "Transfer cont Wolt", other: "Altă problemă",
   suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă", clarificare_decont: "Clarificare decont",
   alta_problema_plata: "Altă problemă cu plata", actualizare_documente: "Actualizare documente",
   problema_contract: "Problemă cu contractul", alta_problema_admin: "Altă problemă administrativă",
   comanda_anulata: "Comandă Glovo anulată", deconturi: "Deconturi", inactivitate: "Concediu/Inactivitate",
+  problema_decontare: "Problemă cu decontarea", trimite_bonuri_pdf: "Trimitere bonuri PDF",
 };
 
 const sessionLoading = document.querySelector("#session-loading");

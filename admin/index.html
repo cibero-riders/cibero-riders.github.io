@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=5" />
+  <link rel="stylesheet" href="admin.css?v=6" />
 </head>
 <body>
   <header class="admin-header">
@@ -116,7 +116,7 @@
 
         <div class="toolbar ticket-toolbar">
           <label>Caută<input id="ticket-search-filter" type="search" placeholder="Nume, email, telefon sau referință" /></label>
-          <label>Categorie<select id="ticket-category-filter"><option value="">Toate</option><option value="bolt">Bolt Food</option><option value="glovo">Glovo</option><option value="wolt">Wolt</option><option value="rapoarte_plati">Rapoarte și Plăți</option><option value="probleme_admin">Probleme Administrative</option><option value="deconturi">Deconturi</option><option value="inactivitate">Concediu/Inactivitate</option></select></label>
+          <label>Categorie<select id="ticket-category-filter"><option value="">Toate</option><option value="bolt">Bolt Food</option><option value="glovo">Glovo</option><option value="wolt">Wolt</option><option value="probleme_admin">Probleme Administrative</option><option value="deconturi">5% Decontare</option><option value="inactivitate">Concediu/Inactivitate</option></select></label>
           <label>Status<select id="ticket-status-filter"><option value="">Toate</option><option value="new">Nou</option><option value="reviewing">În lucru</option><option value="clarification">Clarificare</option><option value="sent_to_platform">Trimis platformei</option><option value="approved">Aprobat</option><option value="rejected">Respins</option><option value="archived">Arhivat</option></select></label>
           <button id="export-tickets-button" class="quiet-button" type="button">Exportă CSV</button>
         </div>
@@ -152,6 +152,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=5"></script>
+  <script type="module" src="admin.js?v=6"></script>
 </body>
 </html>
