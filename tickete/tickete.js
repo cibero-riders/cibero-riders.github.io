@@ -67,7 +67,7 @@ const copy = {
     required: "Completează toate câmpurile obligatorii.",
     invalidPhone: "Introdu un număr de telefon valid, de minimum 10 cifre.",
     invalidEmail: "Introdu o adresă de email validă.",
-    duplicate: "Ai deja o solicitare activă pentru acest număr. Poți deschide alta după procesarea celei existente.",
+    duplicate: "Ai deja o solicitare activă pentru această adresă de email. Poți deschide alta după procesarea celei existente.",
     submitError: "Ticketul nu a putut fi trimis. Încearcă din nou.",
     remove: "Elimină",
   },
@@ -136,7 +136,7 @@ const copy = {
     required: "Complete all required fields.",
     invalidPhone: "Enter a valid phone number with at least 10 digits.",
     invalidEmail: "Enter a valid email address.",
-    duplicate: "You already have an active request for this phone number. You can open another after it is processed.",
+    duplicate: "You already have an active request for this email address. You can open another after it is processed.",
     submitError: "The ticket could not be submitted. Please try again.",
     remove: "Remove",
   },
@@ -401,7 +401,7 @@ function validateDetails() {
 async function checkDuplicate() {
   const form = new FormData();
   form.set("action", "check");
-  form.set("phone", state.phone.trim());
+  form.set("email", state.email.trim());
   const response = await fetch(API_URL, { method: "POST", headers: { apikey: PUBLISHABLE_KEY }, body: form });
   if (!response.ok) throw new Error("check_failed");
   const result = await response.json();
