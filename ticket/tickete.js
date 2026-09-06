@@ -233,7 +233,10 @@ function typeIcon(id) {
     other: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M9.5 9a2.6 2.6 0 1 1 4.2 2c-.9.7-1.7 1.1-1.7 2.3m0 3h.01"/></svg>`,
     inactivitate: `<svg ${common}><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-8 3v4m-2-2h4"/></svg>`,
   };
-  return icons[id] ?? icons.other;
+  const changingAsset = new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "transfer_cont", "actualizare_documente"]);
+  const symbol = (icons[id] ?? icons.other).replace("<svg ", '<svg class="type-symbol" ');
+  const swap = `<svg class="type-swap" ${common}><path d="M5 8h12l-3-3m3 3-3 3M19 16H7l3 3m-3-3 3-3"/></svg>`;
+  return `${symbol}${changingAsset.has(id) ? swap : ""}`;
 }
 
 function renderStepper() {
@@ -280,7 +283,7 @@ function renderIdentity() {
 function renderTypes() {
   const ids = typeSets[state.category] || [];
   const woltGuide = state.category === "wolt" ? `<div class="info-note wolt-guide"><b>W</b><div><strong>${state.language === "ro" ? "Schimbarea vehiculului la Wolt" : "Changing your vehicle on Wolt"}</strong><div>${state.language === "ro" ? "Se face direct din aplicația Wolt Client: Asistență Curieri → Contul meu de partener → schimbare vehicul → chat." : "It is completed directly in Wolt Client: Courier Assistance → My partner account → change vehicle → chat."}</div></div></div>` : "";
-  const cards = ids.map((id, index) => `${paymentTypes.includes(id) && !paymentTypes.includes(ids[index - 1]) ? `<div class="category-separator type-separator">${escapeHtml(t("paymentSeparator"))}</div>` : ""}<button class="choice-card type-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${typeIcon(id)}</span><strong>${escapeHtml(typeLabel(id))}</strong><span>${escapeHtml(typeDescription(id))}</span></button>`).join("");
+  const cards = ids.map((id, index) => `${paymentTypes.includes(id) && !paymentTypes.includes(ids[index - 1]) ? `<div class="category-separator type-separator">${escapeHtml(t("paymentSeparator"))}</div>` : ""}<button class="choice-card type-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${typeIcon(id)}</span><strong class="choice-title">${escapeHtml(typeLabel(id))}</strong><span class="choice-description">${escapeHtml(typeDescription(id))}</span></button>`).join("");
   stage.innerHTML = `${heading(t("typeTitle"), t("typeSubtitle"))}<div class="stage-body"><div class="category-grid">${woltGuide}${cards}</div>${actions()}</div>`;
 }
 
