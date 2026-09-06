@@ -13,6 +13,35 @@ const statusLabels = {
   archived: "Arhivată",
 };
 
+const ticketStatusLabels = {
+  new: "Nou",
+  reviewing: "În lucru",
+  clarification: "Clarificare necesară",
+  sent_to_platform: "Trimis platformei",
+  approved: "Aprobat",
+  rejected: "Respins",
+  archived: "Arhivat",
+};
+
+const ticketCategoryLabels = {
+  bolt: "Bolt Food",
+  glovo: "Glovo",
+  wolt: "Wolt",
+  rapoarte_plati: "Rapoarte și Plăți",
+  probleme_admin: "Probleme Administrative",
+  deconturi: "Deconturi",
+};
+
+const ticketTypeLabels = {
+  phone: "Schimbare telefon", email: "Schimbare email", iban: "Schimbare IBAN", city: "Schimbare oraș",
+  vehicle: "Schimbare vehicul", plate_number: "Schimbare număr înmatriculare", activate_chas: "Activare CHAS",
+  deactivate_chas: "Dezactivare CHAS", transfer_cont: "Transfer cont Wolt", other: "Altă problemă",
+  suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă", clarificare_decont: "Clarificare decont",
+  alta_problema_plata: "Altă problemă cu plata", actualizare_documente: "Actualizare documente",
+  problema_contract: "Problemă cu contractul", alta_problema_admin: "Altă problemă administrativă",
+  comanda_anulata: "Comandă Glovo anulată", deconturi: "Deconturi",
+};
+
 const sessionLoading = document.querySelector("#session-loading");
 const loginView = document.querySelector("#login-view");
 const dashboardView = document.querySelector("#dashboard-view");
@@ -38,10 +67,22 @@ const deleteDialogCopy = document.querySelector("#delete-dialog-copy");
 const cancelDeleteButton = document.querySelector("#cancel-delete-button");
 const confirmDeleteButton = document.querySelector("#confirm-delete-button");
 const deleteFeedback = document.querySelector("#delete-feedback");
+const adminSectionTabs = [...document.querySelectorAll("[data-admin-section]")];
+const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
+const ticketsFeedback = document.querySelector("#tickets-feedback");
+const ticketsList = document.querySelector("#tickets-list");
+const ticketsEmptyState = document.querySelector("#tickets-empty-state");
+const ticketSearchFilter = document.querySelector("#ticket-search-filter");
+const ticketCategoryFilter = document.querySelector("#ticket-category-filter");
+const ticketStatusFilter = document.querySelector("#ticket-status-filter");
+const exportTicketsButton = document.querySelector("#export-tickets-button");
+const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
+const ticketAdminDetails = document.querySelector("#ticket-admin-details");
 
 let applications = [];
 let activePlatform = "wolt";
 const selectedApplicationIds = new Set();
+let tickets = [];
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -109,6 +150,61 @@ async function loadApplications() {
   dashboardFeedback.textContent = "";
   updateSummary();
   renderApplications();
+}
+
+async function loadTickets() {
+  ticketsFeedback.classList.remove("success");
+  ticketsFeedback.textContent = "Se încarcă ticketele…";
+  refreshTicketsButton.disabled = true;
+  const { data, error } = await supabase
+    .from("tickets")
+    .select("*, ticket_files(*)")
+    .order("created_at", { ascending: false });
+  refreshTicketsButton.disabled = false;
+  if (error) {
+    ticketsFeedback.textContent = "Ticketele nu au putut fi încărcate.";
+    console.error(error);
+    return;
+  }
+  tickets = data ?? [];
+  ticketsFeedback.textContent = "";
+  updateTicketSummary();
+  renderTickets();
+}
+
+function updateTicketSummary() {
+  document.querySelector("#tickets-total-count").textContent = tickets.length;
+  document.querySelector("#tickets-new-count").textContent = tickets.filter(item => item.status === "new").length;
+  document.querySelector("#tickets-reviewing-count").textContent = tickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
+  document.querySelector("#tickets-approved-count").textContent = tickets.filter(item => item.status === "approved").length;
+}
+
+function filteredTickets() {
+  const query = ticketSearchFilter.value.trim().toLocaleLowerCase("ro-RO");
+  const category = ticketCategoryFilter.value;
+  const status = ticketStatusFilter.value;
+  return tickets.filter(item => {
+    const reference = item.id.slice(0, 8).toUpperCase();
+    const haystack = [reference, item.first_name, item.last_name, item.email, item.phone, ticketTypeLabels[item.request_type]].join(" ").toLocaleLowerCase("ro-RO");
+    return (!query || haystack.includes(query)) && (!category || item.category === category) && (!status || item.status === status);
+  });
+}
+
+function renderTickets() {
+  const rows = filteredTickets();
+  ticketsList.innerHTML = rows.map(item => `
+    <button class="ticket-row" type="button" data-ticket-id="${escapeHtml(item.id)}">
+      <span class="ticket-reference-small">#${escapeHtml(item.id.slice(0, 8).toUpperCase())}</span>
+      <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
+      <span class="platform">${escapeHtml(ticketCategoryLabels[item.category] ?? item.category)}</span>
+      <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
+      <span class="ticket-type">${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</span>
+      <span class="status-pill" data-status="${escapeHtml(item.status)}">${escapeHtml(ticketStatusLabels[item.status] ?? item.status)}</span>
+      <span class="arrow" aria-hidden="true">→</span>
+    </button>
+  `).join("");
+  ticketsEmptyState.hidden = rows.length > 0;
+  ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
 }
 
 function updateSummary() {
@@ -311,6 +407,75 @@ async function deleteSelectedApplications() {
   renderApplications();
 }
 
+async function openTicket(id) {
+  const item = tickets.find(ticket => ticket.id === id);
+  if (!item) return;
+  const requestedValues = [
+    ["Telefon nou", item.new_phone], ["Email nou", item.new_email], ["IBAN nou", item.new_iban],
+    ["Oraș nou", item.new_city], ["Vehicul nou", item.new_vehicle], ["Nr. înmatriculare nou", item.new_plate],
+    ["Telefon aplicație Wolt", item.wolt_app_phone], ["ID Curier Wolt", item.wolt_courier_id],
+    ["Email Wolt", item.wolt_email], ["Cod comandă", item.order_code],
+    ["Sumă declarată", item.declared_amount ? `${item.declared_amount} lei` : null], ["Descriere", item.description],
+  ].filter(([, value]) => value);
+  const files = item.ticket_files ?? [];
+  ticketAdminDetails.innerHTML = `
+    <div class="detail-grid">
+      ${detailField("Referință", `#${item.id.slice(0, 8).toUpperCase()}`)}
+      ${detailField("Status", ticketStatusLabels[item.status] ?? item.status)}
+      ${detailField("Categorie", ticketCategoryLabels[item.category] ?? item.category)}
+      ${detailField("Tip solicitare", ticketTypeLabels[item.request_type] ?? item.request_type)}
+      ${detailField("Curier", `${item.first_name} ${item.last_name}`)}
+      ${detailField("Telefon", item.phone)}
+      ${detailField("Email", item.email, true)}
+      ${requestedValues.map(([label, value]) => detailField(label, value, label === "Descriere")).join("")}
+      ${detailField("Note solicitant", item.notes, true)}
+      ${detailField("Data trimiterii", formatDate(item.created_at), true)}
+    </div>
+    ${files.length ? `<div class="ticket-files"><h3>Fișiere atașate</h3>${files.map(file => `<button class="quiet-button" type="button" data-ticket-file="${escapeHtml(file.storage_path)}">${escapeHtml(file.original_name)} <span>↗</span></button>`).join("")}</div>` : ""}
+    <div class="detail-actions">
+      <label>Status<select id="ticket-detail-status">${Object.entries(ticketStatusLabels).map(([value, label]) => `<option value="${value}"${item.status === value ? " selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
+      <label>Observații interne<textarea id="ticket-detail-notes" maxlength="5000">${escapeHtml(item.admin_notes ?? "")}</textarea></label>
+      <button id="save-ticket" class="primary-button" type="button">Salvează modificările</button>
+      <p id="ticket-detail-feedback" class="feedback" role="status" aria-live="polite"></p>
+    </div>
+  `;
+  ticketAdminDialog.showModal();
+  ticketAdminDetails.querySelector("#save-ticket").addEventListener("click", () => saveTicket(item));
+  ticketAdminDetails.querySelectorAll("[data-ticket-file]").forEach(button => button.addEventListener("click", () => openTicketFile(button.dataset.ticketFile)));
+}
+
+async function saveTicket(item) {
+  const button = ticketAdminDetails.querySelector("#save-ticket");
+  const feedback = ticketAdminDetails.querySelector("#ticket-detail-feedback");
+  const status = ticketAdminDetails.querySelector("#ticket-detail-status").value;
+  const adminNotes = ticketAdminDetails.querySelector("#ticket-detail-notes").value.trim();
+  button.disabled = true;
+  feedback.textContent = "Se salvează…";
+  const { data, error } = await supabase.from("tickets").update({ status, admin_notes: adminNotes || null }).eq("id", item.id).select("*, ticket_files(*)").single();
+  button.disabled = false;
+  if (error) {
+    feedback.textContent = "Modificările nu au putut fi salvate.";
+    console.error(error);
+    return;
+  }
+  tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
+  feedback.style.color = "var(--success)";
+  feedback.textContent = "Modificările au fost salvate.";
+  updateTicketSummary();
+  renderTickets();
+}
+
+async function openTicketFile(path) {
+  const feedback = ticketAdminDetails.querySelector("#ticket-detail-feedback");
+  const { data, error } = await supabase.storage.from("ticket-files").createSignedUrl(path, 60);
+  if (error || !data?.signedUrl) {
+    feedback.textContent = "Fișierul nu a putut fi deschis.";
+    console.error(error);
+    return;
+  }
+  window.open(data.signedUrl, "_blank", "noopener,noreferrer");
+}
+
 async function openProof(path) {
   const feedback = document.querySelector("#detail-feedback");
   const { data, error } = await supabase.storage
@@ -344,6 +509,23 @@ function exportCsv() {
   URL.revokeObjectURL(url);
 }
 
+function exportTicketsCsv() {
+  const rows = filteredTickets();
+  const columns = ["id", "created_at", "category", "request_type", "status", "first_name", "last_name", "phone", "email", "new_phone", "new_email", "new_iban", "new_city", "new_vehicle", "new_plate", "description", "wolt_app_phone", "wolt_courier_id", "wolt_email", "order_code", "declared_amount", "notes", "admin_notes"];
+  const quote = value => {
+    const raw = String(value ?? "");
+    const safe = /^[=+\-@\t\r]/.test(raw) ? `'${raw}` : raw;
+    return `"${safe.replaceAll('"', '""')}"`;
+  };
+  const csv = [columns.join(","), ...rows.map(item => columns.map(column => quote(item[column])).join(","))].join("\r\n");
+  const url = URL.createObjectURL(new Blob(["\uFEFF", csv], { type: "text/csv;charset=utf-8" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `tickete-cibero-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  URL.revokeObjectURL(url);
+}
+
 loginForm.addEventListener("submit", async event => {
   event.preventDefault();
   const data = new FormData(loginForm);
@@ -369,7 +551,7 @@ loginForm.addEventListener("submit", async event => {
       return;
     }
     showDashboard();
-    await loadApplications();
+    await Promise.all([loadApplications(), loadTickets()]);
   } catch (adminError) {
     console.error(adminError);
     await supabase.auth.signOut();
@@ -381,6 +563,7 @@ loginForm.addEventListener("submit", async event => {
 logoutButton.addEventListener("click", async () => {
   await supabase.auth.signOut();
   applications = [];
+  tickets = [];
   selectedApplicationIds.clear();
   loginForm.reset();
   showLogin();
@@ -388,6 +571,17 @@ logoutButton.addEventListener("click", async () => {
 
 refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
+refreshTicketsButton.addEventListener("click", loadTickets);
+exportTicketsButton.addEventListener("click", exportTicketsCsv);
+[ticketSearchFilter, ticketCategoryFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
+adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
+  adminSectionTabs.forEach(candidate => {
+    const active = candidate === tab;
+    candidate.classList.toggle("active", active);
+    candidate.setAttribute("aria-selected", String(active));
+    document.querySelector(`#${candidate.dataset.adminSection}`).hidden = !active;
+  });
+}));
 selectAllApplications.addEventListener("change", () => {
   filteredApplications().forEach(item => {
     if (selectAllApplications.checked) selectedApplicationIds.add(item.id);
@@ -419,7 +613,7 @@ if (!session?.user) {
   try {
     if (await isAdmin(session.user.id)) {
       showDashboard();
-      await loadApplications();
+      await Promise.all([loadApplications(), loadTickets()]);
     } else {
       await supabase.auth.signOut();
       showLogin("Acest utilizator nu are acces administrativ.");

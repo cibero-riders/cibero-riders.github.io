@@ -90,6 +90,12 @@
 
 .global-header .menu-toggle { display: none; }
 
+@media (max-width: 1120px) and (min-width: 761px) {
+  .global-header { gap: 18px; padding-inline: 18px; }
+  .global-header nav { gap: 16px; }
+  .global-header nav .nav-account { margin-left: 0; padding-inline: 13px; }
+}
+
 @media (max-width: 760px) {
   .global-header {
     height: 72px;

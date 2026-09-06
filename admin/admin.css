@@ -50,7 +50,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .feedback { min-height: 22px; margin: 14px 0 0; color: var(--danger); font-size: 13px; }
 
 .dashboard-heading { margin-bottom: 24px; }
-.admin-primary-tabs { display: flex; gap: 12px; margin-bottom: 18px; }
+.admin-primary-tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
 .admin-primary-tab { display: flex; align-items: center; gap: 13px; min-width: 290px; padding: 15px 18px; border: 1px solid #b88cba3b; border-radius: 14px; background: #24102dba; color: var(--cream); text-align: left; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
 .admin-primary-tab:hover { transform: translateY(-1px); border-color: var(--line); }
 .admin-primary-tab.active { border-color: var(--gold); background: linear-gradient(135deg, #4a253e, #2b1235); box-shadow: inset 0 -2px 0 var(--gold); }
@@ -76,6 +76,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 
 .toolbar { display: grid; grid-template-columns: minmax(220px, 1fr) 205px auto; align-items: end; gap: 13px; padding: 0 26px 17px; }
 .toolbar .quiet-button { white-space: nowrap; }
+.ticket-toolbar { grid-template-columns: minmax(210px, 1fr) 190px 180px auto; }
 .selection-toolbar { min-height: 44px; margin: 0 26px 16px; padding: 8px 11px; display: flex; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid #b68ab837; border-radius: 11px; background: #180a20a8; }
 .select-all-control { display: flex; grid-template-columns: none; align-items: center; gap: 9px; cursor: pointer; }
 .select-all-control input, .row-selector input { width: 19px; min-height: 19px; height: 19px; margin: 0; padding: 0; accent-color: var(--gold); }
@@ -95,6 +96,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .application-row small, .application-row span { color: var(--muted); }
 .application-row strong { font-size: 15px; }
 .application-row .platform { color: var(--gold-light); font-weight: 800; text-transform: uppercase; }
+.ticket-row { display: grid; grid-template-columns: 96px 118px 150px minmax(160px, 1fr) minmax(150px, 1fr) 150px 25px; align-items: center; gap: 13px; width: 100%; padding: 15px 17px; border: 1px solid #a978a62f; border-radius: 13px; background: #24102ddb; color: var(--cream); text-align: left; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+.ticket-row:hover { transform: translateY(-2px); border-color: var(--line); background: #32153c; }
+.ticket-row span { color: var(--muted); font-size: 12px; }
+.ticket-row .platform, .ticket-reference-small { color: var(--gold-light); font-weight: 800; }
+.ticket-row .ticket-reference-small { font-family: Cinzel, serif; font-size: 11px; }
+.ticket-row .ticket-type { line-height: 1.35; }
 .status-pill { display: inline-flex; width: fit-content; border: 1px solid #bb91bd52; border-radius: 999px; padding: 5px 9px; color: #eadcea !important; background: #4a2253; font-size: 11px; font-weight: 800; }
 .status-pill[data-status="new"] { border-color: #e7bd5370; color: #ffe69b !important; background: #6c461e88; }
 .status-pill[data-status="activated"] { border-color: #6dd2a36b; color: #baf1d6 !important; background: #1b5b4688; }
@@ -115,6 +122,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .detail-field strong { overflow-wrap: anywhere; font-size: 14px; }
 .detail-actions { display: grid; gap: 16px; margin-top: 20px; }
 .detail-actions .primary-button { margin-top: 0; }
+.ticket-files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 20px; }
+.ticket-files h3 { grid-column: 1 / -1; margin: 0 0 3px; color: var(--gold-light); font: 700 15px Cinzel, serif; }
+.ticket-files .quiet-button { display: flex; align-items: center; justify-content: space-between; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .delete-dialog { width: min(520px, calc(100% - 28px)); padding: 0; border: 1px solid #e8919d9c; border-radius: 18px; background: linear-gradient(145deg, #431b2c, #1b0a20); color: var(--cream); box-shadow: 0 30px 90px #050107bd; }
 .delete-dialog::backdrop { background: #08020ccc; backdrop-filter: blur(6px); }
@@ -132,6 +142,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .toolbar label:first-child { grid-column: 1 / -1; }
   .application-open { grid-template-columns: 86px 78px 1fr 24px; }
   .application-row .city, .application-row .status-pill { grid-column: 3; }
+  .ticket-toolbar { grid-template-columns: 1fr 1fr; }
+  .ticket-row { grid-template-columns: 88px 105px 1fr 25px; }
+  .ticket-row .platform, .ticket-row .ticket-type, .ticket-row .status-pill { grid-column: 3; }
+  .ticket-row .arrow { grid-column: 4; grid-row: 1 / span 3; }
 }
 
 @media (max-width: 560px) {
@@ -161,6 +175,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .application-row .arrow { grid-column: 3; grid-row: 1 / span 3; }
   .detail-grid { grid-template-columns: 1fr; }
   .detail-field.full { grid-column: auto; }
+  .ticket-toolbar { grid-template-columns: 1fr; }
+  .ticket-row { grid-template-columns: 77px 1fr 22px; gap: 9px; padding: 13px 11px; }
+  .ticket-row .ticket-reference-small { grid-column: 1; grid-row: 1; }
+  .ticket-row .identity { grid-column: 2; grid-row: 1; }
+  .ticket-row .date { grid-column: 1; grid-row: 2; }
+  .ticket-row .platform, .ticket-row .ticket-type, .ticket-row .status-pill { grid-column: 2; }
+  .ticket-row .arrow { grid-column: 3; grid-row: 1 / span 4; }
+  .ticket-files { grid-template-columns: 1fr; }
   .delete-dialog-content { padding: 25px 18px; }
   .delete-dialog-actions { grid-template-columns: 1fr; }
 }

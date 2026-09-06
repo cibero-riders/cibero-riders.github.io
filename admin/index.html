@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=3" />
+  <link rel="stylesheet" href="admin.css?v=4" />
 </head>
 <body>
   <header class="admin-header">
@@ -45,9 +45,13 @@
       </div>
 
       <nav class="admin-primary-tabs" aria-label="Secțiuni administrare" role="tablist">
-        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel">
+        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel">
           <span class="tab-icon" aria-hidden="true">⌑</span>
           <span><strong>Cereri de Deschidere Cont</strong><small>Wolt și Glovo</small></span>
+        </button>
+        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel">
+          <span class="tab-icon" aria-hidden="true">✦</span>
+          <span><strong>Tickete Curieri</strong><small>Solicitări către echipă</small></span>
         </button>
       </nav>
 
@@ -92,12 +96,46 @@
         <div id="applications-list" class="applications-list"></div>
         <p id="empty-state" class="empty-state" hidden>Nu există cereri pentru filtrele selectate.</p>
       </section>
+
+      <section id="tickets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CibeRO Support</p>
+            <h2>Tickete Curieri</h2>
+            <p>Gestionează solicitările pentru platforme, plăți, documente și deconturi.</p>
+          </div>
+          <button id="refresh-tickets-button" class="quiet-button" type="button">Actualizează</button>
+        </div>
+
+        <div class="summary-grid" aria-label="Rezumat tickete">
+          <article><span>Total</span><strong id="tickets-total-count">0</strong></article>
+          <article><span>Noi</span><strong id="tickets-new-count">0</strong></article>
+          <article><span>În lucru</span><strong id="tickets-reviewing-count">0</strong></article>
+          <article><span>Aprobate</span><strong id="tickets-approved-count">0</strong></article>
+        </div>
+
+        <div class="toolbar ticket-toolbar">
+          <label>Caută<input id="ticket-search-filter" type="search" placeholder="Nume, email, telefon sau referință" /></label>
+          <label>Categorie<select id="ticket-category-filter"><option value="">Toate</option><option value="bolt">Bolt Food</option><option value="glovo">Glovo</option><option value="wolt">Wolt</option><option value="rapoarte_plati">Rapoarte și Plăți</option><option value="probleme_admin">Probleme Administrative</option><option value="deconturi">Deconturi</option></select></label>
+          <label>Status<select id="ticket-status-filter"><option value="">Toate</option><option value="new">Nou</option><option value="reviewing">În lucru</option><option value="clarification">Clarificare</option><option value="sent_to_platform">Trimis platformei</option><option value="approved">Aprobat</option><option value="rejected">Respins</option><option value="archived">Arhivat</option></select></label>
+          <button id="export-tickets-button" class="quiet-button" type="button">Exportă CSV</button>
+        </div>
+
+        <p id="tickets-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
+        <div id="tickets-list" class="applications-list tickets-list"></div>
+        <p id="tickets-empty-state" class="empty-state" hidden>Nu există tickete pentru filtrele selectate.</p>
+      </section>
     </section>
   </main>
 
   <dialog id="application-dialog" class="application-dialog">
     <form method="dialog" class="dialog-top"><strong>Detalii cerere</strong><button aria-label="Închide">×</button></form>
     <div id="application-details"></div>
+  </dialog>
+
+  <dialog id="ticket-admin-dialog" class="application-dialog">
+    <form method="dialog" class="dialog-top"><strong>Detalii ticket</strong><button aria-label="Închide">×</button></form>
+    <div id="ticket-admin-details"></div>
   </dialog>
 
   <dialog id="delete-dialog" class="delete-dialog" aria-labelledby="delete-dialog-title">
@@ -114,6 +152,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=3"></script>
+  <script type="module" src="admin.js?v=4"></script>
 </body>
 </html>
