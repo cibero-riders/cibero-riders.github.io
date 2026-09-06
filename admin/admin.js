@@ -75,16 +75,19 @@ const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
 const ticketsEmptyState = document.querySelector("#tickets-empty-state");
 const ticketSearchFilter = document.querySelector("#ticket-search-filter");
-const ticketCategoryFilter = document.querySelector("#ticket-category-filter");
 const ticketStatusFilter = document.querySelector("#ticket-status-filter");
+const ticketCategoryTabs = [...document.querySelectorAll("[data-ticket-category-tab]")];
 const exportTicketsButton = document.querySelector("#export-tickets-button");
 const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
 const ticketAdminDetails = document.querySelector("#ticket-admin-details");
+const ticketDeleteHeader = document.querySelector("#delete-ticket-header");
 
 let applications = [];
 let activePlatform = "wolt";
 const selectedApplicationIds = new Set();
 let tickets = [];
+let activeTicketCategory = "bolt";
+let pendingTicketDeletion = null;
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -175,20 +178,25 @@ async function loadTickets() {
 }
 
 function updateTicketSummary() {
-  document.querySelector("#tickets-total-count").textContent = tickets.length;
-  document.querySelector("#tickets-new-count").textContent = tickets.filter(item => item.status === "new").length;
-  document.querySelector("#tickets-reviewing-count").textContent = tickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
-  document.querySelector("#tickets-approved-count").textContent = tickets.filter(item => item.status === "approved").length;
+  const categoryTickets = tickets.filter(item => item.category === activeTicketCategory);
+  ticketCategoryTabs.forEach(tab => {
+    const category = tab.dataset.ticketCategoryTab;
+    const count = document.querySelector(`#ticket-category-count-${category}`);
+    if (count) count.textContent = tickets.filter(item => item.category === category).length;
+  });
+  document.querySelector("#tickets-total-count").textContent = categoryTickets.length;
+  document.querySelector("#tickets-new-count").textContent = categoryTickets.filter(item => item.status === "new").length;
+  document.querySelector("#tickets-reviewing-count").textContent = categoryTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
+  document.querySelector("#tickets-approved-count").textContent = categoryTickets.filter(item => item.status === "approved").length;
 }
 
 function filteredTickets() {
   const query = ticketSearchFilter.value.trim().toLocaleLowerCase("ro-RO");
-  const category = ticketCategoryFilter.value;
   const status = ticketStatusFilter.value;
   return tickets.filter(item => {
     const reference = item.id.slice(0, 8).toUpperCase();
     const haystack = [reference, item.first_name, item.last_name, item.email, item.phone, ticketTypeLabels[item.request_type]].join(" ").toLocaleLowerCase("ro-RO");
-    return (!query || haystack.includes(query)) && (!category || item.category === category) && (!status || item.status === status);
+    return item.category === activeTicketCategory && (!query || haystack.includes(query)) && (!status || item.status === status);
   });
 }
 
@@ -206,6 +214,7 @@ function renderTickets() {
     </button>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
+  ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
 }
 
@@ -353,12 +362,23 @@ async function saveApplication(item) {
 function openDeleteConfirmation() {
   const count = selectedApplicationIds.size;
   if (!count) return;
+  pendingTicketDeletion = null;
   deleteDialogTitle.textContent = count === 1 ? "Ștergi cererea selectată?" : "Ștergi cererile selectate?";
   deleteDialogCopy.textContent = count === 1
     ? "Cererea selectată și captura asociată vor fi șterse definitiv. Acțiunea nu poate fi anulată."
     : `Cele ${count} cereri selectate și capturile asociate vor fi șterse definitiv. Acțiunea nu poate fi anulată.`;
   deleteFeedback.textContent = "";
   confirmDeleteButton.disabled = false;
+  deleteDialog.showModal();
+}
+
+function openTicketDeleteConfirmation(item) {
+  pendingTicketDeletion = item;
+  deleteDialogTitle.textContent = "Ștergi acest ticket?";
+  deleteDialogCopy.textContent = `Ticketul #${item.id.slice(0, 8).toUpperCase()} și fișierele atașate vor fi șterse definitiv. Adresa de email va putea trimite imediat un ticket nou.`;
+  deleteFeedback.textContent = "";
+  confirmDeleteButton.disabled = false;
+  cancelDeleteButton.disabled = false;
   deleteDialog.showModal();
 }
 
@@ -440,12 +460,52 @@ async function openTicket(id) {
       <label>Status<select id="ticket-detail-status">${Object.entries(ticketStatusLabels).map(([value, label]) => `<option value="${value}"${item.status === value ? " selected" : ""}>${escapeHtml(label)}</option>`).join("")}</select></label>
       <label>Observații interne<textarea id="ticket-detail-notes" maxlength="5000">${escapeHtml(item.admin_notes ?? "")}</textarea></label>
       <button id="save-ticket" class="primary-button" type="button">Salvează modificările</button>
+      <button id="delete-ticket" class="danger-button" type="button">Șterge ticketul definitiv</button>
       <p id="ticket-detail-feedback" class="feedback" role="status" aria-live="polite"></p>
     </div>
   `;
   ticketAdminDialog.showModal();
+  ticketDeleteHeader.hidden = false;
+  ticketDeleteHeader.onclick = () => openTicketDeleteConfirmation(item);
   ticketAdminDetails.querySelector("#save-ticket").addEventListener("click", () => saveTicket(item));
+  ticketAdminDetails.querySelector("#delete-ticket").addEventListener("click", () => openTicketDeleteConfirmation(item));
   ticketAdminDetails.querySelectorAll("[data-ticket-file]").forEach(button => button.addEventListener("click", () => openTicketFile(button.dataset.ticketFile)));
+}
+
+async function deleteTicket(item) {
+  const filePaths = (item.ticket_files ?? []).map(file => file.storage_path).filter(Boolean);
+  confirmDeleteButton.disabled = true;
+  cancelDeleteButton.disabled = true;
+  deleteFeedback.textContent = "Se șterge ticketul…";
+
+  const { data, error } = await supabase.from("tickets").delete().eq("id", item.id).select("id");
+  if (error || data?.length !== 1) {
+    confirmDeleteButton.disabled = false;
+    cancelDeleteButton.disabled = false;
+    deleteFeedback.textContent = "Ticketul nu a putut fi șters. Verifică permisiunile și încearcă din nou.";
+    if (error) console.error(error);
+    return;
+  }
+
+  let fileCleanupFailed = false;
+  if (filePaths.length) {
+    const { error: storageError } = await supabase.storage.from("ticket-files").remove(filePaths);
+    fileCleanupFailed = Boolean(storageError);
+    if (storageError) console.error(storageError);
+  }
+
+  tickets = tickets.filter(ticket => ticket.id !== item.id);
+  pendingTicketDeletion = null;
+  confirmDeleteButton.disabled = false;
+  cancelDeleteButton.disabled = false;
+  deleteDialog.close();
+  ticketAdminDialog.close();
+  ticketsFeedback.classList.toggle("success", !fileCleanupFailed);
+  ticketsFeedback.textContent = fileCleanupFailed
+    ? "Ticketul a fost șters, dar unele fișiere atașate nu au putut fi eliminate din spațiul de stocare."
+    : "Ticketul a fost șters definitiv. Adresa de email poate trimite imediat un ticket nou.";
+  updateTicketSummary();
+  renderTickets();
 }
 
 async function saveTicket(item) {
@@ -577,7 +637,17 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
-[ticketSearchFilter, ticketCategoryFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
+[ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
+ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
+  activeTicketCategory = tab.dataset.ticketCategoryTab;
+  ticketCategoryTabs.forEach(candidate => {
+    const active = candidate === tab;
+    candidate.classList.toggle("active", active);
+    candidate.setAttribute("aria-selected", String(active));
+  });
+  updateTicketSummary();
+  renderTickets();
+}));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   adminSectionTabs.forEach(candidate => {
     const active = candidate === tab;
@@ -594,8 +664,8 @@ selectAllApplications.addEventListener("change", () => {
   renderApplications();
 });
 deleteSelectedButton.addEventListener("click", openDeleteConfirmation);
-cancelDeleteButton.addEventListener("click", () => deleteDialog.close());
-confirmDeleteButton.addEventListener("click", deleteSelectedApplications);
+cancelDeleteButton.addEventListener("click", () => { pendingTicketDeletion = null; deleteDialog.close(); });
+confirmDeleteButton.addEventListener("click", () => pendingTicketDeletion ? deleteTicket(pendingTicketDeletion) : deleteSelectedApplications());
 [searchFilter, statusFilter].forEach(control => control.addEventListener("input", renderApplications));
 platformTabs.forEach(tab => {
   tab.addEventListener("click", () => {

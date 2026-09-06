@@ -5,10 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Panou administrativ | CibeRO</title>
-  <link rel="shortcut icon" href="../favicon.ico?v=1" />
-  <link rel="icon" type="image/png" sizes="32x32" href="../assets/favicon-32.png?v=1" />
-  <link rel="icon" type="image/png" sizes="192x192" href="../assets/favicon-192.png?v=1" />
-  <link rel="apple-touch-icon" sizes="180x180" href="../assets/apple-touch-icon.png?v=1" />
+  <link rel="icon" type="image/png" href="../assets/cibero-favicon.png?v=2" />
+  <link rel="apple-touch-icon" href="../assets/cibero-favicon.png?v=2" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -107,7 +105,16 @@
           <button id="refresh-tickets-button" class="quiet-button" type="button">Actualizează</button>
         </div>
 
-        <div class="summary-grid" aria-label="Rezumat tickete">
+        <div class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket">
+          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-ticket-category-tab="bolt">Bolt <span id="ticket-category-count-bolt">0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="glovo">Glovo <span id="ticket-category-count-glovo">0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="wolt">Wolt <span id="ticket-category-count-wolt">0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="probleme_admin">Administrativ <span id="ticket-category-count-probleme_admin">0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="deconturi">Decontare <span id="ticket-category-count-deconturi">0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="inactivitate">Inactivitate <span id="ticket-category-count-inactivitate">0</span></button>
+        </div>
+
+        <div class="summary-grid" aria-label="Rezumat tickete pentru categoria selectată">
           <article><span>Total</span><strong id="tickets-total-count">0</strong></article>
           <article><span>Noi</span><strong id="tickets-new-count">0</strong></article>
           <article><span>În lucru</span><strong id="tickets-reviewing-count">0</strong></article>
@@ -116,7 +123,6 @@
 
         <div class="toolbar ticket-toolbar">
           <label>Caută<input id="ticket-search-filter" type="search" placeholder="Nume, email, telefon sau referință" /></label>
-          <label>Categorie<select id="ticket-category-filter"><option value="">Toate</option><option value="bolt">Bolt Food</option><option value="glovo">Glovo</option><option value="wolt">Wolt</option><option value="probleme_admin">Probleme Administrative</option><option value="deconturi">5% Decontare</option><option value="inactivitate">Concediu/Inactivitate</option></select></label>
           <label>Status<select id="ticket-status-filter"><option value="">Toate</option><option value="new">Nou</option><option value="reviewing">În lucru</option><option value="clarification">Clarificare</option><option value="sent_to_platform">Trimis platformei</option><option value="approved">Aprobat</option><option value="rejected">Respins</option><option value="archived">Arhivat</option></select></label>
           <button id="export-tickets-button" class="quiet-button" type="button">Exportă CSV</button>
         </div>
@@ -134,7 +140,7 @@
   </dialog>
 
   <dialog id="ticket-admin-dialog" class="application-dialog">
-    <form method="dialog" class="dialog-top"><strong>Detalii ticket</strong><button aria-label="Închide">×</button></form>
+    <form method="dialog" class="dialog-top"><strong>Detalii ticket</strong><span class="dialog-top-actions"><button id="delete-ticket-header" class="danger-button" type="button" hidden>Șterge ticketul</button><button aria-label="Închide">×</button></span></form>
     <div id="ticket-admin-details"></div>
   </dialog>
 
@@ -152,6 +158,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=6"></script>
+  <script type="module" src="admin.js?v=7"></script>
 </body>
 </html>
