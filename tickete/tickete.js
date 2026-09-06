@@ -44,6 +44,10 @@ const copy = {
     amount: "Suma totală a bonurilor (lei)",
     receiptsPdf: "Document PDF cu toate bonurile",
     receiptsHelp: "Un singur fișier PDF — maximum 20 MB",
+    platforms: "Platforme",
+    inactivityStart: "Începutul inactivității",
+    inactivityEnd: "Încheierea inactivității",
+    inactivityRangeError: "Perioada trebuie să fie de cel puțin 7 zile, iar data de încheiere să fie după data de început.",
     confirmTitle: "Verifică și confirmă ticketul",
     confirmSubtitle: "Asigură-te că datele sunt corecte înainte de trimitere.",
     supportFiles: "Documente suport",
@@ -107,6 +111,10 @@ const copy = {
     amount: "Total receipt amount (RON)",
     receiptsPdf: "PDF containing all receipts",
     receiptsHelp: "One PDF file — maximum 20 MB",
+    platforms: "Platforms",
+    inactivityStart: "Inactivity start date",
+    inactivityEnd: "Inactivity end date",
+    inactivityRangeError: "The period must be at least 7 days and the end date must be after the start date.",
     confirmTitle: "Review and confirm your ticket",
     confirmSubtitle: "Make sure all details are correct before submitting.",
     supportFiles: "Support documents",
@@ -138,6 +146,7 @@ const categories = [
   { id: "rapoarte_plati", label: { ro: "Rapoarte și Plăți", en: "Reports and Payments" }, desc: { ro: "Probleme cu plata sau raportul săptămânal", en: "Issues with payment or weekly report" }, icon: "▤", accent: "#65a1ff" },
   { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", accent: "#c49ac8" },
   { id: "deconturi", label: { ro: "Deconturi", en: "Reimbursements" }, desc: { ro: "Toate bonurile într-un singur PDF", en: "All receipts in a single PDF" }, icon: "RON", accent: "#7bdca9" },
+  { id: "inactivitate", label: { ro: "Concediu/Inactivitate", en: "Leave/Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", accent: "#efc45f" },
 ];
 
 const typeCatalog = {
@@ -159,6 +168,7 @@ const typeCatalog = {
   problema_contract: ["Problemă cu contractul", "Contract issue", "Întrebare sau problemă legată de contract", "Question or issue related to my contract", "§"],
   alta_problema_admin: ["Altă problemă administrativă", "Other administrative issue", "Altă solicitare administrativă", "Another administrative request", "?"],
   comanda_anulata: ["Comandă anulată", "Cancelled order", "Raportează o comandă Glovo anulată, cu cod și bon", "Report a cancelled Glovo order with code and receipt", "×"],
+  inactivitate: ["Concediu/Inactivitate", "Leave/Inactivity", "Anunță perioada în care nu vei fi activ", "Report the period when you will be inactive", "CAL"],
 };
 
 const platformBaseTypes = ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"];
@@ -172,6 +182,7 @@ const typeSets = {
 
 const vehicles = ["Bicicletă", "Scuter / Moped", "Motocicletă", "Mașină", "Pe jos"];
 const cities = ["Alba Iulia", "Alexandria", "Arad", "Bacău", "Baia Mare", "Bistrița", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Călărași", "Cluj-Napoca", "Constanța", "Craiova", "Dej", "Deva", "Făgăraș", "Focșani", "Galați", "Giurgiu", "Iași", "Mediaș", "Miercurea-Ciuc", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sinaia", "Slatina", "Slobozia", "Suceava", "Târgoviște", "Târgu Jiu", "Târgu Mureș", "Timișoara", "Tulcea", "Turda", "Vaslui", "Zalău"];
+const inactivityPlatforms = ["Bolt Food", "Glovo", "Wolt"];
 
 const stage = document.querySelector("#ticket-stage");
 const stepper = document.querySelector("#stepper");
@@ -193,7 +204,8 @@ function scrollTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 function renderStepper() {
   stepper.innerHTML = t("steps").map((label, index) => {
     const number = index + 1;
-    const completed = state.step > number || (state.category === "deconturi" && number === 3 && state.step > 2);
+    const skipsType = ["deconturi", "inactivitate"].includes(state.category);
+    const completed = state.step > number || (skipsType && number === 3 && state.step > 2);
     return `<div class="step-item${state.step === number ? " active" : ""}${completed ? " complete" : ""}"><span class="step-number">${completed ? "✓" : number}</span><span class="step-label">${escapeHtml(label)}</span></div>`;
   }).join("");
 }
@@ -249,6 +261,11 @@ function uploadField(kind, label, help, accept, file, multiple = false) {
   return `<label class="upload-zone"><input type="file" data-upload="${kind}" accept="${accept}"${multiple ? " multiple" : ""} /><strong>＋ ${escapeHtml(label)}</strong><span>${escapeHtml(help)}</span></label>${file ? `<div class="file-list"><div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-file="${kind}">${escapeHtml(t("remove"))}</button></div></div>` : ""}`;
 }
 
+function platformFields() {
+  const selected = state.details.platforms || [];
+  return `<fieldset class="platform-picker full"><legend>${escapeHtml(t("platforms"))} <span class="required">*</span></legend><div>${inactivityPlatforms.map(platform => `<label><input type="checkbox" name="platforms" value="${escapeHtml(platform)}"${selected.includes(platform) ? " checked" : ""} /><span>${escapeHtml(platform)}</span></label>`).join("")}</div></fieldset>`;
+}
+
 function renderDetails() {
   let content = "";
   const simpleFields = ["phone", "email", "iban", "city", "vehicle", "plate_number"];
@@ -273,8 +290,13 @@ function renderDetails() {
   } else if (state.category === "deconturi") {
     content += field("declaredAmount", t("amount"), state.details.declaredAmount || "", { type: "number", placeholder: "0,00", full: true });
     content += uploadField("receiptsPdf", t("receiptsPdf"), t("receiptsHelp"), "application/pdf", state.receiptsPdf);
+  } else if (state.category === "inactivitate") {
+    content += `<div class="info-note inactivity-guide"><b>i</b><div>${state.language === "ro" ? "Pentru a-ți menține contul în siguranță, anunță-ți întotdeauna din timp inactivitatea care e pe o perioadă de o săptămână sau mai mult." : "To keep your account safe, always notify us in advance about inactivity lasting one week or more."}</div></div>`;
+    content += platformFields();
+    content += field("inactiveStart", t("inactivityStart"), state.details.inactiveStart || "", { type: "date" });
+    content += field("inactiveEnd", t("inactivityEnd"), state.details.inactiveEnd || "", { type: "date" });
   }
-  stage.innerHTML = `${heading(state.category === "deconturi" ? categoryById(state.category).label[state.language] : typeLabel(state.type), t("detailsSubtitle"))}<div class="stage-body"><div class="form-grid">${content}</div>${actions()}</div>`;
+  stage.innerHTML = `${heading(["deconturi", "inactivitate"].includes(state.category) ? categoryById(state.category).label[state.language] : typeLabel(state.type), t("detailsSubtitle"))}<div class="stage-body"><div class="form-grid">${content}</div>${actions()}</div>`;
 }
 
 function summaryItem(label, value, full = false) { return `<div class="summary-item${full ? " full" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || "—")}</strong></div>`; }
@@ -294,8 +316,11 @@ function renderConfirm() {
   if (state.details.woltEmail) details.push(summaryItem(t("woltEmail"), state.details.woltEmail, true));
   if (state.details.orderCode) details.push(summaryItem(t("orderCode"), state.details.orderCode));
   if (state.details.declaredAmount) details.push(summaryItem(t("amount"), `${state.details.declaredAmount} lei`));
+  if (state.details.platforms?.length) details.push(summaryItem(t("platforms"), state.details.platforms.join(", "), true));
+  if (state.details.inactiveStart) details.push(summaryItem(t("inactivityStart"), state.details.inactiveStart));
+  if (state.details.inactiveEnd) details.push(summaryItem(t("inactivityEnd"), state.details.inactiveEnd));
   const fileNames = [...state.files.map(file => file.name), state.receipt?.name, state.receiptsPdf?.name].filter(Boolean).join(", ");
-  stage.innerHTML = `${heading(t("confirmTitle"), t("confirmSubtitle"))}<div class="stage-body"><div class="summary-list">${summaryItem(state.language === "ro" ? "Curier" : "Courier", `${state.firstName} ${state.lastName}`)}${summaryItem(t("phone"), state.phone)}${summaryItem(state.language === "ro" ? "Categorie" : "Category", category.label[state.language])}${summaryItem(state.language === "ro" ? "Tip solicitare" : "Request type", state.category === "deconturi" ? category.label[state.language] : typeLabel(state.type))}${details.join("")}${fileNames ? summaryItem(t("supportFiles"), fileNames, true) : ""}</div><div class="form-grid" style="margin-top:18px">${uploadField("support", t("addFiles"), t("supportHelp"), "image/jpeg,image/png,image/webp,application/pdf", null, true)}<div class="file-list">${state.files.map((file, index) => `<div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-support="${index}">${escapeHtml(t("remove"))}</button></div>`).join("")}</div>${field("notes", t("notes"), state.notes, { textarea: true, placeholder: t("notesPlaceholder"), required: false, full: true })}</div><label class="confirm-control"><input name="confirmed" type="checkbox"${state.confirmed ? " checked" : ""} /><span>${escapeHtml(t("confirmation"))}</span></label>${actions(true, state.submitting ? t("submitting") : t("submit"), "submit")}</div>`;
+  stage.innerHTML = `${heading(t("confirmTitle"), t("confirmSubtitle"))}<div class="stage-body"><div class="summary-list">${summaryItem(state.language === "ro" ? "Curier" : "Courier", `${state.firstName} ${state.lastName}`)}${summaryItem(t("phone"), state.phone)}${summaryItem(state.language === "ro" ? "Categorie" : "Category", category.label[state.language])}${summaryItem(state.language === "ro" ? "Tip solicitare" : "Request type", ["deconturi", "inactivitate"].includes(state.category) ? category.label[state.language] : typeLabel(state.type))}${details.join("")}${fileNames ? summaryItem(t("supportFiles"), fileNames, true) : ""}</div><div class="form-grid" style="margin-top:18px">${uploadField("support", t("addFiles"), t("supportHelp"), "image/jpeg,image/png,image/webp,application/pdf", null, true)}<div class="file-list">${state.files.map((file, index) => `<div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-support="${index}">${escapeHtml(t("remove"))}</button></div>`).join("")}</div>${field("notes", t("notes"), state.notes, { textarea: true, placeholder: t("notesPlaceholder"), required: false, full: true })}</div><label class="confirm-control"><input name="confirmed" type="checkbox"${state.confirmed ? " checked" : ""} /><span>${escapeHtml(t("confirmation"))}</span></label>${actions(true, state.submitting ? t("submitting") : t("submit"), "submit")}</div>`;
   stage.querySelector('[data-action="submit"]').disabled = state.submitting;
 }
 
@@ -323,8 +348,11 @@ function render() {
 }
 
 function syncInputs() {
+  const platformInputs = [...stage.querySelectorAll('input[name="platforms"]')];
+  if (platformInputs.length) state.details.platforms = platformInputs.filter(input => input.checked).map(input => input.value);
   stage.querySelectorAll("input[name], select[name], textarea[name]").forEach(input => {
     const name = input.name;
+    if (name === "platforms") return;
     if (name === "firstName" || name === "lastName" || name === "phone" || name === "email" || name === "notes") state[name] = input.type === "checkbox" ? input.checked : input.value;
     else if (name === "confirmed") state.confirmed = input.checked;
     else state.details[name] = input.value;
@@ -342,6 +370,12 @@ function validateDetails() {
   const d = state.details;
   if (state.category === "deconturi") {
     if (!d.declaredAmount || Number(String(d.declaredAmount).replace(",", ".")) <= 0 || !state.receiptsPdf) return t("required");
+  } else if (state.category === "inactivitate") {
+    if (!d.platforms?.length || !d.inactiveStart || !d.inactiveEnd) return t("required");
+    const start = new Date(`${d.inactiveStart}T00:00:00`);
+    const end = new Date(`${d.inactiveEnd}T00:00:00`);
+    const inclusiveDays = Math.floor((end - start) / 86400000) + 1;
+    if (!Number.isFinite(inclusiveDays) || inclusiveDays < 7) return t("inactivityRangeError");
   } else if (state.type === "phone" && d.newPhone?.replace(/\D/g, "").length < 10) return t("invalidPhone");
   else if (state.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.newEmail || "")) return t("invalidEmail");
   else if (state.type === "iban" && !/^RO[A-Z0-9]{22}$/.test((d.newIban || "").replace(/\s/g, "").toUpperCase())) return state.language === "ro" ? "IBAN-ul trebuie să înceapă cu RO și să conțină 24 de caractere." : "The IBAN must start with RO and contain 24 characters.";
@@ -387,6 +421,7 @@ function categoryIntro() {
     rapoarte_plati: { ro: "Raportează o sumă plătită incorect, un raport săptămânal greșit sau o plată lipsă.", en: "Report an incorrect paid amount, weekly report or missing payment." },
     probleme_admin: { ro: "Trimite o cerere legată de documente, contract, datele contului sau alte probleme administrative.", en: "Submit a request about documents, contract, account details or another administrative issue." },
     deconturi: { ro: "Adună toate bonurile într-un singur document PDF înainte de a continua.", en: "Combine all receipts into a single PDF document before continuing." },
+    inactivitate: { ro: "Pentru a-ți menține contul în siguranță, anunță-ți întotdeauna din timp inactivitatea care e pe o perioadă de o săptămână sau mai mult.", en: "To keep your account safe, always notify us in advance about inactivity lasting one week or more." },
   };
   return descriptions[state.category]?.[state.language] || item.desc[state.language];
 }
@@ -406,7 +441,7 @@ async function next() {
     try {
       if (await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
     } catch (error) { console.warn("Duplicate check unavailable", error); }
-    state.step = state.category === "deconturi" ? 4 : 3;
+    state.step = ["deconturi", "inactivitate"].includes(state.category) ? 4 : 3;
   } else if (state.step === 3) {
     if (!state.type) { state.error = state.language === "ro" ? "Selectează tipul solicitării." : "Select the request type."; render(); return; }
     if (["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type)) state.step = 5;
@@ -431,7 +466,7 @@ function back() {
   if (state.step === 5) {
     const skipsDetails = ["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type);
     state.step = skipsDetails ? 3 : 4;
-  } else if (state.step === 4) state.step = state.category === "deconturi" ? 2 : 3;
+  } else if (state.step === 4) state.step = ["deconturi", "inactivitate"].includes(state.category) ? 2 : 3;
   else if (state.step === 3) state.step = 2;
   else if (state.step === 2) state.step = 1;
   render(); scrollTop();
@@ -451,14 +486,14 @@ async function submitTicket() {
   const form = new FormData();
   form.set("action", "submit");
   form.set("category", state.category);
-  form.set("request_type", state.category === "deconturi" ? "deconturi" : state.type);
+  form.set("request_type", ["deconturi", "inactivitate"].includes(state.category) ? state.category : state.type);
   form.set("first_name", state.firstName.trim());
   form.set("last_name", state.lastName.trim());
   form.set("phone", state.phone.trim());
   form.set("email", state.email.trim());
   form.set("notes", state.notes.trim());
   form.set("confirmed", "true");
-  Object.entries(state.details).forEach(([key, value]) => form.set(key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`), String(value).trim()));
+  Object.entries(state.details).forEach(([key, value]) => form.set(key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`), Array.isArray(value) ? value.join(",") : String(value).trim()));
   state.files.forEach(file => form.append("files", file));
   if (state.receipt) form.set("receipt", state.receipt);
   if (state.receiptsPdf) form.set("receipts_pdf", state.receiptsPdf);

@@ -30,6 +30,7 @@ const ticketCategoryLabels = {
   rapoarte_plati: "Rapoarte și Plăți",
   probleme_admin: "Probleme Administrative",
   deconturi: "Deconturi",
+  inactivitate: "Concediu/Inactivitate",
 };
 
 const ticketTypeLabels = {
@@ -39,7 +40,7 @@ const ticketTypeLabels = {
   suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă", clarificare_decont: "Clarificare decont",
   alta_problema_plata: "Altă problemă cu plata", actualizare_documente: "Actualizare documente",
   problema_contract: "Problemă cu contractul", alta_problema_admin: "Altă problemă administrativă",
-  comanda_anulata: "Comandă Glovo anulată", deconturi: "Deconturi",
+  comanda_anulata: "Comandă Glovo anulată", deconturi: "Deconturi", inactivitate: "Concediu/Inactivitate",
 };
 
 const sessionLoading = document.querySelector("#session-loading");
@@ -416,6 +417,8 @@ async function openTicket(id) {
     ["Telefon aplicație Wolt", item.wolt_app_phone], ["ID Curier Wolt", item.wolt_courier_id],
     ["Email Wolt", item.wolt_email], ["Cod comandă", item.order_code],
     ["Sumă declarată", item.declared_amount ? `${item.declared_amount} lei` : null], ["Descriere", item.description],
+    ["Platforme", Array.isArray(item.platforms) ? item.platforms.join(", ") : item.platforms],
+    ["Început inactivitate", item.inactive_start], ["Încheiere inactivitate", item.inactive_end],
   ].filter(([, value]) => value);
   const files = item.ticket_files ?? [];
   ticketAdminDetails.innerHTML = `
@@ -511,7 +514,7 @@ function exportCsv() {
 
 function exportTicketsCsv() {
   const rows = filteredTickets();
-  const columns = ["id", "created_at", "category", "request_type", "status", "first_name", "last_name", "phone", "email", "new_phone", "new_email", "new_iban", "new_city", "new_vehicle", "new_plate", "description", "wolt_app_phone", "wolt_courier_id", "wolt_email", "order_code", "declared_amount", "notes", "admin_notes"];
+  const columns = ["id", "created_at", "category", "request_type", "status", "first_name", "last_name", "phone", "email", "new_phone", "new_email", "new_iban", "new_city", "new_vehicle", "new_plate", "description", "wolt_app_phone", "wolt_courier_id", "wolt_email", "order_code", "declared_amount", "platforms", "inactive_start", "inactive_end", "notes", "admin_notes"];
   const quote = value => {
     const raw = String(value ?? "");
     const safe = /^[=+\-@\t\r]/.test(raw) ? `'${raw}` : raw;

@@ -2,7 +2,7 @@
 
 create table if not exists public.tickets (
   id uuid primary key default gen_random_uuid(),
-  category text not null check (category in ('bolt', 'glovo', 'wolt', 'rapoarte_plati', 'probleme_admin', 'deconturi')),
+  category text not null check (category in ('bolt', 'glovo', 'wolt', 'rapoarte_plati', 'probleme_admin', 'deconturi', 'inactivitate')),
   request_type text not null,
   first_name text not null check (char_length(first_name) between 1 and 100),
   last_name text not null check (char_length(last_name) between 1 and 100),
@@ -20,6 +20,9 @@ create table if not exists public.tickets (
   wolt_email text,
   order_code text,
   declared_amount numeric(12,2),
+  platforms text[],
+  inactive_start date,
+  inactive_end date,
   notes text check (notes is null or char_length(notes) <= 2000),
   status text not null default 'new'
     check (status in ('new', 'reviewing', 'clarification', 'sent_to_platform', 'approved', 'rejected', 'archived')),

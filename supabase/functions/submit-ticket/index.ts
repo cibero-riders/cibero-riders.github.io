@@ -1,7 +1,7 @@
 import { createClient } from "npm:@supabase/supabase-js@2";
 
 const ALLOWED_ORIGINS = new Set(["https://cibero-riders.github.io"]);
-const CATEGORIES = new Set(["bolt", "glovo", "wolt", "rapoarte_plati", "probleme_admin", "deconturi"]);
+const CATEGORIES = new Set(["bolt", "glovo", "wolt", "rapoarte_plati", "probleme_admin", "deconturi", "inactivitate"]);
 const TYPE_SETS: Record<string, Set<string>> = {
   bolt: new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"]),
   glovo: new Set(["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other", "comanda_anulata"]),
@@ -9,6 +9,7 @@ const TYPE_SETS: Record<string, Set<string>> = {
   rapoarte_plati: new Set(["suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"]),
   probleme_admin: new Set(["actualizare_documente", "problema_contract", "alta_problema_admin"]),
   deconturi: new Set(["deconturi"]),
+  inactivitate: new Set(["inactivitate"]),
 };
 const IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);
 const SUPPORT_TYPES = new Set([...IMAGE_TYPES, "application/pdf"]);
@@ -112,6 +113,9 @@ Deno.serve(async (request: Request) => {
       wolt_email: value(form, "wolt_email", 254).toLowerCase() || null,
       order_code: value(form, "order_code", 12) || null,
       notes: value(form, "notes", 2000) || null,
+      platforms: value(form, "platforms", 100).split(",").map(item => item.trim()).filter(Boolean),
+      inactive_start: value(form, "inactive_start", 10) || null,
+      inactive_end: value(form, "inactive_end", 10) || null,
     };
 
     if (requestType === "phone" && (!fields.new_phone || fields.new_phone.replace(/\D/g, "").length < 10)) return json(origin, { error: "Numărul nou nu este valid." }, 400);
@@ -123,6 +127,14 @@ Deno.serve(async (request: Request) => {
     if (requestType === "other" && !fields.description) return json(origin, { error: "Descrierea solicitării este obligatorie." }, 400);
     if (requestType === "transfer_cont" && (!fields.wolt_app_phone || !fields.wolt_courier_id || !fields.wolt_email)) return json(origin, { error: "Completează toate datele contului Wolt." }, 400);
     if (requestType === "comanda_anulata" && !/^\d{12}$/.test(fields.order_code ?? "")) return json(origin, { error: "Codul comenzii trebuie să aibă 12 cifre." }, 400);
+    if (category === "inactivitate") {
+      const allowedPlatforms = new Set(["Bolt Food", "Glovo", "Wolt"]);
+      if (!fields.platforms.length || fields.platforms.some(platform => !allowedPlatforms.has(platform)) || !fields.inactive_start || !fields.inactive_end) return json(origin, { error: "Completează platformele și perioada de inactivitate." }, 400);
+      const start = new Date(`${fields.inactive_start}T00:00:00Z`);
+      const end = new Date(`${fields.inactive_end}T00:00:00Z`);
+      const inclusiveDays = Math.floor((end.getTime() - start.getTime()) / 86400000) + 1;
+      if (!Number.isFinite(inclusiveDays) || inclusiveDays < 7) return json(origin, { error: "Perioada de inactivitate trebuie să fie de cel puțin 7 zile." }, 400);
+    }
 
     const supportFiles = form.getAll("files").filter(item => item instanceof File && item.size > 0) as File[];
     const receiptValue = form.get("receipt");
