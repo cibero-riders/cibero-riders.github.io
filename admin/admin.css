@@ -19,7 +19,7 @@ button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 
 .admin-header { position: sticky; top: 0; z-index: 5; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; min-height: 76px; padding: 12px clamp(18px, 4vw, 54px); border-bottom: 1px solid #d9aa3c42; background: #130819eb; backdrop-filter: blur(14px); }
-.admin-header img { display: block; width: 132px; }
+.admin-header img { display: block; width: 62px; height: 58px; object-fit: contain; }
 .admin-header > span { color: var(--gold-light); font-family: Cinzel, serif; font-size: 14px; font-weight: 700; letter-spacing: .08em; }
 .admin-header .quiet-button { justify-self: end; }
 
