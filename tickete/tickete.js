@@ -208,6 +208,34 @@ function typeLabel(id) { return typeText(id, 0); }
 function typeDescription(id) { return typeText(id, 2); }
 function scrollTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 
+function typeIcon(id) {
+  const common = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
+  const icons = {
+    phone: `<svg ${common}><path d="M7 3.5 4.8 5.7c-.8.8-.8 2.1 0 3.8 2.2 4.7 6 8.5 10.7 10.7 1.7.8 3 .8 3.8 0l2.2-2.2-3.3-3.3-2.2 1.2c-1.5-.8-3.1-2.4-3.9-3.9l1.2-2.2L10 6.5 7 3.5Z"/></svg>`,
+    email: `<svg ${common}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 7 8 6 8-6"/></svg>`,
+    iban: `<svg ${common}><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 9h18M7 15h3M14 15h3"/></svg>`,
+    city: `<svg ${common}><path d="M4 20V9l6-3v14M10 20V4l6 3v13M16 20v-8l4 2v6M7 12h1m-1 4h1m5-7h1m-1 4h1"/></svg>`,
+    vehicle: `<svg ${common}><path d="M5 15h14l-1.4-5H6.4L5 15Z"/><path d="M4 15v3m16-3v3M7 18h.01M17 18h.01M8 10l1.5-3h5L16 10"/></svg>`,
+    plate_number: `<svg ${common}><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 11h10M7 14h5"/></svg>`,
+    activate_chas: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M12 8v8m-4-4h8"/></svg>`,
+    deactivate_chas: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M8 12h8"/></svg>`,
+    transfer_cont: `<svg ${common}><path d="M7 7h11l-3-3m3 3-3 3M17 17H6l3 3m-3-3 3-3"/></svg>`,
+    suma_incorecta: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M9 9h6m-6 6h4"/></svg>`,
+    lipsa_plata: `<svg ${common}><path d="M5 4h14v16H5zM8 8h8m-8 4h5m-5 4h3"/></svg>`,
+    clarificare_decont: `<svg ${common}><path d="M6 4h12v16H6zM9 8h6m-6 4h6m-6 4h3"/><path d="M18 16 21 19"/></svg>`,
+    alta_problema_plata: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M9.5 9a2.6 2.6 0 1 1 4.2 2c-.9.7-1.7 1.1-1.7 2.3m0 3h.01"/></svg>`,
+    actualizare_documente: `<svg ${common}><path d="M7 3h7l4 4v14H7zM14 3v5h4M10 13h5m-5 4h5"/></svg>`,
+    problema_contract: `<svg ${common}><path d="M7 3h7l4 4v14H7zM14 3v5h4M10 13h5"/><path d="m10 17 5-5m0 5-5-5"/></svg>`,
+    alta_problema_admin: `<svg ${common}><path d="M12 3 20 7v5c0 4.6-3.3 7.7-8 9-4.7-1.3-8-4.4-8-9V7l8-4Z"/><path d="M12 9v4m0 3h.01"/></svg>`,
+    comanda_anulata: `<svg ${common}><path d="M6 5h12l1 14H5L6 5Z"/><path d="M9 8a3 3 0 0 1 6 0m-7 5 8 4m0-4-8 4"/></svg>`,
+    problema_decontare: `<svg ${common}><path d="M6 4h12v16H6zM9 8h6m-6 4h6m-6 4h3"/><path d="M18 16 21 19"/></svg>`,
+    trimite_bonuri_pdf: `<svg ${common}><path d="M7 3h7l4 4v14H7zM14 3v5h4"/><path d="M9 15h6m-6-3h6"/></svg>`,
+    other: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M9.5 9a2.6 2.6 0 1 1 4.2 2c-.9.7-1.7 1.1-1.7 2.3m0 3h.01"/></svg>`,
+    inactivitate: `<svg ${common}><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4m8-4v4M4 10h16m-8 3v4m-2-2h4"/></svg>`,
+  };
+  return icons[id] ?? icons.other;
+}
+
 function renderStepper() {
   stepper.innerHTML = t("steps").map((label, index) => {
     const number = index + 1;
@@ -252,7 +280,7 @@ function renderIdentity() {
 function renderTypes() {
   const ids = typeSets[state.category] || [];
   const woltGuide = state.category === "wolt" ? `<div class="info-note wolt-guide"><b>W</b><div><strong>${state.language === "ro" ? "Schimbarea vehiculului la Wolt" : "Changing your vehicle on Wolt"}</strong><div>${state.language === "ro" ? "Se face direct din aplicația Wolt Client: Asistență Curieri → Contul meu de partener → schimbare vehicul → chat." : "It is completed directly in Wolt Client: Courier Assistance → My partner account → change vehicle → chat."}</div></div></div>` : "";
-  const cards = ids.map((id, index) => `${paymentTypes.includes(id) && !paymentTypes.includes(ids[index - 1]) ? `<div class="category-separator type-separator">${escapeHtml(t("paymentSeparator"))}</div>` : ""}<button class="choice-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${escapeHtml(typeCatalog[id][4])}</span><strong>${escapeHtml(typeLabel(id))}</strong><span>${escapeHtml(typeDescription(id))}</span></button>`).join("");
+  const cards = ids.map((id, index) => `${paymentTypes.includes(id) && !paymentTypes.includes(ids[index - 1]) ? `<div class="category-separator type-separator">${escapeHtml(t("paymentSeparator"))}</div>` : ""}<button class="choice-card type-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${typeIcon(id)}</span><strong>${escapeHtml(typeLabel(id))}</strong><span>${escapeHtml(typeDescription(id))}</span></button>`).join("");
   stage.innerHTML = `${heading(t("typeTitle"), t("typeSubtitle"))}<div class="stage-body"><div class="category-grid">${woltGuide}${cards}</div>${actions()}</div>`;
 }
 
