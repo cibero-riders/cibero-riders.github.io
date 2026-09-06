@@ -144,13 +144,13 @@ const copy = {
 
 const categories = [
   { separator: "platforms" },
-  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Cont, activitate, rapoarte și plăți", en: "Account, activity, reports and payments" }, icon: "B", logo: "../assets/bolt-logo-source.png", accent: "#38d188" },
-  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Cont, comenzi, rapoarte și plăți", en: "Account, orders, reports and payments" }, icon: "G", logo: "../assets/glovo-round.png", accent: "#ffc244" },
-  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Cont, transfer, rapoarte și plăți", en: "Account, transfer, reports and payments" }, icon: "W", logo: "../assets/wolt-round.png", accent: "#20c4e7" },
+  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Cont, activitate, rapoarte și plăți", en: "Account, activity, reports and payments" }, icon: "B", logo: "../assets/ticket-bolt-round.png", logoScale: "1.21", accent: "#38d188" },
+  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Cont, comenzi, rapoarte și plăți", en: "Account, orders, reports and payments" }, icon: "G", logo: "../assets/ticket-glovo-round.png", logoScale: "1.14", accent: "#ffc244" },
+  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Cont, transfer, rapoarte și plăți", en: "Account, transfer, reports and payments" }, icon: "W", logo: "../assets/ticket-wolt-round.png", logoScale: "1.24", accent: "#20c4e7" },
   { separator: "admin" },
-  { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", accent: "#c49ac8" },
-  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", accent: "#7bdca9" },
-  { id: "inactivitate", label: { ro: "Concediu/Inactivitate", en: "Leave/Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", accent: "#efc45f" },
+  { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", logo: "../assets/ticket-admin-round.svg", accent: "#c49ac8" },
+  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", logo: "../assets/ticket-reimbursement-round.svg", accent: "#7bdca9" },
+  { id: "inactivitate", label: { ro: "Concediu / Inactivitate", en: "Leave / Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", logo: "../assets/ticket-inactivity-round.svg", accent: "#efc45f" },
 ];
 
 const typeCatalog = {
@@ -229,8 +229,8 @@ function renderCategories() {
   stage.innerHTML = `${heading(t("categoryTitle"), t("categorySubtitle"))}<div class="stage-body"><div class="category-grid">${categories.map(item => {
     if (item.separator) return `<div class="category-separator">${escapeHtml(t(item.separator === "platforms" ? "platformSeparator" : "adminSeparator"))}</div>`;
     const selected = state.category === item.id;
-    const logo = item.logo ? `<img class="platform-logo" src="${item.logo}" alt="" />` : escapeHtml(item.icon);
-    return `<button class="choice-card${item.platform ? " platform-card" : ""}${selected ? " selected" : ""}" style="--accent:${item.accent};--accent-soft:${item.accent}35" type="button" data-category="${item.id}"><span class="radio-mark"></span><span class="choice-icon">${logo}</span><strong>${escapeHtml(item.label[state.language])}</strong><span>${escapeHtml(item.desc[state.language])}</span></button>`;
+    const logo = item.logo ? `<img class="category-logo" src="${item.logo}" alt="" style="--logo-scale:${item.logoScale || 1}" />` : escapeHtml(item.icon);
+    return `<button class="choice-card${item.logo ? " logo-card" : ""}${item.platform ? " platform-card" : ""}${selected ? " selected" : ""}" style="--accent:${item.accent};--accent-soft:${item.accent}35" type="button" data-category="${item.id}"><span class="radio-mark"></span><span class="choice-icon">${logo}</span><strong>${escapeHtml(item.label[state.language])}</strong><span>${escapeHtml(item.desc[state.language])}</span></button>`;
   }).join("")}</div>${actions(false)}</div>`;
 }
 
@@ -422,7 +422,8 @@ function warningForType() {
 }
 
 function showInfoDialog(title, message, onConfirm, options = {}) {
-  dialogContent.innerHTML = `<div class="dialog-content"><span class="dialog-icon">${escapeHtml(options.icon || "i")}</span><h2>${escapeHtml(title)}</h2><p>${escapeHtml(message)}</p>${options.guide || ""}<div class="dialog-actions">${options.cancel ? `<button class="secondary-action" type="button" data-dialog="cancel">${escapeHtml(options.cancel)}</button>` : ""}<button class="primary-action" type="button" data-dialog="confirm">${escapeHtml(options.confirm || t("continue"))}</button></div></div>`;
+  const dialogMark = options.logo ? `<img src="${options.logo}" alt="" style="--logo-scale:${options.logoScale || 1}" />` : escapeHtml(options.icon || "i");
+  dialogContent.innerHTML = `<div class="dialog-content"><span class="dialog-icon${options.logo ? " has-logo" : ""}">${dialogMark}</span><h2>${escapeHtml(title)}</h2><p>${escapeHtml(message)}</p>${options.guide || ""}<div class="dialog-actions">${options.cancel ? `<button class="secondary-action" type="button" data-dialog="cancel">${escapeHtml(options.cancel)}</button>` : ""}<button class="primary-action" type="button" data-dialog="confirm">${escapeHtml(options.confirm || t("continue"))}</button></div></div>`;
   dialog.showModal();
   dialogContent.querySelector('[data-dialog="confirm"]').addEventListener("click", () => { dialog.close(); onConfirm(); });
   dialogContent.querySelector('[data-dialog="cancel"]')?.addEventListener("click", () => dialog.close());
@@ -445,7 +446,7 @@ async function next() {
   if (state.step === 1) {
     if (!state.category) { state.error = state.language === "ro" ? "Selectează o categorie." : "Select a category."; render(); return; }
     const item = categoryById(state.category);
-    showInfoDialog(item.label[state.language], categoryIntro(), () => { state.step = 2; render(); scrollTop(); }, { icon: item.icon, confirm: state.language === "ro" ? "Am înțeles, continuă" : "I understand, continue" });
+    showInfoDialog(item.label[state.language], categoryIntro(), () => { state.step = 2; render(); scrollTop(); }, { icon: item.icon, logo: item.logo, logoScale: item.logoScale, confirm: state.language === "ro" ? "Am înțeles, continuă" : "I understand, continue" });
     return;
   }
   if (state.step === 2) {

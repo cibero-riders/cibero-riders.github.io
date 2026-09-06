@@ -63,12 +63,15 @@ button { cursor: pointer; }
 .choice-card span { margin-top: 7px; color: var(--muted); font-size: 13px; line-height: 1.45; }
 .choice-card .radio-mark { position: absolute; top: 15px; right: 15px; width: 17px; height: 17px; border: 1px solid #d9b65c99; border-radius: 50%; }
 .choice-card.selected .radio-mark { border: 5px solid var(--accent, var(--gold)); background: #fff0c3; }
-.choice-card.platform-card { display: grid; grid-template-columns: 64px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 17px; background: linear-gradient(108deg, color-mix(in srgb, var(--accent) 70%, #24102c) 0 46%, #3a1844 49%, #210d29 100%); }
+.choice-card.logo-card { display: grid; grid-template-columns: 64px minmax(0, 1fr); grid-template-rows: auto auto; align-content: center; column-gap: 17px; }
+.choice-card.logo-card .choice-icon { grid-column: 1; grid-row: 1 / 3; align-self: center; width: 58px; height: 58px; margin: 0; border-color: #fff7d3a8; background: #24102c; box-shadow: 0 8px 20px #0c041057; }
+.choice-card.logo-card strong { grid-column: 2; align-self: end; overflow-wrap: anywhere; }
+.choice-card.logo-card > span:last-child { grid-column: 2; align-self: start; }
+.choice-card.logo-card:not(.platform-card) { background: radial-gradient(circle at 18% 50%, var(--accent-soft), transparent 38%), linear-gradient(145deg, #32133bdb, #210d29e8); }
+.choice-card.logo-card:not(.platform-card):hover { background: radial-gradient(circle at 18% 50%, var(--accent-soft), transparent 42%), linear-gradient(145deg, #482052, #25102d); }
+.choice-card.platform-card { background: linear-gradient(108deg, color-mix(in srgb, var(--accent) 70%, #24102c) 0 46%, #3a1844 49%, #210d29 100%); }
 .choice-card.platform-card:hover { background: linear-gradient(108deg, color-mix(in srgb, var(--accent) 80%, #24102c) 0 46%, #4a2055 49%, #281031 100%); }
-.platform-card .choice-icon { grid-column: 1; grid-row: 1 / 3; align-self: center; width: 58px; height: 58px; margin: 0; border-color: #fff7d3a8; background: #24102c; box-shadow: 0 8px 20px #0c041057; }
-.platform-card strong { grid-column: 2; align-self: end; }
-.platform-card > span:last-child { grid-column: 2; align-self: start; }
-.platform-logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+.category-logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transform: scale(var(--logo-scale, 1)); }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .form-field { display: grid; gap: 8px; min-width: 0; color: #f1e2eb; font-size: 13px; font-weight: 800; }
@@ -137,7 +140,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .ticket-dialog { width: min(520px, calc(100% - 28px)); padding: 0; border: 1px solid var(--line); border-radius: 19px; background: linear-gradient(145deg, #431d4d, #17091e); color: var(--cream); box-shadow: 0 30px 90px #050207bd; }
 .ticket-dialog::backdrop { background: #08020cce; backdrop-filter: blur(6px); }
 .dialog-content { padding: 30px; text-align: center; }
-.dialog-icon { display: grid; width: 56px; height: 56px; margin: 0 auto 18px; place-items: center; border: 1px solid var(--line); border-radius: 16px; background: #6c481f66; color: var(--gold-light); font: 800 24px Cinzel, serif; }
+.dialog-icon { display: grid; width: 62px; height: 62px; margin: 0 auto 18px; overflow: hidden; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: #6c481f66; color: var(--gold-light); font: 800 24px Cinzel, serif; }
+.dialog-icon.has-logo { border-color: #fff0ad9c; box-shadow: 0 9px 24px #09030c66; }
+.dialog-icon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transform: scale(var(--logo-scale, 1)); }
 .ticket-dialog h2 { font-size: 26px; }
 .ticket-dialog p { color: var(--muted); line-height: 1.55; }
 .dialog-actions { display: flex; gap: 10px; margin-top: 22px; }
