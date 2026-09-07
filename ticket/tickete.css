@@ -84,6 +84,7 @@ button { cursor: pointer; }
 .choice-card.logo-card.platform-bolt .category-logo,
 .choice-card.logo-card.platform-wolt .category-logo { filter: drop-shadow(0 0 1px #130916) drop-shadow(0 0 2px #130916); }
 .category-logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transform: scale(var(--logo-scale, 1)); }
+.choice-card.logo-card.platform-glovo .category-logo { transform: scale(var(--logo-scale, 1)) scaleY(1.1); }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .form-field { display: grid; gap: 8px; min-width: 0; color: #f1e2eb; font-size: 13px; font-weight: 800; }
