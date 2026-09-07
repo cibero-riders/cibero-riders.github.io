@@ -23,6 +23,8 @@ const ticketStatusLabels = {
   archived: "Arhivat",
 };
 
+const ticketStatusCycle = ["new", "reviewing", "clarification", "sent_to_platform", "approved", "archived"];
+
 const ticketCategoryLabels = {
   bolt: "Bolt Food",
   glovo: "Glovo",
@@ -232,22 +234,34 @@ function filteredTickets() {
   });
 }
 
+function nextTicketStatus(status) {
+  if (status === "rejected") return "archived";
+  const currentIndex = ticketStatusCycle.indexOf(status);
+  return ticketStatusCycle[(currentIndex + 1 + ticketStatusCycle.length) % ticketStatusCycle.length];
+}
+
 function renderTickets() {
   const rows = filteredTickets();
   ticketsList.innerHTML = rows.map(item => `
-    <button class="ticket-row${isTicketRead(item) ? "" : " unread"}" type="button" data-ticket-id="${escapeHtml(item.id)}">
-      <span class="ticket-reference-small">#${escapeHtml(item.id.slice(0, 8).toUpperCase())}</span>
-      <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
-      <span class="platform">${escapeHtml(ticketCategoryLabels[item.category] ?? item.category)}</span>
-      <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
-      <span class="ticket-type">${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</span>
-      <span class="status-pill" data-status="${escapeHtml(item.status)}">${escapeHtml(ticketStatusLabels[item.status] ?? item.status)}</span>
-      <span class="arrow" aria-hidden="true">→</span>
-    </button>
+    <div class="ticket-row${isTicketRead(item) ? "" : " unread"}">
+      <button class="ticket-open" type="button" data-ticket-id="${escapeHtml(item.id)}" aria-label="Deschide ticketul #${escapeHtml(item.id.slice(0, 8).toUpperCase())}">
+        <span class="ticket-reference-small">#${escapeHtml(item.id.slice(0, 8).toUpperCase())}</span>
+        <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
+        <span class="platform">${escapeHtml(ticketCategoryLabels[item.category] ?? item.category)}</span>
+        <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
+        <span class="ticket-type">${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</span>
+        <span class="arrow" aria-hidden="true">→</span>
+      </button>
+      <button class="ticket-status-cycle status-pill" type="button" data-ticket-status-cycle="${escapeHtml(item.id)}" data-status="${escapeHtml(item.status)}" title="Următorul status: ${escapeHtml(ticketStatusLabels[nextTicketStatus(item.status)])}" aria-label="Status curent: ${escapeHtml(ticketStatusLabels[item.status] ?? item.status)}. Apasă pentru: ${escapeHtml(ticketStatusLabels[nextTicketStatus(item.status)])}">
+        <span class="status-current">${escapeHtml(ticketStatusLabels[item.status] ?? item.status)}</span>
+        <span class="status-next">${escapeHtml(ticketStatusLabels[nextTicketStatus(item.status)])} <b aria-hidden="true">→</b></span>
+      </button>
+    </div>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
   ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
+  ticketsList.querySelectorAll("[data-ticket-status-cycle]").forEach(button => button.addEventListener("click", () => advanceTicketStatus(button.dataset.ticketStatusCycle, button)));
 }
 
 function updateSummary() {
@@ -559,6 +573,36 @@ async function markTicketRead(item) {
   }
 
   tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
+  updateTicketSummary();
+  renderTickets();
+}
+
+async function advanceTicketStatus(id, button) {
+  const item = tickets.find(ticket => ticket.id === id);
+  if (!item || button.disabled) return;
+
+  const nextStatus = nextTicketStatus(item.status);
+  button.disabled = true;
+  ticketsFeedback.classList.remove("success");
+  ticketsFeedback.textContent = `Se schimbă statusul în „${ticketStatusLabels[nextStatus]}”…`;
+
+  const { data, error } = await supabase
+    .from("tickets")
+    .update({ status: nextStatus })
+    .eq("id", item.id)
+    .select("*, ticket_files(*)")
+    .single();
+
+  if (error) {
+    button.disabled = false;
+    ticketsFeedback.textContent = "Statusul nu a putut fi modificat.";
+    console.error(error);
+    return;
+  }
+
+  tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
+  ticketsFeedback.classList.add("success");
+  ticketsFeedback.textContent = `Status actualizat: ${ticketStatusLabels[nextStatus]}.`;
   updateTicketSummary();
   renderTickets();
 }

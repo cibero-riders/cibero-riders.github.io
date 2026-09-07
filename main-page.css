@@ -316,7 +316,7 @@ body {
 }
 .showcase-benefits h1 em { color: #dda8eb; font-style: normal; font-weight: 500; }
 
-.showcase-benefit-grid { display: grid; flex: 1; grid-template-rows: repeat(8, minmax(56px, 1fr)); gap: 9px; }
+.showcase-benefit-grid { display: grid; flex: 1; grid-template-rows: repeat(7, minmax(56px, 1fr)); gap: 9px; }
 .showcase-benefit {
   min-height: 0;
   padding: 10px 17px 10px 12px;

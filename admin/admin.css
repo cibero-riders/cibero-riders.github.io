@@ -105,13 +105,23 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .application-row small, .application-row span { color: var(--muted); }
 .application-row strong { font-size: 15px; }
 .application-row .platform { color: var(--gold-light); font-weight: 800; text-transform: uppercase; }
-.ticket-row { display: grid; grid-template-columns: 96px 118px 150px minmax(160px, 1fr) minmax(150px, 1fr) 150px 25px; align-items: center; gap: 13px; width: 100%; padding: 15px 17px; border: 1px solid #a978a62f; border-radius: 13px; background: #24102ddb; color: var(--cream); text-align: left; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
+.ticket-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 13px; width: 100%; padding: 15px 17px; border: 1px solid #a978a62f; border-radius: 13px; background: #24102ddb; color: var(--cream); text-align: left; transition: transform .18s ease, border-color .18s ease, background .18s ease; }
 .ticket-row:hover { transform: translateY(-2px); border-color: var(--line); background: #32153c; }
+.ticket-open { display: grid; grid-template-columns: 96px 118px 150px minmax(160px, 1fr) minmax(150px, 1fr) 25px; align-items: center; gap: 13px; min-width: 0; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.ticket-open:focus-visible { outline: 2px solid #ffe491; outline-offset: 5px; border-radius: 7px; }
 .ticket-row span { color: var(--muted); font-size: 12px; }
 .ticket-row .platform, .ticket-reference-small { color: var(--gold-light); font-weight: 800; }
 .ticket-row .ticket-reference-small { font-family: Cinzel, serif; font-size: 11px; }
 .ticket-row .ticket-type { line-height: 1.35; }
 .status-pill { display: inline-flex; width: fit-content; border: 1px solid #bb91bd52; border-radius: 999px; padding: 5px 9px; color: #eadcea !important; background: #4a2253; font-size: 11px; font-weight: 800; }
+.ticket-status-cycle { position: relative; min-width: 146px; min-height: 31px; justify-content: center; align-items: center; overflow: hidden; padding: 6px 10px; cursor: pointer; transition: min-width .18s ease, border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease; }
+.ticket-status-cycle .status-current, .ticket-status-cycle .status-next { display: block; white-space: nowrap; color: inherit; font-size: 11px; font-weight: 800; transition: opacity .15s ease, transform .18s ease; }
+.ticket-status-cycle .status-next { position: absolute; opacity: 0; transform: translateY(7px); }
+.ticket-status-cycle .status-next b { margin-left: 3px; color: #ffe69b; font-size: 13px; }
+.ticket-status-cycle:hover, .ticket-status-cycle:focus-visible { min-width: 174px; border-color: #ffe491; background: #633f1f; box-shadow: 0 0 0 3px #e9bd4c1c, 0 7px 16px #07020a67; outline: 0; }
+.ticket-status-cycle:hover .status-current, .ticket-status-cycle:focus-visible .status-current { opacity: 0; transform: translateY(-7px); }
+.ticket-status-cycle:hover .status-next, .ticket-status-cycle:focus-visible .status-next { opacity: 1; transform: translateY(0); }
+.ticket-status-cycle:disabled { cursor: wait; opacity: .65; }
 .status-pill[data-status="new"] { border-color: #e7bd5370; color: #ffe69b !important; background: #6c461e88; }
 .status-pill[data-status="activated"] { border-color: #6dd2a36b; color: #baf1d6 !important; background: #1b5b4688; }
 .status-pill[data-status="rejected"] { border-color: #e88d996b; color: #ffc6cc !important; background: #682f3a88; }
@@ -154,9 +164,15 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .application-open { grid-template-columns: 86px 78px 1fr 24px; }
   .application-row .city, .application-row .status-pill { grid-column: 3; }
   .ticket-toolbar { grid-template-columns: 1fr 1fr; }
-  .ticket-row { grid-template-columns: 88px 105px 1fr 25px; }
-  .ticket-row .platform, .ticket-row .ticket-type, .ticket-row .status-pill { grid-column: 3; }
-  .ticket-row .arrow { grid-column: 4; grid-row: 1 / span 3; }
+  .ticket-row { grid-template-columns: minmax(0, 1fr) auto; }
+  .ticket-open { grid-template-columns: 88px 105px 1fr 25px; }
+  .ticket-open .ticket-reference-small { grid-column: 1; grid-row: 1; }
+  .ticket-open .date { grid-column: 2; grid-row: 1; }
+  .ticket-open .platform, .ticket-open .ticket-type { grid-column: 3; }
+  .ticket-open .platform { grid-row: 1; }
+  .ticket-open .identity { grid-column: 1 / 3; grid-row: 2; }
+  .ticket-open .ticket-type { grid-row: 2; }
+  .ticket-open .arrow { grid-column: 4; grid-row: 1 / span 2; }
 }
 
 @media (max-width: 560px) {
@@ -187,12 +203,19 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .detail-grid { grid-template-columns: 1fr; }
   .detail-field.full { grid-column: auto; }
   .ticket-toolbar { grid-template-columns: 1fr; }
-  .ticket-row { grid-template-columns: 77px 1fr 22px; gap: 9px; padding: 13px 11px; }
-  .ticket-row .ticket-reference-small { grid-column: 1; grid-row: 1; }
-  .ticket-row .identity { grid-column: 2; grid-row: 1; }
-  .ticket-row .date { grid-column: 1; grid-row: 2; }
-  .ticket-row .platform, .ticket-row .ticket-type, .ticket-row .status-pill { grid-column: 2; }
-  .ticket-row .arrow { grid-column: 3; grid-row: 1 / span 4; }
+  .ticket-row { grid-template-columns: minmax(0, 1fr) auto; gap: 9px; padding: 13px 11px; }
+  .ticket-open { grid-template-columns: 77px 1fr 22px; gap: 9px; }
+  .ticket-open .ticket-reference-small { grid-column: 1; grid-row: 1; }
+  .ticket-open .identity { grid-column: 2; grid-row: 1; }
+  .ticket-open .date { grid-column: 1; grid-row: 2; }
+  .ticket-open .platform, .ticket-open .ticket-type { grid-column: 2; }
+  .ticket-open .arrow { grid-column: 3; grid-row: 1 / span 4; }
+  .ticket-status-cycle { min-width: 32px; width: 32px; height: 32px; padding: 0; border-radius: 50%; }
+  .ticket-status-cycle .status-current { font-size: 0; }
+  .ticket-status-cycle .status-current::before { content: "↻"; color: inherit; font-size: 16px; }
+  .ticket-status-cycle:hover, .ticket-status-cycle:focus-visible { min-width: 32px; width: 32px; background: #633f1f; }
+  .ticket-status-cycle:hover .status-current, .ticket-status-cycle:focus-visible .status-current { opacity: 1; transform: none; }
+  .ticket-status-cycle .status-next { display: none; }
   .ticket-files { grid-template-columns: 1fr; }
   .delete-dialog-content { padding: 25px 18px; }
   .delete-dialog-actions { grid-template-columns: 1fr; }
