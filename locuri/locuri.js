@@ -8,6 +8,7 @@ const containers = { glovo: document.querySelector("#glovo-slots"), wolt: docume
 const citySearches = { glovo: document.querySelector("#glovo-city-search"), wolt: document.querySelector("#wolt-city-search") };
 const updatedLabel = document.querySelector("#availability-updated");
 const names = { glovo: "Glovo", wolt: "Wolt" };
+const cityCollator = new Intl.Collator("ro-RO", { sensitivity: "base" });
 const applicationDialog = document.querySelector("#application-confirmation-dialog");
 const confirmationKicker = document.querySelector("#confirmation-platform-kicker");
 const confirmationTitle = document.querySelector("#confirmation-platform-title");
@@ -27,7 +28,8 @@ function normalizeSearch(value) {
 
 function render(platform, rows) {
   const query = normalizeSearch(citySearches[platform].value.trim());
-  const filteredRows = query ? rows.filter(row => normalizeSearch(row.city).includes(query)) : rows;
+  const filteredRows = (query ? rows.filter(row => normalizeSearch(row.city).includes(query)) : rows)
+    .sort((first, second) => cityCollator.compare(first.city, second.city));
   if (!filteredRows.length) {
     containers[platform].innerHTML = `<p class="slots-empty">${query ? "Nu există un oraș disponibil care corespunde căutării." : `Momentan nu sunt locuri disponibile la ${names[platform]}.`}</p>`;
     return;

@@ -127,6 +127,7 @@ const locallyOpenedApplicationIds = storedIdSet(openedApplicationStorageKey);
 const availabilityCities = [
   "Alba Iulia", "Arad", "Bacău", "Baia Mare", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Cluj-Napoca", "Constanța", "Craiova", "Deva", "Drobeta-Turnu Severin", "Focșani", "Galați", "Hunedoara", "Iași", "Mediaș", "Miercurea-Ciuc", "Onești", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Roman", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sighișoara", "Slatina", "Suceava", "Târgoviște", "Târgu Mureș", "Tecuci", "Timișoara", "Tulcea", "Vaslui", "Zalău"
 ];
+const availabilityCityCollator = new Intl.Collator("ro-RO", { sensitivity: "base" });
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -146,6 +147,17 @@ function formatDate(value) {
 
 function cloneAvailabilityRows(rows) {
   return rows.map(({ city, slots, sort_order }) => ({ city, slots: Number(slots), sort_order: Number(sort_order ?? 0) }));
+}
+
+function sortAvailabilityRows(rows) {
+  rows.sort((first, second) => availabilityCityCollator.compare(first.city, second.city));
+  rows.forEach((row, index) => { row.sort_order = index; });
+  return rows;
+}
+
+function sortAvailabilityDraft() {
+  sortAvailabilityRows(availabilityDraft.glovo);
+  sortAvailabilityRows(availabilityDraft.wolt);
 }
 
 function adminPreferenceKey(name) {
@@ -273,6 +285,7 @@ function availabilityRowsMarkup(rows, compact = false) {
 }
 
 function renderAvailability() {
+  sortAvailabilityDraft();
   const rows = availabilityDraft[activeAvailabilityPlatform];
   availabilityPlatformName.textContent = availabilityPlatformLabel(activeAvailabilityPlatform);
   availabilityDraftCount.textContent = availabilityCountLabel(rows.length);
@@ -340,6 +353,7 @@ async function loadAvailability({ restoreDraft = true } = {}) {
     availabilityDraft = publishedDraft;
     availabilityFeedback.textContent = "";
   }
+  sortAvailabilityDraft();
   renderAvailability();
 }
 
@@ -361,6 +375,7 @@ function addAvailabilityCity() {
   const existing = availabilityDraft[activeAvailabilityPlatform].find(row => row.city === city);
   if (existing) existing.slots = slots;
   else availabilityDraft[activeAvailabilityPlatform].push({ city, slots, sort_order: availabilityDraft[activeAvailabilityPlatform].length });
+  sortAvailabilityDraft();
   saveAvailabilityDraft();
   availabilityCityInput.value = "";
   availabilitySlotsInput.value = "";
@@ -376,6 +391,7 @@ function resetAvailabilityDraft() {
     glovo: cloneAvailabilityRows(availability.filter(row => row.platform === "glovo")),
     wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
   };
+  sortAvailabilityDraft();
   availabilityCityInput.value = "";
   availabilitySlotsInput.value = "";
   updateAvailabilitySlotsLabel();
@@ -396,6 +412,7 @@ function openAvailabilityPublishDialog() {
 async function publishAvailability() {
   const confirmButton = availabilityPublishDetails.querySelector("#confirm-publish-availability");
   const feedback = availabilityPublishDetails.querySelector("#availability-publish-feedback");
+  sortAvailabilityDraft();
   const rows = ["glovo", "wolt"].flatMap(platform => availabilityDraft[platform].map((row, index) => ({ platform, city: row.city, slots: row.slots, sort_order: index })));
   confirmButton.disabled = true;
   feedback.textContent = "Se publică disponibilitățile…";
