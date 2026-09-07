@@ -755,7 +755,7 @@ async function openApplication(id) {
 
   applicationDetails.innerHTML = `
     <div class="detail-grid">
-      ${detailField("Platformă", applicationPlatformLabel(item.platform))}
+      ${item.platform === "social_media" ? "" : detailField("Platformă", applicationPlatformLabel(item.platform))}
       ${detailField("Status", statusLabels[item.status] ?? item.status)}
       ${detailField("Prenume", item.first_name)}
       ${detailField("Nume", item.last_name)}
@@ -763,7 +763,7 @@ async function openApplication(id) {
       ${detailField("Telefon", item.phone)}
       ${detailField("Oraș", item.city)}
       ${detailField("Vehicul", item.vehicle)}
-      ${item.platform === "social_media" ? `${detailField("Tip colaborare", ({ new_courier: "Curier nou", pfa: "PFA", experienced_courier: "Curier cu experiență", srl: "SRL" })[item.courier_type] ?? item.courier_type)}${detailField("Naționalitate", item.nationality)}${detailField("De unde a aflat", ({ facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok", olx: "OLX", google: "Google", recommendation: "Recomandare", other: "De altundeva" })[item.discovery_source] ?? item.discovery_source)}${detailField("Platforme dorite", (item.desired_platforms ?? []).map(value => ({ bolt: "Bolt Food", glovo: "Glovo", wolt: "Wolt" })[value] ?? value).join(", "), true)}` : ""}
+      ${item.platform === "social_media" ? `${detailField("Tip colaborare", ({ new_courier: "Curier nou", pfa: "PFA", experienced_courier: "Curier cu experiență", srl: "SRL" })[item.courier_type] ?? item.courier_type)}${detailField("Naționalitate", item.nationality)}${detailField("De unde a aflat", ({ facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok", youtube: "YouTube", olx: "OLX", google: "Google", recommendation: "Recomandare", other: "Altă sursă" })[item.discovery_source] ?? item.discovery_source)}${detailField("Platforme dorite", (item.desired_platforms ?? []).map(value => ({ bolt: "Bolt Food", glovo: "Glovo", wolt: "Wolt" })[value] ?? value).join(", "), true)}` : ""}
       ${detailField("Data cererii", formatDate(item.created_at), true)}
       ${detailField("Mesaj", item.message, true)}
     </div>

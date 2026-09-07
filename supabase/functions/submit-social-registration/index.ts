@@ -6,7 +6,7 @@ const CITIES = new Set([
 ]);
 const VEHICLES = new Set(["Bicicletă", "Bicicletă electrică", "Scuter", "Trotinetă electrică", "Mașină"]);
 const COURIER_TYPES = new Set(["new_courier", "pfa", "experienced_courier", "srl"]);
-const DISCOVERY_SOURCES = new Set(["facebook", "instagram", "tiktok", "olx", "google", "recommendation", "other"]);
+const DISCOVERY_SOURCES = new Set(["facebook", "instagram", "tiktok", "youtube", "google", "other"]);
 const PLATFORMS = new Set(["bolt", "glovo", "wolt"]);
 
 function allowedOrigin(origin: string): boolean {
