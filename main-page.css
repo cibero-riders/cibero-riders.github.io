@@ -230,9 +230,9 @@ body {
   margin: 0 auto;
   padding: 42px 0 76px;
   display: grid;
-  grid-template-columns: minmax(275px, .84fr) minmax(190px, .57fr) minmax(390px, 1.16fr);
-  align-items: center;
-  gap: clamp(28px, 4vw, 62px);
+  grid-template-columns: minmax(295px, .78fr) minmax(405px, 1.22fr);
+  align-items: stretch;
+  gap: clamp(40px, 6vw, 92px);
 }
 
 .showcase-glow {
@@ -245,6 +245,13 @@ body {
     radial-gradient(ellipse at 18% 47%, #c18a2935 0%, transparent 34%),
     radial-gradient(ellipse at 78% 23%, #9a52a337 0%, transparent 35%);
   filter: blur(4px);
+}
+
+.showcase-media {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .showcase-emblem,
@@ -262,7 +269,7 @@ body {
 }
 .showcase-emblem img {
   display: block;
-  width: min(410px, 100%);
+  width: min(268px, 100%);
   margin: 0 auto;
   filter: drop-shadow(0 28px 28px #000b);
 }
@@ -286,10 +293,10 @@ body {
 }
 .showcase-kicker span:last-child { transform: rotate(180deg); }
 
-.showcase-video { width: min(238px, 100%); justify-self: center; }
+.showcase-video { width: min(202px, 100%); margin-top: auto; }
 .showcase-video .video-frame { box-shadow: inset 0 0 0 1px #fff2b714, 0 24px 60px #030104a8, 0 0 34px #b5762924; }
 
-.showcase-benefits { min-width: 0; }
+.showcase-benefits { min-width: 0; display: flex; flex-direction: column; }
 .showcase-eyebrow {
   margin: 0 0 10px;
   color: #e2bd56;
@@ -309,9 +316,9 @@ body {
 }
 .showcase-benefits h1 em { color: #dda8eb; font-style: normal; font-weight: 500; }
 
-.showcase-benefit-grid { display: grid; gap: 9px; }
+.showcase-benefit-grid { display: grid; flex: 1; grid-template-rows: repeat(8, minmax(56px, 1fr)); gap: 9px; }
 .showcase-benefit {
-  min-height: 55px;
+  min-height: 0;
   padding: 10px 17px 10px 12px;
   display: grid;
   grid-template-columns: 34px 1fr;
@@ -328,18 +335,15 @@ body {
   border-color: #f1d171;
   background: linear-gradient(100deg, #47204e, #21102a);
 }
-.showcase-benefit > span {
+.showcase-benefit-icon {
   width: 32px;
   height: 32px;
-  display: grid;
-  place-items: center;
-  border: 1px solid #e7c35d;
+  display: block;
+  overflow: hidden;
   border-radius: 50%;
-  color: #ffe391;
-  background: #5a301c;
-  font-size: 15px;
-  font-weight: 700;
+  box-shadow: 0 5px 13px #07020a67;
 }
+.showcase-benefit-icon img { display: block; width: 100%; height: 100%; }
 .showcase-benefit h2 {
   margin: 0;
   color: #fff0bd;
@@ -411,14 +415,24 @@ body {
   line-height: 1.6;
 }
 
-@media (max-width: 1080px) {
+@media (max-width: 960px) {
   .home-showcase {
-    grid-template-columns: minmax(250px, 1fr) minmax(195px, .72fr);
+    grid-template-columns: 1fr;
     gap: 40px;
   }
-  .showcase-benefits { grid-column: 1 / -1; width: min(720px, 100%); margin: 0 auto; }
+  .showcase-media {
+    width: min(650px, 100%);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) 210px;
+    align-items: center;
+    gap: 32px;
+  }
+  .showcase-video { margin-top: 0; }
+  .showcase-benefits { width: min(720px, 100%); margin: 0 auto; }
   .showcase-benefits h1, .showcase-eyebrow { text-align: center; }
-  .showcase-benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .showcase-benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; flex: 0 0 auto; }
+  .showcase-benefit { min-height: 72px; }
 }
 
 @media (max-width: 760px) {
@@ -429,15 +443,17 @@ body {
     grid-template-columns: 1fr;
     gap: 28px;
   }
+  .showcase-media { width: 100%; display: grid; grid-template-columns: 1fr; gap: 28px; }
   .showcase-emblem { width: min(315px, 88vw); justify-self: center; }
-  .showcase-video { width: min(280px, 76vw); }
+  .showcase-emblem img { width: 100%; }
+  .showcase-video { width: min(280px, 76vw); margin-top: 0; justify-self: center; }
   .showcase-benefits { grid-column: auto; }
   .showcase-benefits h1 { max-width: 350px; margin: 0 auto 25px; font-size: clamp(34px, 10vw, 42px); }
   .showcase-eyebrow { margin-bottom: 9px; font-size: 10px; }
-  .showcase-benefit-grid { gap: 8px; }
+  .showcase-benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; gap: 8px; }
   .showcase-benefit { min-height: 78px; padding: 10px 9px; grid-template-columns: 31px 1fr; gap: 8px; border-radius: 7px; }
   .showcase-benefit:hover { transform: none; }
-  .showcase-benefit > span { width: 30px; height: 30px; font-size: 14px; }
+  .showcase-benefit-icon { width: 30px; height: 30px; }
   .showcase-benefit h2 { font-size: 13px; line-height: 1.27; }
   .home-faq { width: calc(100% - 32px); margin-bottom: 70px; padding: 30px 13px 18px; border-radius: 15px; }
   .home-faq h2 { font-size: 28px; }
