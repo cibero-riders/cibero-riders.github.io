@@ -18,7 +18,7 @@
 .global-header .brand-wordmark {
   display: block;
   flex: 0 0 auto;
-  width: 68px;
+  width: 166px;
   height: 64px;
 }
 
@@ -104,7 +104,7 @@
   }
 
   .global-header .brand-wordmark {
-    width: 54px;
+    width: 128px;
     height: 52px;
   }
 
