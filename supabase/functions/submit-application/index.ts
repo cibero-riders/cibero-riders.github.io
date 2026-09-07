@@ -60,6 +60,14 @@ function textField(form: FormData, name: string, maxLength: number): string {
   return value.trim().slice(0, maxLength);
 }
 
+function firstTextField(form: FormData, names: string[], maxLength: number): string {
+  for (const name of names) {
+    const value = textField(form, name, maxLength);
+    if (value) return value;
+  }
+  return "";
+}
+
 function requiredBoolean(form: FormData, name: string): boolean {
   return form.get(name) === "true";
 }
@@ -108,13 +116,13 @@ Deno.serve(async (request: Request) => {
 
     const platform = textField(form, "platform", 10).toLowerCase();
     const applicationType = textField(form, "application_type", 30) || "new_account";
-    const firstName = textField(form, "first_name", 100);
-    const lastName = textField(form, "last_name", 100);
+    const firstName = firstTextField(form, ["first_name", "prenume"], 100);
+    const lastName = firstTextField(form, ["last_name", "nume"], 100);
     const email = textField(form, "email", 254).toLowerCase();
-    const phone = textField(form, "phone", 32);
-    const city = textField(form, "city", 100);
-    const vehicle = textField(form, "vehicle", 100);
-    const message = textField(form, "message", 2000);
+    const phone = firstTextField(form, ["phone", "telefon"], 32);
+    const city = firstTextField(form, ["city", "oras"], 100);
+    const vehicle = firstTextField(form, ["vehicle", "vehicul"], 100);
+    const message = firstTextField(form, ["message", "mesaj"], 2000);
     const consentPrivacy = requiredBoolean(form, "consent_privacy");
     const consentDataAccuracy = requiredBoolean(form, "consent_data_accuracy");
 
@@ -124,9 +132,8 @@ Deno.serve(async (request: Request) => {
     if (!new Set(["new_account", "transfer"]).has(applicationType)) {
       return json(origin, { error: "Tip de cerere invalid." }, 400);
     }
-    if (!firstName || !lastName || !city) {
-      return json(origin, { error: "Completează toate câmpurile obligatorii." }, 400);
-    }
+    const missing = [!firstName && "prenumele", !lastName && "numele", !city && "orașul"].filter(Boolean);
+    if (missing.length) return json(origin, { error: `Completează câmpul obligatoriu: ${missing.join(", ")}.` }, 400);
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return json(origin, { error: "Adresa de email nu este validă." }, 400);
     }

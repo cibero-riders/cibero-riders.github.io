@@ -97,15 +97,26 @@ const setSubmitFeedback = (element, message = '', success = false) => {
 const applicationPayload = (form, platform) => {
   const source = new FormData(form);
   const payload = new FormData();
+  const applicationFields = {
+    first_name: String(source.get('prenume') || '').trim(),
+    last_name: String(source.get('nume') || '').trim(),
+    email: String(source.get('email') || '').trim(),
+    phone: String(source.get('telefon') || '').trim(),
+    city: String(source.get('oras') || '').trim(),
+    vehicle: String(source.get('vehicul') || '').trim(),
+    message: String(source.get('mesaj') || '').trim(),
+  };
   payload.set('platform', platform);
   payload.set('application_type', 'new_account');
-  payload.set('first_name', String(source.get('prenume') || ''));
-  payload.set('last_name', String(source.get('nume') || ''));
-  payload.set('email', String(source.get('email') || ''));
-  payload.set('phone', String(source.get('telefon') || ''));
-  payload.set('city', String(source.get('oras') || ''));
-  payload.set('vehicle', String(source.get('vehicul') || ''));
-  payload.set('message', String(source.get('mesaj') || ''));
+  Object.entries(applicationFields).forEach(([name, value]) => payload.set(name, value));
+  // Include the form names too, so older deployed versions of the endpoint
+  // receive the exact values selected by the applicant.
+  payload.set('prenume', applicationFields.first_name);
+  payload.set('nume', applicationFields.last_name);
+  payload.set('telefon', applicationFields.phone);
+  payload.set('oras', applicationFields.city);
+  payload.set('vehicul', applicationFields.vehicle);
+  payload.set('mesaj', applicationFields.message);
   payload.set('website', String(source.get('website') || ''));
   payload.set('consent_privacy', 'true');
   payload.set('consent_data_accuracy', platform === 'wolt' ? 'true' : 'false');
