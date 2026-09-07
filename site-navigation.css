@@ -34,8 +34,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-right: auto;
-  margin-left: auto;
+  order: -1;
+  margin: 0 18px 0 0;
 }
 
 .header-socials a {
@@ -61,7 +61,7 @@
   display: flex;
   align-items: center;
   gap: 26px;
-  margin-left: 0;
+  margin-left: auto;
 }
 
 .global-header nav a {
@@ -121,6 +121,14 @@
   .global-header { gap: 18px; padding-inline: 18px; }
   .global-header nav { gap: 16px; }
   .global-header nav .nav-account { margin-left: 0; padding-inline: 13px; }
+}
+
+@media (min-width: 1600px) {
+  .header-socials {
+    position: absolute;
+    left: max(36px, calc((100% - 1200px) / 2 - 270px));
+    margin: 0;
+  }
 }
 
 @media (max-width: 760px) {
