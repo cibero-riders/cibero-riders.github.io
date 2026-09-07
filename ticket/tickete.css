@@ -75,12 +75,12 @@ button { cursor: pointer; }
 .choice-card.logo-card > span:last-child { grid-column: 2; align-self: start; }
 .choice-card.logo-card:not(.platform-card) { background: radial-gradient(circle at 18% 50%, var(--accent-soft), transparent 38%), linear-gradient(145deg, #32133bdb, #210d29e8); }
 .choice-card.logo-card:not(.platform-card):hover { background: radial-gradient(circle at 18% 50%, var(--accent-soft), transparent 42%), linear-gradient(145deg, #482052, #25102d); }
-.choice-card.platform-card { background: linear-gradient(108deg, var(--accent) 0 46%, #3a1844 49%, #210d29 100%); }
-.choice-card.platform-card:hover { background: linear-gradient(108deg, var(--accent) 0 46%, #4a2055 49%, #281031 100%); }
-.choice-card.logo-card.platform-card { grid-template-columns: 46% minmax(0, 1fr); column-gap: 0; }
-.choice-card.logo-card.platform-card .choice-icon { grid-column: 1; grid-row: 1 / 3; align-self: center; width: clamp(86px, 8.4vw, 106px); height: clamp(86px, 8.4vw, 106px); margin: 0 auto; border: 0; background: transparent; box-shadow: none; }
+.choice-card.platform-card { background: linear-gradient(90deg, var(--accent) 0 38%, #2b1135 38% 100%); }
+.choice-card.platform-card:hover { background: linear-gradient(90deg, var(--accent) 0 38%, #3a1844 38% 100%); }
+.choice-card.logo-card.platform-card { grid-template-columns: 39% minmax(0, 1fr); column-gap: 0; }
+.choice-card.logo-card.platform-card .choice-icon { grid-column: 1; grid-row: 1 / 3; align-self: center; width: 86px; height: 86px; margin: 0 auto; transform: translateX(-5px); border: 0; background: transparent; box-shadow: none; }
 .choice-card.logo-card.platform-card strong { display: none; }
-.choice-card.logo-card.platform-card > span:last-child { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; padding: 8px 12px 8px 0; color: #f3e8f1; font-size: 13px; line-height: 1.5; }
+.choice-card.logo-card.platform-card > span:last-child { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; padding: 8px 12px; color: #f7edf5; font-size: 13px; line-height: 1.5; }
 .choice-card.logo-card.platform-bolt .category-logo,
 .choice-card.logo-card.platform-wolt .category-logo { filter: drop-shadow(0 0 1px #130916) drop-shadow(0 0 2px #130916); }
 .category-logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transform: scale(var(--logo-scale, 1)); }
