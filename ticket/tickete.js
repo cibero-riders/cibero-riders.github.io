@@ -6,7 +6,7 @@ const copy = {
     steps: ["Categorie", "Identitate", "Tip", "Detalii", "Confirmare"],
     categoryTitle: "Alege categoria solicitării",
     categorySubtitle: "Selectează platforma sau categoria pentru care ai o solicitare.",
-    platformSeparator: "Platforme · Bolt | Glovo | Wolt.",
+    platformSeparator: "Cont platforme",
     adminSeparator: "Administrativ și financiar",
     paymentSeparator: "Rapoarte și Plăți",
     continue: "Continuă",
@@ -75,7 +75,7 @@ const copy = {
     steps: ["Category", "Identity", "Type", "Details", "Confirm"],
     categoryTitle: "Choose request category",
     categorySubtitle: "Select the platform or category for your request.",
-    platformSeparator: "Platforms · Bolt | Glovo | Wolt.",
+    platformSeparator: "Platform accounts",
     adminSeparator: "Administrative and financial",
     paymentSeparator: "Reports and Payments",
     continue: "Continue",
@@ -144,17 +144,17 @@ const copy = {
 
 const categories = [
   { separator: "platforms" },
-  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Cont, activitate și actualizări", en: "Account, activity and updates" }, icon: "B", logo: "../assets/ticket-bolt-round.png", logoScale: "1.21", accent: "#38d188" },
-  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Cont, comenzi și actualizări", en: "Account, orders and updates" }, icon: "G", logo: "../assets/ticket-glovo-round.png", logoScale: "1.14", accent: "#ffc244" },
-  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Cont și actualizări", en: "Account and updates" }, icon: "W", logo: "../assets/ticket-wolt-round.png", logoScale: "1.24", accent: "#20c4e7" },
+  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Modificare date (IBAN, nr. tel., vehicul etc.), deblocare cont etc.", en: "Update details (IBAN, phone, vehicle etc.), unblock account and more." }, icon: "B", logo: "../assets/ticket-bolt-round.png", logoScale: "1.21", accent: "#38d188" },
+  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Modificare date (IBAN, nr. tel., vehicul etc.), comenzi, deblocare cont etc.", en: "Update details (IBAN, phone, vehicle etc.), orders, unblock account and more." }, icon: "G", logo: "../assets/ticket-glovo-round.png", logoScale: "1.14", accent: "#ffc244" },
+  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Modificare date (IBAN, nr. tel., vehicul etc.), deblocare cont etc.", en: "Update details (IBAN, phone, vehicle etc.), unblock account and more." }, icon: "W", logo: "../assets/ticket-wolt-round.png", logoScale: "1.24", accent: "#20c4e7" },
   { separator: "admin" },
-  { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", logo: "../assets/ticket-admin-round.svg", accent: "#c49ac8" },
-  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", logo: "../assets/ticket-reimbursement-round.svg", accent: "#7bdca9" },
-  { id: "inactivitate", label: { ro: "Concediu / Inactivitate", en: "Leave / Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", logo: "../assets/ticket-inactivity-round.svg", accent: "#efc45f" },
   { id: "probleme_admin", presetType: "transfer_cont", label: { ro: "Transfer de Cont", en: "Account Transfer" }, desc: { ro: "Transferă cont activ de la altă flotă, la CibeRO", en: "Transfer an active account from another fleet to CibeRO" }, icon: "⇄", logo: "../assets/ticket-transfer-round.svg", accent: "#4cc9d9" },
   { id: "rapoarte_plati", presetType: "suma_incorecta", label: { ro: "Sumă incorectă în raport", en: "Incorrect amount in report" }, desc: { ro: "Semnalează o sumă greșită din raportul săptămânal", en: "Report an incorrect amount in your weekly statement" }, icon: "∑", logo: "../assets/ticket-report-round.svg", accent: "#d6a85b" },
   { id: "rapoarte_plati", presetType: "lipsa_plata", label: { ro: "Plată lipsă", en: "Missing payment" }, desc: { ro: "Nu ai primit plata pentru una sau mai multe săptămâni", en: "You did not receive payment for one or more weeks" }, icon: "RON", logo: "../assets/ticket-missing-payment-round.svg", accent: "#55bb9b" },
   { id: "rapoarte_plati", presetType: "alta_problema_plata", label: { ro: "Altă problemă cu plata", en: "Other payment issue" }, desc: { ro: "Orice altă situație legată de plăți sau rapoarte", en: "Any other situation related to payments or reports" }, icon: "?", logo: "../assets/ticket-payment-help-round.svg", accent: "#d19aaf" },
+  { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", logo: "../assets/ticket-admin-round.svg", accent: "#c49ac8" },
+  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", logo: "../assets/ticket-reimbursement-round.svg", accent: "#7bdca9" },
+  { id: "inactivitate", label: { ro: "Concediu / Inactivitate", en: "Leave / Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", logo: "../assets/ticket-inactivity-round.svg", accent: "#efc45f" },
 ];
 
 const typeCatalog = {
