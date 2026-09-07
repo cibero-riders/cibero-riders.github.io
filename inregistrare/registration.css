@@ -19,7 +19,9 @@ legend { margin-bottom:11px; } b { color:#ffd46f; } legend span { color:#ffd46f;
 .profile-option { position:relative; display:grid; min-height:108px; place-items:center; align-content:center; gap:8px; border:1px solid #b889b940; border-radius:14px; background:#15091e96; color:var(--muted); text-align:center; cursor:pointer; transition:.18s ease; }
 .profile-option input { position:absolute; opacity:0; inset:0; cursor:pointer; }
 .profile-option:hover,.profile-option:has(input:checked) { border-color:var(--gold); background:linear-gradient(145deg,#6a442181,#32153d); color:var(--gold-light); box-shadow:0 0 0 3px #e6b94c16; }
-.profile-icon { display:grid; width:36px; height:36px; place-items:center; border:1px solid currentColor; border-radius:50%; font-size:20px; }
+.profile-icon { display:grid; width:52px; height:52px; place-items:center; border:1px solid #e7bd57; border-radius:50%; background:radial-gradient(circle at 35% 28%,#815824,#342033 62%); color:#ffe697; box-shadow:inset 0 0 0 3px #f8d47012,0 5px 13px #09030c70; }
+.profile-icon svg { width:29px; height:29px; fill:none; stroke:currentColor; stroke-linecap:round; stroke-linejoin:round; stroke-width:2.15; }
+.profile-option:has(input:checked) .profile-icon { background:radial-gradient(circle at 35% 28%,#d09733,#5b321f 67%); color:#fff5c4; box-shadow:inset 0 0 0 3px #fff0a722,0 0 0 5px #e7b84b16,0 7px 17px #09030c87; }
 .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:17px; margin-top:27px; }
 .form-grid label { display:grid; gap:7px; } .form-grid label.full { grid-column:1/-1; } label small { color:#9b899e; font-size:11px; font-weight:500; }
 input:not([type=checkbox]):not([type=radio]),select,textarea { width:100%; min-height:47px; border:1px solid #b889b95a; border-radius:10px; outline:0; background:#13081abf; color:var(--cream); padding:11px 13px; }
