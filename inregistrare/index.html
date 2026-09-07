@@ -24,11 +24,12 @@
     </header>
 
     <section class="registration-card" aria-labelledby="registration-title">
-      <p class="eyebrow" data-i18n="eyebrow">CibeRO · ÎNREGISTRARE</p>
-      <h1 id="registration-title" data-i18n="title">Înscriere Curier</h1>
-      <p class="intro" data-i18n="intro">Alătură-te rețelei noastre de livrare și începe să câștigi.</p>
+      <div id="registration-intake">
+        <p class="eyebrow" data-i18n="eyebrow">CibeRO · ÎNREGISTRARE</p>
+        <h1 id="registration-title" data-i18n="title">Înscriere Curier</h1>
+        <p class="intro" data-i18n="intro">Alătură-te rețelei noastre de livrare și începe să câștigi.</p>
 
-      <form id="social-registration-form" novalidate>
+        <form id="social-registration-form" novalidate>
         <label class="honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
 
         <fieldset class="profile-fieldset">
@@ -68,7 +69,16 @@
 
         <button id="submit-registration" class="submit-button" type="submit" data-i18n="submit">Trimite înregistrarea</button>
         <p id="form-feedback" class="feedback" role="status" aria-live="polite"></p>
-      </form>
+        </form>
+      </div>
+      <section id="registration-success" class="registration-success" hidden aria-live="polite">
+        <span class="success-emblem" aria-hidden="true"><svg viewBox="0 0 64 64"><circle cx="32" cy="32" r="27"/><path d="m20 32 8 8 17-18"/></svg></span>
+        <p class="eyebrow" data-i18n="successEyebrow">CibeRO · ÎNREGISTRARE CONFIRMATĂ</p>
+        <h1 data-i18n="successTitle">Înregistrarea a fost trimisă!</h1>
+        <p data-i18n="successText">Am primit datele tale. Echipa CibeRO le va analiza și te va contacta cât mai curând.</p>
+        <div class="success-note"><span>✦</span><span data-i18n="successNote">Păstrează telefonul și emailul disponibile pentru a putea reveni rapid către tine.</span></div>
+        <a class="success-home" href="../" data-i18n="home">Întoarce-te la pagina principală</a>
+      </section>
     </section>
   </main>
   <script src="registration.js?v=1"></script>
