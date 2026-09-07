@@ -77,8 +77,6 @@ const ticketsEmptyState = document.querySelector("#tickets-empty-state");
 const ticketSearchFilter = document.querySelector("#ticket-search-filter");
 const ticketStatusFilter = document.querySelector("#ticket-status-filter");
 const ticketCategoryTabs = [...document.querySelectorAll("[data-ticket-category-tab]")];
-const ticketInboxTabs = [...document.querySelectorAll("[data-ticket-inbox-tab]")];
-const ticketsUnreadCount = document.querySelector("#tickets-unread-count");
 const exportTicketsButton = document.querySelector("#export-tickets-button");
 const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
 const ticketAdminDetails = document.querySelector("#ticket-admin-details");
@@ -89,16 +87,21 @@ let activePlatform = "wolt";
 const selectedApplicationIds = new Set();
 let tickets = [];
 let activeTicketCategory = "bolt";
-let activeTicketInbox = "unread";
 let pendingTicketDeletion = null;
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
-let savedOpenedTicketIds = [];
-try {
-  savedOpenedTicketIds = JSON.parse(localStorage.getItem(openedTicketStorageKey) ?? "[]");
-} catch {
-  savedOpenedTicketIds = [];
+const openedApplicationStorageKey = "cibero-opened-application-ids";
+
+function storedIdSet(key) {
+  try {
+    const stored = JSON.parse(localStorage.getItem(key) ?? "[]");
+    return new Set(Array.isArray(stored) ? stored : []);
+  } catch {
+    return new Set();
+  }
 }
-const locallyOpenedTicketIds = new Set(Array.isArray(savedOpenedTicketIds) ? savedOpenedTicketIds : []);
+
+const locallyOpenedTicketIds = storedIdSet(openedTicketStorageKey);
+const locallyOpenedApplicationIds = storedIdSet(openedApplicationStorageKey);
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -120,9 +123,13 @@ function isTicketRead(item) {
   return Boolean(item.opened_at) || locallyOpenedTicketIds.has(item.id);
 }
 
-function rememberOpenedTicket(id) {
-  locallyOpenedTicketIds.add(id);
-  localStorage.setItem(openedTicketStorageKey, JSON.stringify([...locallyOpenedTicketIds]));
+function isApplicationRead(item) {
+  return Boolean(item.opened_at) || locallyOpenedApplicationIds.has(item.id);
+}
+
+function rememberOpened(id, ids, storageKey) {
+  ids.add(id);
+  localStorage.setItem(storageKey, JSON.stringify([...ids]));
 }
 
 function showLogin(message = "") {
@@ -199,13 +206,15 @@ async function loadTickets() {
 
 function updateTicketSummary() {
   const categoryTickets = tickets.filter(item => item.category === activeTicketCategory);
-  const unreadCount = tickets.filter(item => !isTicketRead(item)).length;
-  ticketsUnreadCount.textContent = unreadCount;
-  ticketsUnreadCount.hidden = unreadCount === 0;
   ticketCategoryTabs.forEach(tab => {
     const category = tab.dataset.ticketCategoryTab;
     const count = document.querySelector(`#ticket-category-count-${category}`);
-    if (count) count.textContent = tickets.filter(item => item.category === category).length;
+    const unreadCount = tickets.filter(item => item.category === category && !isTicketRead(item)).length;
+    if (count) {
+      count.textContent = unreadCount;
+      count.hidden = unreadCount === 0;
+    }
+    tab.classList.toggle("has-unread", unreadCount > 0);
   });
   document.querySelector("#tickets-total-count").textContent = categoryTickets.length;
   document.querySelector("#tickets-new-count").textContent = categoryTickets.filter(item => item.status === "new").length;
@@ -219,8 +228,7 @@ function filteredTickets() {
   return tickets.filter(item => {
     const reference = item.id.slice(0, 8).toUpperCase();
     const haystack = [reference, item.first_name, item.last_name, item.email, item.phone, ticketTypeLabels[item.request_type]].join(" ").toLocaleLowerCase("ro-RO");
-    const matchesInbox = activeTicketInbox === "unread" ? !isTicketRead(item) : isTicketRead(item);
-    return item.category === activeTicketCategory && matchesInbox && (!query || haystack.includes(query)) && (!status || item.status === status);
+    return item.category === activeTicketCategory && (!query || haystack.includes(query)) && (!status || item.status === status);
   });
 }
 
@@ -238,14 +246,20 @@ function renderTickets() {
     </button>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
-  ticketsEmptyState.textContent = `Nu există tickete ${activeTicketInbox === "unread" ? "necitite" : "deschise"} în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
+  ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
 }
 
 function updateSummary() {
   const platformApplications = applications.filter(item => item.platform === activePlatform);
-  document.querySelector("#wolt-tab-count").textContent = applications.filter(item => item.platform === "wolt").length;
-  document.querySelector("#glovo-tab-count").textContent = applications.filter(item => item.platform === "glovo").length;
+  platformTabs.forEach(tab => {
+    const platform = tab.dataset.platformTab;
+    const unreadCount = applications.filter(item => item.platform === platform && !isApplicationRead(item)).length;
+    const count = tab.querySelector("span");
+    count.textContent = unreadCount;
+    count.hidden = unreadCount === 0;
+    tab.classList.toggle("has-unread", unreadCount > 0);
+  });
   document.querySelector("#total-count").textContent = platformApplications.length;
   document.querySelector("#new-count").textContent = platformApplications.filter(item => item.status === "new").length;
   document.querySelector("#reviewing-count").textContent = platformApplications.filter(item => item.status === "reviewing").length;
@@ -283,7 +297,7 @@ function renderApplications() {
     if (!visibleIds.has(id)) selectedApplicationIds.delete(id);
   });
   applicationsList.innerHTML = rows.map(item => `
-    <div class="application-row${selectedApplicationIds.has(item.id) ? " selected" : ""}" data-application-row="${escapeHtml(item.id)}">
+    <div class="application-row${selectedApplicationIds.has(item.id) ? " selected" : ""}${isApplicationRead(item) ? "" : " unread"}" data-application-row="${escapeHtml(item.id)}">
       <label class="row-selector" title="Selectează cererea">
         <input type="checkbox" data-select-application="${escapeHtml(item.id)}" aria-label="Selectează cererea lui ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}"${selectedApplicationIds.has(item.id) ? " checked" : ""} />
         <span aria-hidden="true"></span>
@@ -352,6 +366,32 @@ async function openApplication(id) {
 
   document.querySelector("#save-application").addEventListener("click", () => saveApplication(item));
   document.querySelector("#proof-button")?.addEventListener("click", () => openProof(item.proof_path));
+  void markApplicationRead(item);
+}
+
+async function markApplicationRead(item) {
+  if (isApplicationRead(item)) return;
+  const openedAt = new Date().toISOString();
+  rememberOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
+  applications = applications.map(application => application.id === item.id ? { ...application, opened_at: openedAt } : application);
+  updateSummary();
+  renderApplications();
+
+  const { data, error } = await supabase
+    .from("applications")
+    .update({ opened_at: openedAt })
+    .eq("id", item.id)
+    .select()
+    .single();
+
+  if (error) {
+    console.warn("Application read state was saved locally only.", error);
+    return;
+  }
+
+  applications = applications.map(application => application.id === data.id ? data : application);
+  updateSummary();
+  renderApplications();
 }
 
 async function saveApplication(item) {
@@ -500,7 +540,7 @@ async function openTicket(id) {
 async function markTicketRead(item) {
   if (isTicketRead(item)) return;
   const openedAt = new Date().toISOString();
-  rememberOpenedTicket(item.id);
+  rememberOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
   tickets = tickets.map(ticket => ticket.id === item.id ? { ...ticket, opened_at: openedAt } : ticket);
   updateTicketSummary();
   renderTickets();
@@ -697,15 +737,6 @@ ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
     candidate.setAttribute("aria-selected", String(active));
   });
   updateTicketSummary();
-  renderTickets();
-}));
-ticketInboxTabs.forEach(tab => tab.addEventListener("click", () => {
-  activeTicketInbox = tab.dataset.ticketInboxTab;
-  ticketInboxTabs.forEach(candidate => {
-    const active = candidate === tab;
-    candidate.classList.toggle("active", active);
-    candidate.setAttribute("aria-selected", String(active));
-  });
   renderTickets();
 }));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
