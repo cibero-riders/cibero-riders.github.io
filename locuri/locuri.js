@@ -7,6 +7,13 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const containers = { glovo: document.querySelector("#glovo-slots"), wolt: document.querySelector("#wolt-slots") };
 const updatedLabel = document.querySelector("#availability-updated");
 const names = { glovo: "Glovo", wolt: "Wolt" };
+const applicationDialog = document.querySelector("#application-confirmation-dialog");
+const confirmationKicker = document.querySelector("#confirmation-platform-kicker");
+const confirmationTitle = document.querySelector("#confirmation-platform-title");
+const confirmationInline = document.querySelector("#confirmation-platform-inline");
+const confirmationCheck = document.querySelector("#application-confirmation-check");
+const goToApplicationForm = document.querySelector("#go-to-application-form");
+let selectedApplicationPlatform = "";
 
 function escapeHtml(value) {
   return String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
@@ -37,3 +44,20 @@ async function loadAvailability() {
 
 await loadAvailability();
 supabase.channel("cibero-public-availability").on("postgres_changes", { event: "*", schema: "public", table: "available_slots" }, loadAvailability).subscribe();
+
+document.querySelectorAll("[data-application-platform]").forEach(button => button.addEventListener("click", () => {
+  selectedApplicationPlatform = button.dataset.applicationPlatform;
+  const platform = names[selectedApplicationPlatform];
+  confirmationKicker.textContent = platform;
+  confirmationTitle.textContent = platform;
+  confirmationInline.textContent = platform;
+  confirmationCheck.checked = false;
+  goToApplicationForm.disabled = true;
+  applicationDialog.showModal();
+}));
+
+confirmationCheck.addEventListener("change", () => { goToApplicationForm.disabled = !confirmationCheck.checked; });
+goToApplicationForm.addEventListener("click", () => {
+  if (!selectedApplicationPlatform || !confirmationCheck.checked) return;
+  window.location.assign(`../deschide-cont.html?platform=${encodeURIComponent(selectedApplicationPlatform)}`);
+});

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="locuri.css?v=1" />
+  <link rel="stylesheet" href="locuri.css?v=2" />
 </head>
 <body>
   <header class="availability-header">
@@ -31,17 +31,35 @@
         <div class="platform-topline"><img src="../assets/glovo-round.png" alt="Glovo" /><span>Glovo</span></div>
         <h2>Locuri disponibile<br />la Glovo</h2>
         <div id="glovo-slots" class="slots-list" aria-live="polite"><p class="slots-loading">Se verifică disponibilitatea…</p></div>
+        <button class="apply-button glovo-apply" type="button" data-application-platform="glovo">Aplică pentru Glovo <span>→</span></button>
       </article>
       <article class="platform-card wolt-card">
         <div class="platform-topline"><img src="../assets/wolt-round.png" alt="Wolt" /><span>Wolt</span></div>
         <h2>Locuri disponibile<br />la Wolt</h2>
         <div id="wolt-slots" class="slots-list" aria-live="polite"><p class="slots-loading">Se verifică disponibilitatea…</p></div>
+        <button class="apply-button wolt-apply" type="button" data-application-platform="wolt">Aplică pentru Wolt <span>→</span></button>
       </article>
     </section>
 
     <p id="availability-updated" class="availability-updated" aria-live="polite"></p>
   </main>
   <footer>© CibeRO · Flotă parteneră</footer>
-  <script type="module" src="locuri.js?v=1"></script>
+  <dialog id="application-confirmation-dialog" class="application-confirmation-dialog" aria-labelledby="application-confirmation-title">
+    <form method="dialog" class="dialog-top"><strong>Înainte de înscriere</strong><button aria-label="Închide">×</button></form>
+    <div class="dialog-content">
+      <p class="eyebrow">Aplicare <span id="confirmation-platform-kicker">Glovo</span></p>
+      <h2 id="application-confirmation-title">Înainte de a aplica la <em id="confirmation-platform-title">Glovo</em></h2>
+      <ul class="application-notes">
+        <li>Locurile sunt date în ordinea aplicanților — aplică din timp pentru a avansa în lista de așteptare.</li>
+        <li>Locurile disponibile depind de platformă: <strong id="confirmation-platform-inline">Glovo</strong>.</li>
+        <li>Nu există un termen specific până la activarea contului. Poți primi activare în câteva zile sau în câteva săptămâni, în funcție de disponibilitate.</li>
+        <li>Odată ce contul tău a fost activat, vei primi email direct de la platformă, prin care vei fi informat.</li>
+      </ul>
+      <aside class="responsibility-note"><span aria-hidden="true">!</span><p>Dacă nu ești sigur că poți începe activitatea după activare, mai bine lasă locul altcuiva care poate să îl onoreze. 🙏</p></aside>
+      <label class="application-confirmation-check"><input id="application-confirmation-check" type="checkbox" /><span>Confirm că am înțeles procesele și pot începe activitatea imediat după activare.</span></label>
+      <button id="go-to-application-form" class="go-to-application-form" type="button" disabled>Mergi la formularul de înscriere <span>→</span></button>
+    </div>
+  </dialog>
+  <script type="module" src="locuri.js?v=2"></script>
 </body>
 </html>
