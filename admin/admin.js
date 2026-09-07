@@ -159,9 +159,26 @@ function availabilityCountLabel(count) {
   return `${count} ${count === 1 ? "oraș" : "orașe"}`;
 }
 
+function canonicalAvailabilityCity(value) {
+  const normalized = normalizeCity(value);
+  return availabilityCities.find(city => normalizeCity(city) === normalized) ?? "";
+}
+
 function updateAvailabilitySlotsLabel() {
   const city = availabilityCityInput.value.trim();
   availabilitySlotsLabel.textContent = city ? `Locuri disponibile în „${city}”` : "Locuri disponibile";
+}
+
+function focusAvailabilitySlotsAfterCitySelection() {
+  const city = canonicalAvailabilityCity(availabilityCityInput.value);
+  updateAvailabilitySlotsLabel();
+  if (!city) return;
+  availabilityCityInput.value = city;
+  updateAvailabilitySlotsLabel();
+  availabilitySlotsInput.focus();
+  availabilitySlotsInput.select();
+  availabilitySlotsInput.classList.add("availability-slots-ready");
+  window.setTimeout(() => availabilitySlotsInput.classList.remove("availability-slots-ready"), 850);
 }
 
 function availabilityRowsMarkup(rows, compact = false) {
@@ -222,8 +239,7 @@ async function loadAvailability() {
 
 function addAvailabilityCity() {
   const rawCity = availabilityCityInput.value.trim();
-  const normalized = normalizeCity(rawCity);
-  const city = availabilityCities.find(candidate => normalizeCity(candidate) === normalized);
+  const city = canonicalAvailabilityCity(rawCity);
   const slots = Number(availabilitySlotsInput.value);
   availabilityFeedback.classList.remove("success");
   if (!city) {
@@ -958,16 +974,16 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
-availabilityCityList.innerHTML = availabilityCities.flatMap(city => {
-  const plainCity = city.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  const officialOption = `<option value="${escapeHtml(city)}"></option>`;
-  const plainOption = plainCity === city ? "" : `<option value="${escapeHtml(plainCity)}" label="${escapeHtml(city)}"></option>`;
-  return [officialOption, plainOption];
-}).join("");
+availabilityCityList.innerHTML = [...new Map(availabilityCities.map(city => [normalizeCity(city), city])).values()]
+  .map(city => `<option value="${escapeHtml(city)}"></option>`)
+  .join("");
 renderAvailability();
-availabilityCityInput.addEventListener("input", updateAvailabilitySlotsLabel);
+availabilityCityInput.addEventListener("input", focusAvailabilitySlotsAfterCitySelection);
 availabilityCityInput.addEventListener("keydown", event => {
-  if (event.key === "Enter") { event.preventDefault(); availabilitySlotsInput.focus(); }
+  if (event.key === "Enter" && canonicalAvailabilityCity(availabilityCityInput.value)) {
+    event.preventDefault();
+    focusAvailabilitySlotsAfterCitySelection();
+  }
 });
 availabilitySlotsInput.addEventListener("keydown", event => {
   if (event.key === "Enter") { event.preventDefault(); addAvailabilityCity(); }

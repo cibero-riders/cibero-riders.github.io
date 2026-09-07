@@ -140,6 +140,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .availability-add-form .primary-button { grid-column: 1 / -1; margin: 0; }
 .availability-add-form label { min-width: 0; }
 .availability-add-form label span { display: block; min-height: 18px; }
+.availability-add-form input.availability-slots-ready { border-color: #ffe79b; background: #563a1e; box-shadow: 0 0 0 4px #e6b94932, 0 0 22px #e5b84938; }
 .availability-editor .dashboard-feedback { margin: 12px 0 0; }
 .availability-draft-list { display: grid; gap: 8px; margin-top: 15px; }
 .availability-draft-row { display: grid; grid-template-columns: minmax(0, 1fr) 118px 35px; align-items: center; gap: 10px; padding: 10px 11px 10px 14px; border: 1px solid #b685b93b; border-radius: 11px; background: #281130d9; }
