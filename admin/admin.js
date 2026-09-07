@@ -98,6 +98,7 @@ const resetAvailabilityDraftButton = document.querySelector("#reset-availability
 const publishAvailabilityButton = document.querySelector("#publish-availability");
 const availabilityPublishDialog = document.querySelector("#availability-publish-dialog");
 const availabilityPublishDetails = document.querySelector("#availability-publish-details");
+const availabilityAdminUpdate = document.querySelector("#availability-admin-update");
 
 let applications = [];
 let activePlatform = "wolt";
@@ -109,6 +110,8 @@ let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
 let activeAvailabilityPlatform = "glovo";
 let currentAdminUserId = "";
+let availabilityDraftDirty = false;
+let availabilityRealtimeChannel = null;
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -220,6 +223,9 @@ function sanitizeAvailabilityDraft(value) {
     glovo: sanitizeRows(value.glovo),
     wolt: sanitizeRows(value.wolt),
     activePlatform: value.activePlatform === "wolt" ? "wolt" : "glovo",
+    // Drafts saved before this flag existed may contain deliberate work, so
+    // preserve them rather than silently replacing them with live data.
+    dirty: value.dirty !== false,
   };
 }
 
@@ -228,6 +234,7 @@ function saveAvailabilityDraft() {
     glovo: availabilityDraft.glovo,
     wolt: availabilityDraft.wolt,
     activePlatform: activeAvailabilityPlatform,
+    dirty: availabilityDraftDirty,
   });
 }
 
@@ -284,6 +291,24 @@ function availabilityRowsMarkup(rows, compact = false) {
   return rows.map(row => `<div class="availability-preview-row${compact ? " compact" : ""}"><strong>${escapeHtml(row.city)}</strong><span>${row.slots} ${row.slots === 1 ? "loc" : "locuri"}</span></div>`).join("");
 }
 
+function publishedAvailabilityRow(platform, city) {
+  return availability.find(row => row.platform === platform && row.city === city) ?? null;
+}
+
+function liveAvailabilityMarkup(platform, city, fallbackSlots) {
+  const published = publishedAvailabilityRow(platform, city);
+  const slots = Number(published?.slots ?? fallbackSlots);
+  const applications = Number(published?.application_count ?? 0);
+  return `<small class="availability-live-count${applications ? " has-applications" : ""}"><b>${slots} ${slots === 1 ? "loc disponibil" : "locuri disponibile"}</b><span>(${applications} ${applications === 1 ? "aplicare" : "aplicări"})</span></small>`;
+}
+
+function renderAvailabilityAdminUpdate() {
+  const latest = availability.map(row => row.admin_updated_at).filter(Boolean).sort().at(-1);
+  availabilityAdminUpdate.textContent = latest
+    ? `Ultima actualizare de către un admin: ${formatDate(latest)}`
+    : "Ultima actualizare de către un admin: —";
+}
+
 function renderAvailability() {
   sortAvailabilityDraft();
   const rows = availabilityDraft[activeAvailabilityPlatform];
@@ -296,23 +321,26 @@ function renderAvailability() {
   });
 
   availabilityDraftList.innerHTML = rows.length
-    ? rows.map((row, index) => `<article class="availability-draft-row"><strong>${escapeHtml(row.city)}</strong><label>Locuri<input type="number" min="1" max="999" inputmode="numeric" value="${row.slots}" data-availability-slots="${index}" aria-label="Locuri disponibile în ${escapeHtml(row.city)}" /></label><button class="availability-remove" type="button" data-availability-remove="${index}" aria-label="Elimină ${escapeHtml(row.city)}">×</button></article>`).join("")
+    ? rows.map((row, index) => `<article class="availability-draft-row"><span class="availability-draft-city"><strong>${escapeHtml(row.city)}</strong>${liveAvailabilityMarkup(activeAvailabilityPlatform, row.city, row.slots)}</span><label>Locuri<input type="number" min="1" max="999" inputmode="numeric" value="${row.slots}" data-availability-slots="${index}" aria-label="Locuri disponibile în ${escapeHtml(row.city)}" /></label><button class="availability-remove" type="button" data-availability-remove="${index}" aria-label="Elimină ${escapeHtml(row.city)}">×</button></article>`).join("")
     : `<p class="availability-empty">Caută un oraș, introdu numărul de locuri și adaugă-l în listă.</p>`;
 
   availabilityDraftList.querySelectorAll("[data-availability-slots]").forEach(input => input.addEventListener("input", () => {
     const index = Number(input.dataset.availabilitySlots);
     const slots = Math.min(999, Math.max(1, Number(input.value) || 1));
     availabilityDraft[activeAvailabilityPlatform][index].slots = slots;
+    availabilityDraftDirty = true;
     saveAvailabilityDraft();
     renderAvailability();
   }));
   availabilityDraftList.querySelectorAll("[data-availability-remove]").forEach(button => button.addEventListener("click", () => {
     availabilityDraft[activeAvailabilityPlatform].splice(Number(button.dataset.availabilityRemove), 1);
+    availabilityDraftDirty = true;
     saveAvailabilityDraft();
     renderAvailability();
   }));
 
   availabilityPreviewColumns.innerHTML = ["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("");
+  renderAvailabilityAdminUpdate();
 }
 
 async function loadAvailability({ restoreDraft = true } = {}) {
@@ -320,7 +348,7 @@ async function loadAvailability({ restoreDraft = true } = {}) {
   availabilityFeedback.textContent = "Se încarcă disponibilitățile publicate…";
   const { data, error } = await supabase
     .from("available_slots")
-    .select("id, platform, city, slots, sort_order")
+    .select("id, platform, city, slots, initial_slots, application_count, sort_order, admin_updated_at")
     .order("platform")
     .order("sort_order")
     .order("city");
@@ -330,6 +358,7 @@ async function loadAvailability({ restoreDraft = true } = {}) {
     if (savedDraft) {
       availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
       activeAvailabilityPlatform = savedDraft.activePlatform;
+      availabilityDraftDirty = savedDraft.dirty;
       availabilityFeedback.classList.add("success");
       availabilityFeedback.textContent = "Draftul local a fost restaurat. Disponibilitățile publicate nu au putut fi actualizate acum.";
       renderAvailability();
@@ -344,13 +373,16 @@ async function loadAvailability({ restoreDraft = true } = {}) {
     wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
   };
   const savedDraft = restoreDraft ? restoreAvailabilityDraft() : null;
-  if (savedDraft) {
+  if (savedDraft?.dirty) {
     availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
     activeAvailabilityPlatform = savedDraft.activePlatform;
+    availabilityDraftDirty = true;
     availabilityFeedback.classList.add("success");
     availabilityFeedback.textContent = "Draftul nepublicat a fost restaurat.";
   } else {
     availabilityDraft = publishedDraft;
+    activeAvailabilityPlatform = savedDraft?.activePlatform ?? activeAvailabilityPlatform;
+    availabilityDraftDirty = false;
     availabilityFeedback.textContent = "";
   }
   sortAvailabilityDraft();
@@ -376,6 +408,7 @@ function addAvailabilityCity() {
   if (existing) existing.slots = slots;
   else availabilityDraft[activeAvailabilityPlatform].push({ city, slots, sort_order: availabilityDraft[activeAvailabilityPlatform].length });
   sortAvailabilityDraft();
+  availabilityDraftDirty = true;
   saveAvailabilityDraft();
   availabilityCityInput.value = "";
   availabilitySlotsInput.value = "";
@@ -395,6 +428,7 @@ function resetAvailabilityDraft() {
   availabilityCityInput.value = "";
   availabilitySlotsInput.value = "";
   updateAvailabilitySlotsLabel();
+  availabilityDraftDirty = false;
   clearAdminPreference("availability-draft");
   availabilityFeedback.classList.remove("success");
   availabilityFeedback.textContent = "Modificările nepublicate au fost anulate.";
@@ -403,7 +437,7 @@ function resetAvailabilityDraft() {
 
 function openAvailabilityPublishDialog() {
   const total = availabilityDraft.glovo.length + availabilityDraft.wolt.length;
-  availabilityPublishDetails.innerHTML = `<div class="availability-confirmation"><p>Urmează să publici <strong>${availabilityCountLabel(total)}</strong> pe pagina publică. Orice listă publicată anterior va fi înlocuită.</p><div class="availability-preview-columns confirmation">${["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("")}</div><div class="availability-actions dialog-actions"><button class="quiet-button" type="button" data-close-availability-dialog>Înapoi la editare</button><button id="confirm-publish-availability" class="primary-button" type="button">Publică acum</button></div><p id="availability-publish-feedback" class="feedback" role="status" aria-live="polite"></p></div>`;
+  availabilityPublishDetails.innerHTML = `<div class="availability-confirmation"><p>Urmează să publici <strong>${availabilityCountLabel(total)}</strong> pe pagina publică. Orice listă publicată anterior va fi înlocuită.</p><p class="availability-confirmation-note">Publicarea începe un nou ciclu de evidență: pentru lista nouă, contorul de aplicări pornește de la 0.</p><div class="availability-preview-columns confirmation">${["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("")}</div><div class="availability-actions dialog-actions"><button class="quiet-button" type="button" data-close-availability-dialog>Înapoi la editare</button><button id="confirm-publish-availability" class="primary-button" type="button">Publică acum</button></div><p id="availability-publish-feedback" class="feedback" role="status" aria-live="polite"></p></div>`;
   availabilityPublishDetails.querySelector("[data-close-availability-dialog]").addEventListener("click", () => availabilityPublishDialog.close());
   availabilityPublishDetails.querySelector("#confirm-publish-availability").addEventListener("click", publishAvailability);
   availabilityPublishDialog.showModal();
@@ -420,7 +454,8 @@ async function publishAvailability() {
   const { data: sessionData } = await supabase.auth.getSession();
   const publishedBy = sessionData.session?.user?.id ?? null;
   if (rows.length) {
-    const { error: upsertError } = await supabase.from("available_slots").upsert(rows.map(row => ({ ...row, published_by: publishedBy })), { onConflict: "platform,city" });
+    const adminUpdatedAt = new Date().toISOString();
+    const { error: upsertError } = await supabase.from("available_slots").upsert(rows.map(row => ({ ...row, initial_slots: row.slots, application_count: 0, published_by: publishedBy, admin_updated_by: publishedBy, admin_updated_at: adminUpdatedAt })), { onConflict: "platform,city" });
     if (upsertError) {
       console.error(upsertError);
       confirmButton.disabled = false;
@@ -441,10 +476,25 @@ async function publishAvailability() {
     }
   }
   clearAdminPreference("availability-draft");
+  availabilityDraftDirty = false;
   await loadAvailability({ restoreDraft: false });
   availabilityPublishDialog.close();
   availabilityFeedback.classList.add("success");
   availabilityFeedback.textContent = "Disponibilitățile au fost publicate pe pagina publică.";
+}
+
+function subscribeToAvailabilityUpdates() {
+  if (availabilityRealtimeChannel) supabase.removeChannel(availabilityRealtimeChannel);
+  availabilityRealtimeChannel = supabase
+    .channel(`cibero-admin-availability-${currentAdminUserId}`)
+    .on("postgres_changes", { event: "*", schema: "public", table: "available_slots" }, async () => {
+      await loadAvailability({ restoreDraft: availabilityDraftDirty });
+      if (!availabilityDraftDirty) {
+        availabilityFeedback.classList.add("success");
+        availabilityFeedback.textContent = "Locurile publicate au fost actualizate live după o cerere nouă.";
+      }
+    })
+    .subscribe();
 }
 
 function isTicketRead(item) {
@@ -1079,6 +1129,7 @@ loginForm.addEventListener("submit", async event => {
     currentAdminUserId = authData.user.id;
     showDashboard();
     await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
+    subscribeToAvailabilityUpdates();
   } catch (adminError) {
     console.error(adminError);
     await supabase.auth.signOut();
@@ -1094,6 +1145,11 @@ logoutButton.addEventListener("click", async () => {
   availability = [];
   availabilityDraft = { glovo: [], wolt: [] };
   currentAdminUserId = "";
+  availabilityDraftDirty = false;
+  if (availabilityRealtimeChannel) {
+    await supabase.removeChannel(availabilityRealtimeChannel);
+    availabilityRealtimeChannel = null;
+  }
   selectedApplicationIds.clear();
   loginForm.reset();
   showLogin();
@@ -1183,6 +1239,7 @@ if (!session?.user) {
       currentAdminUserId = session.user.id;
       showDashboard();
       await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
+      subscribeToAvailabilityUpdates();
     } else {
       await supabase.auth.signOut();
       showLogin("Acest utilizator nu are acces administrativ.");

@@ -66,6 +66,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 25px 26px 21px; border-bottom: 1px solid #dcb44d29; }
 .section-heading h2 { font-size: clamp(22px, 3vw, 31px); }
 .section-heading > div > p:last-child { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
+.section-heading > div > .availability-admin-update { margin-top: 10px; color: #f2d482; font-size: 12px; font-weight: 700; }
 .platform-tabs { display: flex; gap: 7px; padding: 19px 26px 0; }
 .platform-tab { display: inline-flex; align-items: center; gap: 10px; min-width: 130px; min-height: 44px; justify-content: center; border: 1px solid #a078a34d; border-radius: 11px; background: #180a20a8; color: var(--muted); font-weight: 800; }
 .platform-tab span { min-width: 25px; border-radius: 999px; padding: 3px 7px; background: #ffffff0d; color: inherit; font-size: 11px; }
@@ -152,7 +153,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .availability-editor .dashboard-feedback { margin: 12px 0 0; }
 .availability-draft-list { display: grid; gap: 8px; margin-top: 15px; }
 .availability-draft-row { display: grid; grid-template-columns: minmax(0, 1fr) 118px 35px; align-items: center; gap: 10px; padding: 10px 11px 10px 14px; border: 1px solid #b685b93b; border-radius: 11px; background: #281130d9; }
-.availability-draft-row strong { overflow: hidden; color: #fff0bd; text-overflow: ellipsis; white-space: nowrap; }
+.availability-draft-city { min-width: 0; }
+.availability-draft-row strong { display: block; overflow: hidden; color: #fff0bd; text-overflow: ellipsis; white-space: nowrap; }
+.availability-live-count { display: flex; align-items: center; flex-wrap: wrap; gap: 5px; margin-top: 4px; color: #bbaabe; font-size: 11px; font-weight: 600; }
+.availability-live-count b { color: #d9cbd9; }
+.availability-live-count span { color: #aee6c6; }
+.availability-live-count.has-applications span { color: #ffe08a; }
 .availability-draft-row label { display: grid; gap: 3px; color: var(--muted); font-size: 10px; font-weight: 800; text-transform: uppercase; }
 .availability-draft-row input { min-height: 35px; padding: 7px 9px; }
 .availability-remove { width: 35px; height: 35px; border: 1px solid #e78d9866; border-radius: 9px; background: #6b293a75; color: #ffc4ca; font-size: 22px; line-height: 1; }
@@ -175,6 +181,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .availability-publish-dialog #availability-publish-details { padding: 24px; }
 .availability-confirmation > p { margin: 0; color: var(--muted); line-height: 1.55; }
 .availability-confirmation > p strong { color: var(--gold-light); }
+.availability-confirmation > .availability-confirmation-note { margin-top: 11px; padding: 11px 13px; border-left: 3px solid var(--gold); background: #5a3b1d42; color: #f2dfbd; font-size: 13px; }
 .availability-preview-columns.confirmation { grid-template-columns: 1fr 1fr; }
 .availability-publish-dialog .dialog-actions { margin: 22px 0 0; padding: 0; }
 .availability-publish-dialog .dialog-actions > * { flex: 1; }
