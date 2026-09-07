@@ -144,13 +144,17 @@ const copy = {
 
 const categories = [
   { separator: "platforms" },
-  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Cont, activitate, rapoarte și plăți", en: "Account, activity, reports and payments" }, icon: "B", logo: "../assets/ticket-bolt-round.png", logoScale: "1.21", accent: "#38d188" },
-  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Cont, comenzi, rapoarte și plăți", en: "Account, orders, reports and payments" }, icon: "G", logo: "../assets/ticket-glovo-round.png", logoScale: "1.14", accent: "#ffc244" },
-  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Cont, transfer, rapoarte și plăți", en: "Account, transfer, reports and payments" }, icon: "W", logo: "../assets/ticket-wolt-round.png", logoScale: "1.24", accent: "#20c4e7" },
+  { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Cont, activitate și actualizări", en: "Account, activity and updates" }, icon: "B", logo: "../assets/ticket-bolt-round.png", logoScale: "1.21", accent: "#38d188" },
+  { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Cont, comenzi și actualizări", en: "Account, orders and updates" }, icon: "G", logo: "../assets/ticket-glovo-round.png", logoScale: "1.14", accent: "#ffc244" },
+  { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Cont și actualizări", en: "Account and updates" }, icon: "W", logo: "../assets/ticket-wolt-round.png", logoScale: "1.24", accent: "#20c4e7" },
   { separator: "admin" },
   { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", logo: "../assets/ticket-admin-round.svg", accent: "#c49ac8" },
   { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", logo: "../assets/ticket-reimbursement-round.svg", accent: "#7bdca9" },
   { id: "inactivitate", label: { ro: "Concediu / Inactivitate", en: "Leave / Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", logo: "../assets/ticket-inactivity-round.svg", accent: "#efc45f" },
+  { id: "probleme_admin", presetType: "transfer_cont", label: { ro: "Transfer de Cont", en: "Account Transfer" }, desc: { ro: "Transferă cont activ de la altă flotă, la CibeRO", en: "Transfer an active account from another fleet to CibeRO" }, icon: "⇄", logo: "../assets/ticket-transfer-round.svg", accent: "#4cc9d9" },
+  { id: "rapoarte_plati", presetType: "suma_incorecta", label: { ro: "Sumă incorectă în raport", en: "Incorrect amount in report" }, desc: { ro: "Semnalează o sumă greșită din raportul săptămânal", en: "Report an incorrect amount in your weekly statement" }, icon: "∑", logo: "../assets/ticket-report-round.svg", accent: "#d6a85b" },
+  { id: "rapoarte_plati", presetType: "lipsa_plata", label: { ro: "Plată lipsă", en: "Missing payment" }, desc: { ro: "Nu ai primit plata pentru una sau mai multe săptămâni", en: "You did not receive payment for one or more weeks" }, icon: "RON", logo: "../assets/ticket-missing-payment-round.svg", accent: "#55bb9b" },
+  { id: "rapoarte_plati", presetType: "alta_problema_plata", label: { ro: "Altă problemă cu plata", en: "Other payment issue" }, desc: { ro: "Orice altă situație legată de plăți sau rapoarte", en: "Any other situation related to payments or reports" }, icon: "?", logo: "../assets/ticket-payment-help-round.svg", accent: "#d19aaf" },
 ];
 
 const typeCatalog = {
@@ -162,7 +166,7 @@ const typeCatalog = {
   plate_number: ["Nr. înmatriculare", "Registration number", "Actualizează numărul de înmatriculare al vehiculului", "Update the vehicle registration number", "№"],
   activate_chas: ["Activează CASH", "Activate CASH", "Activează comenzile cash pe contul tău", "Activate cash orders on your account", "+"],
   deactivate_chas: ["Dezactivează CASH", "Deactivate CASH", "Dezactivează comenzile cash pe contul tău", "Deactivate cash orders on your account", "−"],
-  transfer_cont: ["Solicită transfer cont", "Request account transfer", "Transferă contul Wolt Courier în flota noastră", "Transfer your Wolt Courier account to our fleet", "⇄"],
+  transfer_cont: ["Transfer de Cont", "Account Transfer", "Transferă cont activ de la altă flotă, la CibeRO", "Transfer an active account from another fleet to CibeRO", "⇄"],
   other: ["Altă problemă", "Other issue", "Cont blocat, deblocare sau altă solicitare", "Blocked account, unblocking or another request", "?"],
   suma_incorecta: ["Sumă incorectă în raport", "Incorrect amount in report", "Suma din raportul săptămânal nu este corectă", "The amount in my weekly report is incorrect", "∑"],
   lipsa_plata: ["Plată lipsă", "Missing payment", "Nu am primit plata pentru una sau mai multe săptămâni", "I did not receive payment for one or more weeks", "RON"],
@@ -180,10 +184,11 @@ const typeCatalog = {
 const platformBaseTypes = ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"];
 const paymentTypes = ["suma_incorecta", "lipsa_plata", "alta_problema_plata"];
 const typeSets = {
-  bolt: [...platformBaseTypes, ...paymentTypes],
-  glovo: [...platformBaseTypes, "comanda_anulata", ...paymentTypes],
-  wolt: ["transfer_cont", "phone", "email", "iban", "city", "vehicle", "other", ...paymentTypes],
-  probleme_admin: ["actualizare_documente", "problema_contract", "alta_problema_admin"],
+  bolt: [...platformBaseTypes],
+  glovo: [...platformBaseTypes, "comanda_anulata"],
+  wolt: ["phone", "email", "iban", "city", "vehicle", "other"],
+  probleme_admin: ["actualizare_documente", "problema_contract", "alta_problema_admin", "transfer_cont"],
+  rapoarte_plati: [...paymentTypes],
   deconturi: ["problema_decontare", "trimite_bonuri_pdf"],
 };
 
@@ -197,7 +202,7 @@ const dialog = document.querySelector("#ticket-dialog");
 const dialogContent = document.querySelector("#ticket-dialog-content");
 const state = {
   language: "ro", step: 1, category: "", type: "", firstName: "", lastName: "", phone: "", email: "",
-  details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "",
+  details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", directType: false,
 };
 
 function t(key) { return copy[state.language][key] ?? key; }
@@ -206,6 +211,7 @@ function categoryById(id) { return categories.find(item => item.id === id); }
 function typeText(id, index) { const values = typeCatalog[id]; return values ? values[state.language === "ro" ? index : index + 1] : id; }
 function typeLabel(id) { return typeText(id, 0); }
 function typeDescription(id) { return typeText(id, 2); }
+function categoryLabel() { return state.category === "rapoarte_plati" ? t("paymentSeparator") : categoryById(state.category).label[state.language]; }
 function scrollTop() { window.scrollTo({ top: 0, behavior: "smooth" }); }
 
 function typeIcon(id) {
@@ -259,9 +265,9 @@ function actions(showBack = true, nextLabel = t("continue"), nextId = "next") {
 function renderCategories() {
   stage.innerHTML = `${heading(t("categoryTitle"), t("categorySubtitle"))}<div class="stage-body"><div class="category-grid">${categories.map(item => {
     if (item.separator) return `<div class="category-separator">${escapeHtml(t(item.separator === "platforms" ? "platformSeparator" : "adminSeparator"))}</div>`;
-    const selected = state.category === item.id;
+    const selected = state.category === item.id && (!item.presetType || state.type === item.presetType);
     const logo = item.logo ? `<img class="category-logo" src="${item.logo}" alt="" style="--logo-scale:${item.logoScale || 1}" />` : escapeHtml(item.icon);
-    return `<button class="choice-card${item.logo ? " logo-card" : ""}${item.platform ? " platform-card" : ""}${selected ? " selected" : ""}" style="--accent:${item.accent};--accent-soft:${item.accent}35" type="button" data-category="${item.id}"><span class="radio-mark"></span><span class="choice-icon">${logo}</span><strong>${escapeHtml(item.label[state.language])}</strong><span>${escapeHtml(item.desc[state.language])}</span></button>`;
+    return `<button class="choice-card${item.logo ? " logo-card" : ""}${item.platform ? " platform-card" : ""}${selected ? " selected" : ""}" style="--accent:${item.accent};--accent-soft:${item.accent}35" type="button" data-category="${item.id}"${item.presetType ? ` data-preset-type="${item.presetType}"` : ""}><span class="radio-mark"></span><span class="choice-icon">${logo}</span><strong>${escapeHtml(item.label[state.language])}</strong><span>${escapeHtml(item.desc[state.language])}</span></button>`;
   }).join("")}</div>${actions(false)}</div>`;
 }
 
@@ -281,7 +287,7 @@ function renderIdentity() {
 }
 
 function renderTypes() {
-  const ids = typeSets[state.category] || [];
+  const ids = (typeSets[state.category] || []).filter(id => !(state.category === "probleme_admin" && id === "transfer_cont"));
   const woltGuide = state.category === "wolt" ? `<div class="info-note wolt-guide"><b>W</b><div><strong>${state.language === "ro" ? "Schimbarea vehiculului la Wolt" : "Changing your vehicle on Wolt"}</strong><div>${state.language === "ro" ? "Se face direct din aplicația Wolt Client: Asistență Curieri → Contul meu de partener → schimbare vehicul → chat." : "It is completed directly in Wolt Client: Courier Assistance → My partner account → change vehicle → chat."}</div></div></div>` : "";
   const cards = ids.map((id, index) => `${paymentTypes.includes(id) && !paymentTypes.includes(ids[index - 1]) ? `<div class="category-separator type-separator">${escapeHtml(t("paymentSeparator"))}</div>` : ""}<button class="choice-card type-card${state.type === id ? " selected" : ""}" type="button" data-type="${id}"><span class="radio-mark"></span><span class="choice-icon">${typeIcon(id)}</span><strong class="choice-title">${escapeHtml(typeLabel(id))}</strong><span class="choice-description">${escapeHtml(typeDescription(id))}</span></button>`).join("");
   stage.innerHTML = `${heading(t("typeTitle"), t("typeSubtitle"))}<div class="stage-body"><div class="category-grid">${woltGuide}${cards}</div>${actions()}</div>`;
@@ -309,7 +315,11 @@ function platformFields() {
 function renderDetails() {
   let content = "";
   const simpleFields = ["phone", "email", "iban", "city", "vehicle", "plate_number"];
-  if (simpleFields.includes(state.type)) {
+  if (paymentTypes.includes(state.type)) {
+    content += `<div class="info-note"><b>i</b><div>${state.language === "ro" ? "Selectează toate platformele afectate, apoi descrie perioada și situația pe care trebuie să o verificăm." : "Select every affected platform, then describe the period and the situation we need to review."}</div></div>`;
+    content += platformFields();
+    content += field("description", t("describe"), state.details.description || "", { textarea: true, placeholder: t("describePlaceholder"), full: true });
+  } else if (simpleFields.includes(state.type)) {
     content += valueComparison();
     if (state.type === "phone") content += field("newPhone", t("newPhone"), state.details.newPhone || "", { type: "tel", placeholder: "07XX XXX XXX", full: true });
     if (state.type === "email") content += field("newEmail", t("newEmail"), state.details.newEmail || "", { type: "email", placeholder: "email@nou.com", full: true });
@@ -362,7 +372,7 @@ function renderConfirm() {
   if (state.details.inactiveStart) details.push(summaryItem(t("inactivityStart"), state.details.inactiveStart));
   if (state.details.inactiveEnd) details.push(summaryItem(t("inactivityEnd"), state.details.inactiveEnd));
   const fileNames = [...state.files.map(file => file.name), state.receipt?.name, state.receiptsPdf?.name].filter(Boolean).join(", ");
-  stage.innerHTML = `${heading(t("confirmTitle"), t("confirmSubtitle"))}<div class="stage-body"><div class="summary-list">${summaryItem(state.language === "ro" ? "Curier" : "Courier", `${state.firstName} ${state.lastName}`)}${summaryItem(t("phone"), state.phone)}${summaryItem(state.language === "ro" ? "Categorie" : "Category", category.label[state.language])}${summaryItem(state.language === "ro" ? "Tip solicitare" : "Request type", state.category === "inactivitate" ? category.label[state.language] : typeLabel(state.type))}${details.join("")}${fileNames ? summaryItem(t("supportFiles"), fileNames, true) : ""}</div><div class="form-grid" style="margin-top:18px">${uploadField("support", t("addFiles"), t("supportHelp"), "image/jpeg,image/png,image/webp,application/pdf", null, true)}<div class="file-list">${state.files.map((file, index) => `<div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-support="${index}">${escapeHtml(t("remove"))}</button></div>`).join("")}</div>${field("notes", t("notes"), state.notes, { textarea: true, placeholder: t("notesPlaceholder"), required: false, full: true })}</div><label class="confirm-control"><input name="confirmed" type="checkbox"${state.confirmed ? " checked" : ""} /><span>${escapeHtml(t("confirmation"))}</span></label>${actions(true, state.submitting ? t("submitting") : t("submit"), "submit")}</div>`;
+  stage.innerHTML = `${heading(t("confirmTitle"), t("confirmSubtitle"))}<div class="stage-body"><div class="summary-list">${summaryItem(state.language === "ro" ? "Curier" : "Courier", `${state.firstName} ${state.lastName}`)}${summaryItem(t("phone"), state.phone)}${summaryItem(state.language === "ro" ? "Categorie" : "Category", categoryLabel())}${summaryItem(state.language === "ro" ? "Tip solicitare" : "Request type", state.category === "inactivitate" ? category.label[state.language] : typeLabel(state.type))}${details.join("")}${fileNames ? summaryItem(t("supportFiles"), fileNames, true) : ""}</div><div class="form-grid" style="margin-top:18px">${uploadField("support", t("addFiles"), t("supportHelp"), "image/jpeg,image/png,image/webp,application/pdf", null, true)}<div class="file-list">${state.files.map((file, index) => `<div class="file-pill"><span>${escapeHtml(file.name)}</span><button type="button" data-remove-support="${index}">${escapeHtml(t("remove"))}</button></div>`).join("")}</div>${field("notes", t("notes"), state.notes, { textarea: true, placeholder: t("notesPlaceholder"), required: false, full: true })}</div><label class="confirm-control"><input name="confirmed" type="checkbox"${state.confirmed ? " checked" : ""} /><span>${escapeHtml(t("confirmation"))}</span></label>${actions(true, state.submitting ? t("submitting") : t("submit"), "submit")}</div>`;
   stage.querySelector('[data-action="submit"]').disabled = state.submitting;
 }
 
@@ -410,7 +420,9 @@ function validateIdentity() {
 
 function validateDetails() {
   const d = state.details;
-  if (state.type === "trimite_bonuri_pdf") {
+  if (paymentTypes.includes(state.type) && (!d.platforms?.length || !d.description?.trim())) {
+    return t("required");
+  } else if (state.type === "trimite_bonuri_pdf") {
     if (!d.declaredAmount || Number(String(d.declaredAmount).replace(",", ".")) <= 0 || !state.receiptsPdf) return t("required");
   } else if (state.type === "problema_decontare" && !d.description?.trim()) {
     return t("required");
@@ -478,6 +490,7 @@ async function next() {
   state.error = "";
   if (state.step === 1) {
     if (!state.category) { state.error = state.language === "ro" ? "Selectează o categorie." : "Select a category."; render(); return; }
+    if (state.directType) { state.step = 2; render(); scrollTop(); return; }
     const item = categoryById(state.category);
     showInfoDialog(item.label[state.language], categoryIntro(), () => { state.step = 2; render(); scrollTop(); }, { icon: item.icon, logo: item.logo, logoScale: item.logoScale, confirm: state.language === "ro" ? "Am înțeles, continuă" : "I understand, continue" });
     return;
@@ -486,15 +499,15 @@ async function next() {
     state.error = validateIdentity();
     if (state.error) { render(); return; }
     try {
-      if (state.category === "inactivitate" && await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
+      if ((state.category === "inactivitate" || state.directType) && await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
     } catch (error) { console.warn("Duplicate check unavailable", error); }
-    state.step = state.category === "inactivitate" ? 4 : 3;
+    state.step = state.category === "inactivitate" || state.directType ? 4 : 3;
   } else if (state.step === 3) {
     if (!state.type) { state.error = state.language === "ro" ? "Selectează tipul solicitării." : "Select the request type."; render(); return; }
     try {
       if (await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
     } catch (error) { console.warn("Duplicate check unavailable", error); }
-    if (["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type)) state.step = 5;
+    if (["activate_chas", "deactivate_chas", "clarificare_decont", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type)) state.step = 5;
     else {
       const warning = warningForType();
       if (warning) {
@@ -514,9 +527,9 @@ async function next() {
 function back() {
   syncInputs(); state.error = "";
   if (state.step === 5) {
-    const skipsDetails = ["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type);
+    const skipsDetails = ["activate_chas", "deactivate_chas", "clarificare_decont", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type);
     state.step = skipsDetails ? 3 : 4;
-  } else if (state.step === 4) state.step = state.category === "inactivitate" ? 2 : 3;
+  } else if (state.step === 4) state.step = state.category === "inactivitate" || state.directType ? 2 : 3;
   else if (state.step === 3) state.step = 2;
   else if (state.step === 2) state.step = 1;
   render(); scrollTop();
@@ -560,12 +573,12 @@ async function submitTicket() {
 }
 
 function resetState() {
-  Object.assign(state, { step: 1, category: "", type: "", firstName: "", lastName: "", phone: "", email: "", details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", submitting: false });
+  Object.assign(state, { step: 1, category: "", type: "", firstName: "", lastName: "", phone: "", email: "", details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", submitting: false, directType: false });
   render(); scrollTop();
 }
 
 function bindStageEvents() {
-  stage.querySelectorAll("[data-category]").forEach(button => button.addEventListener("click", () => { state.category = button.dataset.category; state.type = ""; state.error = ""; render(); }));
+  stage.querySelectorAll("[data-category]").forEach(button => button.addEventListener("click", () => { state.category = button.dataset.category; state.type = button.dataset.presetType || ""; state.directType = Boolean(button.dataset.presetType); state.error = ""; render(); }));
   stage.querySelectorAll("[data-type]").forEach(button => button.addEventListener("click", () => { state.type = button.dataset.type; state.error = ""; render(); }));
   stage.querySelector('[data-action="next"]')?.addEventListener("click", next);
   stage.querySelector('[data-action="back"]')?.addEventListener("click", back);
@@ -589,5 +602,11 @@ const menuToggle = document.querySelector(".menu-toggle");
 const mainNav = document.querySelector("#main-nav");
 menuToggle.addEventListener("click", () => { const open = mainNav.classList.toggle("open"); menuToggle.setAttribute("aria-expanded", String(open)); });
 mainNav.querySelectorAll("a").forEach(link => link.addEventListener("click", () => { mainNav.classList.remove("open"); menuToggle.setAttribute("aria-expanded", "false"); }));
+
+const requestedCategory = new URLSearchParams(window.location.search).get("category");
+const requestedType = new URLSearchParams(window.location.search).get("type");
+if (requestedCategory && requestedType && typeSets[requestedCategory]?.includes(requestedType)) {
+  Object.assign(state, { category: requestedCategory, type: requestedType, directType: true, step: 2 });
+}
 
 render();

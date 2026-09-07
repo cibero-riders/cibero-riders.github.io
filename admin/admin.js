@@ -40,7 +40,7 @@ const ticketCategoryLabels = {
 const ticketTypeLabels = {
   phone: "Schimbare telefon", email: "Schimbare email", iban: "Schimbare IBAN", city: "Schimbare oraș",
   vehicle: "Schimbare vehicul", plate_number: "Schimbare număr înmatriculare", activate_chas: "Activează CASH",
-  deactivate_chas: "Dezactivează CASH", transfer_cont: "Transfer cont Wolt", other: "Altă problemă",
+  deactivate_chas: "Dezactivează CASH", transfer_cont: "Transfer de Cont", other: "Altă problemă",
   suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă", clarificare_decont: "Clarificare decont",
   alta_problema_plata: "Altă problemă cu plata", actualizare_documente: "Actualizare documente",
   problema_contract: "Problemă cu contractul", alta_problema_admin: "Altă problemă administrativă",
