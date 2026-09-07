@@ -50,7 +50,10 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .feedback { min-height: 22px; margin: 14px 0 0; color: var(--danger); font-size: 13px; }
 
 .dashboard-heading { margin-bottom: 24px; }
-.admin-primary-tabs { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+.admin-tab-groups { display: flex; flex-wrap: wrap; align-items: stretch; gap: 22px; margin-bottom: 18px; }
+.admin-primary-tabs { display: flex; flex-wrap: wrap; gap: 12px; }
+.admin-control-tabs { align-items: center; padding-left: 22px; border-left: 1px solid #d9aa3c4a; }
+.admin-control-label { flex: 0 0 100%; margin-bottom: -4px; color: #bca5ba; font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
 .admin-primary-tab { display: flex; align-items: center; gap: 13px; min-width: 290px; padding: 15px 18px; border: 1px solid #b88cba3b; border-radius: 14px; background: #24102dba; color: var(--cream); text-align: left; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
 .admin-primary-tab:hover { transform: translateY(-1px); border-color: var(--line); }
 .admin-primary-tab.active { border-color: var(--gold); background: linear-gradient(135deg, #4a253e, #2b1235); box-shadow: inset 0 -2px 0 var(--gold); }
@@ -230,6 +233,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .admin-header > span { display: none; }
   main { width: min(100% - 20px, 1180px); padding-top: 32px; }
   .dashboard-heading { align-items: flex-start; flex-direction: column; }
+  .admin-tab-groups { display: grid; gap: 13px; }
+  .admin-control-tabs { padding: 14px 0 0; border-top: 1px solid #d9aa3c4a; border-left: 0; }
   .admin-primary-tab { width: 100%; min-width: 0; }
   .section-heading { align-items: flex-start; flex-direction: column; padding: 21px 17px; }
   .platform-tabs { padding: 16px 17px 0; }

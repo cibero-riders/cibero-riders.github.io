@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=13" />
+  <link rel="stylesheet" href="admin.css?v=14" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -43,20 +43,25 @@
         <div><p class="eyebrow">CibeRO Operations</p><h1>Panou administrativ</h1></div>
       </div>
 
-      <nav class="admin-primary-tabs" aria-label="Secțiuni administrare" role="tablist">
-        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel">
-          <span class="tab-icon" aria-hidden="true">⌑</span>
-          <span><strong>Cereri de Deschidere Cont</strong><small>Wolt și Glovo</small></span>
-        </button>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel">
-          <span class="tab-icon" aria-hidden="true">✦</span>
-          <span><strong>Tickete Curieri</strong><small>Solicitări către echipă</small></span>
-        </button>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-section="availability-panel">
-          <span class="tab-icon" aria-hidden="true">⌖</span>
-          <span><strong>Locuri disponibile</strong><small>Publică orașele pentru Glovo și Wolt</small></span>
-        </button>
-      </nav>
+      <div class="admin-tab-groups">
+        <nav class="admin-primary-tabs" aria-label="Solicitări primite" role="tablist">
+          <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel">
+            <span class="tab-icon" aria-hidden="true">⌑</span>
+            <span><strong>Cereri de Deschidere Cont</strong><small>Wolt și Glovo</small></span>
+          </button>
+          <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel">
+            <span class="tab-icon" aria-hidden="true">✦</span>
+            <span><strong>Tickete Curieri</strong><small>Solicitări către echipă</small></span>
+          </button>
+        </nav>
+        <nav class="admin-primary-tabs admin-control-tabs" aria-label="Control operațional" role="tablist">
+          <span class="admin-control-label">Control operațional</span>
+          <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-section="availability-panel">
+            <span class="tab-icon" aria-hidden="true">⌖</span>
+            <span><strong>Locuri Glovo/Wolt</strong><small>Actualizează orașele și locurile disponibile</small></span>
+          </button>
+        </nav>
+      </div>
 
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
         <div class="section-heading">
