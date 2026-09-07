@@ -178,7 +178,7 @@ const typeCatalog = {
 };
 
 const platformBaseTypes = ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"];
-const paymentTypes = ["suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata"];
+const paymentTypes = ["suma_incorecta", "lipsa_plata", "alta_problema_plata"];
 const typeSets = {
   bolt: [...platformBaseTypes, ...paymentTypes],
   glovo: [...platformBaseTypes, "comanda_anulata", ...paymentTypes],
@@ -217,11 +217,11 @@ function typeIcon(id) {
     city: `<svg ${common}><path d="M4 20V9l6-3v14M10 20V4l6 3v13M16 20v-8l4 2v6M7 12h1m-1 4h1m5-7h1m-1 4h1"/></svg>`,
     vehicle: `<svg ${common}><path d="M5 15h14l-1.4-5H6.4L5 15Z"/><path d="M4 15v3m16-3v3M7 18h.01M17 18h.01M8 10l1.5-3h5L16 10"/></svg>`,
     plate_number: `<svg ${common}><rect x="3" y="7" width="18" height="10" rx="2"/><path d="M7 11h10M7 14h5"/></svg>`,
-    activate_chas: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M12 8v8m-4-4h8"/></svg>`,
-    deactivate_chas: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M8 12h8"/></svg>`,
+    activate_chas: `<svg ${common}><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="10" cy="12" r="2"/><path d="M5.5 9h1m0 6h1m10-5v4m-2-2h4"/></svg>`,
+    deactivate_chas: `<svg ${common}><rect x="3" y="6" width="18" height="12" rx="2"/><circle cx="10" cy="12" r="2"/><path d="M5.5 9h1m0 6h1m9-3h4"/></svg>`,
     transfer_cont: `<svg ${common}><path d="M7 7h11l-3-3m3 3-3 3M17 17H6l3 3m-3-3 3-3"/></svg>`,
     suma_incorecta: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M9 9h6m-6 6h4"/></svg>`,
-    lipsa_plata: `<svg ${common}><path d="M5 4h14v16H5zM8 8h8m-8 4h5m-5 4h3"/></svg>`,
+    lipsa_plata: `<svg ${common}><path d="m4 9 8-5 8 5M5 10h14M6 19h12M7 10v7m4-7v7"/><path d="m16 14 4 4m0-4-4 4"/></svg>`,
     clarificare_decont: `<svg ${common}><path d="M6 4h12v16H6zM9 8h6m-6 4h6m-6 4h3"/><path d="M18 16 21 19"/></svg>`,
     alta_problema_plata: `<svg ${common}><circle cx="12" cy="12" r="8"/><path d="M9.5 9a2.6 2.6 0 1 1 4.2 2c-.9.7-1.7 1.1-1.7 2.3m0 3h.01"/></svg>`,
     actualizare_documente: `<svg ${common}><path d="M7 3h7l4 4v14H7zM14 3v5h4M10 13h5m-5 4h5"/></svg>`,
