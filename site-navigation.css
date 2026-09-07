@@ -34,6 +34,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 .header-socials a {
@@ -57,7 +59,7 @@
   display: flex;
   align-items: center;
   gap: 26px;
-  margin-left: auto;
+  margin-left: 0;
 }
 
 .global-header nav a {
@@ -123,20 +125,20 @@
   .global-header {
     height: 72px;
     padding: 0 16px;
-    gap: 14px;
+    gap: 0;
   }
 
   .global-header .brand-wordmark {
-    width: 128px;
+    width: 112px;
     height: 52px;
   }
 
-  .header-socials { gap: 5px; }
-  .header-socials a, .header-socials img { width: 23px; height: 23px; }
+  .header-socials { flex: 1; justify-content: center; gap: 9px; margin: 0; }
+  .header-socials a, .header-socials img { width: 27px; height: 27px; }
 
   .global-header .menu-toggle {
     display: block;
-    margin-left: auto;
+    margin-left: 0;
     padding: 8px;
     border: 0;
     color: #f6d878;
