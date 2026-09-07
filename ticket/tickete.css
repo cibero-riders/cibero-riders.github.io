@@ -75,8 +75,9 @@ button { cursor: pointer; }
 .choice-card.logo-card > span:last-child { grid-column: 2; align-self: start; }
 .choice-card.logo-card:not(.platform-card) { background: radial-gradient(circle at 18% 50%, var(--accent-soft), transparent 38%), linear-gradient(145deg, #32133bdb, #210d29e8); }
 .choice-card.logo-card:not(.platform-card):hover { background: radial-gradient(circle at 18% 50%, var(--accent-soft), transparent 42%), linear-gradient(145deg, #482052, #25102d); }
-.choice-card.platform-card { background: linear-gradient(108deg, color-mix(in srgb, var(--accent) 70%, #24102c) 0 46%, #3a1844 49%, #210d29 100%); }
-.choice-card.platform-card:hover { background: linear-gradient(108deg, color-mix(in srgb, var(--accent) 80%, #24102c) 0 46%, #4a2055 49%, #281031 100%); }
+.choice-card.platform-card { background: linear-gradient(108deg, var(--accent) 0 46%, #3a1844 49%, #210d29 100%); }
+.choice-card.platform-card:hover { background: linear-gradient(108deg, var(--accent) 0 46%, #4a2055 49%, #281031 100%); }
+.choice-card.logo-card.platform-card .choice-icon { border: 0; background: transparent; box-shadow: none; }
 .category-logo { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transform: scale(var(--logo-scale, 1)); }
 
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
