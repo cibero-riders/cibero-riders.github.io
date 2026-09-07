@@ -958,7 +958,12 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
-availabilityCityList.innerHTML = availabilityCities.map(city => `<option value="${escapeHtml(city)}"></option>`).join("");
+availabilityCityList.innerHTML = availabilityCities.flatMap(city => {
+  const plainCity = city.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  const officialOption = `<option value="${escapeHtml(city)}"></option>`;
+  const plainOption = plainCity === city ? "" : `<option value="${escapeHtml(plainCity)}" label="${escapeHtml(city)}"></option>`;
+  return [officialOption, plainOption];
+}).join("");
 renderAvailability();
 availabilityCityInput.addEventListener("input", updateAvailabilitySlotsLabel);
 availabilityCityInput.addEventListener("keydown", event => {
