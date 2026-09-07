@@ -67,7 +67,7 @@ const copy = {
     required: "Completează toate câmpurile obligatorii.",
     invalidPhone: "Introdu un număr de telefon valid, de minimum 10 cifre.",
     invalidEmail: "Introdu o adresă de email validă.",
-    duplicate: "Ai deja o solicitare activă pentru această adresă de email. Poți deschide alta după procesarea celei existente.",
+    duplicate: "Ai deja un ticket activ pentru această solicitare. Poți trimite în continuare alte tipuri de solicitări.",
     submitError: "Ticketul nu a putut fi trimis. Încearcă din nou.",
     remove: "Elimină",
   },
@@ -136,7 +136,7 @@ const copy = {
     required: "Complete all required fields.",
     invalidPhone: "Enter a valid phone number with at least 10 digits.",
     invalidEmail: "Enter a valid email address.",
-    duplicate: "You already have an active request for this email address. You can open another after it is processed.",
+    duplicate: "You already have an active ticket for this request. You can still submit other request types.",
     submitError: "The ticket could not be submitted. Please try again.",
     remove: "Remove",
   },
@@ -433,6 +433,8 @@ async function checkDuplicate() {
   const form = new FormData();
   form.set("action", "check");
   form.set("email", state.email.trim());
+  form.set("category", state.category);
+  form.set("request_type", state.category === "inactivitate" ? state.category : state.type);
   const response = await fetch(API_URL, { method: "POST", headers: { apikey: PUBLISHABLE_KEY }, body: form });
   if (!response.ok) throw new Error("check_failed");
   const result = await response.json();
@@ -484,11 +486,14 @@ async function next() {
     state.error = validateIdentity();
     if (state.error) { render(); return; }
     try {
-      if (await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
+      if (state.category === "inactivitate" && await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
     } catch (error) { console.warn("Duplicate check unavailable", error); }
     state.step = state.category === "inactivitate" ? 4 : 3;
   } else if (state.step === 3) {
     if (!state.type) { state.error = state.language === "ro" ? "Selectează tipul solicitării." : "Select the request type."; render(); return; }
+    try {
+      if (await checkDuplicate()) { state.error = t("duplicate"); render(); return; }
+    } catch (error) { console.warn("Duplicate check unavailable", error); }
     if (["activate_chas", "deactivate_chas", "suma_incorecta", "lipsa_plata", "clarificare_decont", "alta_problema_plata", "actualizare_documente", "problema_contract", "alta_problema_admin"].includes(state.type)) state.step = 5;
     else {
       const warning = warningForType();

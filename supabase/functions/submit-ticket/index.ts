@@ -79,27 +79,28 @@ Deno.serve(async (request: Request) => {
 
     const action = value(form, "action", 20) || "submit";
     const email = value(form, "email", 254).toLowerCase();
+    const category = value(form, "category", 40).toLowerCase();
+    const requestType = value(form, "request_type", 50).toLowerCase();
 
     if (action === "check") {
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(origin, { error: "Adresă de email invalidă." }, 400);
-      const { count, error } = await supabase.from("tickets").select("id", { head: true, count: "exact" }).eq("email", email).in("status", ACTIVE_STATUSES);
+      if (!CATEGORIES.has(category) || !TYPE_SETS[category]?.has(requestType)) return json(origin, { error: "Categorie sau tip de solicitare invalid." }, 400);
+      const { count, error } = await supabase.from("tickets").select("id", { head: true, count: "exact" }).eq("email", email).eq("category", category).eq("request_type", requestType).in("status", ACTIVE_STATUSES);
       if (error) throw error;
       return json(origin, { active: (count ?? 0) > 0 });
     }
 
     const phone = value(form, "phone", 32);
     if (!/^[+0-9().\s-]{7,32}$/.test(phone)) return json(origin, { error: "Număr de telefon invalid." }, 400);
-    const category = value(form, "category", 40).toLowerCase();
-    const requestType = value(form, "request_type", 50).toLowerCase();
     const firstName = value(form, "first_name", 100);
     const lastName = value(form, "last_name", 100);
     if (!CATEGORIES.has(category) || !TYPE_SETS[category]?.has(requestType)) return json(origin, { error: "Categorie sau tip de solicitare invalid." }, 400);
     if (!firstName || !lastName || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return json(origin, { error: "Completează datele de contact corect." }, 400);
     if (value(form, "confirmed", 10) !== "true") return json(origin, { error: "Confirmarea datelor este obligatorie." }, 400);
 
-    const { count: activeCount, error: duplicateError } = await supabase.from("tickets").select("id", { head: true, count: "exact" }).eq("email", email).in("status", ACTIVE_STATUSES);
+    const { count: activeCount, error: duplicateError } = await supabase.from("tickets").select("id", { head: true, count: "exact" }).eq("email", email).eq("category", category).eq("request_type", requestType).in("status", ACTIVE_STATUSES);
     if (duplicateError) throw duplicateError;
-    if ((activeCount ?? 0) > 0) return json(origin, { error: "Există deja un ticket activ pentru această adresă de email." }, 409);
+    if ((activeCount ?? 0) > 0) return json(origin, { error: "Există deja un ticket activ pentru această solicitare." }, 409);
 
     const fields = {
       new_phone: value(form, "new_phone", 32) || null,
@@ -153,6 +154,7 @@ Deno.serve(async (request: Request) => {
       id: ticketId, category, request_type: requestType, first_name: firstName, last_name: lastName, phone, email,
       ...fields, declared_amount: ["deconturi", "trimite_bonuri_pdf"].includes(requestType) ? declaredAmount : null, confirmed: true,
     });
+    if (insertError?.code === "23505") return json(origin, { error: "Există deja un ticket activ pentru această solicitare." }, 409);
     if (insertError) throw insertError;
 
     const uploadedPaths: string[] = [];
