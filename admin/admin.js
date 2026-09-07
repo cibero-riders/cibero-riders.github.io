@@ -77,6 +77,8 @@ const ticketsEmptyState = document.querySelector("#tickets-empty-state");
 const ticketSearchFilter = document.querySelector("#ticket-search-filter");
 const ticketStatusFilter = document.querySelector("#ticket-status-filter");
 const ticketCategoryTabs = [...document.querySelectorAll("[data-ticket-category-tab]")];
+const ticketInboxTabs = [...document.querySelectorAll("[data-ticket-inbox-tab]")];
+const ticketsUnreadCount = document.querySelector("#tickets-unread-count");
 const exportTicketsButton = document.querySelector("#export-tickets-button");
 const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
 const ticketAdminDetails = document.querySelector("#ticket-admin-details");
@@ -87,7 +89,16 @@ let activePlatform = "wolt";
 const selectedApplicationIds = new Set();
 let tickets = [];
 let activeTicketCategory = "bolt";
+let activeTicketInbox = "unread";
 let pendingTicketDeletion = null;
+const openedTicketStorageKey = "cibero-opened-ticket-ids";
+let savedOpenedTicketIds = [];
+try {
+  savedOpenedTicketIds = JSON.parse(localStorage.getItem(openedTicketStorageKey) ?? "[]");
+} catch {
+  savedOpenedTicketIds = [];
+}
+const locallyOpenedTicketIds = new Set(Array.isArray(savedOpenedTicketIds) ? savedOpenedTicketIds : []);
 
 function escapeHtml(value) {
   return String(value ?? "")
@@ -103,6 +114,15 @@ function formatDate(value) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
+}
+
+function isTicketRead(item) {
+  return Boolean(item.opened_at) || locallyOpenedTicketIds.has(item.id);
+}
+
+function rememberOpenedTicket(id) {
+  locallyOpenedTicketIds.add(id);
+  localStorage.setItem(openedTicketStorageKey, JSON.stringify([...locallyOpenedTicketIds]));
 }
 
 function showLogin(message = "") {
@@ -179,6 +199,9 @@ async function loadTickets() {
 
 function updateTicketSummary() {
   const categoryTickets = tickets.filter(item => item.category === activeTicketCategory);
+  const unreadCount = tickets.filter(item => !isTicketRead(item)).length;
+  ticketsUnreadCount.textContent = unreadCount;
+  ticketsUnreadCount.hidden = unreadCount === 0;
   ticketCategoryTabs.forEach(tab => {
     const category = tab.dataset.ticketCategoryTab;
     const count = document.querySelector(`#ticket-category-count-${category}`);
@@ -196,14 +219,15 @@ function filteredTickets() {
   return tickets.filter(item => {
     const reference = item.id.slice(0, 8).toUpperCase();
     const haystack = [reference, item.first_name, item.last_name, item.email, item.phone, ticketTypeLabels[item.request_type]].join(" ").toLocaleLowerCase("ro-RO");
-    return item.category === activeTicketCategory && (!query || haystack.includes(query)) && (!status || item.status === status);
+    const matchesInbox = activeTicketInbox === "unread" ? !isTicketRead(item) : isTicketRead(item);
+    return item.category === activeTicketCategory && matchesInbox && (!query || haystack.includes(query)) && (!status || item.status === status);
   });
 }
 
 function renderTickets() {
   const rows = filteredTickets();
   ticketsList.innerHTML = rows.map(item => `
-    <button class="ticket-row" type="button" data-ticket-id="${escapeHtml(item.id)}">
+    <button class="ticket-row${isTicketRead(item) ? "" : " unread"}" type="button" data-ticket-id="${escapeHtml(item.id)}">
       <span class="ticket-reference-small">#${escapeHtml(item.id.slice(0, 8).toUpperCase())}</span>
       <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
       <span class="platform">${escapeHtml(ticketCategoryLabels[item.category] ?? item.category)}</span>
@@ -214,7 +238,7 @@ function renderTickets() {
     </button>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
-  ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
+  ticketsEmptyState.textContent = `Nu există tickete ${activeTicketInbox === "unread" ? "necitite" : "deschise"} în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
 }
 
@@ -470,6 +494,33 @@ async function openTicket(id) {
   ticketAdminDetails.querySelector("#save-ticket").addEventListener("click", () => saveTicket(item));
   ticketAdminDetails.querySelector("#delete-ticket").addEventListener("click", () => openTicketDeleteConfirmation(item));
   ticketAdminDetails.querySelectorAll("[data-ticket-file]").forEach(button => button.addEventListener("click", () => openTicketFile(button.dataset.ticketFile)));
+  void markTicketRead(item);
+}
+
+async function markTicketRead(item) {
+  if (isTicketRead(item)) return;
+  const openedAt = new Date().toISOString();
+  rememberOpenedTicket(item.id);
+  tickets = tickets.map(ticket => ticket.id === item.id ? { ...ticket, opened_at: openedAt } : ticket);
+  updateTicketSummary();
+  renderTickets();
+
+  const { data, error } = await supabase
+    .from("tickets")
+    .update({ opened_at: openedAt })
+    .eq("id", item.id)
+    .select("*, ticket_files(*)")
+    .single();
+
+  if (error) {
+    // Până este rulată migrarea, păstrăm starea în browserul administratorului.
+    console.warn("Ticket read state was saved locally only.", error);
+    return;
+  }
+
+  tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
+  updateTicketSummary();
+  renderTickets();
 }
 
 async function deleteTicket(item) {
@@ -646,6 +697,15 @@ ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
     candidate.setAttribute("aria-selected", String(active));
   });
   updateTicketSummary();
+  renderTickets();
+}));
+ticketInboxTabs.forEach(tab => tab.addEventListener("click", () => {
+  activeTicketInbox = tab.dataset.ticketInboxTab;
+  ticketInboxTabs.forEach(candidate => {
+    const active = candidate === tab;
+    candidate.classList.toggle("active", active);
+    candidate.setAttribute("aria-selected", String(active));
+  });
   renderTickets();
 }));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
