@@ -108,6 +108,7 @@ let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
 let activeAvailabilityPlatform = "glovo";
+let currentAdminUserId = "";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -147,6 +148,26 @@ function cloneAvailabilityRows(rows) {
   return rows.map(({ city, slots, sort_order }) => ({ city, slots: Number(slots), sort_order: Number(sort_order ?? 0) }));
 }
 
+function adminPreferenceKey(name) {
+  return currentAdminUserId ? `cibero-admin-${name}:${currentAdminUserId}` : "";
+}
+
+function readAdminPreference(name) {
+  const key = adminPreferenceKey(name);
+  if (!key) return null;
+  try { return JSON.parse(localStorage.getItem(key) ?? "null"); } catch { return null; }
+}
+
+function writeAdminPreference(name, value) {
+  const key = adminPreferenceKey(name);
+  if (key) localStorage.setItem(key, JSON.stringify(value));
+}
+
+function clearAdminPreference(name) {
+  const key = adminPreferenceKey(name);
+  if (key) localStorage.removeItem(key);
+}
+
 function normalizeCity(value) {
   return String(value ?? "").trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("ro-RO");
 }
@@ -162,6 +183,51 @@ function availabilityCountLabel(count) {
 function canonicalAvailabilityCity(value) {
   const normalized = normalizeCity(value);
   return availabilityCities.find(city => normalizeCity(city) === normalized) ?? "";
+}
+
+function sanitizeAvailabilityDraft(value) {
+  if (!value || typeof value !== "object") return null;
+  const sanitizeRows = rows => {
+    if (!Array.isArray(rows)) return [];
+    const cities = new Set();
+    return rows.flatMap(row => {
+      const city = canonicalAvailabilityCity(row?.city);
+      const slots = Number(row?.slots);
+      if (!city || cities.has(city) || !Number.isInteger(slots) || slots < 1 || slots > 999) return [];
+      cities.add(city);
+      return [{ city, slots, sort_order: cities.size - 1 }];
+    });
+  };
+  return {
+    glovo: sanitizeRows(value.glovo),
+    wolt: sanitizeRows(value.wolt),
+    activePlatform: value.activePlatform === "wolt" ? "wolt" : "glovo",
+  };
+}
+
+function saveAvailabilityDraft() {
+  writeAdminPreference("availability-draft", {
+    glovo: availabilityDraft.glovo,
+    wolt: availabilityDraft.wolt,
+    activePlatform: activeAvailabilityPlatform,
+  });
+}
+
+function restoreAvailabilityDraft() {
+  return sanitizeAvailabilityDraft(readAdminPreference("availability-draft"));
+}
+
+function setActiveAdminSection(sectionId, persist = true) {
+  const requested = adminSectionTabs.some(tab => tab.dataset.adminSection === sectionId)
+    ? sectionId
+    : "applications-panel";
+  adminSectionTabs.forEach(tab => {
+    const active = tab.dataset.adminSection === requested;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+    document.querySelector(`#${tab.dataset.adminSection}`).hidden = !active;
+  });
+  if (persist) writeAdminPreference("active-section", requested);
 }
 
 function updateAvailabilitySlotsLabel() {
@@ -204,17 +270,19 @@ function renderAvailability() {
     const index = Number(input.dataset.availabilitySlots);
     const slots = Math.min(999, Math.max(1, Number(input.value) || 1));
     availabilityDraft[activeAvailabilityPlatform][index].slots = slots;
+    saveAvailabilityDraft();
     renderAvailability();
   }));
   availabilityDraftList.querySelectorAll("[data-availability-remove]").forEach(button => button.addEventListener("click", () => {
     availabilityDraft[activeAvailabilityPlatform].splice(Number(button.dataset.availabilityRemove), 1);
+    saveAvailabilityDraft();
     renderAvailability();
   }));
 
   availabilityPreviewColumns.innerHTML = ["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("");
 }
 
-async function loadAvailability() {
+async function loadAvailability({ restoreDraft = true } = {}) {
   availabilityFeedback.classList.remove("success");
   availabilityFeedback.textContent = "Se încarcă disponibilitățile publicate…";
   const { data, error } = await supabase
@@ -225,15 +293,33 @@ async function loadAvailability() {
     .order("city");
   if (error) {
     console.error(error);
-    availabilityFeedback.textContent = "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune.";
+    const savedDraft = restoreAvailabilityDraft();
+    if (savedDraft) {
+      availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
+      activeAvailabilityPlatform = savedDraft.activePlatform;
+      availabilityFeedback.classList.add("success");
+      availabilityFeedback.textContent = "Draftul local a fost restaurat. Disponibilitățile publicate nu au putut fi actualizate acum.";
+      renderAvailability();
+    } else {
+      availabilityFeedback.textContent = "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune.";
+    }
     return;
   }
   availability = data ?? [];
-  availabilityDraft = {
+  const publishedDraft = {
     glovo: cloneAvailabilityRows(availability.filter(row => row.platform === "glovo")),
     wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
   };
-  availabilityFeedback.textContent = "";
+  const savedDraft = restoreDraft ? restoreAvailabilityDraft() : null;
+  if (savedDraft) {
+    availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
+    activeAvailabilityPlatform = savedDraft.activePlatform;
+    availabilityFeedback.classList.add("success");
+    availabilityFeedback.textContent = "Draftul nepublicat a fost restaurat.";
+  } else {
+    availabilityDraft = publishedDraft;
+    availabilityFeedback.textContent = "";
+  }
   renderAvailability();
 }
 
@@ -255,6 +341,7 @@ function addAvailabilityCity() {
   const existing = availabilityDraft[activeAvailabilityPlatform].find(row => row.city === city);
   if (existing) existing.slots = slots;
   else availabilityDraft[activeAvailabilityPlatform].push({ city, slots, sort_order: availabilityDraft[activeAvailabilityPlatform].length });
+  saveAvailabilityDraft();
   availabilityCityInput.value = "";
   availabilitySlotsInput.value = "";
   updateAvailabilitySlotsLabel();
@@ -272,6 +359,7 @@ function resetAvailabilityDraft() {
   availabilityCityInput.value = "";
   availabilitySlotsInput.value = "";
   updateAvailabilitySlotsLabel();
+  clearAdminPreference("availability-draft");
   availabilityFeedback.classList.remove("success");
   availabilityFeedback.textContent = "Modificările nepublicate au fost anulate.";
   renderAvailability();
@@ -315,7 +403,8 @@ async function publishAvailability() {
       return;
     }
   }
-  await loadAvailability();
+  clearAdminPreference("availability-draft");
+  await loadAvailability({ restoreDraft: false });
   availabilityPublishDialog.close();
   availabilityFeedback.classList.add("success");
   availabilityFeedback.textContent = "Disponibilitățile au fost publicate pe pagina publică.";
@@ -350,6 +439,7 @@ function showDashboard() {
   logoutButton.hidden = false;
   loginForm.reset();
   loginFeedback.textContent = "";
+  setActiveAdminSection(readAdminPreference("active-section") ?? "applications-panel", false);
 }
 
 async function isAdmin(userId) {
@@ -949,6 +1039,7 @@ loginForm.addEventListener("submit", async event => {
       loginFeedback.textContent = "Acest utilizator nu are acces administrativ.";
       return;
     }
+    currentAdminUserId = authData.user.id;
     showDashboard();
     await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
   } catch (adminError) {
@@ -965,6 +1056,7 @@ logoutButton.addEventListener("click", async () => {
   tickets = [];
   availability = [];
   availabilityDraft = { glovo: [], wolt: [] };
+  currentAdminUserId = "";
   selectedApplicationIds.clear();
   loginForm.reset();
   showLogin();
@@ -994,6 +1086,7 @@ publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialo
 availabilityPlatformTabs.forEach(tab => tab.addEventListener("click", () => {
   activeAvailabilityPlatform = tab.dataset.availabilityPlatform;
   availabilityFeedback.textContent = "";
+  saveAvailabilityDraft();
   renderAvailability();
 }));
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
@@ -1008,12 +1101,7 @@ ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
   renderTickets();
 }));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
-  adminSectionTabs.forEach(candidate => {
-    const active = candidate === tab;
-    candidate.classList.toggle("active", active);
-    candidate.setAttribute("aria-selected", String(active));
-    document.querySelector(`#${candidate.dataset.adminSection}`).hidden = !active;
-  });
+  setActiveAdminSection(tab.dataset.adminSection);
 }));
 selectAllApplications.addEventListener("change", () => {
   filteredApplications().forEach(item => {
@@ -1045,6 +1133,7 @@ if (!session?.user) {
 } else {
   try {
     if (await isAdmin(session.user.id)) {
+      currentAdminUserId = session.user.id;
       showDashboard();
       await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
     } else {
