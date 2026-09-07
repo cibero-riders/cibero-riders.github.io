@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="locuri.css?v=2" />
+  <link rel="stylesheet" href="locuri.css?v=3" />
 </head>
 <body>
   <header class="availability-header">
@@ -30,12 +30,14 @@
       <article class="platform-card glovo-card">
         <div class="platform-topline"><img src="../assets/glovo-round.png" alt="Glovo" /><span>Glovo</span></div>
         <h2>Locuri disponibile<br />la Glovo</h2>
+        <label class="city-search"><span>Caută oraș</span><input id="glovo-city-search" type="search" autocomplete="off" placeholder="Scrie numele orașului…" /></label>
         <div id="glovo-slots" class="slots-list" aria-live="polite"><p class="slots-loading">Se verifică disponibilitatea…</p></div>
         <button class="apply-button glovo-apply" type="button" data-application-platform="glovo">Aplică pentru Glovo <span>→</span></button>
       </article>
       <article class="platform-card wolt-card">
         <div class="platform-topline"><img src="../assets/wolt-round.png" alt="Wolt" /><span>Wolt</span></div>
         <h2>Locuri disponibile<br />la Wolt</h2>
+        <label class="city-search"><span>Caută oraș</span><input id="wolt-city-search" type="search" autocomplete="off" placeholder="Scrie numele orașului…" /></label>
         <div id="wolt-slots" class="slots-list" aria-live="polite"><p class="slots-loading">Se verifică disponibilitatea…</p></div>
         <button class="apply-button wolt-apply" type="button" data-application-platform="wolt">Aplică pentru Wolt <span>→</span></button>
       </article>
@@ -60,6 +62,6 @@
       <button id="go-to-application-form" class="go-to-application-form" type="button" disabled>Mergi la formularul de înscriere <span>→</span></button>
     </div>
   </dialog>
-  <script type="module" src="locuri.js?v=2"></script>
+  <script type="module" src="locuri.js?v=3"></script>
 </body>
 </html>

@@ -20,6 +20,11 @@ h1 em { color: #dca4ea; font-style: normal; font-weight: 600; }
 .platform-topline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
 .platform-topline span { color: inherit; }
 .platform-card h2 { margin-top: 23px; color: var(--cream); font-size: clamp(25px, 3vw, 36px); line-height: 1.15; }
+.city-search { display: grid; gap: 7px; margin-top: 21px; color: #ead9df; font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+.city-search input { width: 100%; min-height: 45px; border: 1px solid #e6bd5d72; border-radius: 10px; outline: 0; background: #12081ab8; color: var(--cream); padding: 11px 13px; font: 500 14px "DM Sans", sans-serif; letter-spacing: 0; text-transform: none; }
+.city-search input::placeholder { color: #aa96ac; }
+.city-search input:focus { border-color: #ffe59a; box-shadow: 0 0 0 3px #e1b64a1d; }
+.wolt-card .city-search input:focus { border-color: #81edf8; box-shadow: 0 0 0 3px #35d7e320; }
 .slots-list { display: grid; gap: 10px; margin-top: 28px; }
 .slot-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 15px; border: 1px solid #e4be5b4d; border-radius: 12px; background: #14091bbb; }
 .slot-city { display: flex; align-items: center; gap: 10px; font-weight: 800; }
