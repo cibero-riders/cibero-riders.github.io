@@ -87,7 +87,7 @@ const availabilityPlatformTabs = [...document.querySelectorAll("[data-availabili
 const availabilityCityInput = document.querySelector("#availability-city");
 const availabilitySlotsInput = document.querySelector("#availability-slots");
 const availabilitySlotsLabel = document.querySelector("#availability-slots-label");
-const availabilityCityList = document.querySelector("#availability-city-list");
+const availabilityCitySuggestions = document.querySelector("#availability-city-suggestions");
 const addAvailabilityCityButton = document.querySelector("#add-availability-city");
 const availabilityDraftList = document.querySelector("#availability-draft-list");
 const availabilityDraftCount = document.querySelector("#availability-draft-count");
@@ -251,6 +251,20 @@ function focusAvailabilitySlotsAfterCitySelection() {
   availabilitySlotsInput.select();
   availabilitySlotsInput.classList.add("availability-slots-ready");
   window.setTimeout(() => availabilitySlotsInput.classList.remove("availability-slots-ready"), 850);
+}
+
+function renderAvailabilityCitySuggestions() {
+  const query = availabilityCityInput.value.trim();
+  const matches = matchingAvailabilityCities(query);
+  availabilityCitySuggestions.hidden = !query || !matches.length;
+  availabilityCityInput.setAttribute("aria-expanded", String(!availabilityCitySuggestions.hidden));
+  availabilityCitySuggestions.innerHTML = matches.map(city => `<button type="button" role="option" data-availability-city-option="${escapeHtml(city)}">${escapeHtml(city)}</button>`).join("");
+  availabilityCitySuggestions.querySelectorAll("[data-availability-city-option]").forEach(button => button.addEventListener("click", () => {
+    availabilityCityInput.value = button.dataset.availabilityCityOption;
+    availabilityCitySuggestions.hidden = true;
+    availabilityCityInput.setAttribute("aria-expanded", "false");
+    focusAvailabilitySlotsAfterCitySelection();
+  }));
 }
 
 function availabilityRowsMarkup(rows, compact = false) {
@@ -1072,18 +1086,25 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
-availabilityCityList.innerHTML = [...new Map(availabilityCities.map(city => [normalizeCity(city), city])).values()]
-  .map(city => `<option value="${escapeHtml(city)}"></option>`)
-  .join("");
 renderAvailability();
-availabilityCityInput.addEventListener("input", focusAvailabilitySlotsAfterCitySelection);
+availabilityCityInput.addEventListener("input", () => {
+  updateAvailabilitySlotsLabel();
+  renderAvailabilityCitySuggestions();
+});
 availabilityCityInput.addEventListener("keydown", event => {
+  if (event.key === "Escape") {
+    availabilityCitySuggestions.hidden = true;
+    availabilityCityInput.setAttribute("aria-expanded", "false");
+    return;
+  }
   if (event.key !== "Enter") return;
   const exactCity = canonicalAvailabilityCity(availabilityCityInput.value);
   const matches = exactCity ? [exactCity] : matchingAvailabilityCities(availabilityCityInput.value);
   if (matches.length !== 1) return;
   event.preventDefault();
   availabilityCityInput.value = matches[0];
+  availabilityCitySuggestions.hidden = true;
+  availabilityCityInput.setAttribute("aria-expanded", "false");
   focusAvailabilitySlotsAfterCitySelection();
 });
 availabilitySlotsInput.addEventListener("keydown", event => {

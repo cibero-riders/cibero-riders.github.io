@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=12" />
+  <link rel="stylesheet" href="admin.css?v=13" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -160,8 +160,10 @@
             </div>
             <div class="availability-add-form">
               <label>Oraș
-                <input id="availability-city" type="search" list="availability-city-list" autocomplete="off" placeholder="Caută sau scrie orașul" />
-                <datalist id="availability-city-list"></datalist>
+                <span class="availability-city-combobox">
+                  <input id="availability-city" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions" aria-expanded="false" />
+                  <span id="availability-city-suggestions" class="availability-city-suggestions" role="listbox" hidden></span>
+                </span>
               </label>
               <label><span id="availability-slots-label">Locuri disponibile</span>
                 <input id="availability-slots" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
@@ -216,6 +218,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=15"></script>
+  <script type="module" src="admin.js?v=16"></script>
 </body>
 </html>
