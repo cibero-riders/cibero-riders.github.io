@@ -7,7 +7,8 @@ const copy = {
     categoryTitle: "Alege categoria solicitării",
     categorySubtitle: "Selectează platforma sau categoria pentru care ai o solicitare.",
     platformSeparator: "Cont platforme",
-    adminSeparator: "Administrativ și financiar",
+    financialSeparator: "Financiar",
+    adminSeparator: "Administrativ",
     paymentSeparator: "Rapoarte și Plăți",
     continue: "Continuă",
     back: "Pasul anterior",
@@ -76,7 +77,8 @@ const copy = {
     categoryTitle: "Choose request category",
     categorySubtitle: "Select the platform or category for your request.",
     platformSeparator: "Platform accounts",
-    adminSeparator: "Administrative and financial",
+    financialSeparator: "Financial",
+    adminSeparator: "Administrative",
     paymentSeparator: "Reports and Payments",
     continue: "Continue",
     back: "Previous step",
@@ -147,13 +149,14 @@ const categories = [
   { id: "bolt", platform: true, label: { ro: "Bolt Food", en: "Bolt Food" }, desc: { ro: "Modificare date (IBAN, nr. tel., vehicul, etc.), deblocare cont etc.", en: "Update details (IBAN, phone, vehicle etc.), unblock account and more." }, icon: "B", logo: "../assets/ticket-bolt-round.png", logoScale: "1", accent: "#35d187" },
   { id: "glovo", platform: true, label: { ro: "Glovo", en: "Glovo" }, desc: { ro: "Modificare date (IBAN, nr. tel., vehicul, etc.), comenzi, deblocare cont etc.", en: "Update details (IBAN, phone, vehicle etc.), orders, unblock account and more." }, icon: "G", logo: "../assets/ticket-glovo-round.png", logoScale: "1", accent: "#ffbf05" },
   { id: "wolt", platform: true, label: { ro: "Wolt", en: "Wolt" }, desc: { ro: "Modificare date (IBAN, nr. tel., vehicul, etc.), deblocare cont etc.", en: "Update details (IBAN, phone, vehicle etc.), unblock account and more." }, icon: "W", logo: "../assets/ticket-wolt-round.png", logoScale: "1", accent: "#00c2e8" },
+  { separator: "financial" },
+  { id: "rapoarte_plati", presetType: "suma_incorecta", label: { ro: "Sumă incorectă în raport", en: "Incorrect amount in report" }, titleLines: { ro: ["Sumă incorectă", "în raport"], en: ["Incorrect amount", "in report"] }, desc: { ro: "Semnalează o sumă greșită din raportul săptămânal", en: "Report an incorrect amount in your weekly statement" }, icon: "∑", logo: "../assets/ticket-report-round.svg", accent: "#d6a85b" },
+  { id: "rapoarte_plati", presetType: "lipsa_plata", label: { ro: "Plată lipsă sau eronată", en: "Missing or incorrect payment" }, titleLines: { ro: ["Plată lipsă", "sau eronată"], en: ["Missing or", "incorrect payment"] }, desc: { ro: "Nu ai primit plata sau suma primită nu este corectă", en: "You did not receive payment or the received amount is incorrect" }, icon: "RON", logo: "../assets/ticket-missing-payment-round.svg", accent: "#55bb9b" },
+  { id: "rapoarte_plati", presetType: "alta_problema_plata", label: { ro: "Altă problemă cu plata", en: "Other payment issue" }, titleLines: { ro: ["Altă problemă", "cu plata"], en: ["Other payment", "issue"] }, desc: { ro: "Orice altă situație legată de plăți sau rapoarte", en: "Any other situation related to payments or reports" }, icon: "?", logo: "../assets/ticket-payment-help-round.svg", accent: "#d19aaf" },
+  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", logo: "../assets/ticket-reimbursement-round.svg", accent: "#7bdca9" },
   { separator: "admin" },
   { id: "probleme_admin", presetType: "transfer_cont", label: { ro: "Transfer de Cont", en: "Account Transfer" }, desc: { ro: "Transferă cont activ de la altă flotă, la CibeRO", en: "Transfer an active account from another fleet to CibeRO" }, icon: "⇄", logo: "../assets/ticket-transfer-round.svg", accent: "#4cc9d9" },
-  { id: "rapoarte_plati", presetType: "suma_incorecta", label: { ro: "Sumă incorectă în raport", en: "Incorrect amount in report" }, titleLines: { ro: ["Sumă incorectă", "în raport"], en: ["Incorrect amount", "in report"] }, desc: { ro: "Semnalează o sumă greșită din raportul săptămânal", en: "Report an incorrect amount in your weekly statement" }, icon: "∑", logo: "../assets/ticket-report-round.svg", accent: "#d6a85b" },
-  { id: "rapoarte_plati", presetType: "lipsa_plata", label: { ro: "Plată lipsă", en: "Missing payment" }, desc: { ro: "Nu ai primit plata pentru una sau mai multe săptămâni", en: "You did not receive payment for one or more weeks" }, icon: "RON", logo: "../assets/ticket-missing-payment-round.svg", accent: "#55bb9b" },
-  { id: "rapoarte_plati", presetType: "alta_problema_plata", label: { ro: "Altă problemă cu plata", en: "Other payment issue" }, titleLines: { ro: ["Altă problemă", "cu plata"], en: ["Other payment", "issue"] }, desc: { ro: "Orice altă situație legată de plăți sau rapoarte", en: "Any other situation related to payments or reports" }, icon: "?", logo: "../assets/ticket-payment-help-round.svg", accent: "#d19aaf" },
   { id: "probleme_admin", label: { ro: "Probleme Administrative", en: "Administrative Issues" }, desc: { ro: "Documente, contract, date cont, alte solicitări", en: "Documents, contract, account details, other requests" }, icon: "◇", logo: "../assets/ticket-admin-round.svg", accent: "#c49ac8" },
-  { id: "deconturi", label: { ro: "5% Decontare", en: "5% Reimbursement" }, desc: { ro: "Probleme cu decontarea sau trimiterea bonurilor", en: "Reimbursement issues or receipt submission" }, icon: "5%", logo: "../assets/ticket-reimbursement-round.svg", accent: "#7bdca9" },
   { id: "inactivitate", label: { ro: "Concediu / Inactivitate", en: "Leave / Inactivity" }, desc: { ro: "Anunță o perioadă de absență de minimum o săptămână", en: "Report an absence of at least one week" }, icon: "CAL", logo: "../assets/ticket-inactivity-round.svg", accent: "#efc45f" },
 ];
 
@@ -169,7 +172,7 @@ const typeCatalog = {
   transfer_cont: ["Transfer de Cont", "Account Transfer", "Transferă cont activ de la altă flotă, la CibeRO", "Transfer an active account from another fleet to CibeRO", "⇄"],
   other: ["Altă problemă", "Other issue", "Cont blocat, deblocare sau altă solicitare", "Blocked account, unblocking or another request", "?"],
   suma_incorecta: ["Sumă incorectă în raport", "Incorrect amount in report", "Suma din raportul săptămânal nu este corectă", "The amount in my weekly report is incorrect", "∑"],
-  lipsa_plata: ["Plată lipsă", "Missing payment", "Nu am primit plata pentru una sau mai multe săptămâni", "I did not receive payment for one or more weeks", "RON"],
+  lipsa_plata: ["Plată lipsă sau eronată", "Missing or incorrect payment", "Nu am primit plata sau suma primită nu este corectă", "I did not receive payment or the received amount is incorrect", "RON"],
   clarificare_decont: ["Clarificare decont", "Payment clarification", "Am o întrebare despre sumele din decont", "I have a question about the amounts in my statement", "i"],
   alta_problema_plata: ["Altă problemă cu plata", "Other payment issue", "Altă problemă legată de plăți sau rapoarte", "Another issue related to payments or reports", "?"],
   actualizare_documente: ["Actualizare documente", "Update documents", "Trebuie să încarc sau să actualizez un document", "I need to upload or update a document", "▧"],
@@ -264,7 +267,7 @@ function actions(showBack = true, nextLabel = t("continue"), nextId = "next") {
 
 function renderCategories() {
   stage.innerHTML = `${heading(t("categoryTitle"), t("categorySubtitle"))}<div class="stage-body"><div class="category-grid">${categories.map(item => {
-    if (item.separator) return `<div class="category-separator">${escapeHtml(t(item.separator === "platforms" ? "platformSeparator" : "adminSeparator"))}</div>`;
+    if (item.separator) return `<div class="category-separator">${escapeHtml(t(item.separator === "platforms" ? "platformSeparator" : item.separator === "financial" ? "financialSeparator" : "adminSeparator"))}</div>`;
     const selected = state.category === item.id && (!item.presetType || state.type === item.presetType);
     const logo = item.logo ? `<img class="category-logo" src="${item.logo}" alt="" style="--logo-scale:${item.logoScale || 1}" />` : escapeHtml(item.icon);
     const cardTitle = (item.titleLines?.[state.language] || [item.label[state.language]]).map(escapeHtml).join("<br />");

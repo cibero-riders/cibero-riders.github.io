@@ -303,7 +303,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .ticket-navigation .platform-tabs { padding: 9px 0 0; }
   .ticket-type-tabs { padding-top: 9px; }
   .ticket-type-tab { flex: 1 1 130px; min-width: 0; }
-  .ticket-workspace-tabs { display: grid; grid-template-columns: 1fr 1fr; }
+  .ticket-workspace-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .ticket-workspace-tab { min-width: 0; padding-inline: 8px; font-size: 12px; text-align: center; }
   .platform-tab { flex: 1; min-width: 0; }
   .admin-section-panel .summary-grid { padding: 16px 17px 0; }

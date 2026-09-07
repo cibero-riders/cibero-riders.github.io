@@ -41,7 +41,7 @@ const ticketTypeLabels = {
   phone: "Schimbare telefon", email: "Schimbare email", iban: "Schimbare IBAN", city: "Schimbare oraș",
   vehicle: "Schimbare vehicul", plate_number: "Schimbare număr înmatriculare", activate_chas: "Activează CASH",
   deactivate_chas: "Dezactivează CASH", transfer_cont: "Transfer de Cont", other: "Altă problemă",
-  suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă", clarificare_decont: "Clarificare decont",
+  suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă sau eronată", clarificare_decont: "Clarificare decont",
   alta_problema_plata: "Altă problemă cu plata", actualizare_documente: "Actualizare documente",
   problema_contract: "Problemă cu contractul", alta_problema_admin: "Altă problemă administrativă",
   comanda_anulata: "Comandă Glovo anulată", deconturi: "Deconturi", inactivitate: "Concediu/Inactivitate",
@@ -52,12 +52,12 @@ const ticketViews = [
   { id: "bolt", workspace: "platforms", label: "Bolt", types: ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"], matches: item => item.category === "bolt" },
   { id: "glovo", workspace: "platforms", label: "Glovo", types: ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "comanda_anulata", "other"], matches: item => item.category === "glovo" },
   { id: "wolt", workspace: "platforms", label: "Wolt", types: ["phone", "email", "iban", "city", "vehicle", "other"], matches: item => item.category === "wolt" },
+  { id: "suma_incorecta", workspace: "financial", label: "Sumă incorectă în raport", matches: item => item.request_type === "suma_incorecta" },
+  { id: "lipsa_plata", workspace: "financial", label: "Plată lipsă sau eronată", matches: item => item.request_type === "lipsa_plata" },
+  { id: "alta_problema_plata", workspace: "financial", label: "Altă problemă cu plata", matches: item => item.request_type === "alta_problema_plata" },
+  { id: "deconturi", workspace: "financial", label: "5% Decontare", types: ["problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"], matches: item => item.category === "deconturi" || ["deconturi", "problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"].includes(item.request_type) },
   { id: "transfer_cont", workspace: "administrative", label: "Transfer de cont", matches: item => item.request_type === "transfer_cont" },
-  { id: "suma_incorecta", workspace: "administrative", label: "Sumă incorectă în raport", matches: item => item.request_type === "suma_incorecta" },
-  { id: "lipsa_plata", workspace: "administrative", label: "Plată lipsă", matches: item => item.request_type === "lipsa_plata" },
-  { id: "alta_problema_plata", workspace: "administrative", label: "Altă problemă cu plata", matches: item => item.request_type === "alta_problema_plata" },
   { id: "probleme_admin", workspace: "administrative", label: "Probleme administrative", types: ["actualizare_documente", "problema_contract", "alta_problema_admin"], matches: item => item.category === "probleme_admin" && item.request_type !== "transfer_cont" },
-  { id: "deconturi", workspace: "administrative", label: "5% Decontare", types: ["problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"], matches: item => item.category === "deconturi" || ["deconturi", "problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"].includes(item.request_type) },
   { id: "inactivitate", workspace: "administrative", label: "Concediu / Inactivitate", matches: item => item.category === "inactivitate" || item.request_type === "inactivitate" },
 ];
 
@@ -334,15 +334,15 @@ function persistTicketNavigation() {
 function restoreTicketNavigation() {
   const saved = readAdminPreference("ticket-navigation");
   const savedView = ticketViews.find(view => view.id === saved?.view);
-  const savedWorkspace = saved?.workspace === "administrative" ? "administrative" : "platforms";
-  activeTicketWorkspace = savedView?.workspace === savedWorkspace ? savedWorkspace : "platforms";
+  const savedWorkspace = ticketViews.some(view => view.workspace === saved?.workspace) ? saved.workspace : "platforms";
+  activeTicketWorkspace = savedView?.workspace ?? savedWorkspace;
   activeTicketView = savedView?.workspace === activeTicketWorkspace ? savedView.id : ticketViews.find(view => view.workspace === activeTicketWorkspace).id;
   activeTicketRequestType = savedView?.types?.includes(saved?.requestType) ? saved.requestType : "";
   renderTicketNavigation();
 }
 
 function setActiveTicketWorkspace(workspace, persist = true) {
-  activeTicketWorkspace = workspace === "administrative" ? "administrative" : "platforms";
+  activeTicketWorkspace = ticketViews.some(view => view.workspace === workspace) ? workspace : "platforms";
   if (ticketViewById(activeTicketView).workspace !== activeTicketWorkspace) {
     activeTicketView = ticketViews.find(view => view.workspace === activeTicketWorkspace).id;
   }
