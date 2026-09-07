@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Înregistrează-te pentru colaborare cu flota CibeRO." />
+  <link rel="canonical" href="https://cibero-riders.github.io/inregistrare/" />
+  <title>Înregistrare | CibeRO</title>
+  <link rel="icon" type="image/png" href="../assets/cibero-favicon.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="registration.css?v=1" />
+</head>
+<body>
+  <main class="registration-page">
+    <header class="registration-header">
+      <img src="../assets/cibero-header-wordmark.png" alt="CibeRO" />
+      <div class="language-switch" role="group" aria-label="Limba / Language">
+        <button type="button" data-language="ro" class="active">RO</button>
+        <button type="button" data-language="en">EN</button>
+      </div>
+    </header>
+
+    <section class="registration-card" aria-labelledby="registration-title">
+      <p class="eyebrow" data-i18n="eyebrow">CibeRO · ÎNREGISTRARE</p>
+      <h1 id="registration-title" data-i18n="title">Înscriere Curier</h1>
+      <p class="intro" data-i18n="intro">Alătură-te rețelei noastre de livrare și începe să câștigi.</p>
+
+      <form id="social-registration-form" novalidate>
+        <label class="honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
+
+        <fieldset class="profile-fieldset">
+          <legend><span data-i18n="courierType">Ce tip de colaborare cauți?</span> <b>*</b></legend>
+          <div class="profile-grid">
+            <label class="profile-option"><input required type="radio" name="courier_type" value="new_courier" /><span class="profile-icon">◌</span><strong data-i18n="newCourier">Curier nou</strong></label>
+            <label class="profile-option"><input type="radio" name="courier_type" value="pfa" /><span class="profile-icon">▣</span><strong>PFA</strong></label>
+            <label class="profile-option"><input type="radio" name="courier_type" value="experienced_courier" /><span class="profile-icon">✦</span><strong data-i18n="experienced">Curier cu experiență</strong></label>
+            <label class="profile-option"><input type="radio" name="courier_type" value="srl" /><span class="profile-icon">▤</span><strong>SRL</strong></label>
+          </div>
+        </fieldset>
+
+        <div class="form-grid">
+          <label><span data-i18n="fullName">Nume complet</span> <b>*</b><input required name="full_name" autocomplete="name" data-i18n-placeholder="fullNamePlaceholder" placeholder="Ion Popescu" /></label>
+          <label><span data-i18n="email">Email</span> <b>*</b><input required type="email" name="email" autocomplete="email" placeholder="email@exemplu.ro" /></label>
+          <label><span data-i18n="phone">Telefon</span> <b>*</b><input required type="tel" name="phone" autocomplete="tel" placeholder="07XX XXX XXX" /></label>
+          <label><span data-i18n="nationality">Naționalitate</span> <b>*</b><input required name="nationality" autocomplete="country-name" data-i18n-placeholder="nationalityPlaceholder" placeholder="Română" /></label>
+          <label><span data-i18n="city">Oraș</span> <b>*</b><select required name="city" id="city-select"></select></label>
+          <label><span data-i18n="vehicle">Tip vehicul</span> <b>*</b><select required name="vehicle" id="vehicle-select"></select></label>
+          <label class="full"><span data-i18n="source">De unde ai aflat de noi?</span> <b>*</b><select required name="discovery_source" id="source-select"></select></label>
+          <label class="full"><span data-i18n="intent">Ce vrei să faci?</span> <small data-i18n="intentHint">Descrie pe scurt</small><textarea required name="message" maxlength="2000" data-i18n-placeholder="intentPlaceholder" placeholder="Ex: Vreau să lucrez la Glovo; Am PFA și vreau 5 curieri; Avem SRL cu 10 mașini..."></textarea></label>
+        </div>
+
+        <fieldset class="platform-fieldset">
+          <legend><span data-i18n="platforms">Selectează platformele</span> <b>*</b></legend>
+          <div class="platform-grid">
+            <label><input type="checkbox" name="platforms" value="bolt" /><span><img src="../assets/ticket-bolt-round.png" alt="" />Bolt Food</span></label>
+            <label><input type="checkbox" name="platforms" value="glovo" /><span><img src="../assets/glovo-round.png" alt="" />Glovo</span></label>
+            <label><input type="checkbox" name="platforms" value="wolt" /><span><img src="../assets/wolt-round.png" alt="" />Wolt</span></label>
+          </div>
+        </fieldset>
+
+        <div class="consents">
+          <label><input required type="checkbox" name="adult_confirmed" /><span data-i18n="adult">Confirm că am cel puțin 18 ani.</span> <b>*</b></label>
+          <label><input required type="checkbox" name="consent_privacy" /><span data-i18n="privacy">Sunt de acord cu procesarea datelor mele personale pentru analizarea acestei înregistrări.</span> <b>*</b></label>
+        </div>
+
+        <button id="submit-registration" class="submit-button" type="submit" data-i18n="submit">Trimite înregistrarea</button>
+        <p id="form-feedback" class="feedback" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+  <script src="registration.js?v=1"></script>
+</body>
+</html>

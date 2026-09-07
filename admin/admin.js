@@ -13,6 +13,8 @@ const statusLabels = {
   archived: "Arhivată",
 };
 
+const applicationPlatformLabels = { wolt: "Wolt", glovo: "Glovo", social_media: "Social Media" };
+
 const ticketStatusLabels = {
   new: "Nou",
   reviewing: "În lucru",
@@ -689,6 +691,10 @@ function filteredApplications() {
   });
 }
 
+function applicationPlatformLabel(platform) {
+  return applicationPlatformLabels[platform] ?? platform;
+}
+
 function updateSelectionControls(rows = filteredApplications()) {
   const visibleIds = rows.map(item => item.id);
   const selectedVisibleCount = visibleIds.filter(id => selectedApplicationIds.has(id)).length;
@@ -713,7 +719,7 @@ function renderApplications() {
       </label>
       <button class="application-open" type="button" data-application-id="${escapeHtml(item.id)}">
         <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
-        <span class="platform">${escapeHtml(item.platform)}</span>
+        <span class="platform">${escapeHtml(applicationPlatformLabel(item.platform))}</span>
         <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
         <span class="city">${escapeHtml(item.city)}</span>
         <span class="status-pill" data-status="${escapeHtml(item.status)}">${escapeHtml(statusLabels[item.status] ?? item.status)}</span>
@@ -723,7 +729,7 @@ function renderApplications() {
   `).join("");
 
   emptyState.hidden = rows.length > 0;
-  emptyState.textContent = `Nu există cereri ${activePlatform === "wolt" ? "Wolt" : "Glovo"} pentru filtrele selectate.`;
+  emptyState.textContent = `Nu există cereri ${applicationPlatformLabel(activePlatform)} pentru filtrele selectate.`;
   applicationsList.querySelectorAll("[data-select-application]").forEach(checkbox => {
     checkbox.addEventListener("change", () => {
       const id = checkbox.dataset.selectApplication;
@@ -749,7 +755,7 @@ async function openApplication(id) {
 
   applicationDetails.innerHTML = `
     <div class="detail-grid">
-      ${detailField("Platformă", item.platform.toUpperCase())}
+      ${detailField("Platformă", applicationPlatformLabel(item.platform))}
       ${detailField("Status", statusLabels[item.status] ?? item.status)}
       ${detailField("Prenume", item.first_name)}
       ${detailField("Nume", item.last_name)}
@@ -757,6 +763,7 @@ async function openApplication(id) {
       ${detailField("Telefon", item.phone)}
       ${detailField("Oraș", item.city)}
       ${detailField("Vehicul", item.vehicle)}
+      ${item.platform === "social_media" ? `${detailField("Tip colaborare", ({ new_courier: "Curier nou", pfa: "PFA", experienced_courier: "Curier cu experiență", srl: "SRL" })[item.courier_type] ?? item.courier_type)}${detailField("Naționalitate", item.nationality)}${detailField("De unde a aflat", ({ facebook: "Facebook", instagram: "Instagram", tiktok: "TikTok", olx: "OLX", google: "Google", recommendation: "Recomandare", other: "De altundeva" })[item.discovery_source] ?? item.discovery_source)}${detailField("Platforme dorite", (item.desired_platforms ?? []).map(value => ({ bolt: "Bolt Food", glovo: "Glovo", wolt: "Wolt" })[value] ?? value).join(", "), true)}` : ""}
       ${detailField("Data cererii", formatDate(item.created_at), true)}
       ${detailField("Mesaj", item.message, true)}
     </div>
@@ -1087,7 +1094,7 @@ async function openProof(path) {
 
 function exportCsv() {
   const rows = filteredApplications();
-  const columns = ["created_at", "platform", "status", "first_name", "last_name", "email", "phone", "city", "vehicle", "message", "admin_notes"];
+  const columns = ["created_at", "platform", "status", "first_name", "last_name", "email", "phone", "city", "vehicle", "courier_type", "nationality", "discovery_source", "desired_platforms", "message", "admin_notes"];
   const quote = value => {
     const raw = String(value ?? "");
     const safe = /^[=+\-@\t\r]/.test(raw) ? `'${raw}` : raw;

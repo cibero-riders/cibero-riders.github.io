@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.submit-ticket]
 verify_jwt = false
+
+[functions.submit-social-registration]
+verify_jwt = false
