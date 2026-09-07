@@ -185,6 +185,12 @@ function canonicalAvailabilityCity(value) {
   return availabilityCities.find(city => normalizeCity(city) === normalized) ?? "";
 }
 
+function matchingAvailabilityCities(value) {
+  const normalized = normalizeCity(value);
+  if (!normalized) return [];
+  return availabilityCities.filter(city => normalizeCity(city).includes(normalized));
+}
+
 function sanitizeAvailabilityDraft(value) {
   if (!value || typeof value !== "object") return null;
   const sanitizeRows = rows => {
@@ -1072,10 +1078,13 @@ availabilityCityList.innerHTML = [...new Map(availabilityCities.map(city => [nor
 renderAvailability();
 availabilityCityInput.addEventListener("input", focusAvailabilitySlotsAfterCitySelection);
 availabilityCityInput.addEventListener("keydown", event => {
-  if (event.key === "Enter" && canonicalAvailabilityCity(availabilityCityInput.value)) {
-    event.preventDefault();
-    focusAvailabilitySlotsAfterCitySelection();
-  }
+  if (event.key !== "Enter") return;
+  const exactCity = canonicalAvailabilityCity(availabilityCityInput.value);
+  const matches = exactCity ? [exactCity] : matchingAvailabilityCities(availabilityCityInput.value);
+  if (matches.length !== 1) return;
+  event.preventDefault();
+  availabilityCityInput.value = matches[0];
+  focusAvailabilitySlotsAfterCitySelection();
 });
 availabilitySlotsInput.addEventListener("keydown", event => {
   if (event.key === "Enter") { event.preventDefault(); addAvailabilityCity(); }
