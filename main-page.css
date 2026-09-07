@@ -220,3 +220,229 @@ body {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
 }
+
+/* Pagina de prezentare — Aureum Axis */
+.home-showcase {
+  position: relative;
+  isolation: isolate;
+  width: min(1280px, calc(100% - 64px));
+  min-height: calc(100vh - 82px);
+  margin: 0 auto;
+  padding: 42px 0 76px;
+  display: grid;
+  grid-template-columns: minmax(275px, .84fr) minmax(190px, .57fr) minmax(390px, 1.16fr);
+  align-items: center;
+  gap: clamp(28px, 4vw, 62px);
+}
+
+.showcase-glow {
+  position: absolute;
+  z-index: -1;
+  inset: 3% -10% auto;
+  height: 78%;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 18% 47%, #c18a2935 0%, transparent 34%),
+    radial-gradient(ellipse at 78% 23%, #9a52a337 0%, transparent 35%);
+  filter: blur(4px);
+}
+
+.showcase-emblem,
+.showcase-video { min-width: 0; text-align: center; }
+
+.showcase-emblem { position: relative; }
+.showcase-emblem::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 12% 2%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #d49d3330, transparent 66%);
+  filter: blur(18px);
+}
+.showcase-emblem img {
+  display: block;
+  width: min(410px, 100%);
+  margin: 0 auto;
+  mix-blend-mode: screen;
+  filter: drop-shadow(0 28px 28px #000b);
+}
+
+.showcase-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 0 0 12px;
+  color: #d9b95d;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+}
+.showcase-kicker span {
+  width: 34px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d9b95d);
+}
+.showcase-kicker span:last-child { transform: rotate(180deg); }
+
+.showcase-video { width: min(238px, 100%); justify-self: center; }
+.showcase-video .video-frame { box-shadow: inset 0 0 0 1px #fff2b714, 0 24px 60px #030104a8, 0 0 34px #b5762924; }
+
+.showcase-benefits { min-width: 0; }
+.showcase-eyebrow {
+  margin: 0 0 10px;
+  color: #e2bd56;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+.showcase-benefits h1 {
+  max-width: 610px;
+  margin: 0 0 26px;
+  color: #fff6dc;
+  font-size: clamp(37px, 4vw, 58px);
+  font-weight: 800;
+  line-height: .98;
+  letter-spacing: -.06em;
+}
+.showcase-benefits h1 em { color: #dda8eb; font-style: normal; font-weight: 500; }
+
+.showcase-benefit-grid { display: grid; gap: 9px; }
+.showcase-benefit {
+  min-height: 55px;
+  padding: 10px 17px 10px 12px;
+  display: grid;
+  grid-template-columns: 34px 1fr;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid #dfb95475;
+  border-radius: 8px;
+  background: linear-gradient(100deg, #33163edb, #170a1de8);
+  box-shadow: inset 0 1px 0 #fff4c30d, 0 7px 20px #05020726;
+  transition: transform .2s ease, border-color .2s ease, background .2s ease;
+}
+.showcase-benefit:hover {
+  transform: translateX(4px);
+  border-color: #f1d171;
+  background: linear-gradient(100deg, #47204e, #21102a);
+}
+.showcase-benefit > span {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e7c35d;
+  border-radius: 50%;
+  color: #ffe391;
+  background: #5a301c;
+  font-size: 15px;
+  font-weight: 700;
+}
+.showcase-benefit h2 {
+  margin: 0;
+  color: #fff0bd;
+  font-size: 14px;
+  font-weight: 750;
+  line-height: 1.25;
+  letter-spacing: -.015em;
+}
+
+.home-faq {
+  width: min(1050px, calc(100% - 64px));
+  margin: 0 auto 104px;
+  padding: 35px clamp(20px, 4vw, 58px) 42px;
+  border: 1px solid #d7b34d68;
+  border-radius: 20px;
+  background:
+    linear-gradient(90deg, #d7b34d 0 48px, transparent 48px calc(100% - 48px), #d7b34d calc(100% - 48px)) top 25px center / 100% 1px no-repeat,
+    radial-gradient(circle at 50% 0%, #77417a25, transparent 45%),
+    linear-gradient(145deg, #25112f, #150a1d);
+  box-shadow: inset 0 1px 0 #fff4c20d, 0 26px 58px #0201045a;
+}
+.home-faq header { text-align: center; }
+.home-faq header .showcase-kicker { margin-bottom: 10px; }
+.home-faq h2 {
+  margin: 0;
+  color: #fff3cb;
+  font-size: clamp(27px, 3vw, 39px);
+  font-weight: 800;
+  letter-spacing: -.045em;
+}
+.home-faq-list { margin: 29px auto 0; }
+.home-faq details {
+  overflow: hidden;
+  border: 1px solid #ddb95778;
+  border-radius: 9px;
+  background: #1d0d25bd;
+}
+.home-faq details + details { margin-top: 9px; }
+.home-faq summary {
+  min-height: 60px;
+  padding: 16px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  cursor: pointer;
+  color: #fff1c2;
+  font-size: 16px;
+  font-weight: 700;
+  list-style: none;
+}
+.home-faq summary::-webkit-details-marker { display: none; }
+.home-faq summary span {
+  width: 11px;
+  height: 11px;
+  flex: 0 0 auto;
+  border-right: 2px solid #e6c565;
+  border-bottom: 2px solid #e6c565;
+  transform: rotate(45deg) translateY(-3px);
+  transition: transform .18s ease;
+}
+.home-faq details[open] summary span { transform: rotate(225deg) translate(-3px, 0); }
+.home-faq details p {
+  margin: -2px 22px 19px;
+  padding-top: 15px;
+  border-top: 1px solid #e2bd5952;
+  color: #dccce0;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+@media (max-width: 1080px) {
+  .home-showcase {
+    grid-template-columns: minmax(250px, 1fr) minmax(195px, .72fr);
+    gap: 40px;
+  }
+  .showcase-benefits { grid-column: 1 / -1; width: min(720px, 100%); margin: 0 auto; }
+  .showcase-benefits h1, .showcase-eyebrow { text-align: center; }
+  .showcase-benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 760px) {
+  .home-showcase {
+    width: calc(100% - 32px);
+    min-height: 0;
+    padding: 28px 0 58px;
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+  .showcase-emblem { width: min(315px, 88vw); justify-self: center; }
+  .showcase-video { width: min(280px, 76vw); }
+  .showcase-benefits { grid-column: auto; }
+  .showcase-benefits h1 { max-width: 350px; margin: 0 auto 25px; font-size: clamp(34px, 10vw, 42px); }
+  .showcase-eyebrow { margin-bottom: 9px; font-size: 10px; }
+  .showcase-benefit-grid { gap: 8px; }
+  .showcase-benefit { min-height: 78px; padding: 10px 9px; grid-template-columns: 31px 1fr; gap: 8px; border-radius: 7px; }
+  .showcase-benefit:hover { transform: none; }
+  .showcase-benefit > span { width: 30px; height: 30px; font-size: 14px; }
+  .showcase-benefit h2 { font-size: 13px; line-height: 1.27; }
+  .home-faq { width: calc(100% - 32px); margin-bottom: 70px; padding: 30px 13px 18px; border-radius: 15px; }
+  .home-faq h2 { font-size: 28px; }
+  .home-faq-list { margin-top: 24px; }
+  .home-faq summary { min-height: 56px; padding: 14px; font-size: 14px; }
+  .home-faq details p { margin: -1px 14px 16px; font-size: 14px; }
+}
