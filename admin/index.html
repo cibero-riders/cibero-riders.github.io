@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=19" />
+  <link rel="stylesheet" href="admin.css?v=20" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -40,28 +40,28 @@
 
     <section id="dashboard-view" class="dashboard" hidden>
       <div class="dashboard-heading">
-        <div><p class="eyebrow">CibeRO Operations</p><h1>Panou administrativ</h1></div>
+        <div><p class="eyebrow">CibeRO Operations</p><h1>Panou administrativ</h1><p>Lucrezi într-o singură zonă, fără să pierzi contextul.</p></div>
+        <span id="ticket-workspace-count" class="workspace-unread-badge" hidden>0 noi</span>
       </div>
 
-      <div class="admin-tab-groups">
-        <nav class="admin-primary-tabs admin-ticket-tabs" aria-label="Control tickete" role="tablist">
-          <span class="admin-control-label">Control Tickete</span>
-          <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel">
-            <span class="tab-icon" aria-hidden="true">⌑</span>
-            <span><strong>Cereri de Deschidere Cont</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span>
-          </button>
-          <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel">
-            <span class="tab-icon" aria-hidden="true">✦</span>
-            <span><strong>Tickete Curieri</strong></span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span>
-          </button>
-        </nav>
-        <nav class="admin-primary-tabs admin-control-tabs" aria-label="Control operațional" role="tablist">
-          <span class="admin-control-label">Control operațional</span>
-          <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-section="availability-panel">
-            <span class="tab-icon" aria-hidden="true">⌖</span>
-            <span><strong>Locuri Glovo/Wolt</strong></span>
-          </button>
-        </nav>
+      <nav class="workspace-switcher" aria-label="Spațiu de lucru" role="tablist">
+        <button class="workspace-switch active" type="button" role="tab" aria-selected="true" data-admin-workspace="tickets"><span aria-hidden="true">⌑</span> Control tickete <b id="tickets-workspace-tab-count" hidden>0</b></button>
+        <button class="workspace-switch" type="button" role="tab" aria-selected="false" data-admin-workspace="operational"><span aria-hidden="true">⌖</span> Control operațional</button>
+      </nav>
+
+      <div class="admin-workspace-layout">
+        <aside class="admin-workspace-rail" data-admin-workspace-rail="tickets">
+          <p>Control tickete</p>
+          <button class="admin-rail-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel"><span>Cereri de deschidere cont</span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
+          <button class="admin-rail-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel"><span>Tickete curieri</span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span></button>
+        </aside>
+
+        <aside class="admin-workspace-rail" data-admin-workspace-rail="operational" hidden>
+          <p>Control operațional</p>
+          <button class="admin-rail-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-section="availability-panel"><span>Locuri Glovo/Wolt</span></button>
+        </aside>
+
+        <div class="admin-workspace-content">
       </div>
 
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
@@ -205,6 +205,8 @@
           <button id="publish-availability" class="primary-button" type="button">Verifică și publică</button>
         </div>
       </section>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -237,6 +239,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=20"></script>
+  <script type="module" src="admin.js?v=21"></script>
 </body>
 </html>

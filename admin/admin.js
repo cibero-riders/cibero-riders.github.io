@@ -88,6 +88,10 @@ const cancelDeleteButton = document.querySelector("#cancel-delete-button");
 const confirmDeleteButton = document.querySelector("#confirm-delete-button");
 const deleteFeedback = document.querySelector("#delete-feedback");
 const adminSectionTabs = [...document.querySelectorAll("[data-admin-section]")];
+const adminWorkspaceTabs = [...document.querySelectorAll("[data-admin-workspace]")];
+const adminWorkspaceRails = [...document.querySelectorAll("[data-admin-workspace-rail]")];
+const ticketWorkspaceCount = document.querySelector("#ticket-workspace-count");
+const ticketsWorkspaceTabCount = document.querySelector("#tickets-workspace-tab-count");
 const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
 const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
@@ -116,6 +120,7 @@ let tickets = [];
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
+let activeAdminWorkspace = "tickets";
 let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
@@ -252,10 +257,46 @@ function restoreAvailabilityDraft() {
   return sanitizeAvailabilityDraft(readAdminPreference("availability-draft"));
 }
 
+function workspaceForAdminSection(sectionId) {
+  return sectionId === "availability-panel" ? "operational" : "tickets";
+}
+
+function updateAdminWorkspace(workspace) {
+  activeAdminWorkspace = workspace === "operational" ? "operational" : "tickets";
+  adminWorkspaceTabs.forEach(tab => {
+    const active = tab.dataset.adminWorkspace === activeAdminWorkspace;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+  adminWorkspaceRails.forEach(rail => {
+    rail.hidden = rail.dataset.adminWorkspaceRail !== activeAdminWorkspace;
+  });
+}
+
+function setActiveAdminWorkspace(workspace) {
+  const nextWorkspace = workspace === "operational" ? "operational" : "tickets";
+  const fallbackSection = nextWorkspace === "operational" ? "availability-panel" : "applications-panel";
+  setActiveAdminSection(fallbackSection);
+}
+
+function updateTicketWorkspaceUnread() {
+  const unreadCount = applications.filter(item => !isApplicationRead(item)).length + tickets.filter(item => !isTicketRead(item)).length;
+  if (ticketWorkspaceCount) {
+    ticketWorkspaceCount.textContent = `${unreadCount} ${unreadCount === 1 ? "nou" : "noi"}`;
+    ticketWorkspaceCount.hidden = unreadCount === 0;
+  }
+  if (ticketsWorkspaceTabCount) {
+    ticketsWorkspaceTabCount.textContent = unreadCount;
+    ticketsWorkspaceTabCount.hidden = unreadCount === 0;
+  }
+  adminWorkspaceTabs.find(tab => tab.dataset.adminWorkspace === "tickets")?.classList.toggle("has-unread", unreadCount > 0);
+}
+
 function setActiveAdminSection(sectionId, persist = true) {
   const requested = adminSectionTabs.some(tab => tab.dataset.adminSection === sectionId)
     ? sectionId
     : "applications-panel";
+  updateAdminWorkspace(workspaceForAdminSection(requested));
   adminSectionTabs.forEach(tab => {
     const active = tab.dataset.adminSection === requested;
     tab.classList.toggle("active", active);
@@ -724,6 +765,7 @@ function updateTicketSummary() {
   document.querySelector("#tickets-reviewing-count").textContent = viewTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
   document.querySelector("#tickets-approved-count").textContent = viewTickets.filter(item => item.status === "approved").length;
   updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => !isTicketRead(item)).length);
+  updateTicketWorkspaceUnread();
 }
 
 function filteredTickets() {
@@ -781,6 +823,7 @@ function updateSummary() {
   document.querySelector("#reviewing-count").textContent = platformApplications.filter(item => item.status === "reviewing").length;
   document.querySelector("#activated-count").textContent = platformApplications.filter(item => item.status === "activated").length;
   updatePrimaryUnreadBadge("applications-panel", applicationsPrimaryCount, applications.filter(item => !isApplicationRead(item)).length);
+  updateTicketWorkspaceUnread();
 }
 
 function filteredApplications() {
@@ -1330,6 +1373,7 @@ resetAvailabilityDraftButton.addEventListener("click", resetAvailabilityDraft);
 publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialog);
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
 ticketWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveTicketWorkspace(tab.dataset.ticketWorkspace)));
+adminWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveAdminWorkspace(tab.dataset.adminWorkspace)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
 }));
