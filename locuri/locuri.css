@@ -1,0 +1,33 @@
+:root { color-scheme: dark; --ink: #100714; --cream: #fff5df; --muted: #d5c4d7; --gold: #e3ba53; --line: #e1b74e66; }
+* { box-sizing: border-box; }
+body { min-width: 320px; min-height: 100vh; margin: 0; background: radial-gradient(circle at 50% 0, #63306f 0, #1d0b27 43%, #0d0612 100%); color: var(--cream); font-family: "DM Sans", sans-serif; }
+.availability-header { display: flex; width: min(1180px, calc(100% - 40px)); height: 82px; margin: 0 auto; align-items: center; justify-content: space-between; border-bottom: 1px solid #edc55a42; }
+.availability-header a { display: block; width: 154px; height: 58px; }
+.availability-header img { display: block; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 4px 8px #0201038a); }
+.availability-header > span { color: #ffe39a; font: 700 12px/1 Cinzel, serif; letter-spacing: .12em; text-transform: uppercase; }
+main { width: min(1080px, calc(100% - 40px)); margin: 0 auto; padding: clamp(52px, 8vw, 94px) 0 70px; }
+.availability-hero { max-width: 720px; margin: 0 auto 42px; text-align: center; }
+.eyebrow { margin: 0 0 12px; color: var(--gold); font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
+h1, h2 { margin: 0; font-family: Cinzel, serif; }
+h1 { font-size: clamp(34px, 5vw, 62px); line-height: 1.08; letter-spacing: -1.8px; }
+h1 em { color: #dca4ea; font-style: normal; font-weight: 600; }
+.availability-hero > p:last-child { margin: 18px auto 0; color: var(--muted); font-size: 16px; line-height: 1.65; }
+.platform-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.platform-card { min-height: 380px; padding: 27px; overflow: hidden; border: 1px solid var(--line); border-radius: 20px; background: linear-gradient(145deg, #351541ef, #180a20f5); box-shadow: 0 24px 55px #05010773, inset 0 1px 0 #fff0ad17; }
+.glovo-card { background: radial-gradient(circle at 14% 0, #f4b83242, transparent 36%), linear-gradient(145deg, #412516ef, #1b0c20f5 68%); }
+.wolt-card { background: radial-gradient(circle at 14% 0, #00b9e137, transparent 36%), linear-gradient(145deg, #123445ef, #170b20f5 68%); }
+.platform-topline { display: flex; align-items: center; gap: 12px; color: #ffe9ae; font: 700 13px Cinzel, serif; letter-spacing: .12em; text-transform: uppercase; }
+.platform-topline img { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; }
+.platform-topline span { color: inherit; }
+.platform-card h2 { margin-top: 23px; color: var(--cream); font-size: clamp(25px, 3vw, 36px); line-height: 1.15; }
+.slots-list { display: grid; gap: 10px; margin-top: 28px; }
+.slot-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 14px 15px; border: 1px solid #e4be5b4d; border-radius: 12px; background: #14091bbb; }
+.slot-city { display: flex; align-items: center; gap: 10px; font-weight: 800; }
+.slot-city::before { width: 9px; height: 9px; flex: 0 0 9px; border-radius: 50%; background: #f0c75e; box-shadow: 0 0 0 4px #e8bc531c; content: ""; }
+.slot-count { flex: 0 0 auto; padding: 6px 10px; border: 1px solid #f0cf7288; border-radius: 999px; color: #ffeca9; background: #6c461e78; font-size: 12px; font-weight: 800; white-space: nowrap; }
+.wolt-card .slot-city::before { background: #3bd5ed; box-shadow: 0 0 0 4px #2acfe51c; }
+.wolt-card .slot-count { border-color: #6fe9f777; color: #d9fbff; background: #08738c78; }
+.slots-loading, .slots-empty { margin: 9px 0 0; padding: 20px 0; color: var(--muted); line-height: 1.55; text-align: center; }
+.availability-updated { min-height: 18px; margin: 25px 0 0; color: #bdaabe; font-size: 12px; text-align: center; }
+footer { padding: 25px; border-top: 1px solid #e0b84d2e; color: #aa95ac; font-size: 12px; text-align: center; }
+@media (max-width: 680px) { .availability-header { width: calc(100% - 28px); height: 72px; } .availability-header a { width: 125px; height: 48px; } .availability-header > span { font-size: 10px; } main { width: calc(100% - 28px); padding: 42px 0 55px; } .availability-hero { margin-bottom: 31px; } .availability-hero > p:last-child { font-size: 15px; } .platform-columns { grid-template-columns: 1fr; gap: 15px; } .platform-card { min-height: 0; padding: 22px 18px; border-radius: 16px; } .platform-card h2 { margin-top: 19px; } }

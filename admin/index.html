@@ -52,6 +52,10 @@
           <span class="tab-icon" aria-hidden="true">✦</span>
           <span><strong>Tickete Curieri</strong><small>Solicitări către echipă</small></span>
         </button>
+        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-section="availability-panel">
+          <span class="tab-icon" aria-hidden="true">⌖</span>
+          <span><strong>Locuri disponibile</strong><small>Publică orașele pentru Glovo și Wolt</small></span>
+        </button>
       </nav>
 
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
@@ -132,6 +136,54 @@
         <div id="tickets-list" class="applications-list tickets-list"></div>
         <p id="tickets-empty-state" class="empty-state" hidden>Nu există tickete pentru filtrele selectate.</p>
       </section>
+
+      <section id="availability-panel" class="panel admin-section-panel" role="tabpanel" hidden>
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Publicare rapidă</p>
+            <h2>Locuri disponibile</h2>
+            <p>Compune lista pentru fiecare platformă, verific-o, apoi public-o într-un singur pas.</p>
+          </div>
+          <a class="quiet-button availability-public-link" href="../locuri/" target="_blank" rel="noopener noreferrer">Deschide pagina publică ↗</a>
+        </div>
+
+        <div class="platform-tabs availability-platform-tabs" role="tablist" aria-label="Platformă disponibilități">
+          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-availability-platform="glovo"><img src="../assets/glovo-round.png" alt="" />Glovo</button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-availability-platform="wolt"><img src="../assets/wolt-round.png" alt="" />Wolt</button>
+        </div>
+
+        <div class="availability-workspace">
+          <section class="availability-editor" aria-labelledby="availability-editor-title">
+            <div class="availability-editor-heading">
+              <div><p class="eyebrow">Editezi pentru <span id="availability-platform-name">Glovo</span></p><h3 id="availability-editor-title">Adaugă un oraș</h3></div>
+              <span id="availability-draft-count" class="availability-count">0 orașe</span>
+            </div>
+            <div class="availability-add-form">
+              <label>Oraș
+                <input id="availability-city" type="search" list="availability-city-list" autocomplete="off" placeholder="Caută sau scrie orașul" />
+                <datalist id="availability-city-list"></datalist>
+              </label>
+              <label><span id="availability-slots-label">Locuri disponibile</span>
+                <input id="availability-slots" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
+              </label>
+              <button id="add-availability-city" class="primary-button" type="button">Adaugă în listă</button>
+            </div>
+            <p id="availability-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
+            <div id="availability-draft-list" class="availability-draft-list" aria-live="polite"></div>
+          </section>
+
+          <aside class="availability-preview" aria-labelledby="availability-preview-title">
+            <p class="eyebrow">Previzualizare înainte de publicare</p>
+            <h3 id="availability-preview-title">Așa va arăta pagina</h3>
+            <div id="availability-preview-columns" class="availability-preview-columns"></div>
+          </aside>
+        </div>
+
+        <div class="availability-actions">
+          <button id="reset-availability-draft" class="quiet-button" type="button">Renunță la modificări</button>
+          <button id="publish-availability" class="primary-button" type="button">Verifică și publică</button>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -143,6 +195,11 @@
   <dialog id="ticket-admin-dialog" class="application-dialog">
     <form method="dialog" class="dialog-top"><strong>Detalii ticket</strong><span class="dialog-top-actions"><button id="delete-ticket-header" class="danger-button" type="button" hidden>Șterge ticketul</button><button aria-label="Închide">×</button></span></form>
     <div id="ticket-admin-details"></div>
+  </dialog>
+
+  <dialog id="availability-publish-dialog" class="application-dialog availability-publish-dialog">
+    <form method="dialog" class="dialog-top"><strong>Confirmă publicarea</strong><button aria-label="Închide">×</button></form>
+    <div id="availability-publish-details"></div>
   </dialog>
 
   <dialog id="delete-dialog" class="delete-dialog" aria-labelledby="delete-dialog-title">
@@ -159,6 +216,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=10"></script>
+  <script type="module" src="admin.js?v=11"></script>
 </body>
 </html>

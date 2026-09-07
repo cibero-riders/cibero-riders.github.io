@@ -83,6 +83,21 @@ const exportTicketsButton = document.querySelector("#export-tickets-button");
 const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
 const ticketAdminDetails = document.querySelector("#ticket-admin-details");
 const ticketDeleteHeader = document.querySelector("#delete-ticket-header");
+const availabilityPlatformTabs = [...document.querySelectorAll("[data-availability-platform]")];
+const availabilityCityInput = document.querySelector("#availability-city");
+const availabilitySlotsInput = document.querySelector("#availability-slots");
+const availabilitySlotsLabel = document.querySelector("#availability-slots-label");
+const availabilityCityList = document.querySelector("#availability-city-list");
+const addAvailabilityCityButton = document.querySelector("#add-availability-city");
+const availabilityDraftList = document.querySelector("#availability-draft-list");
+const availabilityDraftCount = document.querySelector("#availability-draft-count");
+const availabilityPlatformName = document.querySelector("#availability-platform-name");
+const availabilityPreviewColumns = document.querySelector("#availability-preview-columns");
+const availabilityFeedback = document.querySelector("#availability-feedback");
+const resetAvailabilityDraftButton = document.querySelector("#reset-availability-draft");
+const publishAvailabilityButton = document.querySelector("#publish-availability");
+const availabilityPublishDialog = document.querySelector("#availability-publish-dialog");
+const availabilityPublishDetails = document.querySelector("#availability-publish-details");
 
 let applications = [];
 let activePlatform = "wolt";
@@ -90,6 +105,9 @@ const selectedApplicationIds = new Set();
 let tickets = [];
 let activeTicketCategory = "bolt";
 let pendingTicketDeletion = null;
+let availability = [];
+let availabilityDraft = { glovo: [], wolt: [] };
+let activeAvailabilityPlatform = "glovo";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -105,6 +123,10 @@ function storedIdSet(key) {
 const locallyOpenedTicketIds = storedIdSet(openedTicketStorageKey);
 const locallyOpenedApplicationIds = storedIdSet(openedApplicationStorageKey);
 
+const availabilityCities = [
+  "Alba Iulia", "Arad", "Bacău", "Baia Mare", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Cluj-Napoca", "Constanța", "Craiova", "Deva", "Drobeta-Turnu Severin", "Focșani", "Galați", "Hunedoara", "Iași", "Mediaș", "Miercurea-Ciuc", "Onești", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Roman", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sighișoara", "Slatina", "Suceava", "Târgoviște", "Târgu Mureș", "Tecuci", "Timișoara", "Tulcea", "Vaslui", "Zalău"
+];
+
 function escapeHtml(value) {
   return String(value ?? "")
     .replaceAll("&", "&amp;")
@@ -119,6 +141,168 @@ function formatDate(value) {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value));
+}
+
+function cloneAvailabilityRows(rows) {
+  return rows.map(({ city, slots, sort_order }) => ({ city, slots: Number(slots), sort_order: Number(sort_order ?? 0) }));
+}
+
+function normalizeCity(value) {
+  return String(value ?? "").trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("ro-RO");
+}
+
+function availabilityPlatformLabel(platform) {
+  return platform === "wolt" ? "Wolt" : "Glovo";
+}
+
+function availabilityCountLabel(count) {
+  return `${count} ${count === 1 ? "oraș" : "orașe"}`;
+}
+
+function updateAvailabilitySlotsLabel() {
+  const city = availabilityCityInput.value.trim();
+  availabilitySlotsLabel.textContent = city ? `Locuri disponibile în „${city}”` : "Locuri disponibile";
+}
+
+function availabilityRowsMarkup(rows, compact = false) {
+  if (!rows.length) return `<p class="availability-empty">Nu ai adăugat încă niciun oraș.</p>`;
+  return rows.map(row => `<div class="availability-preview-row${compact ? " compact" : ""}"><strong>${escapeHtml(row.city)}</strong><span>${row.slots} ${row.slots === 1 ? "loc" : "locuri"}</span></div>`).join("");
+}
+
+function renderAvailability() {
+  const rows = availabilityDraft[activeAvailabilityPlatform];
+  availabilityPlatformName.textContent = availabilityPlatformLabel(activeAvailabilityPlatform);
+  availabilityDraftCount.textContent = availabilityCountLabel(rows.length);
+  availabilityPlatformTabs.forEach(tab => {
+    const active = tab.dataset.availabilityPlatform === activeAvailabilityPlatform;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+
+  availabilityDraftList.innerHTML = rows.length
+    ? rows.map((row, index) => `<article class="availability-draft-row"><strong>${escapeHtml(row.city)}</strong><label>Locuri<input type="number" min="1" max="999" inputmode="numeric" value="${row.slots}" data-availability-slots="${index}" aria-label="Locuri disponibile în ${escapeHtml(row.city)}" /></label><button class="availability-remove" type="button" data-availability-remove="${index}" aria-label="Elimină ${escapeHtml(row.city)}">×</button></article>`).join("")
+    : `<p class="availability-empty">Caută un oraș, introdu numărul de locuri și adaugă-l în listă.</p>`;
+
+  availabilityDraftList.querySelectorAll("[data-availability-slots]").forEach(input => input.addEventListener("input", () => {
+    const index = Number(input.dataset.availabilitySlots);
+    const slots = Math.min(999, Math.max(1, Number(input.value) || 1));
+    availabilityDraft[activeAvailabilityPlatform][index].slots = slots;
+    renderAvailability();
+  }));
+  availabilityDraftList.querySelectorAll("[data-availability-remove]").forEach(button => button.addEventListener("click", () => {
+    availabilityDraft[activeAvailabilityPlatform].splice(Number(button.dataset.availabilityRemove), 1);
+    renderAvailability();
+  }));
+
+  availabilityPreviewColumns.innerHTML = ["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("");
+}
+
+async function loadAvailability() {
+  availabilityFeedback.classList.remove("success");
+  availabilityFeedback.textContent = "Se încarcă disponibilitățile publicate…";
+  const { data, error } = await supabase
+    .from("available_slots")
+    .select("id, platform, city, slots, sort_order")
+    .order("platform")
+    .order("sort_order")
+    .order("city");
+  if (error) {
+    console.error(error);
+    availabilityFeedback.textContent = "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune.";
+    return;
+  }
+  availability = data ?? [];
+  availabilityDraft = {
+    glovo: cloneAvailabilityRows(availability.filter(row => row.platform === "glovo")),
+    wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
+  };
+  availabilityFeedback.textContent = "";
+  renderAvailability();
+}
+
+function addAvailabilityCity() {
+  const rawCity = availabilityCityInput.value.trim();
+  const normalized = normalizeCity(rawCity);
+  const city = availabilityCities.find(candidate => normalizeCity(candidate) === normalized);
+  const slots = Number(availabilitySlotsInput.value);
+  availabilityFeedback.classList.remove("success");
+  if (!city) {
+    availabilityFeedback.textContent = "Alege un oraș din lista disponibilă.";
+    availabilityCityInput.focus();
+    return;
+  }
+  if (!Number.isInteger(slots) || slots < 1 || slots > 999) {
+    availabilityFeedback.textContent = "Introdu un număr între 1 și 999 pentru locurile disponibile.";
+    availabilitySlotsInput.focus();
+    return;
+  }
+  const existing = availabilityDraft[activeAvailabilityPlatform].find(row => row.city === city);
+  if (existing) existing.slots = slots;
+  else availabilityDraft[activeAvailabilityPlatform].push({ city, slots, sort_order: availabilityDraft[activeAvailabilityPlatform].length });
+  availabilityCityInput.value = "";
+  availabilitySlotsInput.value = "";
+  updateAvailabilitySlotsLabel();
+  availabilityFeedback.classList.add("success");
+  availabilityFeedback.textContent = existing ? `${city} a fost actualizat în listă.` : `${city} a fost adăugat în listă.`;
+  renderAvailability();
+  availabilityCityInput.focus();
+}
+
+function resetAvailabilityDraft() {
+  availabilityDraft = {
+    glovo: cloneAvailabilityRows(availability.filter(row => row.platform === "glovo")),
+    wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
+  };
+  availabilityCityInput.value = "";
+  availabilitySlotsInput.value = "";
+  updateAvailabilitySlotsLabel();
+  availabilityFeedback.classList.remove("success");
+  availabilityFeedback.textContent = "Modificările nepublicate au fost anulate.";
+  renderAvailability();
+}
+
+function openAvailabilityPublishDialog() {
+  const total = availabilityDraft.glovo.length + availabilityDraft.wolt.length;
+  availabilityPublishDetails.innerHTML = `<div class="availability-confirmation"><p>Urmează să publici <strong>${availabilityCountLabel(total)}</strong> pe pagina publică. Orice listă publicată anterior va fi înlocuită.</p><div class="availability-preview-columns confirmation">${["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("")}</div><div class="availability-actions dialog-actions"><button class="quiet-button" type="button" data-close-availability-dialog>Înapoi la editare</button><button id="confirm-publish-availability" class="primary-button" type="button">Publică acum</button></div><p id="availability-publish-feedback" class="feedback" role="status" aria-live="polite"></p></div>`;
+  availabilityPublishDetails.querySelector("[data-close-availability-dialog]").addEventListener("click", () => availabilityPublishDialog.close());
+  availabilityPublishDetails.querySelector("#confirm-publish-availability").addEventListener("click", publishAvailability);
+  availabilityPublishDialog.showModal();
+}
+
+async function publishAvailability() {
+  const confirmButton = availabilityPublishDetails.querySelector("#confirm-publish-availability");
+  const feedback = availabilityPublishDetails.querySelector("#availability-publish-feedback");
+  const rows = ["glovo", "wolt"].flatMap(platform => availabilityDraft[platform].map((row, index) => ({ platform, city: row.city, slots: row.slots, sort_order: index })));
+  confirmButton.disabled = true;
+  feedback.textContent = "Se publică disponibilitățile…";
+
+  const { data: sessionData } = await supabase.auth.getSession();
+  const publishedBy = sessionData.session?.user?.id ?? null;
+  if (rows.length) {
+    const { error: upsertError } = await supabase.from("available_slots").upsert(rows.map(row => ({ ...row, published_by: publishedBy })), { onConflict: "platform,city" });
+    if (upsertError) {
+      console.error(upsertError);
+      confirmButton.disabled = false;
+      feedback.textContent = "Publicarea nu a reușit. Încearcă din nou.";
+      return;
+    }
+  }
+
+  const draftKeys = new Set(rows.map(row => `${row.platform}::${row.city}`));
+  const staleIds = availability.filter(row => !draftKeys.has(`${row.platform}::${row.city}`)).map(row => row.id).filter(Boolean);
+  if (staleIds.length) {
+    const { error: deleteError } = await supabase.from("available_slots").delete().in("id", staleIds);
+    if (deleteError) {
+      console.error(deleteError);
+      confirmButton.disabled = false;
+      feedback.textContent = "Orașele noi au fost publicate, dar lista veche nu a putut fi curățată. Reîncearcă publicarea.";
+      return;
+    }
+  }
+  await loadAvailability();
+  availabilityPublishDialog.close();
+  availabilityFeedback.classList.add("success");
+  availabilityFeedback.textContent = "Disponibilitățile au fost publicate pe pagina publică.";
 }
 
 function isTicketRead(item) {
@@ -750,7 +934,7 @@ loginForm.addEventListener("submit", async event => {
       return;
     }
     showDashboard();
-    await Promise.all([loadApplications(), loadTickets()]);
+    await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
   } catch (adminError) {
     console.error(adminError);
     await supabase.auth.signOut();
@@ -763,6 +947,8 @@ logoutButton.addEventListener("click", async () => {
   await supabase.auth.signOut();
   applications = [];
   tickets = [];
+  availability = [];
+  availabilityDraft = { glovo: [], wolt: [] };
   selectedApplicationIds.clear();
   loginForm.reset();
   showLogin();
@@ -772,6 +958,23 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
+availabilityCityList.innerHTML = availabilityCities.map(city => `<option value="${escapeHtml(city)}"></option>`).join("");
+renderAvailability();
+availabilityCityInput.addEventListener("input", updateAvailabilitySlotsLabel);
+availabilityCityInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") { event.preventDefault(); availabilitySlotsInput.focus(); }
+});
+availabilitySlotsInput.addEventListener("keydown", event => {
+  if (event.key === "Enter") { event.preventDefault(); addAvailabilityCity(); }
+});
+addAvailabilityCityButton.addEventListener("click", addAvailabilityCity);
+resetAvailabilityDraftButton.addEventListener("click", resetAvailabilityDraft);
+publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialog);
+availabilityPlatformTabs.forEach(tab => tab.addEventListener("click", () => {
+  activeAvailabilityPlatform = tab.dataset.availabilityPlatform;
+  availabilityFeedback.textContent = "";
+  renderAvailability();
+}));
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
 ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
   activeTicketCategory = tab.dataset.ticketCategoryTab;
@@ -822,7 +1025,7 @@ if (!session?.user) {
   try {
     if (await isAdmin(session.user.id)) {
       showDashboard();
-      await Promise.all([loadApplications(), loadTickets()]);
+      await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
     } else {
       await supabase.auth.signOut();
       showLogin("Acest utilizator nu are acces administrativ.");
