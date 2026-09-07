@@ -48,6 +48,19 @@ const ticketTypeLabels = {
   problema_decontare: "Problemă cu decontarea", trimite_bonuri_pdf: "Trimitere bonuri PDF",
 };
 
+const ticketViews = [
+  { id: "bolt", workspace: "platforms", label: "Bolt", types: ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"], matches: item => item.category === "bolt" },
+  { id: "glovo", workspace: "platforms", label: "Glovo", types: ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "comanda_anulata", "other"], matches: item => item.category === "glovo" },
+  { id: "wolt", workspace: "platforms", label: "Wolt", types: ["phone", "email", "iban", "city", "vehicle", "other"], matches: item => item.category === "wolt" },
+  { id: "transfer_cont", workspace: "administrative", label: "Transfer de cont", matches: item => item.request_type === "transfer_cont" },
+  { id: "suma_incorecta", workspace: "administrative", label: "Sumă incorectă în raport", matches: item => item.request_type === "suma_incorecta" },
+  { id: "lipsa_plata", workspace: "administrative", label: "Plată lipsă", matches: item => item.request_type === "lipsa_plata" },
+  { id: "alta_problema_plata", workspace: "administrative", label: "Altă problemă cu plata", matches: item => item.request_type === "alta_problema_plata" },
+  { id: "probleme_admin", workspace: "administrative", label: "Probleme administrative", types: ["actualizare_documente", "problema_contract", "alta_problema_admin"], matches: item => item.category === "probleme_admin" && item.request_type !== "transfer_cont" },
+  { id: "deconturi", workspace: "administrative", label: "5% Decontare", types: ["problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"], matches: item => item.category === "deconturi" || ["deconturi", "problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"].includes(item.request_type) },
+  { id: "inactivitate", workspace: "administrative", label: "Concediu / Inactivitate", matches: item => item.category === "inactivitate" || item.request_type === "inactivitate" },
+];
+
 const sessionLoading = document.querySelector("#session-loading");
 const loginView = document.querySelector("#login-view");
 const dashboardView = document.querySelector("#dashboard-view");
@@ -81,7 +94,9 @@ const ticketsList = document.querySelector("#tickets-list");
 const ticketsEmptyState = document.querySelector("#tickets-empty-state");
 const ticketSearchFilter = document.querySelector("#ticket-search-filter");
 const ticketStatusFilter = document.querySelector("#ticket-status-filter");
-const ticketCategoryTabs = [...document.querySelectorAll("[data-ticket-category-tab]")];
+const ticketWorkspaceTabs = [...document.querySelectorAll("[data-ticket-workspace]")];
+const ticketCategoryTabsContainer = document.querySelector("#ticket-category-tabs");
+const ticketTypeTabsContainer = document.querySelector("#ticket-type-tabs");
 const ticketsPrimaryCount = document.querySelector("#tickets-primary-count");
 const exportTicketsButton = document.querySelector("#export-tickets-button");
 const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
@@ -98,7 +113,9 @@ let applications = [];
 let activePlatform = "wolt";
 const selectedApplicationIds = new Set();
 let tickets = [];
-let activeTicketCategory = "bolt";
+let activeTicketWorkspace = "platforms";
+let activeTicketView = "bolt";
+let activeTicketRequestType = "";
 let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
@@ -254,6 +271,103 @@ function updatePrimaryUnreadBadge(sectionId, badge, unreadCount) {
   badge.textContent = unreadCount;
   badge.hidden = unreadCount === 0;
   tab.classList.toggle("has-unread", unreadCount > 0);
+}
+
+function ticketViewById(viewId) {
+  return ticketViews.find(view => view.id === viewId) ?? ticketViews[0];
+}
+
+function ticketMatchesActiveView(item) {
+  const view = ticketViewById(activeTicketView);
+  return view.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType);
+}
+
+function ticketDisplayCategory(item) {
+  return ticketViews.find(view => view.matches(item))?.label ?? ticketCategoryLabels[item.category] ?? item.category;
+}
+
+function persistTicketNavigation() {
+  writeAdminPreference("ticket-navigation", { workspace: activeTicketWorkspace, view: activeTicketView, requestType: activeTicketRequestType });
+}
+
+function restoreTicketNavigation() {
+  const saved = readAdminPreference("ticket-navigation");
+  const savedView = ticketViews.find(view => view.id === saved?.view);
+  const savedWorkspace = saved?.workspace === "administrative" ? "administrative" : "platforms";
+  activeTicketWorkspace = savedView?.workspace === savedWorkspace ? savedWorkspace : "platforms";
+  activeTicketView = savedView?.workspace === activeTicketWorkspace ? savedView.id : ticketViews.find(view => view.workspace === activeTicketWorkspace).id;
+  activeTicketRequestType = savedView?.types?.includes(saved?.requestType) ? saved.requestType : "";
+  renderTicketNavigation();
+}
+
+function setActiveTicketWorkspace(workspace, persist = true) {
+  activeTicketWorkspace = workspace === "administrative" ? "administrative" : "platforms";
+  if (ticketViewById(activeTicketView).workspace !== activeTicketWorkspace) {
+    activeTicketView = ticketViews.find(view => view.workspace === activeTicketWorkspace).id;
+  }
+  activeTicketRequestType = "";
+  if (persist) persistTicketNavigation();
+  renderTicketNavigation();
+  updateTicketSummary();
+  renderTickets();
+}
+
+function setActiveTicketView(viewId, persist = true) {
+  const view = ticketViews.find(item => item.id === viewId);
+  if (!view) return;
+  activeTicketWorkspace = view.workspace;
+  activeTicketView = view.id;
+  activeTicketRequestType = "";
+  if (persist) persistTicketNavigation();
+  renderTicketNavigation();
+  updateTicketSummary();
+  renderTickets();
+}
+
+function renderTicketNavigation() {
+  ticketWorkspaceTabs.forEach(tab => {
+    const active = tab.dataset.ticketWorkspace === activeTicketWorkspace;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+  const workspaceViews = ticketViews.filter(view => view.workspace === activeTicketWorkspace);
+  ticketCategoryTabsContainer.innerHTML = workspaceViews.map(view => {
+    const unreadCount = tickets.filter(item => view.matches(item) && !isTicketRead(item)).length;
+    const active = view.id === activeTicketView;
+    return `<button class="platform-tab${active ? " active" : ""}${unreadCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-view="${escapeHtml(view.id)}">${escapeHtml(view.label)} <span class="unread-badge"${unreadCount ? "" : " hidden"}>${unreadCount}</span></button>`;
+  }).join("");
+  ticketCategoryTabsContainer.querySelectorAll("[data-ticket-view]").forEach(tab => {
+    tab.addEventListener("click", () => setActiveTicketView(tab.dataset.ticketView));
+  });
+  renderTicketTypeNavigation();
+}
+
+function renderTicketTypeNavigation() {
+  const view = ticketViewById(activeTicketView);
+  const types = view.types ?? [];
+  ticketTypeTabsContainer.hidden = types.length === 0;
+  if (!types.length) {
+    ticketTypeTabsContainer.innerHTML = "";
+    return;
+  }
+  const filters = [{ id: "", label: "Toate solicitările" }, ...types.map(id => ({ id, label: ticketTypeLabels[id] ?? id }))];
+  ticketTypeTabsContainer.innerHTML = filters.map(filter => {
+    const active = filter.id === activeTicketRequestType;
+    const unreadCount = tickets.filter(item => view.matches(item) && (!filter.id || item.request_type === filter.id) && !isTicketRead(item)).length;
+    return `<button class="ticket-type-tab${active ? " active" : ""}${unreadCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-request-type="${escapeHtml(filter.id)}">${escapeHtml(filter.label)} <span${unreadCount ? "" : " hidden"}>${unreadCount}</span></button>`;
+  }).join("");
+  ticketTypeTabsContainer.querySelectorAll("[data-ticket-request-type]").forEach(tab => {
+    tab.addEventListener("click", () => setActiveTicketRequestType(tab.dataset.ticketRequestType));
+  });
+}
+
+function setActiveTicketRequestType(requestType) {
+  const types = ticketViewById(activeTicketView).types ?? [];
+  activeTicketRequestType = types.includes(requestType) ? requestType : "";
+  persistTicketNavigation();
+  renderTicketNavigation();
+  updateTicketSummary();
+  renderTickets();
 }
 
 function availabilityEditor(platform) {
@@ -544,6 +658,7 @@ function showDashboard() {
   logoutButton.hidden = false;
   loginForm.reset();
   loginFeedback.textContent = "";
+  restoreTicketNavigation();
   setActiveAdminSection(readAdminPreference("active-section") ?? "applications-panel", false);
 }
 
@@ -602,21 +717,12 @@ async function loadTickets() {
 }
 
 function updateTicketSummary() {
-  const categoryTickets = tickets.filter(item => item.category === activeTicketCategory);
-  ticketCategoryTabs.forEach(tab => {
-    const category = tab.dataset.ticketCategoryTab;
-    const count = document.querySelector(`#ticket-category-count-${category}`);
-    const unreadCount = tickets.filter(item => item.category === category && !isTicketRead(item)).length;
-    if (count) {
-      count.textContent = unreadCount;
-      count.hidden = unreadCount === 0;
-    }
-    tab.classList.toggle("has-unread", unreadCount > 0);
-  });
-  document.querySelector("#tickets-total-count").textContent = categoryTickets.length;
-  document.querySelector("#tickets-new-count").textContent = categoryTickets.filter(item => item.status === "new").length;
-  document.querySelector("#tickets-reviewing-count").textContent = categoryTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
-  document.querySelector("#tickets-approved-count").textContent = categoryTickets.filter(item => item.status === "approved").length;
+  const viewTickets = tickets.filter(ticketMatchesActiveView);
+  renderTicketNavigation();
+  document.querySelector("#tickets-total-count").textContent = viewTickets.length;
+  document.querySelector("#tickets-new-count").textContent = viewTickets.filter(item => item.status === "new").length;
+  document.querySelector("#tickets-reviewing-count").textContent = viewTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
+  document.querySelector("#tickets-approved-count").textContent = viewTickets.filter(item => item.status === "approved").length;
   updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => !isTicketRead(item)).length);
 }
 
@@ -626,7 +732,7 @@ function filteredTickets() {
   return tickets.filter(item => {
     const reference = item.id.slice(0, 8).toUpperCase();
     const haystack = [reference, item.first_name, item.last_name, item.email, item.phone, ticketTypeLabels[item.request_type]].join(" ").toLocaleLowerCase("ro-RO");
-    return item.category === activeTicketCategory && (!query || haystack.includes(query)) && (!status || item.status === status);
+    return ticketMatchesActiveView(item) && (!query || haystack.includes(query)) && (!status || item.status === status);
   });
 }
 
@@ -643,7 +749,7 @@ function renderTickets() {
       <button class="ticket-open" type="button" data-ticket-id="${escapeHtml(item.id)}" aria-label="Deschide ticketul #${escapeHtml(item.id.slice(0, 8).toUpperCase())}">
         <span class="ticket-reference-small">#${escapeHtml(item.id.slice(0, 8).toUpperCase())}</span>
         <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
-        <span class="platform">${escapeHtml(ticketCategoryLabels[item.category] ?? item.category)}</span>
+        <span class="platform">${escapeHtml(ticketDisplayCategory(item))}</span>
         <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
         <span class="ticket-type">${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</span>
         <span class="arrow" aria-hidden="true">→</span>
@@ -655,7 +761,7 @@ function renderTickets() {
     </div>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
-  ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketCategoryLabels[activeTicketCategory] ?? activeTicketCategory} pentru filtrele selectate.`;
+  ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketViewById(activeTicketView).label} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
   ticketsList.querySelectorAll("[data-ticket-status-cycle]").forEach(button => button.addEventListener("click", () => advanceTicketStatus(button.dataset.ticketStatusCycle, button)));
 }
@@ -926,7 +1032,7 @@ async function openTicket(id) {
     <div class="detail-grid">
       ${detailField("Referință", `#${item.id.slice(0, 8).toUpperCase()}`)}
       ${detailField("Status", ticketStatusLabels[item.status] ?? item.status)}
-      ${detailField("Categorie", ticketCategoryLabels[item.category] ?? item.category)}
+      ${detailField("Categorie", ticketDisplayCategory(item))}
       ${detailField("Tip solicitare", ticketTypeLabels[item.request_type] ?? item.request_type)}
       ${detailField("Curier", `${item.first_name} ${item.last_name}`)}
       ${detailField("Telefon", item.phone)}
@@ -1223,16 +1329,7 @@ availabilityEditors.forEach(editor => {
 resetAvailabilityDraftButton.addEventListener("click", resetAvailabilityDraft);
 publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialog);
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
-ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
-  activeTicketCategory = tab.dataset.ticketCategoryTab;
-  ticketCategoryTabs.forEach(candidate => {
-    const active = candidate === tab;
-    candidate.classList.toggle("active", active);
-    candidate.setAttribute("aria-selected", String(active));
-  });
-  updateTicketSummary();
-  renderTickets();
-}));
+ticketWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveTicketWorkspace(tab.dataset.ticketWorkspace)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
 }));

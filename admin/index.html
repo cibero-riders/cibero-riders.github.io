@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=18" />
+  <link rel="stylesheet" href="admin.css?v=19" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -119,13 +119,13 @@
           <button id="refresh-tickets-button" class="quiet-button" type="button">Actualizează</button>
         </div>
 
-        <div class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket">
-          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-ticket-category-tab="bolt">Bolt <span class="unread-badge" id="ticket-category-count-bolt" hidden>0</span></button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="glovo">Glovo <span class="unread-badge" id="ticket-category-count-glovo" hidden>0</span></button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="wolt">Wolt <span class="unread-badge" id="ticket-category-count-wolt" hidden>0</span></button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="probleme_admin">Administrativ <span class="unread-badge" id="ticket-category-count-probleme_admin" hidden>0</span></button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="deconturi">Decontare <span class="unread-badge" id="ticket-category-count-deconturi" hidden>0</span></button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-ticket-category-tab="inactivitate">Inactivitate <span class="unread-badge" id="ticket-category-count-inactivitate" hidden>0</span></button>
+        <div class="ticket-navigation" aria-label="Organizare tickete">
+          <div class="ticket-workspace-tabs" role="tablist" aria-label="Arie de ticket">
+            <button class="ticket-workspace-tab active" type="button" role="tab" aria-selected="true" data-ticket-workspace="platforms">Cont platforme</button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="administrative">Administrativ și financiar</button>
+          </div>
+          <div id="ticket-category-tabs" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Tip ticket"></div>
+          <div id="ticket-type-tabs" class="ticket-type-tabs" role="tablist" aria-label="Opțiune ticket" hidden></div>
         </div>
 
         <div class="summary-grid" aria-label="Rezumat tickete pentru categoria selectată">
@@ -237,6 +237,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=19"></script>
+  <script type="module" src="admin.js?v=20"></script>
 </body>
 </html>
