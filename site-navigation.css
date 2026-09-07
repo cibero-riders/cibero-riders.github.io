@@ -139,8 +139,12 @@
   }
 
   .global-header .brand-wordmark {
+    position: absolute;
+    top: 10px;
+    left: 50%;
     width: 112px;
     height: 52px;
+    transform: translateX(-50%);
   }
 
   .global-header .header-socials { display: none; }
@@ -150,7 +154,7 @@
 
   .global-header .menu-toggle {
     display: block;
-    margin-left: 0;
+    margin-left: auto;
     padding: 8px;
     border: 0;
     color: #f6d878;
