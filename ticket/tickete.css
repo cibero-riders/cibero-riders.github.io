@@ -78,7 +78,7 @@ button { cursor: pointer; }
 .choice-card.platform-card { background: linear-gradient(90deg, var(--accent) 0 31%, color-mix(in srgb, var(--accent) 68%, #2b1135) 36%, #2b1135 42%, #2b1135 100%); }
 .choice-card.platform-card:hover { background: linear-gradient(90deg, var(--accent) 0 31%, color-mix(in srgb, var(--accent) 68%, #3a1844) 36%, #3a1844 42%, #3a1844 100%); }
 .choice-card.logo-card.platform-card { grid-template-columns: 39% minmax(0, 1fr); column-gap: 0; }
-.choice-card.logo-card.platform-card .choice-icon { position: absolute; top: 50%; left: 19%; width: 86px; height: 86px; margin: 0; transform: translate(-50%, -50%); border: 0; background: transparent; box-shadow: none; }
+.choice-card.logo-card.platform-card .choice-icon { position: absolute; top: 50%; left: 15.5%; width: 86px; height: 86px; margin: 0; transform: translate(-50%, -50%); border: 0; background: transparent; box-shadow: none; }
 .choice-card.logo-card.platform-card strong { display: none; }
 .choice-card.logo-card.platform-card > span:last-child { grid-column: 2; grid-row: 1 / 3; align-self: center; margin: 0; padding: 8px 12px; color: #f7edf5; font-size: 13px; line-height: 1.5; }
 .choice-card.logo-card.platform-bolt .category-logo,
