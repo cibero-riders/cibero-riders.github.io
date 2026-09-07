@@ -61,6 +61,7 @@ const emptyState = document.querySelector("#empty-state");
 const searchFilter = document.querySelector("#search-filter");
 const statusFilter = document.querySelector("#status-filter");
 const platformTabs = [...document.querySelectorAll("[data-platform-tab]")];
+const applicationsPrimaryCount = document.querySelector("#applications-primary-count");
 const applicationDialog = document.querySelector("#application-dialog");
 const applicationDetails = document.querySelector("#application-details");
 const selectAllApplications = document.querySelector("#select-all-applications");
@@ -79,21 +80,12 @@ const ticketsEmptyState = document.querySelector("#tickets-empty-state");
 const ticketSearchFilter = document.querySelector("#ticket-search-filter");
 const ticketStatusFilter = document.querySelector("#ticket-status-filter");
 const ticketCategoryTabs = [...document.querySelectorAll("[data-ticket-category-tab]")];
+const ticketsPrimaryCount = document.querySelector("#tickets-primary-count");
 const exportTicketsButton = document.querySelector("#export-tickets-button");
 const ticketAdminDialog = document.querySelector("#ticket-admin-dialog");
 const ticketAdminDetails = document.querySelector("#ticket-admin-details");
 const ticketDeleteHeader = document.querySelector("#delete-ticket-header");
-const availabilityPlatformTabs = [...document.querySelectorAll("[data-availability-platform]")];
-const availabilityCityInput = document.querySelector("#availability-city");
-const availabilitySlotsInput = document.querySelector("#availability-slots");
-const availabilitySlotsLabel = document.querySelector("#availability-slots-label");
-const availabilityCitySuggestions = document.querySelector("#availability-city-suggestions");
-const addAvailabilityCityButton = document.querySelector("#add-availability-city");
-const availabilityDraftList = document.querySelector("#availability-draft-list");
-const availabilityDraftCount = document.querySelector("#availability-draft-count");
-const availabilityPlatformName = document.querySelector("#availability-platform-name");
-const availabilityPreviewColumns = document.querySelector("#availability-preview-columns");
-const availabilityFeedback = document.querySelector("#availability-feedback");
+const availabilityEditors = [...document.querySelectorAll("[data-availability-editor]")];
 const resetAvailabilityDraftButton = document.querySelector("#reset-availability-draft");
 const publishAvailabilityButton = document.querySelector("#publish-availability");
 const availabilityPublishDialog = document.querySelector("#availability-publish-dialog");
@@ -108,10 +100,10 @@ let activeTicketCategory = "bolt";
 let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
-let activeAvailabilityPlatform = "glovo";
 let currentAdminUserId = "";
 let availabilityDraftDirty = false;
 let availabilityRealtimeChannel = null;
+let adminRealtimeChannel = null;
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -233,7 +225,6 @@ function saveAvailabilityDraft() {
   writeAdminPreference("availability-draft", {
     glovo: availabilityDraft.glovo,
     wolt: availabilityDraft.wolt,
-    activePlatform: activeAvailabilityPlatform,
     dirty: availabilityDraftDirty,
   });
 }
@@ -255,34 +246,62 @@ function setActiveAdminSection(sectionId, persist = true) {
   if (persist) writeAdminPreference("active-section", requested);
 }
 
-function updateAvailabilitySlotsLabel() {
-  const city = availabilityCityInput.value.trim();
-  availabilitySlotsLabel.textContent = city ? `Locuri disponibile în „${city}”` : "Locuri disponibile";
+function updatePrimaryUnreadBadge(sectionId, badge, unreadCount) {
+  const tab = adminSectionTabs.find(item => item.dataset.adminSection === sectionId);
+  if (!tab || !badge) return;
+  badge.textContent = unreadCount;
+  badge.hidden = unreadCount === 0;
+  tab.classList.toggle("has-unread", unreadCount > 0);
 }
 
-function focusAvailabilitySlotsAfterCitySelection() {
-  const city = canonicalAvailabilityCity(availabilityCityInput.value);
-  updateAvailabilitySlotsLabel();
+function availabilityEditor(platform) {
+  return document.querySelector(`[data-availability-editor="${platform}"]`);
+}
+
+function availabilityEditorField(platform, name) {
+  return document.querySelector(`[data-availability-${name}="${platform}"]`);
+}
+
+function setAvailabilityFeedback(platform, message = "", success = false) {
+  const feedback = availabilityEditorField(platform, "feedback");
+  feedback.classList.toggle("success", success);
+  feedback.textContent = message;
+}
+
+function updateAvailabilitySlotsLabel(platform) {
+  const cityInput = availabilityEditorField(platform, "city");
+  const slotsLabel = availabilityEditorField(platform, "slots-label");
+  const city = cityInput.value.trim();
+  slotsLabel.textContent = city ? `Locuri disponibile în „${city}”` : "Locuri disponibile";
+}
+
+function focusAvailabilitySlotsAfterCitySelection(platform) {
+  const cityInput = availabilityEditorField(platform, "city");
+  const slotsInput = availabilityEditorField(platform, "slots");
+  const city = canonicalAvailabilityCity(cityInput.value);
+  updateAvailabilitySlotsLabel(platform);
   if (!city) return;
-  availabilityCityInput.value = city;
-  updateAvailabilitySlotsLabel();
-  availabilitySlotsInput.focus();
-  availabilitySlotsInput.select();
-  availabilitySlotsInput.classList.add("availability-slots-ready");
-  window.setTimeout(() => availabilitySlotsInput.classList.remove("availability-slots-ready"), 850);
+  cityInput.value = city;
+  updateAvailabilitySlotsLabel(platform);
+  slotsInput.focus();
+  slotsInput.select();
+  slotsInput.classList.add("availability-slots-ready");
+  window.setTimeout(() => slotsInput.classList.remove("availability-slots-ready"), 850);
 }
 
-function renderAvailabilityCitySuggestions() {
-  const query = availabilityCityInput.value.trim();
+function renderAvailabilityCitySuggestions(platform) {
+  const cityInput = availabilityEditorField(platform, "city");
+  const suggestions = availabilityEditorField(platform, "city-suggestions");
+  const query = cityInput.value.trim();
   const matches = matchingAvailabilityCities(query);
-  availabilityCitySuggestions.hidden = !query || !matches.length;
-  availabilityCityInput.setAttribute("aria-expanded", String(!availabilityCitySuggestions.hidden));
-  availabilityCitySuggestions.innerHTML = matches.map(city => `<button type="button" role="option" data-availability-city-option="${escapeHtml(city)}">${escapeHtml(city)}</button>`).join("");
-  availabilityCitySuggestions.querySelectorAll("[data-availability-city-option]").forEach(button => button.addEventListener("click", () => {
-    availabilityCityInput.value = button.dataset.availabilityCityOption;
-    availabilityCitySuggestions.hidden = true;
-    availabilityCityInput.setAttribute("aria-expanded", "false");
-    focusAvailabilitySlotsAfterCitySelection();
+  suggestions.hidden = !query || !matches.length;
+  cityInput.setAttribute("aria-expanded", String(!suggestions.hidden));
+  suggestions.innerHTML = matches.map(city => `<button type="button" role="option" data-availability-city-option="${escapeHtml(city)}">${escapeHtml(city)}</button>`).join("");
+  suggestions.querySelectorAll("[data-availability-city-option]").forEach(button => button.addEventListener("click", () => {
+    cityInput.value = button.dataset.availabilityCityOption;
+    suggestions.hidden = true;
+    cityInput.setAttribute("aria-expanded", "false");
+    focusAvailabilitySlotsAfterCitySelection(platform);
   }));
 }
 
@@ -311,41 +330,34 @@ function renderAvailabilityAdminUpdate() {
 
 function renderAvailability() {
   sortAvailabilityDraft();
-  const rows = availabilityDraft[activeAvailabilityPlatform];
-  availabilityPlatformName.textContent = availabilityPlatformLabel(activeAvailabilityPlatform);
-  availabilityDraftCount.textContent = availabilityCountLabel(rows.length);
-  availabilityPlatformTabs.forEach(tab => {
-    const active = tab.dataset.availabilityPlatform === activeAvailabilityPlatform;
-    tab.classList.toggle("active", active);
-    tab.setAttribute("aria-selected", String(active));
+  ["glovo", "wolt"].forEach(platform => {
+    const rows = availabilityDraft[platform];
+    const list = availabilityEditorField(platform, "draft-list");
+    availabilityEditorField(platform, "draft-count").textContent = availabilityCountLabel(rows.length);
+    list.innerHTML = rows.length
+      ? rows.map((row, index) => `<article class="availability-draft-row"><span class="availability-draft-city"><strong>${escapeHtml(row.city)}</strong>${liveAvailabilityMarkup(platform, row.city, row.slots)}</span><label>Locuri<input type="number" min="1" max="999" inputmode="numeric" value="${row.slots}" data-availability-slots="${index}" aria-label="Locuri disponibile în ${escapeHtml(row.city)}" /></label><button class="availability-remove" type="button" data-availability-remove="${index}" aria-label="Elimină ${escapeHtml(row.city)}">×</button></article>`).join("")
+      : `<p class="availability-empty">Caută un oraș, introdu numărul de locuri și adaugă-l în listă.</p>`;
+
+    list.querySelectorAll("[data-availability-slots]").forEach(input => input.addEventListener("input", () => {
+      const index = Number(input.dataset.availabilitySlots);
+      const slots = Math.min(999, Math.max(1, Number(input.value) || 1));
+      availabilityDraft[platform][index].slots = slots;
+      availabilityDraftDirty = true;
+      saveAvailabilityDraft();
+      renderAvailability();
+    }));
+    list.querySelectorAll("[data-availability-remove]").forEach(button => button.addEventListener("click", () => {
+      availabilityDraft[platform].splice(Number(button.dataset.availabilityRemove), 1);
+      availabilityDraftDirty = true;
+      saveAvailabilityDraft();
+      renderAvailability();
+    }));
   });
-
-  availabilityDraftList.innerHTML = rows.length
-    ? rows.map((row, index) => `<article class="availability-draft-row"><span class="availability-draft-city"><strong>${escapeHtml(row.city)}</strong>${liveAvailabilityMarkup(activeAvailabilityPlatform, row.city, row.slots)}</span><label>Locuri<input type="number" min="1" max="999" inputmode="numeric" value="${row.slots}" data-availability-slots="${index}" aria-label="Locuri disponibile în ${escapeHtml(row.city)}" /></label><button class="availability-remove" type="button" data-availability-remove="${index}" aria-label="Elimină ${escapeHtml(row.city)}">×</button></article>`).join("")
-    : `<p class="availability-empty">Caută un oraș, introdu numărul de locuri și adaugă-l în listă.</p>`;
-
-  availabilityDraftList.querySelectorAll("[data-availability-slots]").forEach(input => input.addEventListener("input", () => {
-    const index = Number(input.dataset.availabilitySlots);
-    const slots = Math.min(999, Math.max(1, Number(input.value) || 1));
-    availabilityDraft[activeAvailabilityPlatform][index].slots = slots;
-    availabilityDraftDirty = true;
-    saveAvailabilityDraft();
-    renderAvailability();
-  }));
-  availabilityDraftList.querySelectorAll("[data-availability-remove]").forEach(button => button.addEventListener("click", () => {
-    availabilityDraft[activeAvailabilityPlatform].splice(Number(button.dataset.availabilityRemove), 1);
-    availabilityDraftDirty = true;
-    saveAvailabilityDraft();
-    renderAvailability();
-  }));
-
-  availabilityPreviewColumns.innerHTML = ["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("");
   renderAvailabilityAdminUpdate();
 }
 
 async function loadAvailability({ restoreDraft = true } = {}) {
-  availabilityFeedback.classList.remove("success");
-  availabilityFeedback.textContent = "Se încarcă disponibilitățile publicate…";
+  ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Se încarcă disponibilitățile publicate…"));
   const { data, error } = await supabase
     .from("available_slots")
     .select("id, platform, city, slots, initial_slots, application_count, sort_order, admin_updated_at")
@@ -357,13 +369,11 @@ async function loadAvailability({ restoreDraft = true } = {}) {
     const savedDraft = restoreAvailabilityDraft();
     if (savedDraft) {
       availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
-      activeAvailabilityPlatform = savedDraft.activePlatform;
       availabilityDraftDirty = savedDraft.dirty;
-      availabilityFeedback.classList.add("success");
-      availabilityFeedback.textContent = "Draftul local a fost restaurat. Disponibilitățile publicate nu au putut fi actualizate acum.";
+      ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Draftul local a fost restaurat. Disponibilitățile publicate nu au putut fi actualizate acum.", true));
       renderAvailability();
     } else {
-      availabilityFeedback.textContent = "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune.";
+      ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune."));
     }
     return;
   }
@@ -375,48 +385,46 @@ async function loadAvailability({ restoreDraft = true } = {}) {
   const savedDraft = restoreDraft ? restoreAvailabilityDraft() : null;
   if (savedDraft?.dirty) {
     availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
-    activeAvailabilityPlatform = savedDraft.activePlatform;
     availabilityDraftDirty = true;
-    availabilityFeedback.classList.add("success");
-    availabilityFeedback.textContent = "Draftul nepublicat a fost restaurat.";
+    ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Draftul nepublicat a fost restaurat.", true));
   } else {
     availabilityDraft = publishedDraft;
-    activeAvailabilityPlatform = savedDraft?.activePlatform ?? activeAvailabilityPlatform;
     availabilityDraftDirty = false;
-    availabilityFeedback.textContent = "";
+    ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform));
   }
   sortAvailabilityDraft();
   renderAvailability();
 }
 
-function addAvailabilityCity() {
-  const rawCity = availabilityCityInput.value.trim();
+function addAvailabilityCity(platform) {
+  const cityInput = availabilityEditorField(platform, "city");
+  const slotsInput = availabilityEditorField(platform, "slots");
+  const rawCity = cityInput.value.trim();
   const city = canonicalAvailabilityCity(rawCity);
-  const slots = Number(availabilitySlotsInput.value);
-  availabilityFeedback.classList.remove("success");
+  const slots = Number(slotsInput.value);
+  setAvailabilityFeedback(platform);
   if (!city) {
-    availabilityFeedback.textContent = "Alege un oraș din lista disponibilă.";
-    availabilityCityInput.focus();
+    setAvailabilityFeedback(platform, "Alege un oraș din lista disponibilă.");
+    cityInput.focus();
     return;
   }
   if (!Number.isInteger(slots) || slots < 1 || slots > 999) {
-    availabilityFeedback.textContent = "Introdu un număr între 1 și 999 pentru locurile disponibile.";
-    availabilitySlotsInput.focus();
+    setAvailabilityFeedback(platform, "Introdu un număr între 1 și 999 pentru locurile disponibile.");
+    slotsInput.focus();
     return;
   }
-  const existing = availabilityDraft[activeAvailabilityPlatform].find(row => row.city === city);
+  const existing = availabilityDraft[platform].find(row => row.city === city);
   if (existing) existing.slots = slots;
-  else availabilityDraft[activeAvailabilityPlatform].push({ city, slots, sort_order: availabilityDraft[activeAvailabilityPlatform].length });
+  else availabilityDraft[platform].push({ city, slots, sort_order: availabilityDraft[platform].length });
   sortAvailabilityDraft();
   availabilityDraftDirty = true;
   saveAvailabilityDraft();
-  availabilityCityInput.value = "";
-  availabilitySlotsInput.value = "";
-  updateAvailabilitySlotsLabel();
-  availabilityFeedback.classList.add("success");
-  availabilityFeedback.textContent = existing ? `${city} a fost actualizat în listă.` : `${city} a fost adăugat în listă.`;
+  cityInput.value = "";
+  slotsInput.value = "";
+  updateAvailabilitySlotsLabel(platform);
+  setAvailabilityFeedback(platform, existing ? `${city} a fost actualizat în listă.` : `${city} a fost adăugat în listă.`, true);
   renderAvailability();
-  availabilityCityInput.focus();
+  cityInput.focus();
 }
 
 function resetAvailabilityDraft() {
@@ -425,13 +433,14 @@ function resetAvailabilityDraft() {
     wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
   };
   sortAvailabilityDraft();
-  availabilityCityInput.value = "";
-  availabilitySlotsInput.value = "";
-  updateAvailabilitySlotsLabel();
+  ["glovo", "wolt"].forEach(platform => {
+    availabilityEditorField(platform, "city").value = "";
+    availabilityEditorField(platform, "slots").value = "";
+    updateAvailabilitySlotsLabel(platform);
+    setAvailabilityFeedback(platform, "Modificările nepublicate au fost anulate.");
+  });
   availabilityDraftDirty = false;
   clearAdminPreference("availability-draft");
-  availabilityFeedback.classList.remove("success");
-  availabilityFeedback.textContent = "Modificările nepublicate au fost anulate.";
   renderAvailability();
 }
 
@@ -479,8 +488,7 @@ async function publishAvailability() {
   availabilityDraftDirty = false;
   await loadAvailability({ restoreDraft: false });
   availabilityPublishDialog.close();
-  availabilityFeedback.classList.add("success");
-  availabilityFeedback.textContent = "Disponibilitățile au fost publicate pe pagina publică.";
+  ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Disponibilitățile au fost publicate pe pagina publică.", true));
 }
 
 function subscribeToAvailabilityUpdates() {
@@ -490,10 +498,18 @@ function subscribeToAvailabilityUpdates() {
     .on("postgres_changes", { event: "*", schema: "public", table: "available_slots" }, async () => {
       await loadAvailability({ restoreDraft: availabilityDraftDirty });
       if (!availabilityDraftDirty) {
-        availabilityFeedback.classList.add("success");
-        availabilityFeedback.textContent = "Locurile publicate au fost actualizate live după o cerere nouă.";
+        ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Locurile publicate au fost actualizate live după o cerere nouă.", true));
       }
     })
+    .subscribe();
+}
+
+function subscribeToAdminNotifications() {
+  if (adminRealtimeChannel) supabase.removeChannel(adminRealtimeChannel);
+  adminRealtimeChannel = supabase
+    .channel(`cibero-admin-notifications-${currentAdminUserId}`)
+    .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => { void loadApplications(); })
+    .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, () => { void loadTickets(); })
     .subscribe();
 }
 
@@ -599,6 +615,7 @@ function updateTicketSummary() {
   document.querySelector("#tickets-new-count").textContent = categoryTickets.filter(item => item.status === "new").length;
   document.querySelector("#tickets-reviewing-count").textContent = categoryTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
   document.querySelector("#tickets-approved-count").textContent = categoryTickets.filter(item => item.status === "approved").length;
+  updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => !isTicketRead(item)).length);
 }
 
 function filteredTickets() {
@@ -655,6 +672,7 @@ function updateSummary() {
   document.querySelector("#new-count").textContent = platformApplications.filter(item => item.status === "new").length;
   document.querySelector("#reviewing-count").textContent = platformApplications.filter(item => item.status === "reviewing").length;
   document.querySelector("#activated-count").textContent = platformApplications.filter(item => item.status === "activated").length;
+  updatePrimaryUnreadBadge("applications-panel", applicationsPrimaryCount, applications.filter(item => !isApplicationRead(item)).length);
 }
 
 function filteredApplications() {
@@ -1130,6 +1148,7 @@ loginForm.addEventListener("submit", async event => {
     showDashboard();
     await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
     subscribeToAvailabilityUpdates();
+    subscribeToAdminNotifications();
   } catch (adminError) {
     console.error(adminError);
     await supabase.auth.signOut();
@@ -1150,6 +1169,10 @@ logoutButton.addEventListener("click", async () => {
     await supabase.removeChannel(availabilityRealtimeChannel);
     availabilityRealtimeChannel = null;
   }
+  if (adminRealtimeChannel) {
+    await supabase.removeChannel(adminRealtimeChannel);
+    adminRealtimeChannel = null;
+  }
   selectedApplicationIds.clear();
   loginForm.reset();
   showLogin();
@@ -1160,38 +1183,38 @@ exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
 renderAvailability();
-availabilityCityInput.addEventListener("input", () => {
-  updateAvailabilitySlotsLabel();
-  renderAvailabilityCitySuggestions();
+availabilityEditors.forEach(editor => {
+  const platform = editor.dataset.availabilityEditor;
+  const cityInput = availabilityEditorField(platform, "city");
+  const slotsInput = availabilityEditorField(platform, "slots");
+  const suggestions = availabilityEditorField(platform, "city-suggestions");
+  cityInput.addEventListener("input", () => {
+    updateAvailabilitySlotsLabel(platform);
+    renderAvailabilityCitySuggestions(platform);
+  });
+  cityInput.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      suggestions.hidden = true;
+      cityInput.setAttribute("aria-expanded", "false");
+      return;
+    }
+    if (event.key !== "Enter") return;
+    const exactCity = canonicalAvailabilityCity(cityInput.value);
+    const matches = exactCity ? [exactCity] : matchingAvailabilityCities(cityInput.value);
+    if (matches.length !== 1) return;
+    event.preventDefault();
+    cityInput.value = matches[0];
+    suggestions.hidden = true;
+    cityInput.setAttribute("aria-expanded", "false");
+    focusAvailabilitySlotsAfterCitySelection(platform);
+  });
+  slotsInput.addEventListener("keydown", event => {
+    if (event.key === "Enter") { event.preventDefault(); addAvailabilityCity(platform); }
+  });
+  availabilityEditorField(platform, "add-city").addEventListener("click", () => addAvailabilityCity(platform));
 });
-availabilityCityInput.addEventListener("keydown", event => {
-  if (event.key === "Escape") {
-    availabilityCitySuggestions.hidden = true;
-    availabilityCityInput.setAttribute("aria-expanded", "false");
-    return;
-  }
-  if (event.key !== "Enter") return;
-  const exactCity = canonicalAvailabilityCity(availabilityCityInput.value);
-  const matches = exactCity ? [exactCity] : matchingAvailabilityCities(availabilityCityInput.value);
-  if (matches.length !== 1) return;
-  event.preventDefault();
-  availabilityCityInput.value = matches[0];
-  availabilityCitySuggestions.hidden = true;
-  availabilityCityInput.setAttribute("aria-expanded", "false");
-  focusAvailabilitySlotsAfterCitySelection();
-});
-availabilitySlotsInput.addEventListener("keydown", event => {
-  if (event.key === "Enter") { event.preventDefault(); addAvailabilityCity(); }
-});
-addAvailabilityCityButton.addEventListener("click", addAvailabilityCity);
 resetAvailabilityDraftButton.addEventListener("click", resetAvailabilityDraft);
 publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialog);
-availabilityPlatformTabs.forEach(tab => tab.addEventListener("click", () => {
-  activeAvailabilityPlatform = tab.dataset.availabilityPlatform;
-  availabilityFeedback.textContent = "";
-  saveAvailabilityDraft();
-  renderAvailability();
-}));
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
 ticketCategoryTabs.forEach(tab => tab.addEventListener("click", () => {
   activeTicketCategory = tab.dataset.ticketCategoryTab;
@@ -1240,6 +1263,7 @@ if (!session?.user) {
       showDashboard();
       await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
       subscribeToAvailabilityUpdates();
+      subscribeToAdminNotifications();
     } else {
       await supabase.auth.signOut();
       showLogin("Acest utilizator nu are acces administrativ.");

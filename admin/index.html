@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=15" />
+  <link rel="stylesheet" href="admin.css?v=16" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -44,14 +44,15 @@
       </div>
 
       <div class="admin-tab-groups">
-        <nav class="admin-primary-tabs" aria-label="Solicitări primite" role="tablist">
+        <nav class="admin-primary-tabs admin-ticket-tabs" aria-label="Control tickete" role="tablist">
+          <span class="admin-control-label">Control Tickete</span>
           <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel">
             <span class="tab-icon" aria-hidden="true">⌑</span>
-            <span><strong>Cereri de Deschidere Cont</strong><small>Wolt și Glovo</small></span>
+            <span><strong>Cereri de Deschidere Cont</strong><small>Wolt și Glovo</small></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span>
           </button>
           <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel">
             <span class="tab-icon" aria-hidden="true">✦</span>
-            <span><strong>Tickete Curieri</strong><small>Solicitări către echipă</small></span>
+            <span><strong>Tickete Curieri</strong><small>Solicitări către echipă</small></span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span>
           </button>
         </nav>
         <nav class="admin-primary-tabs admin-control-tabs" aria-label="Control operațional" role="tablist">
@@ -147,44 +148,53 @@
           <div>
             <p class="eyebrow">Publicare rapidă</p>
             <h2>Locuri disponibile</h2>
-            <p>Compune lista pentru fiecare platformă, verific-o, apoi public-o într-un singur pas.</p>
             <p id="availability-admin-update" class="availability-admin-update" aria-live="polite">Ultima actualizare de către un admin: —</p>
           </div>
           <a class="quiet-button availability-public-link" href="../locuri/" target="_blank" rel="noopener noreferrer">Deschide pagina publică ↗</a>
         </div>
 
-        <div class="platform-tabs availability-platform-tabs" role="tablist" aria-label="Platformă disponibilități">
-          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-availability-platform="glovo"><img src="../assets/glovo-round.png" alt="" />Glovo</button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-availability-platform="wolt"><img src="../assets/wolt-round.png" alt="" />Wolt</button>
-        </div>
-
         <div class="availability-workspace">
-          <section class="availability-editor" aria-labelledby="availability-editor-title">
+          <section class="availability-editor" data-availability-editor="glovo" aria-labelledby="availability-editor-title-glovo">
             <div class="availability-editor-heading">
-              <div><p class="eyebrow">Editezi pentru <span id="availability-platform-name">Glovo</span></p><h3 id="availability-editor-title">Adaugă un oraș</h3></div>
-              <span id="availability-draft-count" class="availability-count">0 orașe</span>
+              <div><p class="eyebrow">Disponibilități Glovo</p><h3 id="availability-editor-title-glovo">Adaugă un oraș</h3></div>
+              <span class="availability-count" data-availability-draft-count="glovo">0 orașe</span>
             </div>
             <div class="availability-add-form">
               <label>Oraș
                 <span class="availability-city-combobox">
-                  <input id="availability-city" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions" aria-expanded="false" />
-                  <span id="availability-city-suggestions" class="availability-city-suggestions" role="listbox" hidden></span>
+                  <input data-availability-city="glovo" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions-glovo" aria-expanded="false" />
+                  <span id="availability-city-suggestions-glovo" data-availability-city-suggestions="glovo" class="availability-city-suggestions" role="listbox" hidden></span>
                 </span>
               </label>
-              <label><span id="availability-slots-label">Locuri disponibile</span>
-                <input id="availability-slots" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
+              <label><span data-availability-slots-label="glovo">Locuri disponibile</span>
+                <input data-availability-slots="glovo" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
               </label>
-              <button id="add-availability-city" class="primary-button" type="button">Adaugă în listă</button>
+              <button data-availability-add-city="glovo" class="primary-button" type="button">Adaugă în listă</button>
             </div>
-            <p id="availability-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
-            <div id="availability-draft-list" class="availability-draft-list" aria-live="polite"></div>
+            <p data-availability-feedback="glovo" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
+            <div data-availability-draft-list="glovo" class="availability-draft-list" aria-live="polite"></div>
           </section>
 
-          <aside class="availability-preview" aria-labelledby="availability-preview-title">
-            <p class="eyebrow">Previzualizare înainte de publicare</p>
-            <h3 id="availability-preview-title">Așa va arăta pagina</h3>
-            <div id="availability-preview-columns" class="availability-preview-columns"></div>
-          </aside>
+          <section class="availability-editor" data-availability-editor="wolt" aria-labelledby="availability-editor-title-wolt">
+            <div class="availability-editor-heading">
+              <div><p class="eyebrow">Disponibilități Wolt</p><h3 id="availability-editor-title-wolt">Adaugă un oraș</h3></div>
+              <span class="availability-count" data-availability-draft-count="wolt">0 orașe</span>
+            </div>
+            <div class="availability-add-form">
+              <label>Oraș
+                <span class="availability-city-combobox">
+                  <input data-availability-city="wolt" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions-wolt" aria-expanded="false" />
+                  <span id="availability-city-suggestions-wolt" data-availability-city-suggestions="wolt" class="availability-city-suggestions" role="listbox" hidden></span>
+                </span>
+              </label>
+              <label><span data-availability-slots-label="wolt">Locuri disponibile</span>
+                <input data-availability-slots="wolt" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
+              </label>
+              <button data-availability-add-city="wolt" class="primary-button" type="button">Adaugă în listă</button>
+            </div>
+            <p data-availability-feedback="wolt" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
+            <div data-availability-draft-list="wolt" class="availability-draft-list" aria-live="polite"></div>
+          </section>
         </div>
 
         <div class="availability-actions">
@@ -224,6 +234,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=18"></script>
+  <script type="module" src="admin.js?v=19"></script>
 </body>
 </html>
