@@ -68,6 +68,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .tab-icon { display: grid; width: 35px; height: 35px; flex: 0 0 35px; place-items: center; border: 1px solid var(--line); border-radius: 9px; color: var(--gold); font-family: Cinzel, serif; font-size: 23px; }
 
 .admin-section-panel { overflow: hidden; }
+#tickets-panel { overflow: visible; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 25px 26px 21px; border-bottom: 1px solid #dcb44d29; }
 .section-heading h2 { font-size: clamp(22px, 3vw, 31px); }
 .section-heading > div > p:last-child { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
