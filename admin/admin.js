@@ -41,8 +41,8 @@ const ticketTypeLabels = {
   phone: "Schimbare telefon", email: "Schimbare email", iban: "Schimbare IBAN", city: "Schimbare oraș",
   vehicle: "Schimbare vehicul", plate_number: "Schimbare număr înmatriculare", activate_chas: "Activează CASH",
   deactivate_chas: "Dezactivează CASH", transfer_cont: "Transfer de Cont", other: "Altă problemă",
-  suma_incorecta: "Sumă incorectă", lipsa_plata: "Plată lipsă sau eronată", clarificare_decont: "Clarificare decont",
-  alta_problema_plata: "Altă problemă cu plata", actualizare_documente: "Actualizare documente",
+  suma_incorecta: "Raport eronat", lipsa_plata: "Plată lipsă", clarificare_decont: "Clarificare decont",
+  alta_problema_plata: "Alte probleme cu plata", actualizare_documente: "Actualizare documente",
   problema_contract: "Problemă cu contractul", alta_problema_admin: "Altă problemă administrativă",
   comanda_anulata: "Comandă Glovo anulată", deconturi: "Deconturi", inactivitate: "Concediu/Inactivitate",
   problema_decontare: "Problemă cu decontarea", trimite_bonuri_pdf: "Trimitere bonuri PDF",
@@ -52,10 +52,11 @@ const ticketViews = [
   { id: "bolt", workspace: "platforms", label: "Bolt", types: ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "other"], matches: item => item.category === "bolt" },
   { id: "glovo", workspace: "platforms", label: "Glovo", types: ["phone", "email", "iban", "city", "vehicle", "plate_number", "activate_chas", "deactivate_chas", "comanda_anulata", "other"], matches: item => item.category === "glovo" },
   { id: "wolt", workspace: "platforms", label: "Wolt", types: ["phone", "email", "iban", "city", "vehicle", "other"], matches: item => item.category === "wolt" },
-  { id: "suma_incorecta", workspace: "financial", label: "Sumă incorectă în raport", matches: item => item.request_type === "suma_incorecta" },
-  { id: "lipsa_plata", workspace: "financial", label: "Plată lipsă sau eronată", matches: item => item.request_type === "lipsa_plata" },
-  { id: "alta_problema_plata", workspace: "financial", label: "Altă problemă cu plata", matches: item => item.request_type === "alta_problema_plata" },
-  { id: "deconturi", workspace: "financial", label: "5% Decontare", types: ["problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"], matches: item => item.category === "deconturi" || ["deconturi", "problema_decontare", "trimite_bonuri_pdf", "clarificare_decont"].includes(item.request_type) },
+  { id: "suma_incorecta", workspace: "reports", label: "Raport eronat", matches: item => item.request_type === "suma_incorecta" },
+  { id: "lipsa_plata", workspace: "reports", label: "Plată lipsă", matches: item => item.request_type === "lipsa_plata" },
+  { id: "alta_problema_plata", workspace: "reports", label: "Alte probleme cu plata", matches: item => item.request_type === "alta_problema_plata" },
+  { id: "problema_decontare", workspace: "reimbursement", label: "Probleme cu decontarea", matches: item => ["deconturi", "problema_decontare", "clarificare_decont"].includes(item.request_type) || (item.category === "deconturi" && item.request_type !== "trimite_bonuri_pdf") },
+  { id: "trimite_bonuri_pdf", workspace: "reimbursement", label: "Bonuri PDF", matches: item => item.request_type === "trimite_bonuri_pdf" },
   { id: "transfer_cont", workspace: "administrative", label: "Transfer de cont", matches: item => item.request_type === "transfer_cont" },
   { id: "probleme_admin", workspace: "administrative", label: "Probleme administrative", types: ["actualizare_documente", "problema_contract", "alta_problema_admin"], matches: item => item.category === "probleme_admin" && item.request_type !== "transfer_cont" },
   { id: "inactivitate", workspace: "administrative", label: "Concediu / Inactivitate", matches: item => item.category === "inactivitate" || item.request_type === "inactivitate" },
@@ -88,10 +89,6 @@ const cancelDeleteButton = document.querySelector("#cancel-delete-button");
 const confirmDeleteButton = document.querySelector("#confirm-delete-button");
 const deleteFeedback = document.querySelector("#delete-feedback");
 const adminSectionTabs = [...document.querySelectorAll("[data-admin-section]")];
-const adminWorkspaceTabs = [...document.querySelectorAll("[data-admin-workspace]")];
-const adminWorkspaceRails = [...document.querySelectorAll("[data-admin-workspace-rail]")];
-const ticketWorkspaceCount = document.querySelector("#ticket-workspace-count");
-const ticketsWorkspaceTabCount = document.querySelector("#tickets-workspace-tab-count");
 const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
 const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
@@ -120,7 +117,6 @@ let tickets = [];
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
-let activeAdminWorkspace = "tickets";
 let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
@@ -257,46 +253,10 @@ function restoreAvailabilityDraft() {
   return sanitizeAvailabilityDraft(readAdminPreference("availability-draft"));
 }
 
-function workspaceForAdminSection(sectionId) {
-  return sectionId === "availability-panel" ? "operational" : "tickets";
-}
-
-function updateAdminWorkspace(workspace) {
-  activeAdminWorkspace = workspace === "operational" ? "operational" : "tickets";
-  adminWorkspaceTabs.forEach(tab => {
-    const active = tab.dataset.adminWorkspace === activeAdminWorkspace;
-    tab.classList.toggle("active", active);
-    tab.setAttribute("aria-selected", String(active));
-  });
-  adminWorkspaceRails.forEach(rail => {
-    rail.hidden = rail.dataset.adminWorkspaceRail !== activeAdminWorkspace;
-  });
-}
-
-function setActiveAdminWorkspace(workspace) {
-  const nextWorkspace = workspace === "operational" ? "operational" : "tickets";
-  const fallbackSection = nextWorkspace === "operational" ? "availability-panel" : "applications-panel";
-  setActiveAdminSection(fallbackSection);
-}
-
-function updateTicketWorkspaceUnread() {
-  const unreadCount = applications.filter(item => !isApplicationRead(item)).length + tickets.filter(item => !isTicketRead(item)).length;
-  if (ticketWorkspaceCount) {
-    ticketWorkspaceCount.textContent = `${unreadCount} ${unreadCount === 1 ? "nou" : "noi"}`;
-    ticketWorkspaceCount.hidden = unreadCount === 0;
-  }
-  if (ticketsWorkspaceTabCount) {
-    ticketsWorkspaceTabCount.textContent = unreadCount;
-    ticketsWorkspaceTabCount.hidden = unreadCount === 0;
-  }
-  adminWorkspaceTabs.find(tab => tab.dataset.adminWorkspace === "tickets")?.classList.toggle("has-unread", unreadCount > 0);
-}
-
 function setActiveAdminSection(sectionId, persist = true) {
   const requested = adminSectionTabs.some(tab => tab.dataset.adminSection === sectionId)
     ? sectionId
     : "applications-panel";
-  updateAdminWorkspace(workspaceForAdminSection(requested));
   adminSectionTabs.forEach(tab => {
     const active = tab.dataset.adminSection === requested;
     tab.classList.toggle("active", active);
@@ -765,7 +725,6 @@ function updateTicketSummary() {
   document.querySelector("#tickets-reviewing-count").textContent = viewTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
   document.querySelector("#tickets-approved-count").textContent = viewTickets.filter(item => item.status === "approved").length;
   updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => !isTicketRead(item)).length);
-  updateTicketWorkspaceUnread();
 }
 
 function filteredTickets() {
@@ -823,7 +782,6 @@ function updateSummary() {
   document.querySelector("#reviewing-count").textContent = platformApplications.filter(item => item.status === "reviewing").length;
   document.querySelector("#activated-count").textContent = platformApplications.filter(item => item.status === "activated").length;
   updatePrimaryUnreadBadge("applications-panel", applicationsPrimaryCount, applications.filter(item => !isApplicationRead(item)).length);
-  updateTicketWorkspaceUnread();
 }
 
 function filteredApplications() {
@@ -1373,7 +1331,6 @@ resetAvailabilityDraftButton.addEventListener("click", resetAvailabilityDraft);
 publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialog);
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
 ticketWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveTicketWorkspace(tab.dataset.ticketWorkspace)));
-adminWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveAdminWorkspace(tab.dataset.adminWorkspace)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
 }));
