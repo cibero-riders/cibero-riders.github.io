@@ -747,17 +747,48 @@ function renderTickets() {
         <span class="ticket-type">${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</span>
         <span class="arrow" aria-hidden="true">→</span>
       </button>
-      <label class="ticket-status-select status-pill" data-status="${escapeHtml(item.status)}">
-        <select data-ticket-status-select="${escapeHtml(item.id)}" aria-label="Schimbă statusul ticketului #${escapeHtml(item.id.slice(0, 8).toUpperCase())}">
-          ${Object.entries(ticketStatusLabels).map(([value, label]) => `<option value="${escapeHtml(value)}"${item.status === value ? " selected" : ""}>${escapeHtml(label)}</option>`).join("")}
-        </select>
-      </label>
+      <div class="ticket-status-combobox" data-ticket-status-combobox>
+        <button class="ticket-status-toggle status-pill" type="button" data-ticket-status-toggle data-status="${escapeHtml(item.status)}" aria-haspopup="listbox" aria-expanded="false" aria-label="Schimbă statusul ticketului #${escapeHtml(item.id.slice(0, 8).toUpperCase())}">
+          <span>${escapeHtml(ticketStatusLabels[item.status] ?? item.status)}</span><b aria-hidden="true">⌄</b>
+        </button>
+        <span class="ticket-status-suggestions" role="listbox" hidden>
+          ${Object.entries(ticketStatusLabels).filter(([value]) => value !== item.status).map(([value, label]) => `<button type="button" role="option" data-ticket-status-option="${escapeHtml(item.id)}" data-ticket-status-value="${escapeHtml(value)}">${escapeHtml(label)}</button>`).join("")}
+        </span>
+      </div>
     </div>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
   ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketViewById(activeTicketView).label} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
-  ticketsList.querySelectorAll("[data-ticket-status-select]").forEach(select => select.addEventListener("change", () => updateTicketStatus(select.dataset.ticketStatusSelect, select.value, select)));
+  ticketsList.querySelectorAll("[data-ticket-status-toggle]").forEach(button => button.addEventListener("click", event => {
+    event.stopPropagation();
+    toggleTicketStatusMenu(button);
+  }));
+  ticketsList.querySelectorAll("[data-ticket-status-option]").forEach(button => button.addEventListener("click", event => {
+    event.stopPropagation();
+    closeTicketStatusMenus();
+    updateTicketStatus(button.dataset.ticketStatusOption, button.dataset.ticketStatusValue, button);
+  }));
+}
+
+function closeTicketStatusMenus(except = null) {
+  ticketsList.querySelectorAll("[data-ticket-status-combobox]").forEach(combobox => {
+    if (combobox === except) return;
+    const toggle = combobox.querySelector("[data-ticket-status-toggle]");
+    const suggestions = combobox.querySelector(".ticket-status-suggestions");
+    suggestions.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+  });
+}
+
+function toggleTicketStatusMenu(toggle) {
+  const combobox = toggle.closest("[data-ticket-status-combobox]");
+  const suggestions = combobox?.querySelector(".ticket-status-suggestions");
+  if (!combobox || !suggestions) return;
+  const opening = suggestions.hidden;
+  closeTicketStatusMenus(combobox);
+  suggestions.hidden = !opening;
+  toggle.setAttribute("aria-expanded", String(opening));
 }
 
 function updateSummary() {
@@ -1083,7 +1114,8 @@ async function updateTicketStatus(id, status, control) {
   const item = tickets.find(ticket => ticket.id === id);
   if (!item || control.disabled || !ticketStatusLabels[status] || status === item.status) return;
 
-  control.disabled = true;
+  const statusControls = [...(control.closest("[data-ticket-status-combobox]")?.querySelectorAll("button") ?? [])];
+  statusControls.forEach(button => { button.disabled = true; });
   ticketsFeedback.classList.remove("success");
   ticketsFeedback.textContent = `Se schimbă statusul în „${ticketStatusLabels[status]}”…`;
 
@@ -1095,8 +1127,7 @@ async function updateTicketStatus(id, status, control) {
     .single();
 
   if (error) {
-    control.disabled = false;
-    control.value = item.status;
+    statusControls.forEach(button => { button.disabled = false; });
     ticketsFeedback.textContent = "Statusul nu a putut fi modificat.";
     console.error(error);
     return;
@@ -1349,6 +1380,12 @@ platformTabs.forEach(tab => {
     updateSummary();
     renderApplications();
   });
+});
+document.addEventListener("click", event => {
+  if (!event.target.closest("[data-ticket-status-combobox]")) closeTicketStatusMenus();
+});
+document.addEventListener("keydown", event => {
+  if (event.key === "Escape") closeTicketStatusMenus();
 });
 
 const { data: { session } } = await supabase.auth.getSession();
