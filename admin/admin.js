@@ -950,6 +950,7 @@ function renderTickets() {
     event.stopPropagation();
     toggleTicketStatusMenu(button);
   }));
+  ticketsList.querySelectorAll("[data-ticket-status-combobox]").forEach(bindStatusMenuScroll);
   ticketsList.querySelectorAll("[data-ticket-status-option]").forEach(button => button.addEventListener("click", event => {
     event.stopPropagation();
     closeTicketStatusMenus();
@@ -982,6 +983,7 @@ function toggleTicketStatusMenu(toggle) {
   combobox.classList.toggle("status-menu-active", opening);
   combobox.closest(".ticket-row")?.classList.toggle("status-menu-active", opening);
   syncStatusMenuBackdrop();
+  if (opening) positionStatusMenu(combobox);
 }
 
 function updateSummary() {
@@ -1100,6 +1102,7 @@ function renderApplications() {
     event.stopPropagation();
     toggleApplicationStatusMenu(button);
   }));
+  applicationsList.querySelectorAll("[data-application-status-combobox]").forEach(bindStatusMenuScroll);
   applicationsList.querySelectorAll("[data-application-status-option]").forEach(button => button.addEventListener("click", event => {
     event.stopPropagation();
     closeApplicationStatusMenus();
@@ -1133,6 +1136,51 @@ function toggleApplicationStatusMenu(toggle) {
   combobox.classList.toggle("status-menu-active", opening);
   combobox.closest(".application-row")?.classList.toggle("status-menu-active", opening);
   syncStatusMenuBackdrop();
+  if (opening) positionStatusMenu(combobox);
+}
+
+function bindStatusMenuScroll(combobox) {
+  const suggestions = combobox.querySelector(".ticket-status-suggestions");
+  if (!suggestions) return;
+
+  suggestions.addEventListener("wheel", event => {
+    if (event.ctrlKey) return;
+    const scrollable = suggestions.scrollHeight > suggestions.clientHeight;
+    const atTop = suggestions.scrollTop <= 0;
+    const atBottom = suggestions.scrollTop + suggestions.clientHeight >= suggestions.scrollHeight - 1;
+    const shouldContinuePageScroll = !scrollable || (event.deltaY < 0 && atTop) || (event.deltaY > 0 && atBottom);
+    if (!shouldContinuePageScroll) return;
+
+    event.preventDefault();
+    window.scrollBy({ top: event.deltaY, behavior: "auto" });
+    positionStatusMenu(combobox);
+  }, { passive: false });
+}
+
+function positionStatusMenu(combobox) {
+  const suggestions = combobox.querySelector(".ticket-status-suggestions");
+  if (!suggestions || suggestions.hidden) return;
+
+  requestAnimationFrame(() => {
+    if (suggestions.hidden) return;
+    suggestions.classList.remove("opens-upward");
+    suggestions.style.maxHeight = "";
+
+    const gap = 12;
+    const rect = combobox.getBoundingClientRect();
+    const desiredHeight = Math.min(suggestions.scrollHeight, 230);
+    const roomBelow = Math.max(0, window.innerHeight - rect.bottom - gap);
+    const roomAbove = Math.max(0, rect.top - gap);
+    const opensUpward = roomBelow < desiredHeight && roomAbove > roomBelow;
+    const availableHeight = opensUpward ? roomAbove : roomBelow;
+
+    suggestions.classList.toggle("opens-upward", opensUpward);
+    suggestions.style.maxHeight = `${Math.max(84, Math.min(desiredHeight, availableHeight))}px`;
+  });
+}
+
+function positionOpenStatusMenus() {
+  document.querySelectorAll("[data-ticket-status-combobox], [data-application-status-combobox]").forEach(positionStatusMenu);
 }
 
 function syncStatusMenuBackdrop() {
@@ -1719,6 +1767,8 @@ document.addEventListener("keydown", event => {
     closeApplicationStatusMenus();
   }
 });
+window.addEventListener("scroll", positionOpenStatusMenus, { passive: true });
+window.addEventListener("resize", positionOpenStatusMenus);
 
 const { data: { session } } = await supabase.auth.getSession();
 if (!session?.user) {
