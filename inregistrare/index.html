@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="registration.css?v=2" />
+  <link rel="stylesheet" href="registration.css?v=3" />
 </head>
 <body>
   <main class="registration-page">
@@ -34,12 +34,12 @@
         <label class="honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
 
         <fieldset class="profile-fieldset">
-          <legend><span data-i18n="courierType">Ce tip de colaborare cauți?</span> <b>*</b></legend>
+          <legend><span data-i18n="courierType">Ce tip de curier ești?</span> <b>*</b></legend>
           <div class="profile-grid">
-            <label class="profile-option"><input required type="radio" name="courier_type" value="new_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="15" r="6"/><path d="M12 38c1.4-7.5 6.1-11 12-11s10.6 3.5 12 11M17 28l-2.5 8m19-8 2.5 8"/></svg></span><strong data-i18n="newCourier">Curier nou</strong></label>
-            <label class="profile-option"><input type="radio" name="courier_type" value="pfa" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="10" y="16" width="28" height="21" rx="3"/><path d="M18 16v-4.5c0-2 1.6-3.5 3.5-3.5h5c1.9 0 3.5 1.5 3.5 3.5V16m-20 8h28M21 25v4h6v-4"/></svg></span><strong>PFA</strong></label>
-            <label class="profile-option"><input type="radio" name="courier_type" value="experienced_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="9"/><path d="m20.5 20 2.4 2.4 5-5M19 29l-2 10 7-3 7 3-2-10M16 11l3 1.4L21 9l3 2.2L27 9l2 3.4L32 11"/></svg></span><strong data-i18n="experienced">Curier cu experiență</strong></label>
-            <label class="profile-option"><input type="radio" name="courier_type" value="srl" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 39h28M14 39V13h20v26M19 19h3m4 0h3m-10 6h3m4 0h3m-10 6h3m4 0h3M21 39v-6h6v6"/></svg></span><strong>SRL</strong></label>
+            <label class="profile-option"><input required type="radio" name="courier_type" value="new_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="15" r="6"/><path d="M12 38c1.4-7.5 6.1-11 12-11s10.6 3.5 12 11M17 28l-2.5 8m19-8 2.5 8"/></svg></span><span class="profile-copy"><strong data-i18n="newCourier">Curier nou</strong><small data-i18n="newCourierDescription">Ești la început și vrei să începi rapid</small></span></label>
+            <label class="profile-option"><input type="radio" name="courier_type" value="experienced_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="9"/><path d="m20.5 20 2.4 2.4 5-5M19 29l-2 10 7-3 7 3-2-10M16 11l3 1.4L21 9l3 2.2L27 9l2 3.4L32 11"/></svg></span><span class="profile-copy"><strong data-i18n="experienced">Curier cu experiență</strong><small data-i18n="experiencedDescription">Ai mai lucrat ca livrator</small></span></label>
+            <label class="profile-option"><input type="radio" name="courier_type" value="pfa" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="10" y="16" width="28" height="21" rx="3"/><path d="M18 16v-4.5c0-2 1.6-3.5 3.5-3.5h5c1.9 0 3.5 1.5 3.5 3.5V16m-20 8h28M21 25v4h6v-4"/></svg></span><span class="profile-copy"><strong>PFA</strong><small data-i18n="pfaDescription">Ai sau vrei să deschizi un PFA</small></span></label>
+            <label class="profile-option"><input type="radio" name="courier_type" value="srl" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><path d="M10 39h28M14 39V13h20v26M19 19h3m4 0h3m-10 6h3m4 0h3m-10 6h3m4 0h3M21 39v-6h6v6"/></svg></span><span class="profile-copy"><strong>SRL</strong><small data-i18n="srlDescription">Reprezinți o firmă sau o flotă</small></span></label>
           </div>
         </fieldset>
 
@@ -81,6 +81,16 @@
       <a class="success-home" href="../" data-i18n="home">Întoarce-te la pagina principală</a>
     </section>
   </main>
-  <script src="registration.js?v=2"></script>
+  <dialog id="courier-guide-dialog" class="courier-guide-dialog" aria-labelledby="courier-guide-title">
+    <section class="courier-guide-panel">
+      <button id="courier-guide-close" class="courier-guide-close" type="button" aria-label="Închide">×</button>
+      <div class="courier-guide-content">
+        <h2 id="courier-guide-title"></h2>
+        <div id="courier-guide-items" class="courier-guide-items"></div>
+      </div>
+      <footer class="courier-guide-footer"><button id="courier-guide-continue" class="courier-guide-continue" type="button">Am înțeles, continuă</button></footer>
+    </section>
+  </dialog>
+  <script src="registration.js?v=3"></script>
 </body>
 </html>
