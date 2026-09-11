@@ -79,11 +79,14 @@ grant execute on function public.current_cibero_subfleet_id() to authenticated;
 alter table public.applications
   add column if not exists subfleet_id uuid references public.subfleets(id) on delete set null,
   add column if not exists claimed_at timestamptz,
-  add column if not exists claimed_by uuid references auth.users(id) on delete set null;
+  add column if not exists claimed_by uuid references auth.users(id) on delete set null,
+  -- Older installations may not have received the inbox-state migration.
+  add column if not exists opened_at timestamptz;
 
 alter table public.tickets
   add column if not exists subfleet_id uuid references public.subfleets(id) on delete set null,
-  add column if not exists routed_at timestamptz;
+  add column if not exists routed_at timestamptz,
+  add column if not exists opened_at timestamptz;
 
 create index if not exists applications_subfleet_created_idx
   on public.applications (subfleet_id, created_at desc) where subfleet_id is not null;
