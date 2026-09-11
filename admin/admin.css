@@ -35,9 +35,10 @@ h1 { font-size: clamp(30px, 4vw, 48px); }
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .login-view { display: grid; min-height: calc(100vh - 210px); place-items: center; }
-.login-panel { width: min(100%, 480px); padding: clamp(28px, 6vw, 48px); }
+.login-panel { width: min(100%, 640px); padding: clamp(28px, 6vw, 48px); }
+.login-panel h1 { text-align: center; }
 .login-panel > p:not(.eyebrow):not(.feedback) { color: var(--muted); line-height: 1.6; }
-.role-choice { margin: 22px 0 0; padding: 0; border: 0; }.role-choice legend { margin-bottom: 10px; color: var(--cream); font-size: 13px; font-weight: 800; }.role-choice > div { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }.role-choice label { position: relative; margin: 0; cursor: pointer; }.role-choice input { position: absolute; opacity: 0; }.role-choice span { display: grid; min-height: 86px; gap: 5px; padding: 16px; border: 1px solid #a078a34d; border-radius: 12px; background: #180a20a8; transition: .18s ease; }.role-choice b { color: var(--cream); font-size: 15px; }.role-choice small { color: var(--muted); font-size: 12px; font-weight: 500; line-height: 1.35; }.role-choice input:checked + span { border-color: var(--gold); background: linear-gradient(135deg, #6843238c, #351541); box-shadow: 0 0 0 3px #dfb34b10; }.role-choice input:checked + span b { color: var(--gold-light); }
+.role-choice { margin: 27px 0 0; padding: 0; border: 0; }.role-choice legend { width: 100%; margin-bottom: 12px; color: var(--cream); font-size: 14px; font-weight: 800; text-align: center; }.role-choice > div { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }.role-choice label { position: relative; margin: 0; cursor: pointer; }.role-choice input { position: absolute; opacity: 0; }.role-choice span { display: grid; min-height: 64px; place-items: center; padding: 14px 16px; border: 1px solid #a078a34d; border-radius: 12px; background: #180a20a8; text-align: center; transition: .18s ease; }.role-choice b { color: var(--cream); font-size: 16px; }.role-choice input:checked + span { border-color: var(--gold); background: linear-gradient(135deg, #6843238c, #351541); box-shadow: 0 0 0 3px #dfb34b10; }.role-choice input:checked + span b { color: var(--gold-light); }
 label { display: grid; gap: 7px; color: #ead9e8; font-size: 13px; font-weight: 700; }
 .login-panel label { margin-top: 18px; }
 input, select, textarea { width: 100%; min-height: 46px; border: 1px solid #a078a34d; border-radius: 10px; outline: none; background: #13081abf; color: var(--cream); padding: 11px 13px; }

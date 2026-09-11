@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=27" />
+  <link rel="stylesheet" href="admin.css?v=28" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -28,12 +28,10 @@
 
     <section id="login-view" class="login-view" aria-labelledby="login-title" hidden>
       <form id="login-form" class="panel login-panel">
-        <p class="eyebrow">Acces protejat</p>
         <h1 id="login-title">Panou administrativ</h1>
-        <p>Alege rolul tău, apoi autentifică-te cu contul CibeRO alocat.</p>
-        <fieldset class="role-choice"><legend>Care este rolul tău în organizație?</legend><div>
-          <label><input required type="radio" name="requested_role" value="admin" checked /><span><b>Admin</b><small>Acces complet la operațiunile CibeRO</small></span></label>
-          <label><input required type="radio" name="requested_role" value="subfleet" /><span><b>Sub-flotă</b><small>Gestionează doar membrii și ticketele proprii</small></span></label>
+        <fieldset class="role-choice"><legend>Loghează-te ca:</legend><div>
+          <label><input required type="radio" name="requested_role" value="admin" checked /><span><b>Admin</b></span></label>
+          <label><input required type="radio" name="requested_role" value="subfleet" /><span><b>Sub-Flotă</b></span></label>
         </div></fieldset>
         <label>Email<input name="email" type="email" autocomplete="username" required /></label>
         <label>Parolă<input name="password" type="password" autocomplete="current-password" required /></label>
