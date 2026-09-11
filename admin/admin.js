@@ -116,6 +116,7 @@ const createSubfleetForm = document.querySelector("#create-subfleet-form");
 const subfleetCreateDialog = document.querySelector("#subfleet-create-dialog");
 const createSubfleetFeedback = document.querySelector("#create-subfleet-feedback");
 const subfleetsFeedback = document.querySelector("#subfleets-feedback");
+const subfleetSearch = document.querySelector("#subfleet-search");
 const subfleetsList = document.querySelector("#subfleets-list");
 const subfleetsEmpty = document.querySelector("#subfleets-empty");
 const subfleetAlerts = document.querySelector("#subfleet-alerts");
@@ -126,6 +127,12 @@ const subfleetMemberStatus = document.querySelector("#subfleet-member-status");
 const subfleetMembersList = document.querySelector("#subfleet-members-list");
 const subfleetMembersEmpty = document.querySelector("#subfleet-members-empty");
 const backToSubfleetsButton = document.querySelector("#back-to-subfleets");
+const subfleetAdminNoteInput = document.querySelector("#subfleet-admin-note-input");
+const subfleetAdminNoteMeta = document.querySelector("#subfleet-admin-note-meta");
+const subfleetPartnerNoteCopy = document.querySelector("#subfleet-partner-note-copy");
+const subfleetPartnerNoteMeta = document.querySelector("#subfleet-partner-note-meta");
+const saveSubfleetAdminNoteButton = document.querySelector("#save-subfleet-admin-note");
+const subfleetAdminNoteFeedback = document.querySelector("#subfleet-admin-note-feedback");
 
 let applications = [];
 let activePlatform = "all";
@@ -146,6 +153,8 @@ let subfleetPortal = null;
 let subfleets = [];
 let subfleetAccounts = [];
 let subfleetAlertsData = [];
+let subfleetNotes = [];
+let subfleetNoteNotifications = [];
 let activeAdminArea = "cibero";
 let activeSubfleetId = "";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
@@ -679,6 +688,8 @@ function subscribeToAdminNotifications() {
     .channel(`cibero-admin-notifications-${currentAdminUserId}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => { void loadApplications(); })
     .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, () => { void loadTickets(); })
+    .on("postgres_changes", { event: "*", schema: "public", table: "subfleet_notes" }, () => { void loadSubfleets(); })
+    .on("postgres_changes", { event: "INSERT", schema: "public", table: "subfleet_note_notifications" }, () => { void loadSubfleetAlerts(); })
     .subscribe();
 }
 
@@ -764,7 +775,7 @@ async function openAccessProfile(user, requestedRole = "") {
     return false;
   }
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=5");
+    subfleetPortal ??= await import("./subfleet.js?v=6");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
@@ -790,8 +801,17 @@ function setSubfleetsFeedback(message = "", success = false) {
 
 function renderSubfleetAlerts() {
   const fleetNames = new Map(subfleets.map(item => [item.id, item.name]));
-  subfleetAlerts.hidden = subfleetAlertsData.length === 0;
-  subfleetAlerts.innerHTML = subfleetAlertsData.map(item => `<article><span aria-hidden="true">!</span><div><strong>Cerere neprocesată în 24h</strong><p>${escapeHtml(item.message)}</p><small>${escapeHtml(fleetNames.get(item.subfleet_id) ?? "Sub-flotă") } · ${escapeHtml(formatDate(item.created_at))}</small></div></article>`).join("");
+  const alerts = [
+    ...subfleetAlertsData.map(item => ({ ...item, kind: "claim_timeout" })),
+    ...subfleetNoteNotifications.map(item => ({ ...item, kind: "note" })),
+  ].sort((first, second) => new Date(second.created_at) - new Date(first.created_at));
+  subfleetAlerts.hidden = alerts.length === 0;
+  subfleetAlerts.innerHTML = alerts.map(item => {
+    const isNote = item.kind === "note";
+    const title = isNote ? `Notă nouă de la ${fleetNames.get(item.subfleet_id) ?? "sub-flotă"}` : "Cerere neprocesată în 24h";
+    return `<article><span aria-hidden="true">${isNote ? "✉" : "!"}</span><div><strong>${escapeHtml(title)}</strong><p>${escapeHtml(item.message)}</p><small>${escapeHtml(fleetNames.get(item.subfleet_id) ?? "Sub-flotă")} · ${escapeHtml(formatDate(item.created_at))}</small>${isNote ? `<button type="button" data-subfleet-note-notification="${escapeHtml(item.id)}">Marchează citit</button>` : ""}</div></article>`;
+  }).join("");
+  subfleetAlerts.querySelectorAll("[data-subfleet-note-notification]").forEach(button => button.addEventListener("click", () => markSubfleetNoteNotificationsRead([button.dataset.subfleetNoteNotification])));
 }
 
 async function reconcileStaleSubfleetClaims() {
@@ -800,21 +820,29 @@ async function reconcileStaleSubfleetClaims() {
 }
 
 async function loadSubfleetAlerts() {
-  const { data, error } = await supabase
-    .from("admin_alerts")
-    .select("id, alert_type, subfleet_id, message, created_at")
-    .is("read_at", null)
-    .eq("alert_type", "subfleet_claim_timeout")
-    .order("created_at", { ascending: false })
-    .limit(20);
-  if (error) { console.warn("Alertele sub-flotelor nu sunt disponibile încă.", error); return; }
-  subfleetAlertsData = data ?? [];
+  const [claimResult, noteResult] = await Promise.all([
+    supabase.from("admin_alerts").select("id, alert_type, subfleet_id, message, created_at").is("read_at", null).eq("alert_type", "subfleet_claim_timeout").order("created_at", { ascending: false }).limit(20),
+    supabase.from("subfleet_note_notifications").select("id, subfleet_id, message, created_at").is("read_at", null).eq("author_role", "subfleet").order("created_at", { ascending: false }).limit(20),
+  ]);
+  if (claimResult.error) console.warn("Alertele operaționale ale sub-flotelor nu sunt disponibile încă.", claimResult.error);
+  if (noteResult.error) console.warn("Notificările notelor sub-flotelor nu sunt disponibile încă.", noteResult.error);
+  subfleetAlertsData = claimResult.data ?? [];
+  subfleetNoteNotifications = noteResult.data ?? [];
+  renderSubfleetAlerts();
+}
+
+async function markSubfleetNoteNotificationsRead(ids) {
+  const { error } = await supabase.rpc("mark_subfleet_note_notifications_read", { p_notification_ids: ids });
+  if (error) { console.warn("Notificarea nu a putut fi marcată drept citită.", error); return; }
+  subfleetNoteNotifications = subfleetNoteNotifications.filter(item => !ids.includes(item.id));
   renderSubfleetAlerts();
 }
 
 function renderSubfleets() {
   const accountsByFleet = new Map(subfleets.map(item => [item.id, subfleetAccounts.filter(account => account.subfleet_id === item.id)]));
-  subfleetsList.innerHTML = subfleets.map(item => {
+  const query = subfleetSearch.value.trim().toLocaleLowerCase("ro-RO");
+  const visibleSubfleets = subfleets.filter(item => !query || [item.name, item.description].join(" ").toLocaleLowerCase("ro-RO").includes(query));
+  subfleetsList.innerHTML = visibleSubfleets.map(item => {
     const accounts = accountsByFleet.get(item.id) ?? [];
     const activeAccounts = accounts.filter(account => account.is_active).length;
     const members = applications.filter(application => application.subfleet_id === item.id);
@@ -823,7 +851,8 @@ function renderSubfleets() {
     const active = members.filter(application => application.status === "activated");
     return `<button class="subfleet-card" type="button" data-subfleet-id="${escapeHtml(item.id)}" aria-label="Deschide sub-flota ${escapeHtml(item.name)}"><span class="subfleet-card-icon" aria-hidden="true">⌘</span><span class="subfleet-card-heading"><strong>${escapeHtml(item.name)}</strong><small>Adăugată ${escapeHtml(formatDate(item.created_at))}</small></span><span class="subfleet-card-state ${item.is_active ? "active" : "inactive"}">${item.is_active ? "Activă" : "Inactivă"}</span><span class="subfleet-card-metrics"><span><small>Total curieri</small><b>${members.length}</b></span><span><small>Revendicați</small><b>${claimed.length}</b></span><span><small>În lucru</small><b>${working.length}</b></span><span><small>Activi</small><b>${active.length}</b></span></span><span class="subfleet-card-footer"><span>${activeAccounts} ${activeAccounts === 1 ? "cont activ" : "conturi active"}</span><span>Deschide →</span></span></button>`;
   }).join("");
-  subfleetsEmpty.hidden = subfleets.length > 0;
+  subfleetsEmpty.hidden = visibleSubfleets.length > 0;
+  subfleetsEmpty.textContent = subfleets.length && !visibleSubfleets.length ? "Nu există sub-flote pentru această căutare." : "Nu există încă sub-flote.";
   subfleetsList.querySelectorAll("[data-subfleet-id]").forEach(button => button.addEventListener("click", () => openSubfleetDetails(button.dataset.subfleetId)));
 }
 
@@ -843,6 +872,37 @@ function renderSubfleetMembers() {
   subfleetMembersList.querySelectorAll("[data-subfleet-member-id]").forEach(button => button.addEventListener("click", () => openApplication(button.dataset.subfleetMemberId)));
 }
 
+function renderSubfleetCommunication(fleet) {
+  if (!fleet) return;
+  const note = subfleetNotes.find(item => item.subfleet_id === fleet.id);
+  subfleetAdminNoteInput.value = note?.admin_note ?? "";
+  subfleetAdminNoteMeta.textContent = note?.admin_note_updated_at ? `Actualizată ${formatDate(note.admin_note_updated_at)}.` : "Încă nu există o notă de la admin.";
+  subfleetPartnerNoteCopy.textContent = note?.subfleet_note || "Sub-flota nu a lăsat încă o notă.";
+  subfleetPartnerNoteMeta.textContent = note?.subfleet_note_updated_at ? `Actualizată ${formatDate(note.subfleet_note_updated_at)}.` : "";
+  subfleetAdminNoteFeedback.textContent = "";
+}
+
+async function saveSubfleetAdminNote() {
+  if (!activeSubfleetId) return;
+  saveSubfleetAdminNoteButton.disabled = true;
+  subfleetAdminNoteFeedback.classList.remove("success");
+  subfleetAdminNoteFeedback.textContent = "Se salvează nota…";
+  const { data, error } = await supabase.rpc("update_subfleet_communication_note", {
+    p_subfleet_id: activeSubfleetId,
+    p_note: subfleetAdminNoteInput.value,
+  });
+  saveSubfleetAdminNoteButton.disabled = false;
+  if (error) {
+    console.error(error);
+    subfleetAdminNoteFeedback.textContent = "Nota nu a putut fi salvată.";
+    return;
+  }
+  subfleetNotes = [...subfleetNotes.filter(item => item.subfleet_id !== data.subfleet_id), data];
+  renderSubfleetCommunication(subfleets.find(item => item.id === activeSubfleetId));
+  subfleetAdminNoteFeedback.classList.add("success");
+  subfleetAdminNoteFeedback.textContent = "Nota a fost trimisă către sub-flotă.";
+}
+
 function openSubfleetDetails(subfleetId) {
   const fleet = subfleets.find(item => item.id === subfleetId);
   if (!fleet) return;
@@ -860,20 +920,28 @@ function openSubfleetDetails(subfleetId) {
   document.querySelector("#subfleet-detail-working").textContent = working.length;
   document.querySelector("#subfleet-detail-active").textContent = active.length;
   setActiveAdminSection("subfleet-detail-panel");
+  renderSubfleetCommunication(fleet);
   renderSubfleetMembers();
 }
 
 async function loadSubfleets() {
-  const [fleetResult, accountResult] = await Promise.all([
+  const [fleetResult, accountResult, notesResult] = await Promise.all([
     supabase.from("subfleets").select("*").order("created_at", { ascending: false }),
     supabase.from("admin_users").select("user_id, display_name, subfleet_id, is_active, role").eq("role", "subfleet"),
+    supabase.from("subfleet_notes").select("*").order("updated_at", { ascending: false }),
   ]);
   const error = fleetResult.error || accountResult.error;
   if (error) { console.error(error); setSubfleetsFeedback("Sub-flotele nu au putut fi încărcate."); return; }
+  if (notesResult.error) console.warn("Notele sub-flotelor nu sunt disponibile încă.", notesResult.error);
   subfleets = fleetResult.data ?? [];
   subfleetAccounts = accountResult.data ?? [];
+  subfleetNotes = notesResult.data ?? [];
   renderSubfleets();
   renderSubfleetAlerts();
+  if (activeSubfleetId) {
+    const activeFleet = subfleets.find(item => item.id === activeSubfleetId);
+    if (activeFleet) renderSubfleetCommunication(activeFleet);
+  }
 }
 
 async function manageSubfleetAccount(payload) {
@@ -1714,6 +1782,8 @@ createSubfleetForm.addEventListener("submit", async event => {
 });
 backToSubfleetsButton.addEventListener("click", () => setActiveAdminSection("subfleets-panel"));
 [subfleetMemberSearch, subfleetMemberStatus].forEach(control => control.addEventListener("input", renderSubfleetMembers));
+subfleetSearch.addEventListener("input", renderSubfleets);
+saveSubfleetAdminNoteButton.addEventListener("click", saveSubfleetAdminNote);
 renderAvailability();
 availabilityEditors.forEach(editor => {
   const platform = editor.dataset.availabilityEditor;
