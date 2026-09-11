@@ -63,6 +63,7 @@ const ticketViews = [
 const sessionLoading = document.querySelector("#session-loading");
 const loginView = document.querySelector("#login-view");
 const dashboardView = document.querySelector("#dashboard-view");
+const subfleetDashboardView = document.querySelector("#subfleet-dashboard-view");
 const loginForm = document.querySelector("#login-form");
 const loginButton = loginForm.querySelector("button[type='submit']");
 const loginFeedback = document.querySelector("#login-feedback");
@@ -107,6 +108,12 @@ const publishAvailabilityButton = document.querySelector("#publish-availability"
 const availabilityPublishDialog = document.querySelector("#availability-publish-dialog");
 const availabilityPublishDetails = document.querySelector("#availability-publish-details");
 const availabilityAdminUpdate = document.querySelector("#availability-admin-update");
+const refreshSubfleetsButton = document.querySelector("#refresh-subfleets");
+const createSubfleetForm = document.querySelector("#create-subfleet-form");
+const createSubfleetAccountForm = document.querySelector("#create-subfleet-account-form");
+const subfleetAccountFleet = document.querySelector("#subfleet-account-fleet");
+const subfleetsFeedback = document.querySelector("#subfleets-feedback");
+const subfleetsList = document.querySelector("#subfleets-list");
 
 let applications = [];
 let activePlatform = "wolt";
@@ -122,6 +129,9 @@ let currentAdminUserId = "";
 let availabilityDraftDirty = false;
 let availabilityRealtimeChannel = null;
 let adminRealtimeChannel = null;
+let subfleetPortal = null;
+let subfleets = [];
+let subfleetAccounts = [];
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -645,6 +655,8 @@ function showLogin(message = "") {
   sessionLoading.hidden = true;
   loginView.hidden = false;
   dashboardView.hidden = true;
+  subfleetDashboardView.hidden = true;
+  subfleetPortal?.hideSubfleetPortal();
   logoutButton.hidden = true;
   loginButton.disabled = false;
   loginFeedback.textContent = message;
@@ -654,6 +666,7 @@ function showDashboard() {
   sessionLoading.hidden = true;
   loginView.hidden = true;
   dashboardView.hidden = false;
+  subfleetDashboardView.hidden = true;
   logoutButton.hidden = false;
   loginForm.reset();
   loginFeedback.textContent = "";
@@ -661,15 +674,81 @@ function showDashboard() {
   setActiveAdminSection(readAdminPreference("active-section") ?? "applications-panel", false);
 }
 
-async function isAdmin(userId) {
+async function accessProfile(userId) {
   const { data, error } = await supabase
     .from("admin_users")
-    .select("user_id")
+    .select("user_id, display_name, role, subfleet_id, is_active")
     .eq("user_id", userId)
     .maybeSingle();
 
   if (error) throw error;
-  return Boolean(data);
+  return data;
+}
+
+async function openAccessProfile(user, requestedRole = "") {
+  const profile = await accessProfile(user.id);
+  if (!profile?.is_active || !["admin", "subfleet"].includes(profile.role)) {
+    await supabase.auth.signOut();
+    showLogin("Acest cont nu are acces activ.");
+    return false;
+  }
+  if (requestedRole && profile.role !== requestedRole) {
+    await supabase.auth.signOut();
+    showLogin(requestedRole === "admin" ? "Acest cont este de sub-flotă. Selectează „Sub-flotă” pentru autentificare." : "Acest cont este de administrator. Selectează „Admin” pentru autentificare.");
+    return false;
+  }
+  if (profile.role === "subfleet") {
+    subfleetPortal ??= await import("./subfleet.js?v=1");
+    sessionLoading.hidden = true;
+    loginView.hidden = true;
+    dashboardView.hidden = true;
+    logoutButton.hidden = false;
+    loginForm.reset();
+    await subfleetPortal.showSubfleetPortal(profile);
+    return true;
+  }
+  currentAdminUserId = user.id;
+  showDashboard();
+  await Promise.all([loadApplications(), loadTickets(), loadAvailability(), loadSubfleets()]);
+  subscribeToAvailabilityUpdates();
+  subscribeToAdminNotifications();
+  return true;
+}
+
+function setSubfleetsFeedback(message = "", success = false) {
+  subfleetsFeedback.classList.toggle("success", success);
+  subfleetsFeedback.textContent = message;
+}
+
+function renderSubfleets() {
+  subfleetAccountFleet.innerHTML = `<option value="">Selectează sub-flota</option>${subfleets.filter(item => item.is_active).map(item => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)}</option>`).join("")}`;
+  const accountsByFleet = new Map(subfleets.map(item => [item.id, subfleetAccounts.filter(account => account.subfleet_id === item.id)]));
+  subfleetsList.innerHTML = subfleets.map(item => {
+    const accounts = accountsByFleet.get(item.id) ?? [];
+    const activeAccounts = accounts.filter(account => account.is_active).length;
+    return `<article class="subfleet-row"><div><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description || "Fără descriere internă.")}</p><small>${activeAccounts} ${activeAccounts === 1 ? "cont activ" : "conturi active"} · creată ${escapeHtml(formatDate(item.created_at))}</small></div><strong>${item.is_active ? "Activă" : "Inactivă"}</strong></article>`;
+  }).join("") || `<p class="empty-state">Nu există încă sub-flote.</p>`;
+}
+
+async function loadSubfleets() {
+  refreshSubfleetsButton.disabled = true;
+  const [fleetResult, accountResult] = await Promise.all([
+    supabase.from("subfleets").select("*").order("created_at", { ascending: false }),
+    supabase.from("admin_users").select("user_id, display_name, subfleet_id, is_active, role").eq("role", "subfleet"),
+  ]);
+  refreshSubfleetsButton.disabled = false;
+  const error = fleetResult.error || accountResult.error;
+  if (error) { console.error(error); setSubfleetsFeedback("Sub-flotele nu au putut fi încărcate."); return; }
+  subfleets = fleetResult.data ?? [];
+  subfleetAccounts = accountResult.data ?? [];
+  renderSubfleets();
+}
+
+async function manageSubfleetAccount(payload) {
+  const { data, error } = await supabase.functions.invoke("manage-subfleet-account", { body: payload });
+  if (error) throw error;
+  if (!data?.ok) throw new Error(data?.error || "Acțiunea nu a putut fi finalizată.");
+  return data;
 }
 
 async function loadApplications() {
@@ -1360,17 +1439,7 @@ loginForm.addEventListener("submit", async event => {
   }
 
   try {
-    if (!await isAdmin(authData.user.id)) {
-      await supabase.auth.signOut();
-      loginButton.disabled = false;
-      loginFeedback.textContent = "Acest utilizator nu are acces administrativ.";
-      return;
-    }
-    currentAdminUserId = authData.user.id;
-    showDashboard();
-    await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
-    subscribeToAvailabilityUpdates();
-    subscribeToAdminNotifications();
+    await openAccessProfile(authData.user, String(data.get("requested_role") ?? ""));
   } catch (adminError) {
     console.error(adminError);
     await supabase.auth.signOut();
@@ -1386,6 +1455,7 @@ logoutButton.addEventListener("click", async () => {
   availability = [];
   availabilityDraft = { glovo: [], wolt: [] };
   currentAdminUserId = "";
+  subfleetPortal?.hideSubfleetPortal();
   availabilityDraftDirty = false;
   if (availabilityRealtimeChannel) {
     await supabase.removeChannel(availabilityRealtimeChannel);
@@ -1404,6 +1474,29 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
+refreshSubfleetsButton.addEventListener("click", loadSubfleets);
+createSubfleetForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = createSubfleetForm.querySelector("button[type='submit']");
+  const formData = new FormData(createSubfleetForm);
+  button.disabled = true; setSubfleetsFeedback("Se creează sub-flota…");
+  try {
+    await manageSubfleetAccount({ action: "create_subfleet", name: String(formData.get("name") ?? ""), description: String(formData.get("description") ?? "") });
+    createSubfleetForm.reset(); setSubfleetsFeedback("Sub-flota a fost creată.", true); await loadSubfleets();
+  } catch (error) { console.error(error); setSubfleetsFeedback("Sub-flota nu a putut fi creată."); }
+  finally { button.disabled = false; }
+});
+createSubfleetAccountForm.addEventListener("submit", async event => {
+  event.preventDefault();
+  const button = createSubfleetAccountForm.querySelector("button[type='submit']");
+  const formData = new FormData(createSubfleetAccountForm);
+  button.disabled = true; setSubfleetsFeedback("Se creează contul…");
+  try {
+    await manageSubfleetAccount({ action: "create_account", subfleet_id: String(formData.get("subfleet_id") ?? ""), display_name: String(formData.get("display_name") ?? ""), email: String(formData.get("email") ?? ""), password: String(formData.get("password") ?? "") });
+    createSubfleetAccountForm.reset(); setSubfleetsFeedback("Contul sub-flotei a fost creat.", true); await loadSubfleets();
+  } catch (error) { console.error(error); setSubfleetsFeedback("Contul nu a putut fi creat. Verifică datele și încearcă din nou."); }
+  finally { button.disabled = false; }
+});
 renderAvailability();
 availabilityEditors.forEach(editor => {
   const platform = editor.dataset.availabilityEditor;
@@ -1441,6 +1534,7 @@ publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialo
 ticketWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveTicketWorkspace(tab.dataset.ticketWorkspace)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
+  if (tab.dataset.adminSection === "subfleets-panel") void loadSubfleets();
 }));
 selectAllApplications.addEventListener("change", () => {
   filteredApplications().forEach(item => {
@@ -1481,16 +1575,7 @@ if (!session?.user) {
   showLogin();
 } else {
   try {
-    if (await isAdmin(session.user.id)) {
-      currentAdminUserId = session.user.id;
-      showDashboard();
-      await Promise.all([loadApplications(), loadTickets(), loadAvailability()]);
-      subscribeToAvailabilityUpdates();
-      subscribeToAdminNotifications();
-    } else {
-      await supabase.auth.signOut();
-      showLogin("Acest utilizator nu are acces administrativ.");
-    }
+    await openAccessProfile(session.user);
   } catch (error) {
     console.error(error);
     showLogin("Accesul administrativ nu a putut fi verificat.");
