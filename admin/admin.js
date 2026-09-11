@@ -731,7 +731,7 @@ async function openAccessProfile(user, requestedRole = "") {
     return false;
   }
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=1");
+    subfleetPortal ??= await import("./subfleet.js?v=2");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
