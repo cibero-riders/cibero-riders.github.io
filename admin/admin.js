@@ -127,6 +127,7 @@ const subfleetMemberStatus = document.querySelector("#subfleet-member-status");
 const subfleetMembersList = document.querySelector("#subfleet-members-list");
 const subfleetMembersEmpty = document.querySelector("#subfleet-members-empty");
 const backToSubfleetsButton = document.querySelector("#back-to-subfleets");
+const openSubfleetMessagesButton = document.querySelector("#open-subfleet-messages");
 const adminMessageBell = document.querySelector("#admin-message-bell");
 const adminMessageBadge = document.querySelector("#admin-message-badge");
 const adminMessagesDialog = document.querySelector("#admin-messages-dialog");
@@ -950,6 +951,7 @@ function openSubfleetDetails(subfleetId) {
   const working = members.filter(item => ["reviewing", "sent_to_platform"].includes(item.status));
   const active = members.filter(item => item.status === "activated");
   subfleetDetailTitle.textContent = fleet.name;
+  openSubfleetMessagesButton.setAttribute("aria-label", `Deschide conversația cu ${fleet.name}`);
   subfleetDetailCopy.textContent = fleet.description || "Membrii revendicați și activitatea acestei sub-flote.";
   document.querySelector("#subfleet-detail-total").textContent = members.length;
   document.querySelector("#subfleet-detail-claimed").textContent = claimed.length;
@@ -1815,6 +1817,12 @@ backToSubfleetsButton.addEventListener("click", () => setActiveAdminSection("sub
 subfleetSearch.addEventListener("input", renderSubfleets);
 adminMessageBell.addEventListener("click", openAdminMessages);
 adminMessageForm.addEventListener("submit", sendAdminMessage);
+openSubfleetMessagesButton.addEventListener("click", async () => {
+  if (!activeSubfleetId) return;
+  await loadAdminMessages();
+  await openAdminConversation(activeSubfleetId);
+  if (!adminMessagesDialog.open) adminMessagesDialog.showModal();
+});
 renderAvailability();
 availabilityEditors.forEach(editor => {
   const platform = editor.dataset.availabilityEditor;

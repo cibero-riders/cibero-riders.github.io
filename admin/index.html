@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=39" />
+  <link rel="stylesheet" href="admin.css?v=40" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -215,7 +215,7 @@
       </section>
 
       <section id="subfleet-detail-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading subfleet-detail-heading"><div><button id="back-to-subfleets" class="back-button" type="button">← Înapoi la sub-flote</button><p class="eyebrow">Sub-Flotă</p><h2 id="subfleet-detail-title">—</h2><p id="subfleet-detail-copy">Membrii revendicați de această sub-flotă.</p></div></div>
+        <div class="section-heading subfleet-detail-heading"><div><button id="back-to-subfleets" class="back-button" type="button">← Înapoi la sub-flote</button><p class="eyebrow">Sub-Flotă</p><div class="subfleet-detail-title-row"><h2 id="subfleet-detail-title">—</h2><button id="open-subfleet-messages" class="subfleet-message-shortcut" type="button" aria-label="Deschide conversația cu sub-flota">✉</button></div><p id="subfleet-detail-copy">Membrii revendicați de această sub-flotă.</p></div></div>
         <div class="summary-grid" aria-label="Rezumat sub-flotă"><article><span>Total curieri</span><strong id="subfleet-detail-total">0</strong></article><article><span>Revendicați</span><strong id="subfleet-detail-claimed">0</strong></article><article><span>În lucru</span><strong id="subfleet-detail-working">0</strong></article><article><span>Activi</span><strong id="subfleet-detail-active">0</strong></article></div>
         <div class="toolbar subfleet-members-toolbar"><label>Caută membru<input id="subfleet-member-search" type="search" placeholder="Nume, email, telefon sau oraș" /></label><label>Status<select id="subfleet-member-status"><option value="">Toate statusurile</option><option value="new">Nouă</option><option value="reviewing">În verificare</option><option value="sent_to_platform">Trimisă platformei</option><option value="activated">Activată</option><option value="rejected">Respinsă</option><option value="archived">Arhivată</option></select></label></div>
         <div id="subfleet-members-list" class="applications-list"></div><p id="subfleet-members-empty" class="empty-state" hidden>Nu există membri pentru filtrele selectate.</p>
@@ -276,6 +276,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=39"></script>
+  <script type="module" src="admin.js?v=40"></script>
 </body>
 </html>
