@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=38" />
+  <link rel="stylesheet" href="admin.css?v=39" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
   <header class="admin-header">
     <a href="../" aria-label="Înapoi la CibeRO"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
     <span>Panou administrativ</span>
-    <button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button>
+    <div class="admin-header-actions"><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
   </header>
 
   <main>
@@ -46,9 +46,8 @@
         <button type="button" class="active" data-subfleet-tab="pool">Membri disponibili <span id="subfleet-pool-count">0</span></button>
         <button type="button" data-subfleet-tab="claimed">Membrii mei <span id="subfleet-claimed-count">0</span></button>
         <button type="button" data-subfleet-tab="tickets">Tickete direcționate <span id="subfleet-ticket-count">0</span></button>
+        <button id="subfleet-message-bell" class="notification-bell" type="button" aria-label="Mesaje CibeRO">🔔<span id="subfleet-message-badge" hidden>0</span></button>
       </div>
-      <section id="subfleet-note-alerts" class="subfleet-note-alerts" hidden></section>
-      <section class="subfleet-communication-panel subfleet-portal-communication" aria-labelledby="subfleet-note-title"><div><p class="eyebrow">Comunicare cu CibeRO</p><h3 id="subfleet-note-title">Notă pentru admin</h3><p>Transmite informații operaționale administratorului CibeRO.</p><label>Mesaj pentru CibeRO<textarea id="subfleet-note-input" maxlength="2000" placeholder="Scrie nota pentru administrator…"></textarea></label><small id="subfleet-note-meta">Încă nu ai lăsat o notă.</small><button id="save-subfleet-note" class="primary-button" type="button">Trimite nota</button><p id="subfleet-note-feedback" class="feedback" role="status" aria-live="polite"></p></div><aside class="subfleet-partner-note"><p class="eyebrow">Mesaj primit</p><h3>Notă de la admin</h3><p id="subfleet-admin-note-copy">Administratorul nu a lăsat încă o notă.</p><small id="subfleet-admin-note-meta">Actualizările sunt semnalate aici.</small></aside></section>
       <section class="panel subfleet-workspace"><div class="section-heading"><div><p class="eyebrow" id="subfleet-workspace-eyebrow">Pool privat</p><h2 id="subfleet-workspace-title">Membri disponibili</h2><p id="subfleet-workspace-copy">Datele de contact devin vizibile doar după revendicare.</p></div><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
     </section>
 
@@ -218,7 +217,6 @@
       <section id="subfleet-detail-panel" class="panel admin-section-panel" role="tabpanel" hidden>
         <div class="section-heading subfleet-detail-heading"><div><button id="back-to-subfleets" class="back-button" type="button">← Înapoi la sub-flote</button><p class="eyebrow">Sub-Flotă</p><h2 id="subfleet-detail-title">—</h2><p id="subfleet-detail-copy">Membrii revendicați de această sub-flotă.</p></div></div>
         <div class="summary-grid" aria-label="Rezumat sub-flotă"><article><span>Total curieri</span><strong id="subfleet-detail-total">0</strong></article><article><span>Revendicați</span><strong id="subfleet-detail-claimed">0</strong></article><article><span>În lucru</span><strong id="subfleet-detail-working">0</strong></article><article><span>Activi</span><strong id="subfleet-detail-active">0</strong></article></div>
-        <section class="subfleet-communication-panel" aria-labelledby="subfleet-admin-note-title"><div><p class="eyebrow">Comunicare operațională</p><h3 id="subfleet-admin-note-title">Notă de la admin</h3><p>Lasă instrucțiuni pentru această sub-flotă. Administratorul sub-flotei le vede în portalul său.</p><label>Mesaj pentru sub-flotă<textarea id="subfleet-admin-note-input" maxlength="2000" placeholder="Scrie nota pentru sub-flotă…"></textarea></label><small id="subfleet-admin-note-meta">Încă nu există o notă de la admin.</small><button id="save-subfleet-admin-note" class="primary-button" type="button">Salvează nota</button><p id="subfleet-admin-note-feedback" class="feedback" role="status" aria-live="polite"></p></div><aside class="subfleet-partner-note"><p class="eyebrow">Mesaj primit</p><h3>Notă de la sub-flotă</h3><p id="subfleet-partner-note-copy">Sub-flota nu a lăsat încă o notă.</p><small id="subfleet-partner-note-meta"></small></aside></section>
         <div class="toolbar subfleet-members-toolbar"><label>Caută membru<input id="subfleet-member-search" type="search" placeholder="Nume, email, telefon sau oraș" /></label><label>Status<select id="subfleet-member-status"><option value="">Toate statusurile</option><option value="new">Nouă</option><option value="reviewing">În verificare</option><option value="sent_to_platform">Trimisă platformei</option><option value="activated">Activată</option><option value="rejected">Respinsă</option><option value="archived">Arhivată</option></select></label></div>
         <div id="subfleet-members-list" class="applications-list"></div><p id="subfleet-members-empty" class="empty-state" hidden>Nu există membri pentru filtrele selectate.</p>
       </section>
@@ -249,6 +247,16 @@
     <div id="subfleet-member-details"></div>
   </dialog>
 
+  <dialog id="admin-messages-dialog" class="application-dialog message-inbox-dialog">
+    <form method="dialog" class="dialog-top"><strong>Mesaje sub-flote</strong><button aria-label="Închide">×</button></form>
+    <div class="message-inbox admin-message-inbox"><aside id="admin-message-conversations" class="message-conversations" aria-label="Conversații sub-flote"></aside><section class="message-thread-panel"><div id="admin-message-thread-title" class="message-thread-title">Alege o sub-flotă</div><div id="admin-message-thread" class="message-thread" aria-live="polite"></div><form id="admin-message-form" class="message-composer"><textarea id="admin-message-input" maxlength="4000" placeholder="Scrie un mesaj…" disabled></textarea><button id="admin-message-send" class="primary-button" type="submit" disabled>Trimite</button></form><p id="admin-message-feedback" class="feedback" role="status" aria-live="polite"></p></section></div>
+  </dialog>
+
+  <dialog id="subfleet-messages-dialog" class="application-dialog message-inbox-dialog">
+    <form method="dialog" class="dialog-top"><strong>Mesaje CibeRO</strong><button aria-label="Închide">×</button></form>
+    <section class="message-thread-panel subfleet-message-thread-panel"><div class="message-thread-title">Conversație cu CibeRO</div><div id="subfleet-message-thread" class="message-thread" aria-live="polite"></div><form id="subfleet-message-form" class="message-composer"><textarea id="subfleet-message-input" maxlength="4000" placeholder="Scrie un mesaj către CibeRO…"></textarea><button id="subfleet-message-send" class="primary-button" type="submit">Trimite</button></form><p id="subfleet-message-feedback" class="feedback" role="status" aria-live="polite"></p></section>
+  </dialog>
+
   <dialog id="availability-publish-dialog" class="application-dialog availability-publish-dialog">
     <form method="dialog" class="dialog-top"><strong>Confirmă publicarea</strong><button aria-label="Închide">×</button></form>
     <div id="availability-publish-details"></div>
@@ -268,6 +276,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=38"></script>
+  <script type="module" src="admin.js?v=39"></script>
 </body>
 </html>

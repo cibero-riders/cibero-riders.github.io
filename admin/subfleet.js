@@ -39,13 +39,14 @@ const ticketCategories = document.querySelector("#subfleet-ticket-categories");
 const ticketTypes = document.querySelector("#subfleet-ticket-types");
 const memberDialog = document.querySelector("#subfleet-member-dialog");
 const memberDetails = document.querySelector("#subfleet-member-details");
-const noteAlerts = document.querySelector("#subfleet-note-alerts");
-const noteInput = document.querySelector("#subfleet-note-input");
-const noteMeta = document.querySelector("#subfleet-note-meta");
-const adminNoteCopy = document.querySelector("#subfleet-admin-note-copy");
-const adminNoteMeta = document.querySelector("#subfleet-admin-note-meta");
-const saveNoteButton = document.querySelector("#save-subfleet-note");
-const noteFeedback = document.querySelector("#subfleet-note-feedback");
+const messageBell = document.querySelector("#subfleet-message-bell");
+const messageBadge = document.querySelector("#subfleet-message-badge");
+const messagesDialog = document.querySelector("#subfleet-messages-dialog");
+const messageThread = document.querySelector("#subfleet-message-thread");
+const messageForm = document.querySelector("#subfleet-message-form");
+const messageInput = document.querySelector("#subfleet-message-input");
+const messageSend = document.querySelector("#subfleet-message-send");
+const messageFeedback = document.querySelector("#subfleet-message-feedback");
 let profile = null;
 let activeTab = "pool";
 let activeClaimedStatus = "all";
@@ -55,9 +56,8 @@ let activeTicketRequestType = "";
 let pool = [];
 let claimed = [];
 let tickets = [];
-let communicationNote = null;
-let noteNotifications = [];
-let communicationRealtimeChannel = null;
+let messages = [];
+let messageRealtimeChannel = null;
 
 const escapeHtml = value => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 const formatDate = value => new Intl.DateTimeFormat("ro-RO", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
@@ -65,50 +65,59 @@ const platformLabel = values => (values ?? []).map(value => ({ bolt: "Bolt Food"
 
 function setFeedback(message = "", success = false) { feedback.classList.toggle("success", success); feedback.textContent = message; }
 function updateTabCounts() { poolCount.textContent = pool.length; claimedCount.textContent = claimed.length; ticketCount.textContent = tickets.length; }
-function renderCommunication() {
-  noteInput.value = communicationNote?.subfleet_note ?? "";
-  noteMeta.textContent = communicationNote?.subfleet_note_updated_at ? `Actualizată ${formatDate(communicationNote.subfleet_note_updated_at)}.` : "Încă nu ai lăsat o notă.";
-  adminNoteCopy.textContent = communicationNote?.admin_note || "Administratorul nu a lăsat încă o notă.";
-  adminNoteMeta.textContent = communicationNote?.admin_note_updated_at ? `Actualizată ${formatDate(communicationNote.admin_note_updated_at)}.` : "Actualizările sunt semnalate aici.";
-  noteAlerts.hidden = noteNotifications.length === 0;
-  noteAlerts.innerHTML = noteNotifications.map(item => `<article><span aria-hidden="true">✉</span><div><strong>Notă nouă de la CibeRO</strong><p>${escapeHtml(item.message)}</p><small>${escapeHtml(formatDate(item.created_at))}</small><button type="button" data-note-notification-id="${escapeHtml(item.id)}">Marchează citit</button></div></article>`).join("");
-  noteAlerts.querySelectorAll("[data-note-notification-id]").forEach(button => button.addEventListener("click", () => markNoteNotificationsRead([button.dataset.noteNotificationId])));
+function updateMessageBadge() {
+  const unreadCount = messages.filter(item => item.sender_role === "admin" && !item.read_at).length;
+  messageBadge.textContent = unreadCount;
+  messageBadge.hidden = unreadCount === 0;
 }
-async function loadCommunication() {
+function renderMessageThread() {
+  messageThread.innerHTML = messages.length
+    ? messages.map(item => `<article class="message-bubble${item.sender_role === "subfleet" ? " outgoing" : ""}">${escapeHtml(item.body)}<small>${item.sender_role === "subfleet" ? "Sub-flotă" : "CibeRO"} · ${escapeHtml(formatDate(item.created_at))}</small></article>`).join("")
+    : '<p class="message-empty">Nu există încă mesaje. Trimite primul mesaj.</p>';
+  requestAnimationFrame(() => { messageThread.scrollTop = messageThread.scrollHeight; });
+}
+async function markMessagesRead(ids) {
+  if (!ids.length) return;
+  const { error } = await supabase.rpc("mark_subfleet_messages_read", { p_message_ids: ids });
+  if (error) { console.warn("Mesajele nu au putut fi marcate drept citite.", error); return; }
+  messages = messages.map(item => ids.includes(item.id) ? { ...item, read_at: new Date().toISOString() } : item);
+  updateMessageBadge();
+}
+async function loadMessages() {
   if (!profile?.subfleet_id) return;
-  const [noteResult, notificationResult] = await Promise.all([
-    supabase.from("subfleet_notes").select("*").eq("subfleet_id", profile.subfleet_id).maybeSingle(),
-    supabase.from("subfleet_note_notifications").select("id, message, created_at").eq("author_role", "admin").is("read_at", null).order("created_at", { ascending: false }).limit(20),
-  ]);
-  if (noteResult.error || notificationResult.error) { console.warn("Comunicarea cu CibeRO nu este disponibilă încă.", noteResult.error || notificationResult.error); return; }
-  communicationNote = noteResult.data;
-  noteNotifications = notificationResult.data ?? [];
-  renderCommunication();
+  const { data, error } = await supabase.from("subfleet_messages").select("*").eq("subfleet_id", profile.subfleet_id).order("created_at", { ascending: true }).limit(500);
+  if (error) { console.warn("Mesajele CibeRO nu sunt disponibile încă.", error); return; }
+  messages = data ?? [];
+  updateMessageBadge();
+  renderMessageThread();
 }
-async function saveCommunicationNote() {
-  saveNoteButton.disabled = true;
-  noteFeedback.classList.remove("success");
-  noteFeedback.textContent = "Se trimite nota…";
-  const { data, error } = await supabase.rpc("update_subfleet_communication_note", { p_subfleet_id: profile.subfleet_id, p_note: noteInput.value });
-  saveNoteButton.disabled = false;
-  if (error) { console.error(error); noteFeedback.textContent = "Nota nu a putut fi trimisă."; return; }
-  communicationNote = data;
-  renderCommunication();
-  noteFeedback.classList.add("success");
-  noteFeedback.textContent = "Nota a fost trimisă către CibeRO.";
+async function openMessages() {
+  await loadMessages();
+  messagesDialog.showModal();
+  const unreadIds = messages.filter(item => item.sender_role === "admin" && !item.read_at).map(item => item.id);
+  await markMessagesRead(unreadIds);
 }
-async function markNoteNotificationsRead(ids) {
-  const { error } = await supabase.rpc("mark_subfleet_note_notifications_read", { p_notification_ids: ids });
-  if (error) { console.warn("Notificarea nu a putut fi marcată drept citită.", error); return; }
-  noteNotifications = noteNotifications.filter(item => !ids.includes(item.id));
-  renderCommunication();
+async function sendMessage(event) {
+  event.preventDefault();
+  const body = messageInput.value.trim();
+  if (!body) return;
+  messageSend.disabled = true;
+  messageFeedback.classList.remove("success");
+  messageFeedback.textContent = "Se trimite mesajul…";
+  const { data, error } = await supabase.rpc("send_subfleet_message", { p_subfleet_id: profile.subfleet_id, p_body: body });
+  messageSend.disabled = false;
+  if (error) { console.error(error); messageFeedback.textContent = "Mesajul nu a putut fi trimis."; return; }
+  messageInput.value = "";
+  messages = [...messages, data];
+  messageFeedback.classList.add("success");
+  messageFeedback.textContent = "Mesaj trimis.";
+  renderMessageThread();
 }
-function subscribeToCommunication() {
-  if (communicationRealtimeChannel) supabase.removeChannel(communicationRealtimeChannel);
-  communicationRealtimeChannel = supabase
-    .channel(`cibero-subfleet-notes-${profile.subfleet_id}`)
-    .on("postgres_changes", { event: "*", schema: "public", table: "subfleet_notes", filter: `subfleet_id=eq.${profile.subfleet_id}` }, () => { void loadCommunication(); })
-    .on("postgres_changes", { event: "INSERT", schema: "public", table: "subfleet_note_notifications", filter: `subfleet_id=eq.${profile.subfleet_id}` }, () => { void loadCommunication(); })
+function subscribeToMessages() {
+  if (messageRealtimeChannel) supabase.removeChannel(messageRealtimeChannel);
+  messageRealtimeChannel = supabase
+    .channel(`cibero-subfleet-messages-${profile.subfleet_id}`)
+    .on("postgres_changes", { event: "*", schema: "public", table: "subfleet_messages", filter: `subfleet_id=eq.${profile.subfleet_id}` }, () => { void loadMessages(); })
     .subscribe();
 }
 function selectTab(tab) {
@@ -203,20 +212,21 @@ async function updateStatus(table, id, status) {
 }
 
 tabs.forEach(button => button.addEventListener("click", () => selectTab(button.dataset.subfleetTab)));
-refresh.addEventListener("click", async () => { await Promise.all([load(), loadCommunication()]); });
-saveNoteButton.addEventListener("click", saveCommunicationNote);
+refresh.addEventListener("click", load);
+messageBell.addEventListener("click", openMessages);
+messageForm.addEventListener("submit", sendMessage);
 
 export async function showSubfleetPortal(userProfile) {
   profile = userProfile; view.hidden = false;
   const { data: fleet } = await supabase.from("subfleets").select("name").eq("id", profile.subfleet_id).maybeSingle();
   title.textContent = fleet?.name ? `Portal ${fleet.name}` : "Portal sub-flotă";
   selectTab("pool");
-  await Promise.all([load(), loadCommunication()]);
-  subscribeToCommunication();
+  await Promise.all([load(), loadMessages()]);
+  subscribeToMessages();
 }
 export function hideSubfleetPortal() {
-  if (communicationRealtimeChannel) supabase.removeChannel(communicationRealtimeChannel);
-  communicationRealtimeChannel = null;
+  if (messageRealtimeChannel) supabase.removeChannel(messageRealtimeChannel);
+  messageRealtimeChannel = null;
   view.hidden = true;
   profile = null;
 }

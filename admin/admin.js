@@ -127,12 +127,16 @@ const subfleetMemberStatus = document.querySelector("#subfleet-member-status");
 const subfleetMembersList = document.querySelector("#subfleet-members-list");
 const subfleetMembersEmpty = document.querySelector("#subfleet-members-empty");
 const backToSubfleetsButton = document.querySelector("#back-to-subfleets");
-const subfleetAdminNoteInput = document.querySelector("#subfleet-admin-note-input");
-const subfleetAdminNoteMeta = document.querySelector("#subfleet-admin-note-meta");
-const subfleetPartnerNoteCopy = document.querySelector("#subfleet-partner-note-copy");
-const subfleetPartnerNoteMeta = document.querySelector("#subfleet-partner-note-meta");
-const saveSubfleetAdminNoteButton = document.querySelector("#save-subfleet-admin-note");
-const subfleetAdminNoteFeedback = document.querySelector("#subfleet-admin-note-feedback");
+const adminMessageBell = document.querySelector("#admin-message-bell");
+const adminMessageBadge = document.querySelector("#admin-message-badge");
+const adminMessagesDialog = document.querySelector("#admin-messages-dialog");
+const adminMessageConversations = document.querySelector("#admin-message-conversations");
+const adminMessageThreadTitle = document.querySelector("#admin-message-thread-title");
+const adminMessageThread = document.querySelector("#admin-message-thread");
+const adminMessageForm = document.querySelector("#admin-message-form");
+const adminMessageInput = document.querySelector("#admin-message-input");
+const adminMessageSend = document.querySelector("#admin-message-send");
+const adminMessageFeedback = document.querySelector("#admin-message-feedback");
 
 let applications = [];
 let activePlatform = "all";
@@ -153,8 +157,8 @@ let subfleetPortal = null;
 let subfleets = [];
 let subfleetAccounts = [];
 let subfleetAlertsData = [];
-let subfleetNotes = [];
-let subfleetNoteNotifications = [];
+let subfleetMessages = [];
+let activeMessageSubfleetId = "";
 let activeAdminArea = "cibero";
 let activeSubfleetId = "";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
@@ -688,8 +692,7 @@ function subscribeToAdminNotifications() {
     .channel(`cibero-admin-notifications-${currentAdminUserId}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => { void loadApplications(); })
     .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, () => { void loadTickets(); })
-    .on("postgres_changes", { event: "*", schema: "public", table: "subfleet_notes" }, () => { void loadSubfleets(); })
-    .on("postgres_changes", { event: "INSERT", schema: "public", table: "subfleet_note_notifications" }, () => { void loadSubfleetAlerts(); })
+    .on("postgres_changes", { event: "*", schema: "public", table: "subfleet_messages" }, () => { void loadAdminMessages(); })
     .subscribe();
 }
 
@@ -734,6 +737,7 @@ function showLogin(message = "") {
   subfleetDashboardView.hidden = true;
   subfleetPortal?.hideSubfleetPortal();
   logoutButton.hidden = true;
+  adminMessageBell.hidden = true;
   loginButton.disabled = false;
   loginFeedback.textContent = message;
 }
@@ -744,6 +748,7 @@ function showDashboard() {
   dashboardView.hidden = false;
   subfleetDashboardView.hidden = true;
   logoutButton.hidden = false;
+  adminMessageBell.hidden = false;
   loginForm.reset();
   loginFeedback.textContent = "";
   restoreTicketNavigation();
@@ -775,7 +780,7 @@ async function openAccessProfile(user, requestedRole = "") {
     return false;
   }
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=6");
+    subfleetPortal ??= await import("./subfleet.js?v=7");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
@@ -788,7 +793,7 @@ async function openAccessProfile(user, requestedRole = "") {
   showDashboard();
   await Promise.all([loadApplications(), loadTickets(), loadAvailability(), loadSubfleets()]);
   await reconcileStaleSubfleetClaims();
-  await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts()]);
+  await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts(), loadAdminMessages()]);
   subscribeToAvailabilityUpdates();
   subscribeToAdminNotifications();
   return true;
@@ -801,17 +806,8 @@ function setSubfleetsFeedback(message = "", success = false) {
 
 function renderSubfleetAlerts() {
   const fleetNames = new Map(subfleets.map(item => [item.id, item.name]));
-  const alerts = [
-    ...subfleetAlertsData.map(item => ({ ...item, kind: "claim_timeout" })),
-    ...subfleetNoteNotifications.map(item => ({ ...item, kind: "note" })),
-  ].sort((first, second) => new Date(second.created_at) - new Date(first.created_at));
-  subfleetAlerts.hidden = alerts.length === 0;
-  subfleetAlerts.innerHTML = alerts.map(item => {
-    const isNote = item.kind === "note";
-    const title = isNote ? `Notă nouă de la ${fleetNames.get(item.subfleet_id) ?? "sub-flotă"}` : "Cerere neprocesată în 24h";
-    return `<article><span aria-hidden="true">${isNote ? "✉" : "!"}</span><div><strong>${escapeHtml(title)}</strong><p>${escapeHtml(item.message)}</p><small>${escapeHtml(fleetNames.get(item.subfleet_id) ?? "Sub-flotă")} · ${escapeHtml(formatDate(item.created_at))}</small>${isNote ? `<button type="button" data-subfleet-note-notification="${escapeHtml(item.id)}">Marchează citit</button>` : ""}</div></article>`;
-  }).join("");
-  subfleetAlerts.querySelectorAll("[data-subfleet-note-notification]").forEach(button => button.addEventListener("click", () => markSubfleetNoteNotificationsRead([button.dataset.subfleetNoteNotification])));
+  subfleetAlerts.hidden = subfleetAlertsData.length === 0;
+  subfleetAlerts.innerHTML = subfleetAlertsData.map(item => `<article><span aria-hidden="true">!</span><div><strong>Cerere neprocesată în 24h</strong><p>${escapeHtml(item.message)}</p><small>${escapeHtml(fleetNames.get(item.subfleet_id) ?? "Sub-flotă")} · ${escapeHtml(formatDate(item.created_at))}</small></div></article>`).join("");
 }
 
 async function reconcileStaleSubfleetClaims() {
@@ -820,22 +816,93 @@ async function reconcileStaleSubfleetClaims() {
 }
 
 async function loadSubfleetAlerts() {
-  const [claimResult, noteResult] = await Promise.all([
-    supabase.from("admin_alerts").select("id, alert_type, subfleet_id, message, created_at").is("read_at", null).eq("alert_type", "subfleet_claim_timeout").order("created_at", { ascending: false }).limit(20),
-    supabase.from("subfleet_note_notifications").select("id, subfleet_id, message, created_at").is("read_at", null).eq("author_role", "subfleet").order("created_at", { ascending: false }).limit(20),
-  ]);
-  if (claimResult.error) console.warn("Alertele operaționale ale sub-flotelor nu sunt disponibile încă.", claimResult.error);
-  if (noteResult.error) console.warn("Notificările notelor sub-flotelor nu sunt disponibile încă.", noteResult.error);
-  subfleetAlertsData = claimResult.data ?? [];
-  subfleetNoteNotifications = noteResult.data ?? [];
+  const { data, error } = await supabase.from("admin_alerts").select("id, alert_type, subfleet_id, message, created_at").is("read_at", null).eq("alert_type", "subfleet_claim_timeout").order("created_at", { ascending: false }).limit(20);
+  if (error) { console.warn("Alertele sub-flotelor nu sunt disponibile încă.", error); return; }
+  subfleetAlertsData = data ?? [];
   renderSubfleetAlerts();
 }
 
-async function markSubfleetNoteNotificationsRead(ids) {
-  const { error } = await supabase.rpc("mark_subfleet_note_notifications_read", { p_notification_ids: ids });
-  if (error) { console.warn("Notificarea nu a putut fi marcată drept citită.", error); return; }
-  subfleetNoteNotifications = subfleetNoteNotifications.filter(item => !ids.includes(item.id));
-  renderSubfleetAlerts();
+function updateAdminMessageBadge() {
+  const unreadCount = subfleetMessages.filter(item => item.sender_role === "subfleet" && !item.read_at).length;
+  adminMessageBadge.textContent = unreadCount;
+  adminMessageBadge.hidden = unreadCount === 0;
+}
+
+function messagePreviewForSubfleet(subfleetId) {
+  return subfleetMessages.filter(item => item.subfleet_id === subfleetId).at(-1);
+}
+
+function renderAdminMessageConversations() {
+  const ordered = [...subfleets].sort((first, second) => {
+    const firstMessage = messagePreviewForSubfleet(first.id)?.created_at ?? first.created_at;
+    const secondMessage = messagePreviewForSubfleet(second.id)?.created_at ?? second.created_at;
+    return new Date(secondMessage) - new Date(firstMessage);
+  });
+  adminMessageConversations.innerHTML = ordered.map(fleet => {
+    const preview = messagePreviewForSubfleet(fleet.id);
+    const unreadCount = subfleetMessages.filter(item => item.subfleet_id === fleet.id && item.sender_role === "subfleet" && !item.read_at).length;
+    return `<button class="message-conversation${fleet.id === activeMessageSubfleetId ? " active" : ""}" type="button" data-admin-message-subfleet="${escapeHtml(fleet.id)}"><strong>${escapeHtml(fleet.name)}</strong><small>${escapeHtml(preview?.body ?? "Începe conversația")}</small>${unreadCount ? `<span>${unreadCount}</span>` : ""}</button>`;
+  }).join("") || '<p class="message-empty">Nu există sub-flote.</p>';
+  adminMessageConversations.querySelectorAll("[data-admin-message-subfleet]").forEach(button => button.addEventListener("click", () => openAdminConversation(button.dataset.adminMessageSubfleet)));
+}
+
+function renderAdminMessageThread() {
+  const fleet = subfleets.find(item => item.id === activeMessageSubfleetId);
+  const messages = subfleetMessages.filter(item => item.subfleet_id === activeMessageSubfleetId);
+  adminMessageThreadTitle.textContent = fleet ? `Conversație · ${fleet.name}` : "Alege o sub-flotă";
+  adminMessageInput.disabled = !fleet;
+  adminMessageSend.disabled = !fleet;
+  adminMessageThread.innerHTML = fleet
+    ? (messages.length ? messages.map(item => `<article class="message-bubble${item.sender_role === "admin" ? " outgoing" : ""}">${escapeHtml(item.body)}<small>${item.sender_role === "admin" ? "CibeRO" : escapeHtml(fleet.name)} · ${escapeHtml(formatDate(item.created_at))}</small></article>`).join("") : '<p class="message-empty">Nu există încă mesaje. Trimite primul mesaj.</p>')
+    : '<p class="message-empty">Selectează o sub-flotă pentru a deschide conversația.</p>';
+  requestAnimationFrame(() => { adminMessageThread.scrollTop = adminMessageThread.scrollHeight; });
+}
+
+async function loadAdminMessages() {
+  const { data, error } = await supabase.from("subfleet_messages").select("*").order("created_at", { ascending: true }).limit(500);
+  if (error) { console.warn("Mesajele sub-flotelor nu sunt disponibile încă.", error); return; }
+  subfleetMessages = data ?? [];
+  updateAdminMessageBadge();
+  renderAdminMessageConversations();
+  renderAdminMessageThread();
+}
+
+async function openAdminConversation(subfleetId) {
+  activeMessageSubfleetId = subfleetId;
+  const unreadIds = subfleetMessages.filter(item => item.subfleet_id === subfleetId && item.sender_role === "subfleet" && !item.read_at).map(item => item.id);
+  renderAdminMessageConversations();
+  renderAdminMessageThread();
+  if (!unreadIds.length) return;
+  const { error } = await supabase.rpc("mark_subfleet_messages_read", { p_message_ids: unreadIds });
+  if (error) { console.warn("Mesajele nu au putut fi marcate drept citite.", error); return; }
+  subfleetMessages = subfleetMessages.map(item => unreadIds.includes(item.id) ? { ...item, read_at: new Date().toISOString() } : item);
+  updateAdminMessageBadge();
+  renderAdminMessageConversations();
+}
+
+async function openAdminMessages() {
+  await Promise.all([loadSubfleets(), loadAdminMessages()]);
+  if (!activeMessageSubfleetId && subfleets.length) activeMessageSubfleetId = subfleets[0].id;
+  renderAdminMessageConversations();
+  renderAdminMessageThread();
+  adminMessagesDialog.showModal();
+}
+
+async function sendAdminMessage(event) {
+  event.preventDefault();
+  if (!activeMessageSubfleetId || !adminMessageInput.value.trim()) return;
+  adminMessageSend.disabled = true;
+  adminMessageFeedback.classList.remove("success");
+  adminMessageFeedback.textContent = "Se trimite mesajul…";
+  const { data, error } = await supabase.rpc("send_subfleet_message", { p_subfleet_id: activeMessageSubfleetId, p_body: adminMessageInput.value });
+  adminMessageSend.disabled = false;
+  if (error) { console.error(error); adminMessageFeedback.textContent = "Mesajul nu a putut fi trimis."; return; }
+  adminMessageInput.value = "";
+  subfleetMessages = [...subfleetMessages, data];
+  adminMessageFeedback.classList.add("success");
+  adminMessageFeedback.textContent = "Mesaj trimis.";
+  renderAdminMessageConversations();
+  renderAdminMessageThread();
 }
 
 function renderSubfleets() {
@@ -872,37 +939,6 @@ function renderSubfleetMembers() {
   subfleetMembersList.querySelectorAll("[data-subfleet-member-id]").forEach(button => button.addEventListener("click", () => openApplication(button.dataset.subfleetMemberId)));
 }
 
-function renderSubfleetCommunication(fleet) {
-  if (!fleet) return;
-  const note = subfleetNotes.find(item => item.subfleet_id === fleet.id);
-  subfleetAdminNoteInput.value = note?.admin_note ?? "";
-  subfleetAdminNoteMeta.textContent = note?.admin_note_updated_at ? `Actualizată ${formatDate(note.admin_note_updated_at)}.` : "Încă nu există o notă de la admin.";
-  subfleetPartnerNoteCopy.textContent = note?.subfleet_note || "Sub-flota nu a lăsat încă o notă.";
-  subfleetPartnerNoteMeta.textContent = note?.subfleet_note_updated_at ? `Actualizată ${formatDate(note.subfleet_note_updated_at)}.` : "";
-  subfleetAdminNoteFeedback.textContent = "";
-}
-
-async function saveSubfleetAdminNote() {
-  if (!activeSubfleetId) return;
-  saveSubfleetAdminNoteButton.disabled = true;
-  subfleetAdminNoteFeedback.classList.remove("success");
-  subfleetAdminNoteFeedback.textContent = "Se salvează nota…";
-  const { data, error } = await supabase.rpc("update_subfleet_communication_note", {
-    p_subfleet_id: activeSubfleetId,
-    p_note: subfleetAdminNoteInput.value,
-  });
-  saveSubfleetAdminNoteButton.disabled = false;
-  if (error) {
-    console.error(error);
-    subfleetAdminNoteFeedback.textContent = "Nota nu a putut fi salvată.";
-    return;
-  }
-  subfleetNotes = [...subfleetNotes.filter(item => item.subfleet_id !== data.subfleet_id), data];
-  renderSubfleetCommunication(subfleets.find(item => item.id === activeSubfleetId));
-  subfleetAdminNoteFeedback.classList.add("success");
-  subfleetAdminNoteFeedback.textContent = "Nota a fost trimisă către sub-flotă.";
-}
-
 function openSubfleetDetails(subfleetId) {
   const fleet = subfleets.find(item => item.id === subfleetId);
   if (!fleet) return;
@@ -920,28 +956,20 @@ function openSubfleetDetails(subfleetId) {
   document.querySelector("#subfleet-detail-working").textContent = working.length;
   document.querySelector("#subfleet-detail-active").textContent = active.length;
   setActiveAdminSection("subfleet-detail-panel");
-  renderSubfleetCommunication(fleet);
   renderSubfleetMembers();
 }
 
 async function loadSubfleets() {
-  const [fleetResult, accountResult, notesResult] = await Promise.all([
+  const [fleetResult, accountResult] = await Promise.all([
     supabase.from("subfleets").select("*").order("created_at", { ascending: false }),
     supabase.from("admin_users").select("user_id, display_name, subfleet_id, is_active, role").eq("role", "subfleet"),
-    supabase.from("subfleet_notes").select("*").order("updated_at", { ascending: false }),
   ]);
   const error = fleetResult.error || accountResult.error;
   if (error) { console.error(error); setSubfleetsFeedback("Sub-flotele nu au putut fi încărcate."); return; }
-  if (notesResult.error) console.warn("Notele sub-flotelor nu sunt disponibile încă.", notesResult.error);
   subfleets = fleetResult.data ?? [];
   subfleetAccounts = accountResult.data ?? [];
-  subfleetNotes = notesResult.data ?? [];
   renderSubfleets();
   renderSubfleetAlerts();
-  if (activeSubfleetId) {
-    const activeFleet = subfleets.find(item => item.id === activeSubfleetId);
-    if (activeFleet) renderSubfleetCommunication(activeFleet);
-  }
 }
 
 async function manageSubfleetAccount(payload) {
@@ -1744,6 +1772,8 @@ logoutButton.addEventListener("click", async () => {
   tickets = [];
   availability = [];
   availabilityDraft = { glovo: [], wolt: [] };
+  subfleetMessages = [];
+  activeMessageSubfleetId = "";
   currentAdminUserId = "";
   subfleetPortal?.hideSubfleetPortal();
   availabilityDraftDirty = false;
@@ -1783,7 +1813,8 @@ createSubfleetForm.addEventListener("submit", async event => {
 backToSubfleetsButton.addEventListener("click", () => setActiveAdminSection("subfleets-panel"));
 [subfleetMemberSearch, subfleetMemberStatus].forEach(control => control.addEventListener("input", renderSubfleetMembers));
 subfleetSearch.addEventListener("input", renderSubfleets);
-saveSubfleetAdminNoteButton.addEventListener("click", saveSubfleetAdminNote);
+adminMessageBell.addEventListener("click", openAdminMessages);
+adminMessageForm.addEventListener("submit", sendAdminMessage);
 renderAvailability();
 availabilityEditors.forEach(editor => {
   const platform = editor.dataset.availabilityEditor;
