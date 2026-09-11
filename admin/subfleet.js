@@ -41,7 +41,7 @@ const memberDialog = document.querySelector("#subfleet-member-dialog");
 const memberDetails = document.querySelector("#subfleet-member-details");
 let profile = null;
 let activeTab = "pool";
-let activeClaimedStatus = "";
+let activeClaimedStatus = "all";
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
@@ -81,12 +81,12 @@ async function load() {
   pool = poolResult.data ?? []; claimed = claimedResult.data ?? []; tickets = ticketResult.data ?? [];
   updateTabCounts(); setFeedback(""); render();
 }
-function filteredClaimed() { return claimed.filter(item => !activeClaimedStatus || item.status === activeClaimedStatus); }
+function filteredClaimed() { return activeClaimedStatus === "all" ? claimed.filter(item => item.status !== "archived") : claimed.filter(item => item.status === activeClaimedStatus); }
 function ticketViewById(id) { return ticketViews.find(item => item.id === id) ?? ticketViews[0]; }
 function ticketMatchesActiveView(item) { const selected = ticketViewById(activeTicketView); return selected.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType); }
 function renderStatusTabs() {
-  const statuses = [["", "Toți"], ...Object.entries(applicationStatuses)];
-  statusTabs.innerHTML = statuses.map(([value, label]) => `<button class="subfleet-filter-tab${value === activeClaimedStatus ? " active" : ""}" type="button" role="tab" aria-selected="${value === activeClaimedStatus}" data-claimed-status="${escapeHtml(value)}">${escapeHtml(label)} <span>${claimed.filter(item => !value || item.status === value).length}</span></button>`).join("");
+  const statuses = [["all", "Toți"], ["new", "Noi"], ["reviewing", "În verificare"], ["sent_to_platform", "Trimis la Platformă"], ["activated", "Activi"], ["rejected", "Respinși"], ["archived", "Arhivă"]];
+  statusTabs.innerHTML = statuses.map(([value, label]) => `<button class="subfleet-filter-tab${value === activeClaimedStatus ? " active" : ""}${value === "archived" ? " archive" : ""}" type="button" role="tab" aria-selected="${value === activeClaimedStatus}" data-claimed-status="${escapeHtml(value)}">${value === "archived" ? '<b aria-hidden="true">⌫</b>' : ""}${escapeHtml(label)} <span>${value === "all" ? claimed.filter(item => item.status !== "archived").length : claimed.filter(item => item.status === value).length}</span></button>`).join("");
   statusTabs.querySelectorAll("[data-claimed-status]").forEach(button => button.addEventListener("click", () => { activeClaimedStatus = button.dataset.claimedStatus; render(); }));
 }
 function renderTicketNavigation() {

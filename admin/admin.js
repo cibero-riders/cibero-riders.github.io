@@ -118,6 +118,7 @@ const createSubfleetFeedback = document.querySelector("#create-subfleet-feedback
 const subfleetsFeedback = document.querySelector("#subfleets-feedback");
 const subfleetsList = document.querySelector("#subfleets-list");
 const subfleetsEmpty = document.querySelector("#subfleets-empty");
+const subfleetAlerts = document.querySelector("#subfleet-alerts");
 const subfleetDetailTitle = document.querySelector("#subfleet-detail-title");
 const subfleetDetailCopy = document.querySelector("#subfleet-detail-copy");
 const subfleetMemberSearch = document.querySelector("#subfleet-member-search");
@@ -144,6 +145,7 @@ let adminRealtimeChannel = null;
 let subfleetPortal = null;
 let subfleets = [];
 let subfleetAccounts = [];
+let subfleetAlertsData = [];
 let activeAdminArea = "cibero";
 let activeSubfleetId = "";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
@@ -303,7 +305,7 @@ function setActiveAdminSection(sectionId, persist = true) {
 function setActiveAdminArea(area) {
   const nextArea = area === "subfleets" ? "subfleets" : "cibero";
   setActiveAdminSection(nextArea === "subfleets" ? "subfleets-panel" : "applications-panel");
-  if (nextArea === "subfleets") void loadSubfleets();
+  if (nextArea === "subfleets") { void loadSubfleets(); void loadSubfleetAlerts(); }
 }
 
 function updatePrimaryUnreadBadge(sectionId, badge, unreadCount) {
@@ -736,7 +738,7 @@ async function openAccessProfile(user, requestedRole = "") {
     return false;
   }
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=3");
+    subfleetPortal ??= await import("./subfleet.js?v=4");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
@@ -748,6 +750,8 @@ async function openAccessProfile(user, requestedRole = "") {
   currentAdminUserId = user.id;
   showDashboard();
   await Promise.all([loadApplications(), loadTickets(), loadAvailability(), loadSubfleets()]);
+  await reconcileStaleSubfleetClaims();
+  await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts()]);
   subscribeToAvailabilityUpdates();
   subscribeToAdminNotifications();
   return true;
@@ -756,6 +760,30 @@ async function openAccessProfile(user, requestedRole = "") {
 function setSubfleetsFeedback(message = "", success = false) {
   subfleetsFeedback.classList.toggle("success", success);
   subfleetsFeedback.textContent = message;
+}
+
+function renderSubfleetAlerts() {
+  const fleetNames = new Map(subfleets.map(item => [item.id, item.name]));
+  subfleetAlerts.hidden = subfleetAlertsData.length === 0;
+  subfleetAlerts.innerHTML = subfleetAlertsData.map(item => `<article><span aria-hidden="true">!</span><div><strong>Cerere neprocesată în 24h</strong><p>${escapeHtml(item.message)}</p><small>${escapeHtml(fleetNames.get(item.subfleet_id) ?? "Sub-flotă") } · ${escapeHtml(formatDate(item.created_at))}</small></div></article>`).join("");
+}
+
+async function reconcileStaleSubfleetClaims() {
+  const { error } = await supabase.rpc("release_stale_subfleet_claims");
+  if (error) console.warn("Verificarea cererilor neprocesate nu este disponibilă încă.", error);
+}
+
+async function loadSubfleetAlerts() {
+  const { data, error } = await supabase
+    .from("admin_alerts")
+    .select("id, alert_type, subfleet_id, message, created_at")
+    .is("read_at", null)
+    .eq("alert_type", "subfleet_claim_timeout")
+    .order("created_at", { ascending: false })
+    .limit(20);
+  if (error) { console.warn("Alertele sub-flotelor nu sunt disponibile încă.", error); return; }
+  subfleetAlertsData = data ?? [];
+  renderSubfleetAlerts();
 }
 
 function renderSubfleets() {
@@ -819,6 +847,7 @@ async function loadSubfleets() {
   subfleets = fleetResult.data ?? [];
   subfleetAccounts = accountResult.data ?? [];
   renderSubfleets();
+  renderSubfleetAlerts();
 }
 
 async function manageSubfleetAccount(payload) {
