@@ -381,13 +381,13 @@ function renderTicketNavigation() {
     const active = workspace === activeTicketWorkspace;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
-    updateTabUnreadBadge(tab, tickets.filter(item => ticketViews.some(view => view.workspace === workspace && view.matches(item)) && !isTicketRead(item)).length);
+    updateTabUnreadBadge(tab, tickets.filter(item => ticketViews.some(view => view.workspace === workspace && view.matches(item)) && item.status === "new").length);
   });
   const workspaceViews = ticketViews.filter(view => view.workspace === activeTicketWorkspace);
   ticketCategoryTabsContainer.innerHTML = workspaceViews.map(view => {
-    const unreadCount = tickets.filter(item => view.matches(item) && !isTicketRead(item)).length;
+    const newCount = tickets.filter(item => view.matches(item) && item.status === "new").length;
     const active = view.id === activeTicketView;
-    return `<button class="platform-tab${active ? " active" : ""}${unreadCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-view="${escapeHtml(view.id)}">${escapeHtml(view.label)} <span class="unread-badge"${unreadCount ? "" : " hidden"}>${unreadCount}</span></button>`;
+    return `<button class="platform-tab${active ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-view="${escapeHtml(view.id)}">${escapeHtml(view.label)} <span class="unread-badge"${newCount ? "" : " hidden"}>${newCount}</span></button>`;
   }).join("");
   ticketCategoryTabsContainer.querySelectorAll("[data-ticket-view]").forEach(tab => {
     tab.addEventListener("click", () => setActiveTicketView(tab.dataset.ticketView));
@@ -406,8 +406,8 @@ function renderTicketTypeNavigation() {
   const filters = [{ id: "", label: "Toate solicitările" }, ...types.map(id => ({ id, label: ticketTypeLabels[id] ?? id }))];
   ticketTypeTabsContainer.innerHTML = filters.map(filter => {
     const active = filter.id === activeTicketRequestType;
-    const unreadCount = tickets.filter(item => view.matches(item) && (!filter.id || item.request_type === filter.id) && !isTicketRead(item)).length;
-    return `<button class="ticket-type-tab${active ? " active" : ""}${unreadCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-request-type="${escapeHtml(filter.id)}">${escapeHtml(filter.label)} <span${unreadCount ? "" : " hidden"}>${unreadCount}</span></button>`;
+    const newCount = tickets.filter(item => view.matches(item) && (!filter.id || item.request_type === filter.id) && item.status === "new").length;
+    return `<button class="ticket-type-tab${active ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-request-type="${escapeHtml(filter.id)}">${escapeHtml(filter.label)} <span${newCount ? "" : " hidden"}>${newCount}</span></button>`;
   }).join("");
   ticketTypeTabsContainer.querySelectorAll("[data-ticket-request-type]").forEach(tab => {
     tab.addEventListener("click", () => setActiveTicketRequestType(tab.dataset.ticketRequestType));
@@ -934,7 +934,7 @@ function updateTicketSummary() {
   document.querySelector("#tickets-new-count").textContent = viewTickets.filter(item => item.status === "new").length;
   document.querySelector("#tickets-reviewing-count").textContent = viewTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
   document.querySelector("#tickets-approved-count").textContent = viewTickets.filter(item => item.status === "approved").length;
-  updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => !isTicketRead(item)).length);
+  updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => item.status === "new").length);
 }
 
 function filteredTickets() {
@@ -1017,20 +1017,20 @@ function updateSummary() {
   accountRequestPlatformTabs.hidden = activeRegistrationView !== "account_requests";
   registrationTabs.forEach(tab => {
     const view = tab.dataset.registrationView;
-    updateTabUnreadBadge(tab, applications.filter(item => matchesRegistrationView(item, view) && !isApplicationRead(item)).length);
+    updateTabUnreadBadge(tab, applications.filter(item => matchesRegistrationView(item, view) && item.status === "new").length);
   });
   platformTabs.forEach(tab => {
     const platform = tab.dataset.platformTab;
     const active = platform === activePlatform;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
-    updateTabUnreadBadge(tab, applications.filter(item => matchesRegistrationView(item, "account_requests", platform) && !isApplicationRead(item)).length);
+    updateTabUnreadBadge(tab, applications.filter(item => matchesRegistrationView(item, "account_requests", platform) && item.status === "new").length);
   });
   document.querySelector("#total-count").textContent = visibleApplications.length;
   document.querySelector("#new-count").textContent = visibleApplications.filter(item => item.status === "new").length;
   document.querySelector("#reviewing-count").textContent = visibleApplications.filter(item => item.status === "reviewing").length;
   document.querySelector("#activated-count").textContent = visibleApplications.filter(item => item.status === "activated").length;
-  updatePrimaryUnreadBadge("applications-panel", applicationsPrimaryCount, applications.filter(item => !isApplicationRead(item)).length);
+  updatePrimaryUnreadBadge("applications-panel", applicationsPrimaryCount, applications.filter(item => item.status === "new").length);
 }
 
 function isSocialRegistration(item) {
