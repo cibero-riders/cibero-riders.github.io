@@ -76,6 +76,8 @@ const emptyState = document.querySelector("#empty-state");
 const searchFilter = document.querySelector("#search-filter");
 const statusFilter = document.querySelector("#status-filter");
 const platformTabs = [...document.querySelectorAll("[data-platform-tab]")];
+const registrationTabs = [...document.querySelectorAll("[data-registration-view]")];
+const accountRequestPlatformTabs = document.querySelector("#account-request-platform-tabs");
 const applicationsPrimaryCount = document.querySelector("#applications-primary-count");
 const applicationDialog = document.querySelector("#application-dialog");
 const applicationDetails = document.querySelector("#application-details");
@@ -109,18 +111,24 @@ const publishAvailabilityButton = document.querySelector("#publish-availability"
 const availabilityPublishDialog = document.querySelector("#availability-publish-dialog");
 const availabilityPublishDetails = document.querySelector("#availability-publish-details");
 const availabilityAdminUpdate = document.querySelector("#availability-admin-update");
-const refreshSubfleetsButton = document.querySelector("#refresh-subfleets");
+const addSubfleetButton = document.querySelector("#add-subfleet-button");
 const createSubfleetForm = document.querySelector("#create-subfleet-form");
-const createSubfleetAccountForm = document.querySelector("#create-subfleet-account-form");
-const subfleetAccountFleet = document.querySelector("#subfleet-account-fleet");
+const subfleetCreateDialog = document.querySelector("#subfleet-create-dialog");
+const createSubfleetFeedback = document.querySelector("#create-subfleet-feedback");
 const subfleetsFeedback = document.querySelector("#subfleets-feedback");
 const subfleetsList = document.querySelector("#subfleets-list");
-const subfleetRegistrationsList = document.querySelector("#subfleet-registrations-list");
-const subfleetRegistrationsEmpty = document.querySelector("#subfleet-registrations-empty");
-const refreshSubfleetRegistrationsButton = document.querySelector("#refresh-subfleet-registrations");
+const subfleetsEmpty = document.querySelector("#subfleets-empty");
+const subfleetDetailTitle = document.querySelector("#subfleet-detail-title");
+const subfleetDetailCopy = document.querySelector("#subfleet-detail-copy");
+const subfleetMemberSearch = document.querySelector("#subfleet-member-search");
+const subfleetMemberStatus = document.querySelector("#subfleet-member-status");
+const subfleetMembersList = document.querySelector("#subfleet-members-list");
+const subfleetMembersEmpty = document.querySelector("#subfleet-members-empty");
+const backToSubfleetsButton = document.querySelector("#back-to-subfleets");
 
 let applications = [];
-let activePlatform = "wolt";
+let activePlatform = "all";
+let activeRegistrationView = "all";
 const selectedApplicationIds = new Set();
 let tickets = [];
 let activeTicketWorkspace = "platforms";
@@ -137,6 +145,7 @@ let subfleetPortal = null;
 let subfleets = [];
 let subfleetAccounts = [];
 let activeAdminArea = "cibero";
+let activeSubfleetId = "";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -267,31 +276,34 @@ function restoreAvailabilityDraft() {
 }
 
 function setActiveAdminSection(sectionId, persist = true) {
-  const requested = adminSectionTabs.some(tab => tab.dataset.adminSection === sectionId)
+  const subfleetSections = ["subfleets-panel", "subfleet-detail-panel"];
+  const requested = adminSectionTabs.some(tab => tab.dataset.adminSection === sectionId) || subfleetSections.includes(sectionId)
     ? sectionId
     : "applications-panel";
   const selectedTab = adminSectionTabs.find(tab => tab.dataset.adminSection === requested);
-  activeAdminArea = selectedTab?.dataset.adminArea ?? "cibero";
+  activeAdminArea = subfleetSections.includes(requested) ? "subfleets" : (selectedTab?.dataset.adminArea ?? "cibero");
   adminAreaTabs.forEach(tab => {
     const active = tab.dataset.adminArea === activeAdminArea;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
   });
   document.querySelector("#admin-area-cibero").hidden = activeAdminArea !== "cibero";
-  document.querySelector("#admin-area-subfleets").hidden = activeAdminArea !== "subfleets";
   adminSectionTabs.forEach(tab => {
     const active = tab.dataset.adminSection === requested;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
     document.querySelector(`#${tab.dataset.adminSection}`).hidden = !active;
   });
+  ["subfleets-panel", "subfleet-detail-panel"].forEach(id => {
+    document.querySelector(`#${id}`).hidden = id !== requested;
+  });
   if (persist) writeAdminPreference("active-section", requested);
 }
 
 function setActiveAdminArea(area) {
   const nextArea = area === "subfleets" ? "subfleets" : "cibero";
-  setActiveAdminSection(nextArea === "subfleets" ? "subfleet-registrations-panel" : "applications-panel");
-  if (nextArea === "subfleets") { void loadSubfleets(); renderSubfleetRegistrations(); }
+  setActiveAdminSection(nextArea === "subfleets" ? "subfleets-panel" : "applications-panel");
+  if (nextArea === "subfleets") void loadSubfleets();
 }
 
 function updatePrimaryUnreadBadge(sectionId, badge, unreadCount) {
@@ -691,7 +703,8 @@ function showDashboard() {
   loginForm.reset();
   loginFeedback.textContent = "";
   restoreTicketNavigation();
-  setActiveAdminSection(readAdminPreference("active-section") ?? "applications-panel", false);
+  const rememberedSection = readAdminPreference("active-section");
+  setActiveAdminSection(rememberedSection === "subfleet-detail-panel" ? "subfleets-panel" : (rememberedSection ?? "applications-panel"), false);
 }
 
 async function accessProfile(userId) {
@@ -741,35 +754,66 @@ function setSubfleetsFeedback(message = "", success = false) {
 }
 
 function renderSubfleets() {
-  subfleetAccountFleet.innerHTML = `<option value="">Selectează sub-flota</option>${subfleets.filter(item => item.is_active).map(item => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)}</option>`).join("")}`;
   const accountsByFleet = new Map(subfleets.map(item => [item.id, subfleetAccounts.filter(account => account.subfleet_id === item.id)]));
   subfleetsList.innerHTML = subfleets.map(item => {
     const accounts = accountsByFleet.get(item.id) ?? [];
     const activeAccounts = accounts.filter(account => account.is_active).length;
-    return `<article class="subfleet-row"><div><h3>${escapeHtml(item.name)}</h3><p>${escapeHtml(item.description || "Fără descriere internă.")}</p><small>${activeAccounts} ${activeAccounts === 1 ? "cont activ" : "conturi active"} · creată ${escapeHtml(formatDate(item.created_at))}</small></div><strong>${item.is_active ? "Activă" : "Inactivă"}</strong></article>`;
-  }).join("") || `<p class="empty-state">Nu există încă sub-flote.</p>`;
+    const members = applications.filter(application => application.subfleet_id === item.id);
+    const claimed = members.filter(isSubfleetRegistration);
+    const working = members.filter(application => ["reviewing", "sent_to_platform"].includes(application.status));
+    const active = members.filter(application => application.status === "activated");
+    return `<button class="subfleet-card" type="button" data-subfleet-id="${escapeHtml(item.id)}" aria-label="Deschide sub-flota ${escapeHtml(item.name)}"><span class="subfleet-card-icon" aria-hidden="true">⌘</span><span class="subfleet-card-heading"><strong>${escapeHtml(item.name)}</strong><small>Adăugată ${escapeHtml(formatDate(item.created_at))}</small></span><span class="subfleet-card-state ${item.is_active ? "active" : "inactive"}">${item.is_active ? "Activă" : "Inactivă"}</span><span class="subfleet-card-metrics"><span><small>Total curieri</small><b>${members.length}</b></span><span><small>Revendicați</small><b>${claimed.length}</b></span><span><small>În lucru</small><b>${working.length}</b></span><span><small>Activi</small><b>${active.length}</b></span></span><span class="subfleet-card-footer"><span>${activeAccounts} ${activeAccounts === 1 ? "cont activ" : "conturi active"}</span><span>Deschide →</span></span></button>`;
+  }).join("");
+  subfleetsEmpty.hidden = subfleets.length > 0;
+  subfleetsList.querySelectorAll("[data-subfleet-id]").forEach(button => button.addEventListener("click", () => openSubfleetDetails(button.dataset.subfleetId)));
 }
 
-function renderSubfleetRegistrations() {
-  const rows = applications.filter(item => item.platform === "social_media" && item.application_type === "social_registration");
-  const names = new Map(subfleets.map(item => [item.id, item.name]));
-  subfleetRegistrationsList.innerHTML = rows.map(item => `<article class="subfleet-row"><div><h3>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</h3><p><strong>${escapeHtml(item.city)}</strong> · ${escapeHtml(item.email)} · ${escapeHtml(item.phone)}</p><small>${escapeHtml(item.courier_type === "experienced_courier" ? "Curier cu experiență" : item.courier_type === "new_courier" ? "Curier nou" : item.courier_type || "Tip neprecizat")} · ${escapeHtml(names.get(item.subfleet_id) ?? "Neatribuită")} · ${escapeHtml(formatDate(item.created_at))}</small></div><strong>${escapeHtml(statusLabels[item.status] ?? item.status)}</strong></article>`).join("");
-  subfleetRegistrationsEmpty.hidden = rows.length > 0;
+function activeSubfleetMembers() {
+  const query = subfleetMemberSearch.value.trim().toLocaleLowerCase("ro-RO");
+  const status = subfleetMemberStatus.value;
+  return applications.filter(item => item.subfleet_id === activeSubfleetId).filter(item => {
+    const haystack = [item.first_name, item.last_name, item.email, item.phone, item.city].join(" ").toLocaleLowerCase("ro-RO");
+    return (!query || haystack.includes(query)) && (!status || item.status === status);
+  });
+}
+
+function renderSubfleetMembers() {
+  const rows = activeSubfleetMembers();
+  subfleetMembersList.innerHTML = rows.map(item => `<div class="application-row subfleet-member-row${isApplicationRead(item) ? "" : " unread"}"><button class="application-open" type="button" data-subfleet-member-id="${escapeHtml(item.id)}"><span class="date">${escapeHtml(formatDate(item.created_at))}</span><span class="platform">${escapeHtml(applicationTypeLabel(item))}</span><strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong><span class="city">${escapeHtml(item.city)}</span><span class="arrow" aria-hidden="true">→</span></button><span class="status-pill">${escapeHtml(statusLabels[item.status] ?? item.status)}</span></div>`).join("");
+  subfleetMembersEmpty.hidden = rows.length > 0;
+  subfleetMembersList.querySelectorAll("[data-subfleet-member-id]").forEach(button => button.addEventListener("click", () => openApplication(button.dataset.subfleetMemberId)));
+}
+
+function openSubfleetDetails(subfleetId) {
+  const fleet = subfleets.find(item => item.id === subfleetId);
+  if (!fleet) return;
+  activeSubfleetId = subfleetId;
+  subfleetMemberSearch.value = "";
+  subfleetMemberStatus.value = "";
+  const members = applications.filter(item => item.subfleet_id === subfleetId);
+  const claimed = members.filter(isSubfleetRegistration);
+  const working = members.filter(item => ["reviewing", "sent_to_platform"].includes(item.status));
+  const active = members.filter(item => item.status === "activated");
+  subfleetDetailTitle.textContent = fleet.name;
+  subfleetDetailCopy.textContent = fleet.description || "Membrii revendicați și activitatea acestei sub-flote.";
+  document.querySelector("#subfleet-detail-total").textContent = members.length;
+  document.querySelector("#subfleet-detail-claimed").textContent = claimed.length;
+  document.querySelector("#subfleet-detail-working").textContent = working.length;
+  document.querySelector("#subfleet-detail-active").textContent = active.length;
+  setActiveAdminSection("subfleet-detail-panel");
+  renderSubfleetMembers();
 }
 
 async function loadSubfleets() {
-  refreshSubfleetsButton.disabled = true;
   const [fleetResult, accountResult] = await Promise.all([
     supabase.from("subfleets").select("*").order("created_at", { ascending: false }),
     supabase.from("admin_users").select("user_id, display_name, subfleet_id, is_active, role").eq("role", "subfleet"),
   ]);
-  refreshSubfleetsButton.disabled = false;
   const error = fleetResult.error || accountResult.error;
   if (error) { console.error(error); setSubfleetsFeedback("Sub-flotele nu au putut fi încărcate."); return; }
   subfleets = fleetResult.data ?? [];
   subfleetAccounts = accountResult.data ?? [];
   renderSubfleets();
-  renderSubfleetRegistrations();
 }
 
 async function manageSubfleetAccount(payload) {
@@ -800,7 +844,7 @@ async function loadApplications() {
   dashboardFeedback.textContent = "";
   updateSummary();
   renderApplications();
-  renderSubfleetRegistrations();
+  renderSubfleets();
 }
 
 async function loadTickets() {
@@ -907,20 +951,43 @@ function toggleTicketStatusMenu(toggle) {
 }
 
 function updateSummary() {
-  const platformApplications = applications.filter(item => item.platform === activePlatform);
+  const visibleApplications = applications.filter(matchesActiveRegistrationView);
+  accountRequestPlatformTabs.hidden = activeRegistrationView !== "account_requests";
   platformTabs.forEach(tab => {
-    const platform = tab.dataset.platformTab;
-    const unreadCount = applications.filter(item => item.platform === platform && !isApplicationRead(item)).length;
-    const count = tab.querySelector("span");
-    count.textContent = unreadCount;
-    count.hidden = unreadCount === 0;
-    tab.classList.toggle("has-unread", unreadCount > 0);
+    const active = tab.dataset.platformTab === activePlatform;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
   });
-  document.querySelector("#total-count").textContent = platformApplications.length;
-  document.querySelector("#new-count").textContent = platformApplications.filter(item => item.status === "new").length;
-  document.querySelector("#reviewing-count").textContent = platformApplications.filter(item => item.status === "reviewing").length;
-  document.querySelector("#activated-count").textContent = platformApplications.filter(item => item.status === "activated").length;
+  document.querySelector("#total-count").textContent = visibleApplications.length;
+  document.querySelector("#new-count").textContent = visibleApplications.filter(item => item.status === "new").length;
+  document.querySelector("#reviewing-count").textContent = visibleApplications.filter(item => item.status === "reviewing").length;
+  document.querySelector("#activated-count").textContent = visibleApplications.filter(item => item.status === "activated").length;
   updatePrimaryUnreadBadge("applications-panel", applicationsPrimaryCount, applications.filter(item => !isApplicationRead(item)).length);
+}
+
+function isSocialRegistration(item) {
+  return item.platform === "social_media" && item.application_type === "social_registration";
+}
+
+function isSubfleetRegistration(item) {
+  return isSocialRegistration(item) && ["new_courier", "experienced_courier"].includes(item.courier_type);
+}
+
+function applicationTypeLabel(item) {
+  if (!isSocialRegistration(item)) return applicationPlatformLabel(item.platform);
+  return ({ new_courier: "Curier nou", experienced_courier: "Curier cu experiență", pfa: "PFA", srl: "SRL" })[item.courier_type] ?? "Înregistrare";
+}
+
+function registrationViewLabel() {
+  return ({ all: "toate înregistrările", pfa: "PFA", srl: "SRL", subfleets: "sub-flote", account_requests: activePlatform === "all" ? "Wolt și Glovo" : applicationPlatformLabel(activePlatform) })[activeRegistrationView];
+}
+
+function matchesActiveRegistrationView(item) {
+  if (activeRegistrationView === "all") return isSocialRegistration(item);
+  if (activeRegistrationView === "pfa") return isSocialRegistration(item) && item.courier_type === "pfa";
+  if (activeRegistrationView === "srl") return isSocialRegistration(item) && item.courier_type === "srl";
+  if (activeRegistrationView === "subfleets") return isSubfleetRegistration(item);
+  return ["wolt", "glovo"].includes(item.platform) && (activePlatform === "all" || item.platform === activePlatform);
 }
 
 function filteredApplications() {
@@ -931,7 +998,7 @@ function filteredApplications() {
     const haystack = [item.first_name, item.last_name, item.email, item.phone, item.city]
       .join(" ")
       .toLocaleLowerCase("ro-RO");
-    return item.platform === activePlatform &&
+    return matchesActiveRegistrationView(item) &&
       (!query || haystack.includes(query)) &&
       (!status || item.status === status);
   });
@@ -965,7 +1032,7 @@ function renderApplications() {
       </label>
       <button class="application-open" type="button" data-application-id="${escapeHtml(item.id)}">
         <span class="date">${escapeHtml(formatDate(item.created_at))}</span>
-        <span class="platform">${escapeHtml(applicationPlatformLabel(item.platform))}</span>
+        <span class="platform">${escapeHtml(applicationTypeLabel(item))}</span>
         <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
         <span class="city">${escapeHtml(item.city)}</span>
         <span class="arrow" aria-hidden="true">→</span>
@@ -982,7 +1049,7 @@ function renderApplications() {
   `).join("");
 
   emptyState.hidden = rows.length > 0;
-  emptyState.textContent = `Nu există cereri ${applicationPlatformLabel(activePlatform)} pentru filtrele selectate.`;
+  emptyState.textContent = `Nu există înregistrări pentru ${registrationViewLabel()} cu filtrele selectate.`;
   applicationsList.querySelectorAll("[data-select-application]").forEach(checkbox => {
     checkbox.addEventListener("change", () => {
       const id = checkbox.dataset.selectApplication;
@@ -1503,30 +1570,24 @@ refreshButton.addEventListener("click", loadApplications);
 exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
-refreshSubfleetsButton.addEventListener("click", loadSubfleets);
-refreshSubfleetRegistrationsButton.addEventListener("click", loadApplications);
+addSubfleetButton.addEventListener("click", () => {
+  createSubfleetFeedback.textContent = "";
+  createSubfleetForm.reset();
+  subfleetCreateDialog.showModal();
+});
 createSubfleetForm.addEventListener("submit", async event => {
   event.preventDefault();
   const button = createSubfleetForm.querySelector("button[type='submit']");
   const formData = new FormData(createSubfleetForm);
-  button.disabled = true; setSubfleetsFeedback("Se creează sub-flota…");
+  button.disabled = true; createSubfleetFeedback.textContent = "Se creează sub-flota și contul de acces…";
   try {
-    await manageSubfleetAccount({ action: "create_subfleet", name: String(formData.get("name") ?? ""), description: String(formData.get("description") ?? "") });
-    createSubfleetForm.reset(); setSubfleetsFeedback("Sub-flota a fost creată.", true); await loadSubfleets();
-  } catch (error) { console.error(error); setSubfleetsFeedback("Sub-flota nu a putut fi creată."); }
+    await manageSubfleetAccount({ action: "create_subfleet_with_account", name: String(formData.get("name") ?? ""), description: String(formData.get("description") ?? ""), display_name: String(formData.get("display_name") ?? ""), email: String(formData.get("email") ?? ""), password: String(formData.get("password") ?? "") });
+    subfleetCreateDialog.close(); createSubfleetForm.reset(); setSubfleetsFeedback("Sub-flota și contul ei au fost create.", true); await loadSubfleets();
+  } catch (error) { console.error(error); createSubfleetFeedback.textContent = "Sub-flota nu a putut fi creată. Verifică datele și încearcă din nou."; }
   finally { button.disabled = false; }
 });
-createSubfleetAccountForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  const button = createSubfleetAccountForm.querySelector("button[type='submit']");
-  const formData = new FormData(createSubfleetAccountForm);
-  button.disabled = true; setSubfleetsFeedback("Se creează contul…");
-  try {
-    await manageSubfleetAccount({ action: "create_account", subfleet_id: String(formData.get("subfleet_id") ?? ""), display_name: String(formData.get("display_name") ?? ""), email: String(formData.get("email") ?? ""), password: String(formData.get("password") ?? "") });
-    createSubfleetAccountForm.reset(); setSubfleetsFeedback("Contul sub-flotei a fost creat.", true); await loadSubfleets();
-  } catch (error) { console.error(error); setSubfleetsFeedback("Contul nu a putut fi creat. Verifică datele și încearcă din nou."); }
-  finally { button.disabled = false; }
-});
+backToSubfleetsButton.addEventListener("click", () => setActiveAdminSection("subfleets-panel"));
+[subfleetMemberSearch, subfleetMemberStatus].forEach(control => control.addEventListener("input", renderSubfleetMembers));
 renderAvailability();
 availabilityEditors.forEach(editor => {
   const platform = editor.dataset.availabilityEditor;
@@ -1590,6 +1651,18 @@ platformTabs.forEach(tab => {
     renderApplications();
   });
 });
+registrationTabs.forEach(tab => tab.addEventListener("click", () => {
+  activeRegistrationView = tab.dataset.registrationView;
+  if (activeRegistrationView !== "account_requests") activePlatform = "all";
+  registrationTabs.forEach(candidate => {
+    const active = candidate === tab;
+    candidate.classList.toggle("active", active);
+    candidate.setAttribute("aria-selected", String(active));
+  });
+  selectedApplicationIds.clear();
+  updateSummary();
+  renderApplications();
+}));
 document.addEventListener("click", event => {
   if (!event.target.closest("[data-ticket-status-combobox]")) closeTicketStatusMenus();
   if (!event.target.closest("[data-application-status-combobox]")) closeApplicationStatusMenus();

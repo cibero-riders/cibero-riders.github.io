@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=31" />
+  <link rel="stylesheet" href="admin.css?v=32" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -56,34 +56,32 @@
         <button type="button" role="tab" aria-selected="false" data-admin-area="subfleets">Sub-Flote</button>
       </div>
       <div id="admin-area-cibero" class="admin-tab-groups" role="tablist" aria-label="Control CibeRO">
-        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-area="cibero" data-admin-section="applications-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Deschideri Cont</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
+        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-area="cibero" data-admin-section="applications-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Înregistrări</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
         <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-area="cibero" data-admin-section="tickets-panel"><span class="tab-icon" aria-hidden="true">✦</span><span><strong>Control Tickete</strong></span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span></button>
         <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-area="cibero" data-admin-section="availability-panel"><span class="tab-icon" aria-hidden="true">⌖</span><span><strong>Control Operațional</strong></span></button>
-      </div>
-      <div id="admin-area-subfleets" class="admin-tab-groups" role="tablist" aria-label="Control sub-flote" hidden>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="subfleet-registrations-panel" data-admin-area="subfleets" data-admin-section="subfleet-registrations-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Înregistrări</strong></span></button>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="subfleets-panel" data-admin-area="subfleets" data-admin-section="subfleets-panel"><span class="tab-icon" aria-hidden="true">⌘</span><span><strong>Administrare</strong></span></button>
       </div>
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Cereri primite</p>
-            <h2>Deschideri Cont</h2>
-            <p>Verifică și gestionează separat solicitările pentru fiecare platformă.</p>
+            <p class="eyebrow">CibeRO · înregistrări</p>
+            <h2>Înregistrări</h2>
+            <p>Gestionează înregistrările primite și cererile de deschidere cont.</p>
           </div>
           <button id="refresh-button" class="quiet-button" type="button">Actualizează</button>
         </div>
 
-        <div class="platform-tabs" role="tablist" aria-label="Platformă">
-          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-platform-tab="wolt">
-            Wolt <span class="unread-badge" id="wolt-tab-count" hidden>0</span>
-          </button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="glovo">
-            Glovo <span class="unread-badge" id="glovo-tab-count" hidden>0</span>
-          </button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="social_media">
-            Social Media <span class="unread-badge" id="social-media-tab-count" hidden>0</span>
-          </button>
+        <div class="registration-navigation" role="tablist" aria-label="Tip de înregistrare">
+          <button class="registration-tab active" type="button" role="tab" aria-selected="true" data-registration-view="all">Toate înregistrările</button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="pfa">PFA</button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="srl">SRL</button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="subfleets">Sub-Flote</button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="account_requests">Cereri Wolt/Glovo</button>
+        </div>
+
+        <div id="account-request-platform-tabs" class="platform-tabs registration-platform-tabs" role="tablist" aria-label="Platformă cerere de deschidere cont" hidden>
+          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-platform-tab="all">Toate</button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="wolt">Wolt</button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="glovo">Glovo</button>
         </div>
 
         <div class="summary-grid" aria-label="Rezumat cereri pentru platforma selectată">
@@ -208,18 +206,17 @@
         </div>
       </section>
 
-      <section id="subfleet-registrations-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Sub-flote · înregistrări</p><h2>Înregistrări</h2><p>Toate înscrierile sociale, cu starea revendicării și sub-flota responsabilă.</p></div><button id="refresh-subfleet-registrations" class="quiet-button" type="button">Actualizează</button></div>
-        <div id="subfleet-registrations-list" class="subfleet-list"></div><p id="subfleet-registrations-empty" class="empty-state" hidden>Nu există încă înregistrări sociale.</p>
+      <section id="subfleets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
+        <div class="section-heading"><div><p class="eyebrow">Sub-Flote · administrare</p><h2>Sub-Flote</h2><p>Deschide o sub-flotă pentru a vedea membrii revendicați și activitatea ei.</p></div><button id="add-subfleet-button" class="quiet-button add-subfleet-button" type="button"><span aria-hidden="true">＋</span> Adaugă sub-flotă</button></div>
+        <p id="subfleets-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleets-list" class="subfleet-cards"></div>
+        <p id="subfleets-empty" class="empty-state" hidden>Nu există încă sub-flote.</p>
       </section>
 
-      <section id="subfleets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Administrare acces</p><h2>Sub-flote</h2><p>Creează sub-flote și conturi care pot revendica înregistrări sociale.</p></div><button id="refresh-subfleets" class="quiet-button" type="button">Actualizează</button></div>
-        <div class="subfleet-admin-forms">
-          <form id="create-subfleet-form" class="subfleet-admin-form"><h3>Sub-flotă nouă</h3><label>Nume sub-flotă<input name="name" required maxlength="120" placeholder="Ex. CibeRO București Nord" /></label><label>Descriere <small>opțional</small><textarea name="description" maxlength="1000" placeholder="Detalii interne"></textarea></label><button class="primary-button" type="submit">Creează sub-flota</button></form>
-          <form id="create-subfleet-account-form" class="subfleet-admin-form"><h3>Cont sub-flotă</h3><label>Sub-flotă<select id="subfleet-account-fleet" name="subfleet_id" required><option value="">Selectează sub-flota</option></select></label><label>Nume administrator<input name="display_name" required maxlength="120" autocomplete="name" /></label><label>Email<input name="email" required type="email" autocomplete="email" /></label><label>Parolă temporară<input name="password" required type="password" minlength="10" autocomplete="new-password" /></label><button class="primary-button" type="submit">Creează contul</button></form>
-        </div>
-        <p id="subfleets-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleets-list" class="subfleet-list"></div>
+      <section id="subfleet-detail-panel" class="panel admin-section-panel" role="tabpanel" hidden>
+        <div class="section-heading subfleet-detail-heading"><div><button id="back-to-subfleets" class="back-button" type="button">← Înapoi la sub-flote</button><p class="eyebrow">Sub-Flotă</p><h2 id="subfleet-detail-title">—</h2><p id="subfleet-detail-copy">Membrii revendicați de această sub-flotă.</p></div></div>
+        <div class="summary-grid" aria-label="Rezumat sub-flotă"><article><span>Total curieri</span><strong id="subfleet-detail-total">0</strong></article><article><span>Revendicați</span><strong id="subfleet-detail-claimed">0</strong></article><article><span>În lucru</span><strong id="subfleet-detail-working">0</strong></article><article><span>Activi</span><strong id="subfleet-detail-active">0</strong></article></div>
+        <div class="toolbar subfleet-members-toolbar"><label>Caută membru<input id="subfleet-member-search" type="search" placeholder="Nume, email, telefon sau oraș" /></label><label>Status<select id="subfleet-member-status"><option value="">Toate statusurile</option><option value="new">Nouă</option><option value="reviewing">În verificare</option><option value="sent_to_platform">Trimisă platformei</option><option value="activated">Activată</option><option value="rejected">Respinsă</option><option value="archived">Arhivată</option></select></label></div>
+        <div id="subfleet-members-list" class="applications-list"></div><p id="subfleet-members-empty" class="empty-state" hidden>Nu există membri pentru filtrele selectate.</p>
       </section>
     </section>
   </main>
@@ -232,6 +229,15 @@
   <dialog id="ticket-admin-dialog" class="application-dialog">
     <form method="dialog" class="dialog-top"><strong>Detalii ticket</strong><span class="dialog-top-actions"><button id="delete-ticket-header" class="danger-button" type="button" hidden>Șterge ticketul</button><button aria-label="Închide">×</button></span></form>
     <div id="ticket-admin-details"></div>
+  </dialog>
+
+  <dialog id="subfleet-create-dialog" class="application-dialog subfleet-create-dialog">
+    <form method="dialog" class="dialog-top"><strong>Adaugă sub-flotă</strong><button aria-label="Închide">×</button></form>
+    <form id="create-subfleet-form" class="subfleet-create-form">
+      <fieldset><legend>Informații despre sub-flotă</legend><label>Nume sub-flotă<input name="name" required maxlength="120" placeholder="Ex. CibeRO București Nord" /></label><label>Nume administrator<input name="display_name" required maxlength="120" autocomplete="name" /></label><label>Descrie sub-flota<textarea name="description" maxlength="1000" placeholder="Detalii interne despre zonă sau echipă"></textarea></label></fieldset>
+      <fieldset><legend>Creează contul sub-flotei</legend><label>E-mail de login<input name="email" required type="email" autocomplete="email" /></label><label>Parolă de login<input name="password" required type="password" minlength="10" autocomplete="new-password" /><small>Minimum 10 caractere.</small></label></fieldset>
+      <p id="create-subfleet-feedback" class="feedback" role="status" aria-live="polite"></p><button class="primary-button" type="submit">Creează sub-flota</button>
+    </form>
   </dialog>
 
   <dialog id="availability-publish-dialog" class="application-dialog availability-publish-dialog">
@@ -253,6 +259,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=29"></script>
+  <script type="module" src="admin.js?v=30"></script>
 </body>
 </html>
