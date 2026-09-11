@@ -778,7 +778,10 @@ function closeTicketStatusMenus(except = null) {
     const suggestions = combobox.querySelector(".ticket-status-suggestions");
     suggestions.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
+    combobox.classList.remove("status-menu-active");
+    combobox.closest(".ticket-row")?.classList.remove("status-menu-active");
   });
+  syncStatusMenuBackdrop();
 }
 
 function toggleTicketStatusMenu(toggle) {
@@ -787,8 +790,12 @@ function toggleTicketStatusMenu(toggle) {
   if (!combobox || !suggestions) return;
   const opening = suggestions.hidden;
   closeTicketStatusMenus(combobox);
+  closeApplicationStatusMenus();
   suggestions.hidden = !opening;
   toggle.setAttribute("aria-expanded", String(opening));
+  combobox.classList.toggle("status-menu-active", opening);
+  combobox.closest(".ticket-row")?.classList.toggle("status-menu-active", opening);
+  syncStatusMenuBackdrop();
 }
 
 function updateSummary() {
@@ -899,7 +906,10 @@ function closeApplicationStatusMenus(except = null) {
     const suggestions = combobox.querySelector(".ticket-status-suggestions");
     suggestions.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
+    combobox.classList.remove("status-menu-active");
+    combobox.closest(".application-row")?.classList.remove("status-menu-active");
   });
+  syncStatusMenuBackdrop();
 }
 
 function toggleApplicationStatusMenu(toggle) {
@@ -908,8 +918,16 @@ function toggleApplicationStatusMenu(toggle) {
   if (!combobox || !suggestions) return;
   const opening = suggestions.hidden;
   closeApplicationStatusMenus(combobox);
+  closeTicketStatusMenus();
   suggestions.hidden = !opening;
   toggle.setAttribute("aria-expanded", String(opening));
+  combobox.classList.toggle("status-menu-active", opening);
+  combobox.closest(".application-row")?.classList.toggle("status-menu-active", opening);
+  syncStatusMenuBackdrop();
+}
+
+function syncStatusMenuBackdrop() {
+  document.body.classList.toggle("status-menu-open", Boolean(document.querySelector(".ticket-status-suggestions:not([hidden])")));
 }
 
 function detailField(label, value, full = false) {

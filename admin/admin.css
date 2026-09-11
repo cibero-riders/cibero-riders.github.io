@@ -126,6 +126,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .application-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; align-items: stretch; width: 100%; overflow: visible; border: 1px solid #a978a62f; border-radius: 13px; background: #24102ddb; transition: border-color .18s ease, transform .18s ease, background .18s ease, box-shadow .18s ease; }
 .application-row:hover { transform: translateY(-2px); border-color: var(--line); background: #32153c; }
 .application-row.selected { border-color: #f0c75a; background: linear-gradient(135deg, #4a2937, #32153c); box-shadow: 0 0 0 3px #dfb34b12; }
+.application-row.status-menu-active, .ticket-row.status-menu-active { position: relative; z-index: 60; transform: none; }
 .row-selector { display: grid; place-items: center; border-right: 1px solid #a978a62f; cursor: pointer; }
 .application-open { display: grid; grid-template-columns: 112px 100px minmax(180px, 1.2fr) minmax(140px, .8fr) 30px; align-items: center; gap: 15px; width: 100%; padding: 16px 18px; border: 0; background: transparent; color: var(--cream); text-align: left; }
 .application-status-combobox { align-self: center; z-index: 3; margin-right: 18px; }
@@ -152,6 +153,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .ticket-status-suggestions button { display: block; width: 100%; padding: 10px 11px; border: 0; border-radius: 7px; background: transparent; color: #fff1c5; font-family: inherit; font-size: 13px; font-weight: 700; text-align: left; }
 .ticket-status-suggestions button:hover, .ticket-status-suggestions button:focus-visible { outline: 0; background: #69461f; color: #fff8e4; }
 .ticket-status-suggestions button:disabled { cursor: wait; opacity: .65; }
+body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index: 50; background: #08020c9e; backdrop-filter: blur(2px); }
+.ticket-status-combobox.status-menu-active { z-index: 70; }
+.ticket-status-suggestions { z-index: 71; }
 .status-pill[data-status="new"] { border-color: #e7bd5370; color: #ffe69b !important; background: #6c461e88; }
 .status-pill[data-status="activated"] { border-color: #6dd2a36b; color: #baf1d6 !important; background: #1b5b4688; }
 .status-pill[data-status="rejected"] { border-color: #e88d996b; color: #ffc6cc !important; background: #682f3a88; }
@@ -291,14 +295,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .selection-toolbar { margin-inline: 17px; align-items: stretch; flex-direction: column; }
   .selection-toolbar .danger-button { width: 100%; }
   .application-row { grid-template-columns: 35px minmax(0, 1fr) auto; }
-  .application-open { grid-template-columns: 72px 1fr 24px; gap: 9px; padding: 14px 11px; }
+  .application-open { grid-template-columns: 72px minmax(0, 1fr); gap: 9px; padding: 14px 11px; }
   .applications-list { padding: 0 17px 20px; }
   .dashboard-feedback { margin-inline: 17px; }
   .application-row .platform { grid-column: 1; }
   .application-row .identity { grid-column: 2; }
   .application-row .date { grid-column: 1; grid-row: 2; }
   .application-row .city { grid-column: 2; }
-  .application-row .arrow { grid-column: 3; grid-row: 1 / span 3; }
+  .application-row .arrow { display: none; }
   .detail-grid { grid-template-columns: 1fr; }
   .detail-field.full { grid-column: auto; }
   .ticket-toolbar { grid-template-columns: 1fr; }
