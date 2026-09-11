@@ -27,7 +27,8 @@ grant select, update on public.admin_alerts to authenticated;
 drop policy if exists "Admins can read alerts" on public.admin_alerts;
 create policy "Admins can read alerts" on public.admin_alerts for select to authenticated
   using (public.is_cibero_admin());
-drop policy if exists "Admins can update alerts" on public.admin_alerts for update to authenticated
+drop policy if exists "Admins can update alerts" on public.admin_alerts;
+create policy "Admins can update alerts" on public.admin_alerts for update to authenticated
   using (public.is_cibero_admin()) with check (public.is_cibero_admin());
 
 create or replace function public.release_stale_subfleet_claims()
