@@ -683,6 +683,11 @@ function rememberOpened(id, ids, storageKey) {
   localStorage.setItem(storageKey, JSON.stringify([...ids]));
 }
 
+function forgetOpened(id, ids, storageKey) {
+  ids.delete(id);
+  localStorage.setItem(storageKey, JSON.stringify([...ids]));
+}
+
 function showLogin(message = "") {
   sessionLoading.hidden = true;
   loginView.hidden = false;
@@ -731,7 +736,7 @@ async function openAccessProfile(user, requestedRole = "") {
     return false;
   }
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=2");
+    subfleetPortal ??= await import("./subfleet.js?v=3");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
@@ -1178,9 +1183,11 @@ async function saveApplication(item) {
   button.disabled = true;
   feedback.textContent = "Se salvează…";
 
+  const applicationUpdate = { status, admin_notes: adminNotes || null };
+  if (status === "new") applicationUpdate.opened_at = null;
   const { data, error } = await supabase
     .from("applications")
-    .update({ status, admin_notes: adminNotes || null })
+    .update(applicationUpdate)
     .eq("id", item.id)
     .select()
     .single();
@@ -1193,6 +1200,7 @@ async function saveApplication(item) {
   }
 
   applications = applications.map(application => application.id === data.id ? data : application);
+  if (status === "new") forgetOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
   feedback.style.color = "var(--success)";
   feedback.textContent = "Modificările au fost salvate.";
   updateSummary();
@@ -1208,9 +1216,11 @@ async function updateApplicationStatus(id, status, control) {
   dashboardFeedback.classList.remove("success");
   dashboardFeedback.textContent = `Se schimbă statusul în „${statusLabels[status]}”…`;
 
+  const applicationUpdate = { status };
+  if (status === "new") applicationUpdate.opened_at = null;
   const { data, error } = await supabase
     .from("applications")
-    .update({ status })
+    .update(applicationUpdate)
     .eq("id", item.id)
     .select()
     .single();
@@ -1223,6 +1233,7 @@ async function updateApplicationStatus(id, status, control) {
   }
 
   applications = applications.map(application => application.id === data.id ? data : application);
+  if (status === "new") forgetOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
   dashboardFeedback.classList.add("success");
   dashboardFeedback.textContent = `Status actualizat: ${statusLabels[status]}.`;
   updateSummary();
@@ -1378,9 +1389,11 @@ async function updateTicketStatus(id, status, control) {
   ticketsFeedback.classList.remove("success");
   ticketsFeedback.textContent = `Se schimbă statusul în „${ticketStatusLabels[status]}”…`;
 
+  const ticketUpdate = { status };
+  if (status === "new") ticketUpdate.opened_at = null;
   const { data, error } = await supabase
     .from("tickets")
-    .update({ status })
+    .update(ticketUpdate)
     .eq("id", item.id)
     .select("*, ticket_files(*)")
     .single();
@@ -1393,6 +1406,7 @@ async function updateTicketStatus(id, status, control) {
   }
 
   tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
+  if (status === "new") forgetOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
   ticketsFeedback.classList.add("success");
   ticketsFeedback.textContent = `Status actualizat: ${ticketStatusLabels[status]}.`;
   updateTicketSummary();
@@ -1442,7 +1456,9 @@ async function saveTicket(item) {
   const adminNotes = ticketAdminDetails.querySelector("#ticket-detail-notes").value.trim();
   button.disabled = true;
   feedback.textContent = "Se salvează…";
-  const { data, error } = await supabase.from("tickets").update({ status, admin_notes: adminNotes || null }).eq("id", item.id).select("*, ticket_files(*)").single();
+  const ticketUpdate = { status, admin_notes: adminNotes || null };
+  if (status === "new") ticketUpdate.opened_at = null;
+  const { data, error } = await supabase.from("tickets").update(ticketUpdate).eq("id", item.id).select("*, ticket_files(*)").single();
   button.disabled = false;
   if (error) {
     feedback.textContent = "Modificările nu au putut fi salvate.";
@@ -1450,6 +1466,7 @@ async function saveTicket(item) {
     return;
   }
   tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
+  if (status === "new") forgetOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
   feedback.style.color = "var(--success)";
   feedback.textContent = "Modificările au fost salvate.";
   updateTicketSummary();

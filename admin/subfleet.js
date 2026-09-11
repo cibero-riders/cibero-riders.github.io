@@ -107,13 +107,22 @@ function openClaimedMember(id) {
   if (!item) return;
   memberDetails.innerHTML = `<div class="detail-grid">${detailField("Nume complet", `${item.first_name ?? ""} ${item.last_name ?? ""}`)}${detailField("Email", item.email)}${detailField("Telefon", item.phone)}${detailField("Naționalitate", item.nationality)}${detailField("Oraș", item.city)}${detailField("Tip vehicul", item.vehicle)}${detailField("Ce vrei să faci?", item.message, true)}${detailField("Platforme selectate", platformLabel(item.desired_platforms), true)}</div>`;
   memberDialog.showModal();
+  void markMemberRead(item);
+}
+async function markMemberRead(item) {
+  if (item.opened_at) return;
+  const openedAt = new Date().toISOString();
+  claimed = claimed.map(member => member.id === item.id ? { ...member, opened_at: openedAt } : member);
+  render();
+  const { error } = await supabase.from("applications").update({ opened_at: openedAt }).eq("id", item.id);
+  if (error) { console.warn("Marcajul de citire nu a putut fi salvat.", error); }
 }
 function render() {
   const rows = activeTab === "pool" ? pool : activeTab === "claimed" ? filteredClaimed() : tickets.filter(ticketMatchesActiveView);
   empty.hidden = rows.length > 0;
   if (activeTab === "pool") list.innerHTML = rows.map(item => `<article class="subfleet-row"><div><h3>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</h3><p><strong>${escapeHtml(item.city)}</strong> · ${escapeHtml(item.nationality || "Naționalitate neprecizată")}</p><small>${escapeHtml(courierTypeLabels[item.courier_type] ?? item.courier_type)} · ${escapeHtml(item.vehicle || "Vehicul neprecizat")} · ${escapeHtml(platformLabel(item.desired_platforms))} · ${escapeHtml(formatDate(item.created_at))}</small></div><button class="primary-button subfleet-claim" type="button" data-claim-id="${escapeHtml(item.id)}">Revendică membrul</button></article>`).join("");
-  else if (activeTab === "claimed") { renderStatusTabs(); list.innerHTML = rows.map(item => `<article class="subfleet-row claimed-member-row"><button class="subfleet-member-open" type="button" data-member-id="${escapeHtml(item.id)}"><span><strong>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong><small>${escapeHtml(item.email)} · ${escapeHtml(item.phone)} · ${escapeHtml(item.city)}</small><small>${escapeHtml(platformLabel(item.desired_platforms))} · revendicat ${escapeHtml(formatDate(item.claimed_at))}</small></span><b aria-hidden="true">→</b></button><select data-application-status="${escapeHtml(item.id)}">${Object.entries(applicationStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
-  else { renderTicketNavigation(); list.innerHTML = rows.map(item => `<article class="subfleet-row"><div><h3>${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</h3><p><strong>${escapeHtml(item.category)}</strong> · ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)} · ${escapeHtml(item.email)}</p><small>#${escapeHtml(item.id.slice(0, 8).toUpperCase())} · ${escapeHtml(formatDate(item.created_at))}</small></div><select data-ticket-status="${escapeHtml(item.id)}">${Object.entries(ticketStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
+  else if (activeTab === "claimed") { renderStatusTabs(); list.innerHTML = rows.map(item => `<article class="subfleet-row claimed-member-row${item.opened_at ? "" : " unread"}"><button class="subfleet-member-open" type="button" data-member-id="${escapeHtml(item.id)}"><span><strong>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong><small>${escapeHtml(item.email)} · ${escapeHtml(item.phone)} · ${escapeHtml(item.city)}</small><small>${escapeHtml(platformLabel(item.desired_platforms))} · revendicat ${escapeHtml(formatDate(item.claimed_at))}</small></span><b aria-hidden="true">→</b></button><select data-application-status="${escapeHtml(item.id)}">${Object.entries(applicationStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
+  else { renderTicketNavigation(); list.innerHTML = rows.map(item => `<article class="subfleet-row${item.opened_at ? "" : " unread"}"><div><h3>${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</h3><p><strong>${escapeHtml(item.category)}</strong> · ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)} · ${escapeHtml(item.email)}</p><small>#${escapeHtml(item.id.slice(0, 8).toUpperCase())} · ${escapeHtml(formatDate(item.created_at))}</small></div><select data-ticket-status="${escapeHtml(item.id)}">${Object.entries(ticketStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
   empty.textContent = activeTab === "tickets" ? "Nu există tickete în categoria selectată." : activeTab === "claimed" ? "Nu există membri cu statusul selectat." : "Nu sunt membri disponibili în acest moment.";
   list.querySelectorAll("[data-claim-id]").forEach(button => button.addEventListener("click", () => claim(button.dataset.claimId, button)));
   list.querySelectorAll("[data-member-id]").forEach(button => button.addEventListener("click", () => openClaimedMember(button.dataset.memberId)));
@@ -128,7 +137,9 @@ async function claim(id, button) {
 }
 async function updateStatus(table, id, status) {
   setFeedback("Se actualizează statusul…");
-  const { error } = await supabase.from(table).update({ status }).eq("id", id);
+  const update = { status };
+  if (status === "new") update.opened_at = null;
+  const { error } = await supabase.from(table).update(update).eq("id", id);
   if (error) { console.error(error); setFeedback("Statusul nu a putut fi actualizat."); return; }
   setFeedback("Status actualizat.", true); await load();
 }
