@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=30" />
+  <link rel="stylesheet" href="admin.css?v=31" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -51,17 +51,9 @@
     </section>
 
     <section id="dashboard-view" class="dashboard" hidden>
-      <div class="dashboard-heading admin-dashboard-heading">
-        <div><p class="eyebrow">CibeRO Management</p><h1>Panou administrativ</h1><p>Centralizează activările, solicitările curierilor și operațiunile zilnice.</p></div>
-        <div class="admin-dashboard-status"><span>SPAȚIU ACTIV</span><strong>Administrare</strong></div>
-      </div>
-
-      <div class="admin-workspace-nav">
-        <p>Zone de lucru</p>
-        <div class="admin-space-tabs" role="tablist" aria-label="Spații principale">
-          <button class="active" type="button" role="tab" aria-selected="true" data-admin-area="cibero">CibeRO</button>
-          <button type="button" role="tab" aria-selected="false" data-admin-area="subfleets">Sub-Flote</button>
-        </div>
+      <div class="admin-space-tabs admin-workspace-switch" role="tablist" aria-label="Spații principale">
+        <button class="active" type="button" role="tab" aria-selected="true" data-admin-area="cibero">CibeRO</button>
+        <button type="button" role="tab" aria-selected="false" data-admin-area="subfleets">Sub-Flote</button>
       </div>
       <div id="admin-area-cibero" class="admin-tab-groups" role="tablist" aria-label="Control CibeRO">
         <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-area="cibero" data-admin-section="applications-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Deschideri Cont</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
