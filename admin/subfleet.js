@@ -124,7 +124,7 @@ function selectTab(tab) {
   activeTab = tab;
   tabs.forEach(button => button.classList.toggle("active", button.dataset.subfleetTab === tab));
   const copy = {
-    pool: ["Pool privat", "Membri disponibili", "Datele de contact devin vizibile doar după revendicare."],
+    pool: ["Pool privat", "Activări disponibile", "Datele de contact devin vizibile doar după revendicare."],
     claimed: ["Portofoliu sub-flotă", "Membrii mei", "Ai acces la datele complete doar pentru persoanele revendicate de sub-flota ta."],
     tickets: ["Suport direcționat", "Tickete direcționate", "Aici ajung automat ticketele membrilor revendicați."],
   }[tab];
