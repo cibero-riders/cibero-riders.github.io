@@ -89,7 +89,7 @@ begin
     execute $sql$select cron.unschedule(jobid) from cron.job where jobname = 'cibero-release-stale-subfleet-claims'$sql$;
     execute $sql$select cron.schedule('cibero-release-stale-subfleet-claims', '*/15 * * * *', 'select public.release_stale_subfleet_claims()')$sql$;
   end if;
-exception when undefined_schema then
+exception when invalid_schema_name then
   null;
 end;
 $cron$;
