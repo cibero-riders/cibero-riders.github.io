@@ -853,9 +853,16 @@ function renderApplications() {
         <span class="platform">${escapeHtml(applicationPlatformLabel(item.platform))}</span>
         <strong class="identity">${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong>
         <span class="city">${escapeHtml(item.city)}</span>
-        <span class="status-pill" data-status="${escapeHtml(item.status)}">${escapeHtml(statusLabels[item.status] ?? item.status)}</span>
         <span class="arrow" aria-hidden="true">→</span>
       </button>
+      <div class="ticket-status-combobox application-status-combobox" data-application-status-combobox>
+        <button class="ticket-status-toggle status-pill" type="button" data-application-status-toggle data-status="${escapeHtml(item.status)}" aria-haspopup="listbox" aria-expanded="false" aria-label="Schimbă statusul cererii lui ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}">
+          <span>${escapeHtml(statusLabels[item.status] ?? item.status)}</span><b aria-hidden="true">⌄</b>
+        </button>
+        <span class="ticket-status-suggestions" role="listbox" hidden>
+          ${Object.entries(statusLabels).filter(([value]) => value !== item.status).map(([value, label]) => `<button type="button" role="option" data-application-status-option="${escapeHtml(item.id)}" data-application-status-value="${escapeHtml(value)}">${escapeHtml(label)}</button>`).join("")}
+        </span>
+      </div>
     </div>
   `).join("");
 
@@ -873,7 +880,36 @@ function renderApplications() {
   applicationsList.querySelectorAll("[data-application-id]").forEach(button => {
     button.addEventListener("click", () => openApplication(button.dataset.applicationId));
   });
+  applicationsList.querySelectorAll("[data-application-status-toggle]").forEach(button => button.addEventListener("click", event => {
+    event.stopPropagation();
+    toggleApplicationStatusMenu(button);
+  }));
+  applicationsList.querySelectorAll("[data-application-status-option]").forEach(button => button.addEventListener("click", event => {
+    event.stopPropagation();
+    closeApplicationStatusMenus();
+    updateApplicationStatus(button.dataset.applicationStatusOption, button.dataset.applicationStatusValue, button);
+  }));
   updateSelectionControls(rows);
+}
+
+function closeApplicationStatusMenus(except = null) {
+  applicationsList.querySelectorAll("[data-application-status-combobox]").forEach(combobox => {
+    if (combobox === except) return;
+    const toggle = combobox.querySelector("[data-application-status-toggle]");
+    const suggestions = combobox.querySelector(".ticket-status-suggestions");
+    suggestions.hidden = true;
+    toggle.setAttribute("aria-expanded", "false");
+  });
+}
+
+function toggleApplicationStatusMenu(toggle) {
+  const combobox = toggle.closest("[data-application-status-combobox]");
+  const suggestions = combobox?.querySelector(".ticket-status-suggestions");
+  if (!combobox || !suggestions) return;
+  const opening = suggestions.hidden;
+  closeApplicationStatusMenus(combobox);
+  suggestions.hidden = !opening;
+  toggle.setAttribute("aria-expanded", String(opening));
 }
 
 function detailField(label, value, full = false) {
@@ -966,6 +1002,36 @@ async function saveApplication(item) {
   applications = applications.map(application => application.id === data.id ? data : application);
   feedback.style.color = "var(--success)";
   feedback.textContent = "Modificările au fost salvate.";
+  updateSummary();
+  renderApplications();
+}
+
+async function updateApplicationStatus(id, status, control) {
+  const item = applications.find(application => application.id === id);
+  if (!item || control.disabled || !statusLabels[status] || status === item.status) return;
+
+  const statusControls = [...(control.closest("[data-application-status-combobox]")?.querySelectorAll("button") ?? [])];
+  statusControls.forEach(button => { button.disabled = true; });
+  dashboardFeedback.classList.remove("success");
+  dashboardFeedback.textContent = `Se schimbă statusul în „${statusLabels[status]}”…`;
+
+  const { data, error } = await supabase
+    .from("applications")
+    .update({ status })
+    .eq("id", item.id)
+    .select()
+    .single();
+
+  if (error) {
+    statusControls.forEach(button => { button.disabled = false; });
+    dashboardFeedback.textContent = "Statusul cererii nu a putut fi actualizat.";
+    console.error(error);
+    return;
+  }
+
+  applications = applications.map(application => application.id === data.id ? data : application);
+  dashboardFeedback.classList.add("success");
+  dashboardFeedback.textContent = `Status actualizat: ${statusLabels[status]}.`;
   updateSummary();
   renderApplications();
 }
@@ -1383,9 +1449,13 @@ platformTabs.forEach(tab => {
 });
 document.addEventListener("click", event => {
   if (!event.target.closest("[data-ticket-status-combobox]")) closeTicketStatusMenus();
+  if (!event.target.closest("[data-application-status-combobox]")) closeApplicationStatusMenus();
 });
 document.addEventListener("keydown", event => {
-  if (event.key === "Escape") closeTicketStatusMenus();
+  if (event.key === "Escape") {
+    closeTicketStatusMenus();
+    closeApplicationStatusMenus();
+  }
 });
 
 const { data: { session } } = await supabase.auth.getSession();

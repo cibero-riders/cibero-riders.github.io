@@ -68,6 +68,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .tab-icon { display: grid; width: 35px; height: 35px; flex: 0 0 35px; place-items: center; border: 1px solid var(--line); border-radius: 9px; color: var(--gold); font-family: Cinzel, serif; font-size: 23px; }
 
 .admin-section-panel { overflow: hidden; }
+#applications-panel { overflow: visible; }
 #tickets-panel { overflow: visible; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 25px 26px 21px; border-bottom: 1px solid #dcb44d29; }
 .section-heading h2 { font-size: clamp(22px, 3vw, 31px); }
@@ -122,11 +123,12 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .dashboard-feedback { margin: 0 26px 14px; }
 .dashboard-feedback.success { color: var(--success); }
 .applications-list { display: grid; gap: 11px; padding: 0 26px 26px; }
-.application-row { display: grid; grid-template-columns: 38px minmax(0, 1fr); align-items: stretch; width: 100%; overflow: hidden; border: 1px solid #a978a62f; border-radius: 13px; background: #24102ddb; transition: border-color .18s ease, transform .18s ease, background .18s ease, box-shadow .18s ease; }
+.application-row { display: grid; grid-template-columns: 38px minmax(0, 1fr) auto; align-items: stretch; width: 100%; overflow: visible; border: 1px solid #a978a62f; border-radius: 13px; background: #24102ddb; transition: border-color .18s ease, transform .18s ease, background .18s ease, box-shadow .18s ease; }
 .application-row:hover { transform: translateY(-2px); border-color: var(--line); background: #32153c; }
 .application-row.selected { border-color: #f0c75a; background: linear-gradient(135deg, #4a2937, #32153c); box-shadow: 0 0 0 3px #dfb34b12; }
 .row-selector { display: grid; place-items: center; border-right: 1px solid #a978a62f; cursor: pointer; }
-.application-open { display: grid; grid-template-columns: 112px 100px minmax(180px, 1.2fr) minmax(140px, .8fr) 170px 30px; align-items: center; gap: 15px; width: 100%; padding: 16px 18px; border: 0; background: transparent; color: var(--cream); text-align: left; }
+.application-open { display: grid; grid-template-columns: 112px 100px minmax(180px, 1.2fr) minmax(140px, .8fr) 30px; align-items: center; gap: 15px; width: 100%; padding: 16px 18px; border: 0; background: transparent; color: var(--cream); text-align: left; }
+.application-status-combobox { align-self: center; z-index: 3; margin-right: 18px; }
 .application-row small, .application-row span { color: var(--muted); }
 .application-row strong { font-size: 15px; }
 .application-row .platform { color: var(--gold-light); font-weight: 800; text-transform: uppercase; }
@@ -141,6 +143,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .status-pill { display: inline-flex; width: fit-content; border: 1px solid #bb91bd52; border-radius: 999px; padding: 5px 9px; color: #eadcea !important; background: #4a2253; font-size: 11px; font-weight: 800; }
 .ticket-status-combobox { position: relative; min-width: 154px; }
 .ticket-status-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 34px; padding: 7px 11px; cursor: pointer; transition: border-color .18s ease, background .18s ease, box-shadow .18s ease; }
+.ticket-status-toggle > span { color: inherit !important; }
 .ticket-status-toggle b { color: var(--gold-light); font-size: 15px; line-height: 1; transition: transform .16s ease; }
 .ticket-status-toggle[aria-expanded="true"], .ticket-status-toggle:hover, .ticket-status-toggle:focus-visible { border-color: #ffe491; box-shadow: 0 0 0 3px #e9bd4c1c, 0 7px 16px #07020a67; outline: 0; }
 .ticket-status-toggle[aria-expanded="true"] b { transform: rotate(180deg); }
@@ -249,7 +252,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .toolbar { grid-template-columns: 1fr 1fr; }
   .toolbar label:first-child { grid-column: 1 / -1; }
   .application-open { grid-template-columns: 86px 78px 1fr 24px; }
-  .application-row .city, .application-row .status-pill { grid-column: 3; }
+  .application-row .city { grid-column: 3; }
   .ticket-toolbar { grid-template-columns: 1fr 1fr; }
   .ticket-row { grid-template-columns: minmax(0, 1fr) auto; }
   .ticket-open { grid-template-columns: 88px 105px 1fr 25px; }
@@ -287,14 +290,14 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .toolbar label:first-child { grid-column: auto; }
   .selection-toolbar { margin-inline: 17px; align-items: stretch; flex-direction: column; }
   .selection-toolbar .danger-button { width: 100%; }
-  .application-row { grid-template-columns: 35px minmax(0, 1fr); }
+  .application-row { grid-template-columns: 35px minmax(0, 1fr) auto; }
   .application-open { grid-template-columns: 72px 1fr 24px; gap: 9px; padding: 14px 11px; }
   .applications-list { padding: 0 17px 20px; }
   .dashboard-feedback { margin-inline: 17px; }
   .application-row .platform { grid-column: 1; }
   .application-row .identity { grid-column: 2; }
   .application-row .date { grid-column: 1; grid-row: 2; }
-  .application-row .city, .application-row .status-pill { grid-column: 2; }
+  .application-row .city { grid-column: 2; }
   .application-row .arrow { grid-column: 3; grid-row: 1 / span 3; }
   .detail-grid { grid-template-columns: 1fr; }
   .detail-field.full { grid-column: auto; }
@@ -307,6 +310,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
   .ticket-open .platform, .ticket-open .ticket-type { grid-column: 2; }
   .ticket-open .arrow { grid-column: 3; grid-row: 1 / span 4; }
   .ticket-status-combobox { min-width: 122px; }
+  .application-status-combobox { margin-right: 11px; }
   .ticket-status-toggle { min-height: 32px; padding-inline: 9px; }
   #ticket-admin-details { padding: 20px 17px 24px; }
   .ticket-files { grid-template-columns: 1fr; }
