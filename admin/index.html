@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=36" />
+  <link rel="stylesheet" href="admin.css?v=37" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -71,17 +71,17 @@
         </div>
 
         <div class="registration-navigation" role="tablist" aria-label="Tip de înregistrare">
-          <button class="registration-tab active" type="button" role="tab" aria-selected="true" data-registration-view="all">Toate înregistrările</button>
-          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="pfa">PFA</button>
-          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="srl">SRL</button>
-          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="subfleets">Sub-Flote</button>
-          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="account_requests">Cereri Wolt/Glovo</button>
+          <button class="registration-tab active" type="button" role="tab" aria-selected="true" data-registration-view="all">Toate înregistrările <span class="unread-badge" hidden>0</span></button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="pfa">PFA <span class="unread-badge" hidden>0</span></button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="srl">SRL <span class="unread-badge" hidden>0</span></button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="subfleets">Sub-Flote <span class="unread-badge" hidden>0</span></button>
+          <button class="registration-tab" type="button" role="tab" aria-selected="false" data-registration-view="account_requests">Cereri Wolt/Glovo <span class="unread-badge" hidden>0</span></button>
         </div>
 
         <div id="account-request-platform-tabs" class="platform-tabs registration-platform-tabs" role="tablist" aria-label="Platformă cerere de deschidere cont" hidden>
-          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-platform-tab="all">Toate</button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="wolt">Wolt</button>
-          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="glovo">Glovo</button>
+          <button class="platform-tab active" type="button" role="tab" aria-selected="true" data-platform-tab="all">Toate <span class="unread-badge" hidden>0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="wolt">Wolt <span class="unread-badge" hidden>0</span></button>
+          <button class="platform-tab" type="button" role="tab" aria-selected="false" data-platform-tab="glovo">Glovo <span class="unread-badge" hidden>0</span></button>
         </div>
 
         <div class="summary-grid" aria-label="Rezumat cereri pentru platforma selectată">
@@ -119,10 +119,10 @@
 
         <div class="ticket-navigation" aria-label="Organizare tickete">
           <div class="ticket-workspace-tabs" role="tablist" aria-label="Arie de ticket">
-            <button class="ticket-workspace-tab active" type="button" role="tab" aria-selected="true" data-ticket-workspace="platforms">Platforme</button>
-            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="reports">Rapoarte și Plăți</button>
-            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="administrative">Administrativ</button>
-            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="reimbursement">5% Decontare</button>
+            <button class="ticket-workspace-tab active" type="button" role="tab" aria-selected="true" data-ticket-workspace="platforms">Platforme <span class="unread-badge" hidden>0</span></button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="reports">Rapoarte și Plăți <span class="unread-badge" hidden>0</span></button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="administrative">Administrativ <span class="unread-badge" hidden>0</span></button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="reimbursement">5% Decontare <span class="unread-badge" hidden>0</span></button>
           </div>
           <div id="ticket-category-tabs" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Tip ticket"></div>
           <div id="ticket-type-tabs" class="ticket-type-tabs" role="tablist" aria-label="Opțiune ticket" hidden></div>
@@ -264,6 +264,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=34"></script>
+  <script type="module" src="admin.js?v=35"></script>
 </body>
 </html>

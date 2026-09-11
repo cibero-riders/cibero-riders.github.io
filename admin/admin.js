@@ -316,6 +316,14 @@ function updatePrimaryUnreadBadge(sectionId, badge, unreadCount) {
   tab.classList.toggle("has-unread", unreadCount > 0);
 }
 
+function updateTabUnreadBadge(tab, unreadCount) {
+  const badge = tab.querySelector(".unread-badge");
+  if (!badge) return;
+  badge.textContent = unreadCount;
+  badge.hidden = unreadCount === 0;
+  tab.classList.toggle("has-unread", unreadCount > 0);
+}
+
 function ticketViewById(viewId) {
   return ticketViews.find(view => view.id === viewId) ?? ticketViews[0];
 }
@@ -369,9 +377,11 @@ function setActiveTicketView(viewId, persist = true) {
 
 function renderTicketNavigation() {
   ticketWorkspaceTabs.forEach(tab => {
-    const active = tab.dataset.ticketWorkspace === activeTicketWorkspace;
+    const workspace = tab.dataset.ticketWorkspace;
+    const active = workspace === activeTicketWorkspace;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
+    updateTabUnreadBadge(tab, tickets.filter(item => ticketViews.some(view => view.workspace === workspace && view.matches(item)) && !isTicketRead(item)).length);
   });
   const workspaceViews = ticketViews.filter(view => view.workspace === activeTicketWorkspace);
   ticketCategoryTabsContainer.innerHTML = workspaceViews.map(view => {
@@ -989,10 +999,16 @@ function toggleTicketStatusMenu(toggle) {
 function updateSummary() {
   const visibleApplications = applications.filter(matchesActiveRegistrationView);
   accountRequestPlatformTabs.hidden = activeRegistrationView !== "account_requests";
+  registrationTabs.forEach(tab => {
+    const view = tab.dataset.registrationView;
+    updateTabUnreadBadge(tab, applications.filter(item => matchesRegistrationView(item, view) && !isApplicationRead(item)).length);
+  });
   platformTabs.forEach(tab => {
-    const active = tab.dataset.platformTab === activePlatform;
+    const platform = tab.dataset.platformTab;
+    const active = platform === activePlatform;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
+    updateTabUnreadBadge(tab, applications.filter(item => matchesRegistrationView(item, "account_requests", platform) && !isApplicationRead(item)).length);
   });
   document.querySelector("#total-count").textContent = visibleApplications.length;
   document.querySelector("#new-count").textContent = visibleApplications.filter(item => item.status === "new").length;
@@ -1009,6 +1025,14 @@ function isSubfleetRegistration(item) {
   return isSocialRegistration(item) && ["new_courier", "experienced_courier"].includes(item.courier_type);
 }
 
+function matchesRegistrationView(item, view, platform = "all") {
+  if (view === "all") return isSocialRegistration(item);
+  if (view === "pfa") return isSocialRegistration(item) && item.courier_type === "pfa";
+  if (view === "srl") return isSocialRegistration(item) && item.courier_type === "srl";
+  if (view === "subfleets") return isSubfleetRegistration(item);
+  return ["wolt", "glovo"].includes(item.platform) && (platform === "all" || item.platform === platform);
+}
+
 function applicationTypeLabel(item) {
   if (!isSocialRegistration(item)) return applicationPlatformLabel(item.platform);
   return ({ new_courier: "Curier nou", experienced_courier: "Curier cu experiență", pfa: "PFA", srl: "SRL" })[item.courier_type] ?? "Înregistrare";
@@ -1019,11 +1043,7 @@ function registrationViewLabel() {
 }
 
 function matchesActiveRegistrationView(item) {
-  if (activeRegistrationView === "all") return isSocialRegistration(item);
-  if (activeRegistrationView === "pfa") return isSocialRegistration(item) && item.courier_type === "pfa";
-  if (activeRegistrationView === "srl") return isSocialRegistration(item) && item.courier_type === "srl";
-  if (activeRegistrationView === "subfleets") return isSubfleetRegistration(item);
-  return ["wolt", "glovo"].includes(item.platform) && (activePlatform === "all" || item.platform === activePlatform);
+  return matchesRegistrationView(item, activeRegistrationView, activePlatform);
 }
 
 function filteredApplications() {
