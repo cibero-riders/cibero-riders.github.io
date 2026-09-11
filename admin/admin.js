@@ -88,6 +88,7 @@ const cancelDeleteButton = document.querySelector("#cancel-delete-button");
 const confirmDeleteButton = document.querySelector("#confirm-delete-button");
 const deleteFeedback = document.querySelector("#delete-feedback");
 const adminSectionTabs = [...document.querySelectorAll("[data-admin-section]")];
+const adminAreaTabs = [...document.querySelectorAll("[data-admin-area]:not([data-admin-section])")];
 const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
 const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
@@ -114,6 +115,9 @@ const createSubfleetAccountForm = document.querySelector("#create-subfleet-accou
 const subfleetAccountFleet = document.querySelector("#subfleet-account-fleet");
 const subfleetsFeedback = document.querySelector("#subfleets-feedback");
 const subfleetsList = document.querySelector("#subfleets-list");
+const subfleetRegistrationsList = document.querySelector("#subfleet-registrations-list");
+const subfleetRegistrationsEmpty = document.querySelector("#subfleet-registrations-empty");
+const refreshSubfleetRegistrationsButton = document.querySelector("#refresh-subfleet-registrations");
 
 let applications = [];
 let activePlatform = "wolt";
@@ -132,6 +136,7 @@ let adminRealtimeChannel = null;
 let subfleetPortal = null;
 let subfleets = [];
 let subfleetAccounts = [];
+let activeAdminArea = "cibero";
 const openedTicketStorageKey = "cibero-opened-ticket-ids";
 const openedApplicationStorageKey = "cibero-opened-application-ids";
 
@@ -265,6 +270,15 @@ function setActiveAdminSection(sectionId, persist = true) {
   const requested = adminSectionTabs.some(tab => tab.dataset.adminSection === sectionId)
     ? sectionId
     : "applications-panel";
+  const selectedTab = adminSectionTabs.find(tab => tab.dataset.adminSection === requested);
+  activeAdminArea = selectedTab?.dataset.adminArea ?? "cibero";
+  adminAreaTabs.forEach(tab => {
+    const active = tab.dataset.adminArea === activeAdminArea;
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+  document.querySelector("#admin-area-cibero").hidden = activeAdminArea !== "cibero";
+  document.querySelector("#admin-area-subfleets").hidden = activeAdminArea !== "subfleets";
   adminSectionTabs.forEach(tab => {
     const active = tab.dataset.adminSection === requested;
     tab.classList.toggle("active", active);
@@ -272,6 +286,12 @@ function setActiveAdminSection(sectionId, persist = true) {
     document.querySelector(`#${tab.dataset.adminSection}`).hidden = !active;
   });
   if (persist) writeAdminPreference("active-section", requested);
+}
+
+function setActiveAdminArea(area) {
+  const nextArea = area === "subfleets" ? "subfleets" : "cibero";
+  setActiveAdminSection(nextArea === "subfleets" ? "subfleet-registrations-panel" : "applications-panel");
+  if (nextArea === "subfleets") { void loadSubfleets(); renderSubfleetRegistrations(); }
 }
 
 function updatePrimaryUnreadBadge(sectionId, badge, unreadCount) {
@@ -730,6 +750,13 @@ function renderSubfleets() {
   }).join("") || `<p class="empty-state">Nu există încă sub-flote.</p>`;
 }
 
+function renderSubfleetRegistrations() {
+  const rows = applications.filter(item => item.platform === "social_media" && item.application_type === "social_registration");
+  const names = new Map(subfleets.map(item => [item.id, item.name]));
+  subfleetRegistrationsList.innerHTML = rows.map(item => `<article class="subfleet-row"><div><h3>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</h3><p><strong>${escapeHtml(item.city)}</strong> · ${escapeHtml(item.email)} · ${escapeHtml(item.phone)}</p><small>${escapeHtml(item.courier_type === "experienced_courier" ? "Curier cu experiență" : item.courier_type === "new_courier" ? "Curier nou" : item.courier_type || "Tip neprecizat")} · ${escapeHtml(names.get(item.subfleet_id) ?? "Neatribuită")} · ${escapeHtml(formatDate(item.created_at))}</small></div><strong>${escapeHtml(statusLabels[item.status] ?? item.status)}</strong></article>`).join("");
+  subfleetRegistrationsEmpty.hidden = rows.length > 0;
+}
+
 async function loadSubfleets() {
   refreshSubfleetsButton.disabled = true;
   const [fleetResult, accountResult] = await Promise.all([
@@ -742,6 +769,7 @@ async function loadSubfleets() {
   subfleets = fleetResult.data ?? [];
   subfleetAccounts = accountResult.data ?? [];
   renderSubfleets();
+  renderSubfleetRegistrations();
 }
 
 async function manageSubfleetAccount(payload) {
@@ -772,6 +800,7 @@ async function loadApplications() {
   dashboardFeedback.textContent = "";
   updateSummary();
   renderApplications();
+  renderSubfleetRegistrations();
 }
 
 async function loadTickets() {
@@ -1475,6 +1504,7 @@ exportButton.addEventListener("click", exportCsv);
 refreshTicketsButton.addEventListener("click", loadTickets);
 exportTicketsButton.addEventListener("click", exportTicketsCsv);
 refreshSubfleetsButton.addEventListener("click", loadSubfleets);
+refreshSubfleetRegistrationsButton.addEventListener("click", loadApplications);
 createSubfleetForm.addEventListener("submit", async event => {
   event.preventDefault();
   const button = createSubfleetForm.querySelector("button[type='submit']");
@@ -1536,6 +1566,7 @@ adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
   if (tab.dataset.adminSection === "subfleets-panel") void loadSubfleets();
 }));
+adminAreaTabs.forEach(tab => tab.addEventListener("click", () => setActiveAdminArea(tab.dataset.adminArea)));
 selectAllApplications.addEventListener("change", () => {
   filteredApplications().forEach(item => {
     if (selectAllApplications.checked) selectedApplicationIds.add(item.id);

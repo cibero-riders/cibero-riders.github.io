@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=28" />
+  <link rel="stylesheet" href="admin.css?v=29" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -55,11 +55,18 @@
         <div><p class="eyebrow">CibeRO Operations</p><h1>Panou administrativ</h1></div>
       </div>
 
-      <div class="admin-tab-groups" role="tablist" aria-label="Zone principale de control">
-        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-section="applications-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Deschideri Cont</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-section="tickets-panel"><span class="tab-icon" aria-hidden="true">✦</span><span><strong>Control Tickete</strong></span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span></button>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-section="availability-panel"><span class="tab-icon" aria-hidden="true">⌖</span><span><strong>Control Operațional</strong></span></button>
-        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="subfleets-panel" data-admin-section="subfleets-panel"><span class="tab-icon" aria-hidden="true">⌘</span><span><strong>Sub-flote</strong></span></button>
+      <div class="admin-space-tabs" role="tablist" aria-label="Spații principale">
+        <button class="active" type="button" role="tab" aria-selected="true" data-admin-area="cibero">CibeRO</button>
+        <button type="button" role="tab" aria-selected="false" data-admin-area="subfleets">Sub-Flote</button>
+      </div>
+      <div id="admin-area-cibero" class="admin-tab-groups" role="tablist" aria-label="Control CibeRO">
+        <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-area="cibero" data-admin-section="applications-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Deschideri Cont</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
+        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-area="cibero" data-admin-section="tickets-panel"><span class="tab-icon" aria-hidden="true">✦</span><span><strong>Control Tickete</strong></span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span></button>
+        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-area="cibero" data-admin-section="availability-panel"><span class="tab-icon" aria-hidden="true">⌖</span><span><strong>Control Operațional</strong></span></button>
+      </div>
+      <div id="admin-area-subfleets" class="admin-tab-groups" role="tablist" aria-label="Control sub-flote" hidden>
+        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="subfleet-registrations-panel" data-admin-area="subfleets" data-admin-section="subfleet-registrations-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Înregistrări</strong></span></button>
+        <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="subfleets-panel" data-admin-area="subfleets" data-admin-section="subfleets-panel"><span class="tab-icon" aria-hidden="true">⌘</span><span><strong>Administrare</strong></span></button>
       </div>
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
         <div class="section-heading">
@@ -205,6 +212,11 @@
         </div>
       </section>
 
+      <section id="subfleet-registrations-panel" class="panel admin-section-panel" role="tabpanel" hidden>
+        <div class="section-heading"><div><p class="eyebrow">Sub-flote · înregistrări</p><h2>Înregistrări</h2><p>Toate înscrierile sociale, cu starea revendicării și sub-flota responsabilă.</p></div><button id="refresh-subfleet-registrations" class="quiet-button" type="button">Actualizează</button></div>
+        <div id="subfleet-registrations-list" class="subfleet-list"></div><p id="subfleet-registrations-empty" class="empty-state" hidden>Nu există încă înregistrări sociale.</p>
+      </section>
+
       <section id="subfleets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
         <div class="section-heading"><div><p class="eyebrow">Administrare acces</p><h2>Sub-flote</h2><p>Creează sub-flote și conturi care pot revendica înregistrări sociale.</p></div><button id="refresh-subfleets" class="quiet-button" type="button">Actualizează</button></div>
         <div class="subfleet-admin-forms">
@@ -245,6 +257,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=28"></script>
+  <script type="module" src="admin.js?v=29"></script>
 </body>
 </html>
