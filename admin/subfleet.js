@@ -138,7 +138,9 @@ async function claim(id, button) {
 async function updateStatus(table, id, status) {
   setFeedback("Se actualizează statusul…");
   const update = { status };
-  if (status === "new") update.opened_at = null;
+  const item = (table === "applications" ? claimed : tickets).find(entry => entry.id === id);
+  if (status === "new" && item?.status !== "new") update.opened_at = null;
+  if (item?.status === "new" && status !== "new") update.opened_at = new Date().toISOString();
   const { error } = await supabase.from(table).update(update).eq("id", id);
   if (error) { console.error(error); setFeedback("Statusul nu a putut fi actualizat."); return; }
   setFeedback("Status actualizat.", true); await load();

@@ -700,6 +700,22 @@ function forgetOpened(id, ids, storageKey) {
   localStorage.setItem(storageKey, JSON.stringify([...ids]));
 }
 
+function readStateUpdateForStatus(previousStatus, nextStatus) {
+  if (nextStatus === "new" && previousStatus !== "new") return { opened_at: null };
+  if (previousStatus === "new" && nextStatus !== "new") return { opened_at: new Date().toISOString() };
+  return {};
+}
+
+function syncApplicationReadState(item) {
+  if (item.opened_at) rememberOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
+  else forgetOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
+}
+
+function syncTicketReadState(item) {
+  if (item.opened_at) rememberOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
+  else forgetOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
+}
+
 function showLogin(message = "") {
   sessionLoading.hidden = true;
   loginView.hidden = false;
@@ -748,7 +764,7 @@ async function openAccessProfile(user, requestedRole = "") {
     return false;
   }
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=4");
+    subfleetPortal ??= await import("./subfleet.js?v=5");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
@@ -1280,8 +1296,7 @@ async function saveApplication(item) {
   button.disabled = true;
   feedback.textContent = "Se salvează…";
 
-  const applicationUpdate = { status, admin_notes: adminNotes || null };
-  if (status === "new") applicationUpdate.opened_at = null;
+  const applicationUpdate = { status, admin_notes: adminNotes || null, ...readStateUpdateForStatus(item.status, status) };
   const { data, error } = await supabase
     .from("applications")
     .update(applicationUpdate)
@@ -1297,7 +1312,7 @@ async function saveApplication(item) {
   }
 
   applications = applications.map(application => application.id === data.id ? data : application);
-  if (status === "new") forgetOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
+  syncApplicationReadState(data);
   feedback.style.color = "var(--success)";
   feedback.textContent = "Modificările au fost salvate.";
   updateSummary();
@@ -1313,8 +1328,7 @@ async function updateApplicationStatus(id, status, control) {
   dashboardFeedback.classList.remove("success");
   dashboardFeedback.textContent = `Se schimbă statusul în „${statusLabels[status]}”…`;
 
-  const applicationUpdate = { status };
-  if (status === "new") applicationUpdate.opened_at = null;
+  const applicationUpdate = { status, ...readStateUpdateForStatus(item.status, status) };
   const { data, error } = await supabase
     .from("applications")
     .update(applicationUpdate)
@@ -1330,7 +1344,7 @@ async function updateApplicationStatus(id, status, control) {
   }
 
   applications = applications.map(application => application.id === data.id ? data : application);
-  if (status === "new") forgetOpened(item.id, locallyOpenedApplicationIds, openedApplicationStorageKey);
+  syncApplicationReadState(data);
   dashboardFeedback.classList.add("success");
   dashboardFeedback.textContent = `Status actualizat: ${statusLabels[status]}.`;
   updateSummary();
@@ -1486,8 +1500,7 @@ async function updateTicketStatus(id, status, control) {
   ticketsFeedback.classList.remove("success");
   ticketsFeedback.textContent = `Se schimbă statusul în „${ticketStatusLabels[status]}”…`;
 
-  const ticketUpdate = { status };
-  if (status === "new") ticketUpdate.opened_at = null;
+  const ticketUpdate = { status, ...readStateUpdateForStatus(item.status, status) };
   const { data, error } = await supabase
     .from("tickets")
     .update(ticketUpdate)
@@ -1503,7 +1516,7 @@ async function updateTicketStatus(id, status, control) {
   }
 
   tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
-  if (status === "new") forgetOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
+  syncTicketReadState(data);
   ticketsFeedback.classList.add("success");
   ticketsFeedback.textContent = `Status actualizat: ${ticketStatusLabels[status]}.`;
   updateTicketSummary();
@@ -1553,8 +1566,7 @@ async function saveTicket(item) {
   const adminNotes = ticketAdminDetails.querySelector("#ticket-detail-notes").value.trim();
   button.disabled = true;
   feedback.textContent = "Se salvează…";
-  const ticketUpdate = { status, admin_notes: adminNotes || null };
-  if (status === "new") ticketUpdate.opened_at = null;
+  const ticketUpdate = { status, admin_notes: adminNotes || null, ...readStateUpdateForStatus(item.status, status) };
   const { data, error } = await supabase.from("tickets").update(ticketUpdate).eq("id", item.id).select("*, ticket_files(*)").single();
   button.disabled = false;
   if (error) {
@@ -1563,7 +1575,7 @@ async function saveTicket(item) {
     return;
   }
   tickets = tickets.map(ticket => ticket.id === data.id ? data : ticket);
-  if (status === "new") forgetOpened(item.id, locallyOpenedTicketIds, openedTicketStorageKey);
+  syncTicketReadState(data);
   feedback.style.color = "var(--success)";
   feedback.textContent = "Modificările au fost salvate.";
   updateTicketSummary();
