@@ -419,6 +419,15 @@ html[data-theme="light"] .role-choice label input:focus-visible + span {
 }
 html[data-theme="light"] .subfleet-row.unread, html[data-theme="light"] .ticket-row.unread, html[data-theme="light"] .application-row.unread { background: linear-gradient(105deg, #fff1c8, #fff 50%); }
 html[data-theme="light"] .application-dialog, html[data-theme="light"] .delete-dialog, html[data-theme="light"] .dialog-top { background: #fff; color: var(--cream); }
+html[data-theme="light"] .onboarding-dialog { background: transparent; color: #fff4d7; }
+html[data-theme="light"] .onboarding-content { color: #fff4d7; }
+html[data-theme="light"] .onboarding-progress { color: #f1bd36; }
+html[data-theme="light"] .onboarding-progress span:last-child, html[data-theme="light"] .onboarding-stage h2 { color: #ffd968; }
+html[data-theme="light"] .onboarding-stage p { color: #fff8e8; }
+html[data-theme="light"] .onboarding-stage p.typing::after { background: #ffd968; }
+html[data-theme="light"] .onboarding-spotlight { border-color: #ffd968; box-shadow: 0 0 0 100vmax #08020cde, 0 0 0 5px #e2b84f38, 0 0 26px #ffe28aaa; }
+html[data-theme="light"] .onboarding-arrow { background: linear-gradient(90deg, #fff0ad, #e7b52f); }
+html[data-theme="light"] .onboarding-arrow::after { border-color: #ffd968; }
 html[data-theme="light"] .message-bubble { background: #f3f5fa; color: #273247; }
 html[data-theme="light"] .message-bubble.outgoing { background: linear-gradient(135deg, #fff3cc, #f3d583); color: #362300; }
 html[data-theme="light"] .theme-switch-track { border-color: #a66b08; box-shadow: inset 0 1px 3px #5f4a1e38, 0 4px 12px #2836501e; }
