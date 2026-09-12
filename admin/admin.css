@@ -305,7 +305,8 @@ body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index:
 
 .onboarding-choice-dialog { width: min(540px, calc(100% - 28px)); }.onboarding-choice-content { padding: clamp(24px, 5vw, 38px); }.onboarding-choice-content h2, .onboarding-stage h2 { margin: 0; color: var(--cream); font-size: clamp(24px, 4vw, 32px); }.onboarding-choice-content > p:not(.eyebrow) { margin: 13px 0 0; color: var(--muted); line-height: 1.55; }.onboarding-choice-actions, .onboarding-actions { display: flex; justify-content: flex-end; gap: 11px; margin-top: 27px; }.onboarding-actions { justify-content: space-between; }.onboarding-actions #onboarding-next { margin-left: auto; }.onboarding-dialog { position: fixed; inset: 0; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; overflow: visible; border: 0; border-radius: 0; background: transparent; box-shadow: none; }.onboarding-dialog::backdrop { background: transparent; backdrop-filter: none; }.onboarding-spotlight { position: fixed; z-index: 1; left: -9999px; top: -9999px; width: 1px; height: 1px; border: 2px solid var(--gold); border-radius: 12px; box-shadow: 0 0 0 100vmax #08020cd9, 0 0 0 5px #e2b84f2e, 0 0 24px #ffe28a8c; pointer-events: none; transition: left .18s ease, top .18s ease, width .18s ease, height .18s ease; }.onboarding-arrow { position: fixed; z-index: 2; left: -9999px; top: -9999px; width: 1px; height: 3px; transform-origin: 0 50%; border-radius: 999px; background: linear-gradient(90deg, #ffe9a2, var(--gold)); box-shadow: 0 0 12px #e2b84f9c; pointer-events: none; transition: left .18s ease, top .18s ease, width .18s ease, transform .18s ease; }.onboarding-arrow::after { position: absolute; top: 50%; right: -3px; width: 12px; height: 12px; border-top: 3px solid var(--gold-light); border-right: 3px solid var(--gold-light); content: ""; transform: translateY(-50%) rotate(45deg); }.onboarding-content { position: fixed; z-index: 3; width: min(390px, calc(100vw - 32px)); padding: clamp(20px, 4vw, 26px); border: 1px solid #e3b94ee0; border-radius: 18px; background: linear-gradient(145deg, #3a1847, #1d0b27); box-shadow: 0 24px 65px #050107e6, inset 0 1px 0 #fff0ad1c; transition: left .18s ease, top .18s ease; }.onboarding-progress { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 17px; color: var(--gold); font-size: 11px; font-weight: 900; letter-spacing: .11em; }.onboarding-progress span:last-child { color: var(--muted); letter-spacing: .04em; }.onboarding-stage { display: grid; gap: 11px; }.onboarding-icon { display: grid; width: 45px; height: 45px; place-items: center; border: 1px solid #e2b84f8f; border-radius: 13px; color: var(--gold-light); background: linear-gradient(145deg, #5b3b29, #392047); font: 700 19px Cinzel, serif; }.onboarding-stage p { margin: 0; color: #e0cfdf; line-height: 1.5; }.onboarding-tour-active, .onboarding-tour-active body { overflow: hidden; overscroll-behavior: none; }
 
-.onboarding-content { width: min(430px, calc(100vw - 32px)); padding: 4px; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--cream); text-shadow: 0 3px 12px #050107f2; }
+.onboarding-content { position: fixed; isolation: isolate; width: min(430px, calc(100vw - 32px)); padding: 4px; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: var(--cream); text-shadow: 0 3px 12px #050107f2; }
+.onboarding-content::before { position: absolute; z-index: -1; inset: -42px -82px -42px -42px; border-radius: 42px; content: ""; background: radial-gradient(ellipse at 42% 46%, rgba(24, 10, 28, .75) 0%, rgba(24, 10, 28, .58) 44%, rgba(24, 10, 28, .25) 78%, rgba(24, 10, 28, 0) 100%); pointer-events: none; }
 .onboarding-progress { margin-bottom: 13px; font-size: 12px; }
 .onboarding-progress span:last-child { color: var(--gold-light); }
 .onboarding-stage { gap: 8px; }
@@ -315,7 +316,7 @@ body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index:
 .onboarding-actions { margin-top: 18px; }
 @keyframes onboarding-caret { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .onboarding-stage p.typing::after { display: none; } }
-.onboarding-spotlight, .onboarding-arrow { transition: none; }
+.onboarding-spotlight { transition: none; }
 .onboarding-status-example { pointer-events: none; }
 
 .delete-dialog { width: min(520px, calc(100% - 28px)); padding: 0; border: 1px solid #e8919d9c; border-radius: 18px; background: linear-gradient(145deg, #431b2c, #1b0a20); color: var(--cream); box-shadow: 0 30px 90px #050107bd; }
@@ -589,4 +590,40 @@ html[data-theme="night"] .theme-switch button.active { background: linear-gradie
   .availability-actions { align-items: stretch; flex-direction: column-reverse; padding: 17px; }
   .availability-actions .primary-button, .availability-actions .quiet-button { width: 100%; }
   .availability-preview-columns.confirmation { grid-template-columns: 1fr; }
+}
+
+/* Tabs: unread content stays visible without competing with the selected state. */
+:is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button:not(.notification-bell), .subfleet-filter-tab) {
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, box-shadow .18s ease, color .18s ease;
+}
+:is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button:not(.notification-bell), .subfleet-filter-tab):hover {
+  transform: translateY(-2px) scale(1.015);
+}
+:is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button, .subfleet-filter-tab).active {
+  box-shadow: inset 0 -1px 0 var(--gold), 0 0 0 1px #dfb34b14;
+}
+:is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button).has-unread:not(.active) {
+  border-color: #805d7466;
+  background: linear-gradient(135deg, #4a253e, #2b1235);
+  color: var(--cream);
+  box-shadow: none;
+}
+:is(.admin-primary-tab, .platform-tab).has-unread:not(.active)::before { display: none; }
+html[data-theme="light"] :is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button).has-unread:not(.active) {
+  border-color: #d4b66f70;
+  background: #f7e5ae;
+  color: #724807;
+  box-shadow: none;
+}
+html[data-theme="light"] :is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button).active {
+  box-shadow: inset 0 -1px 0 #9b681a8a, 0 0 0 1px #c6922630;
+}
+html[data-theme="night"] :is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button).has-unread:not(.active) {
+  border-color: #80674854;
+  background: linear-gradient(145deg, #383129, #20211d);
+  color: #e6e3dc;
+  box-shadow: none;
+}
+html[data-theme="night"] :is(.admin-primary-tab, .registration-tab, .platform-tab, .ticket-workspace-tab, .ticket-type-tab, .subfleet-tabs button).active {
+  box-shadow: inset 0 -1px 0 #bd9052, 0 0 0 1px #ad824722;
 }

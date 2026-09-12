@@ -1,0 +1,73 @@
+:root { color-scheme: dark; }
+
+.public-theme-switch {
+  display: inline-grid;
+  grid-template-columns: repeat(3, 32px);
+  flex: none;
+  gap: 3px;
+  min-height: 38px;
+  padding: 3px;
+  border: 1px solid #c89b4366;
+  border-radius: 999px;
+  background: #13091abf;
+  box-shadow: inset 0 1px 3px #0006;
+}
+.public-theme-switch button {
+  display: grid;
+  width: 32px;
+  min-height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  padding: 0;
+  background: transparent;
+  color: #a99aab;
+  cursor: pointer;
+  transition: color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+.public-theme-switch button:hover { color: #fff0ae; transform: translateY(-1px) scale(1.06); }
+.public-theme-switch button.active { background: linear-gradient(145deg, #785025, #3f2049); color: #ffeba2; box-shadow: inset 0 1px 0 #fff1b94f, 0 2px 7px #0502078f; }
+.public-theme-switch button:focus-visible { outline: 2px solid #f2cc6d; outline-offset: 2px; }
+.public-theme-switch span { font-size: 17px; line-height: 1; }
+.site-title { position: relative; }
+.site-title > .public-theme-switch { position: absolute; top: 0; right: 0; z-index: 2; }
+
+html[data-theme="light"] { color-scheme: light; --ink:#fbf8f1; --cream:#20182a; --ivory:#20182a; --muted:#695f70; --panel:#ffffffeb; --line:#b98b4059; --plum:#f7f0e4; --plum-light:#ead9bf; }
+html[data-theme="light"] body { background: radial-gradient(circle at 50% 0, #fff2c9 0, #fbf8f1 42%, #f3f5f8 100%); color:#20182a; }
+html[data-theme="light"] :is(.global-header,.registration-header,.availability-header) { border-color:#c7963e59; background:#fffdfaeb; }
+html[data-theme="light"] :is(.global-header nav a,.global-header .link-button,.availability-header>span) { color:#382b3b; }
+html[data-theme="light"] :is(.home-showcase,.city-banner,.benefit-grid article,.journey,.account-card,.campaign-shell,.campaign-panel,.ticket-shell,.ticket-stage,.registration-form,.profile-option>span,.platform-card,.slot-row,.account-gate-card,.flow-shell,.rule-card,.application-confirmation-dialog,.modal) { border-color:#c49a4c6b; background:#ffffffea; color:#241b2c; box-shadow:0 12px 34px #7d5d2420; }
+html[data-theme="light"] :is(#app.card,.question,.notice,.resume-dialog) { border-color:#c49a4c6b !important; background:#ffffffea !important; color:#241b2c; }
+html[data-theme="light"] :is(h1,h2,h3,strong,.profile-copy strong,.platform-topline span,.ticket-kicker,.eyebrow,.mini-label) { color:#32213a; }
+html[data-theme="light"] :is(p,small,.hero-copy,.about-copy,.campaign-period,.ticket-intro>div>p:last-child,.profile-copy small,.availability-updated) { color:#685d70; }
+html[data-theme="light"] :is(input,select,textarea) { border-color:#b992526b; background:#fff; color:#211827; }
+html[data-theme="light"] :is(.primary-cta,.continue,.apply-button,.go-to-application-form,.registration-submit) { color:#251807; }
+html[data-theme="light"] .public-theme-switch { border-color:#c89a485c; background:#ece8e2; }
+html[data-theme="light"] .public-theme-switch button { color:#6b646d; }
+html[data-theme="light"] .public-theme-switch button.active { background:linear-gradient(145deg,#fff,#f4c952); color:#372300; box-shadow:inset 0 1px 0 #fff,0 2px 7px #9a681b42; }
+
+html[data-theme="midday"] { color-scheme: dark; }
+
+html[data-theme="night"] { color-scheme: dark; --ink:#10110f; --cream:#eeeae2; --ivory:#eeeae2; --muted:#b8b4ac; --panel:#1c1d1aeb; --line:#96734c59; --plum:#1c1d1a; --plum-light:#34312b; --gold:#bd9256; --gold-light:#e1c79f; }
+html[data-theme="night"] body { background:radial-gradient(circle at 50% 0,#3a3228 0,#181916 42%,#0d0e0c 100%); color:#eeeae2; }
+html[data-theme="night"] :is(.global-header,.registration-header,.availability-header) { border-color:#87674355; background:#11120ff2; }
+html[data-theme="night"] :is(.global-header nav a,.global-header .link-button,.availability-header>span) { color:#d9d6d0; }
+html[data-theme="night"] :is(.home-showcase,.city-banner,.benefit-grid article,.journey,.account-card,.campaign-shell,.campaign-panel,.ticket-shell,.ticket-stage,.registration-form,.profile-option>span,.platform-card,.slot-row,.account-gate-card,.flow-shell,.rule-card,.application-confirmation-dialog,.modal) { border-color:#8d6d4859; background:linear-gradient(145deg,#252621ed,#151613ed); color:#eeeae2; box-shadow:0 14px 38px #0008; }
+html[data-theme="night"] :is(#app.card,.question,.notice,.resume-dialog) { border-color:#8d6d4859 !important; background:linear-gradient(145deg,#252621ed,#151613ed) !important; color:#eeeae2; }
+html[data-theme="night"] :is(h1,h2,h3,strong,.profile-copy strong,.platform-topline span) { color:#eeeae2; }
+html[data-theme="night"] :is(p,small,.hero-copy,.about-copy,.campaign-period,.ticket-intro>div>p:last-child,.profile-copy small,.availability-updated) { color:#b8b4ac; }
+html[data-theme="night"] :is(input,select,textarea) { border-color:#80674766; background:#11120f; color:#eeeae2; }
+html[data-theme="night"] .public-theme-switch { border-color:#80613e; background:#0d0e0c; }
+html[data-theme="night"] .public-theme-switch button { color:#8d8a83; }
+html[data-theme="night"] .public-theme-switch button.active { background:linear-gradient(145deg,#514028,#23241f); color:#eeeae2; box-shadow:inset 0 1px 0 #d8bd9145,0 2px 7px #000b; }
+
+@media (max-width: 760px) {
+  .global-header .public-theme-switch { order: 1; grid-template-columns: repeat(3, 28px); }
+  .global-header .public-theme-switch button { width: 28px; }
+  .global-header .menu-toggle { order: 2; margin-left: 0; }
+  .registration-header .public-theme-switch { margin-left:auto; margin-right:7px; }
+  .availability-header { gap:8px; }
+  .availability-header .public-theme-switch { margin-left:auto; }
+  .availability-header>span { display:none; }
+  .site-title > .public-theme-switch { top: -8px; right: -2px; transform: scale(.9); transform-origin: top right; }
+}

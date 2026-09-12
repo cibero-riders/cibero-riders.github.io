@@ -7,7 +7,6 @@ const stepLabel = document.querySelector("#onboarding-step-label");
 const stage = document.querySelector("#onboarding-stage");
 const content = document.querySelector("#onboarding-content");
 const spotlight = document.querySelector("#onboarding-spotlight");
-const arrow = document.querySelector("#onboarding-arrow");
 const backButton = document.querySelector("#onboarding-back");
 const nextButton = document.querySelector("#onboarding-next");
 
@@ -24,9 +23,9 @@ const guides = {
   subfleet: {
     label: "GHID PORTAL SUB-FLOTĂ",
     steps: [
-      { target: '[data-subfleet-tab="pool"]', prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "Aici găsești activările pe care le poți revendica pentru sub-flota ta." },
-      { target: '[data-subfleet-tab="claimed"]', prepare: '[data-subfleet-tab="claimed"]', title: "Revendicări", text: "Aici sunt membrii revendicați. Schimbă statusul în cel mult 24 de ore." },
-      { target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', title: "Tickete", text: "Primești ticketele curierilor revendicați de sub-flota ta." },
+      { target: '[data-subfleet-tab="pool"]', prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "În acest tab vezi lista cu cererile de activare actualizată în timp real. Cererile ajung instant, cum sunt trimise de aplicanți." },
+      { target: '[data-subfleet-tab="claimed"]', prepare: '[data-subfleet-tab="claimed"]', title: "Revendicări", text: "Aici vezi toți membrii pe care i-ai revendicat, cu status „Nou”. După ce avansezi cu procesarea, poți modifica statusul cererii pentru a o muta într-un alt tab." },
+      { target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', title: "Tickete", text: "Aici primești ticketele de la curierii tăi." },
       { target: "#subfleet-ticket-display-switch", prepare: '[data-subfleet-tab="tickets"]', title: "Afișarea ticketelor", text: "Alege dacă vezi ticketele organizate sau toate la grămadă." },
       { statusExample: true, prepare: '[data-subfleet-tab="claimed"]', title: "Statusul cererii", text: "De aici poți schimba statusul unei cereri pentru a ține evidența progresului. Când schimbi statusul, cererea se mută în sub-tab-ul corespunzător. Dacă statusul nu avansează în 24 de ore, cererea se va întoarce în pool." },
       { target: "#subfleet-message-bell", title: "Chat cu adminul", text: "De aici poți accesa chat-ul cu adminul." },
@@ -87,18 +86,6 @@ function clamp(value, minimum, maximum) {
   return Math.max(minimum, Math.min(maximum, value));
 }
 
-function pointOnRectangleEdge(box, towardX, towardY, inset = 0) {
-  const centerX = box.left + box.width / 2;
-  const centerY = box.top + box.height / 2;
-  const deltaX = towardX - centerX;
-  const deltaY = towardY - centerY;
-  const halfWidth = Math.max(1, box.width / 2 - inset);
-  const halfHeight = Math.max(1, box.height / 2 - inset);
-  const divisor = Math.max(Math.abs(deltaX) / halfWidth, Math.abs(deltaY) / halfHeight, .001);
-  const scale = 1 / divisor;
-  return { x: centerX + deltaX * scale, y: centerY + deltaY * scale };
-}
-
 function positionTour() {
   if (!guideDialog.open || !activeGuide) return;
   const target = targetForStep();
@@ -143,23 +130,6 @@ function positionTour() {
   content.style.top = `${top}px`;
   content.style.visibility = "visible";
 
-  const textBox = stage.getBoundingClientRect();
-  const textCenterX = textBox.left + textBox.width / 2;
-  const textCenterY = textBox.top + textBox.height / 2;
-  const targetEdge = pointOnRectangleEdge(targetBox, textCenterX, textCenterY);
-  const start = pointOnRectangleEdge(textBox, targetEdge.x, targetEdge.y, 2);
-  const deltaX = targetEdge.x - start.x;
-  const deltaY = targetEdge.y - start.y;
-  const distance = Math.hypot(deltaX, deltaY);
-  const unitX = distance ? deltaX / distance : 0;
-  const unitY = distance ? deltaY / distance : 0;
-  const end = { x: targetEdge.x - unitX * 8, y: targetEdge.y - unitY * 8 };
-  const length = Math.max(24, Math.hypot(end.x - start.x, end.y - start.y) - 12);
-  const angle = Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI;
-  arrow.style.left = `${start.x}px`;
-  arrow.style.top = `${start.y}px`;
-  arrow.style.width = `${length}px`;
-  arrow.style.transform = `rotate(${angle}deg)`;
 }
 
 function schedulePositionTour() {
@@ -218,7 +188,7 @@ function renderGuide() {
   stepLabel.textContent = `${activeStep + 1} / ${guide.steps.length}`;
   stage.innerHTML = `<h2 id="onboarding-title">${step.title}</h2><p data-onboarding-description aria-label="${step.text}">${step.text}</p>`;
   backButton.hidden = activeStep === 0;
-  nextButton.textContent = activeStep === guide.steps.length - 1 ? "Încheie ghidul" : "Următorul pas";
+  nextButton.textContent = "ok";
   prepareStep(step);
   revealTarget();
   typingStartTimer = window.setTimeout(() => typewriteDescription(step.text), 160);

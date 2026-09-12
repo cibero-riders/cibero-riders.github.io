@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-import { showAccountGuide } from "./onboarding.js?v=7";
+import { showAccountGuide } from "./onboarding.js?v=8";
 
 const SUPABASE_URL = "https://xpzgvknnrkyvcnncfqrq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_yqSB3WMkNNxujsJhLMqLJA_8Q99BmbN";
