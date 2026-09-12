@@ -310,6 +310,7 @@ body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index:
 .onboarding-actions { margin-top: 18px; }
 @keyframes onboarding-caret { 50% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .onboarding-stage p.typing::after { display: none; } }
+.onboarding-spotlight, .onboarding-arrow { transition: none; }
 
 .delete-dialog { width: min(520px, calc(100% - 28px)); padding: 0; border: 1px solid #e8919d9c; border-radius: 18px; background: linear-gradient(145deg, #431b2c, #1b0a20); color: var(--cream); box-shadow: 0 30px 90px #050107bd; }
 .delete-dialog::backdrop { background: #08020ccc; backdrop-filter: blur(6px); }
@@ -334,6 +335,31 @@ html[data-theme="light"] .ticket-display-switch::before { background: linear-gra
 html[data-theme="light"] input, html[data-theme="light"] select, html[data-theme="light"] textarea { border-color: #c7b994; background: #fff; color: #222a3a; }
 html[data-theme="light"] .quiet-button, html[data-theme="light"] .header-icon-button, html[data-theme="light"] .notification-bell, html[data-theme="light"] .subfleet-message-shortcut { background: #fff; color: #704807; box-shadow: 0 4px 12px #28365012; }
 html[data-theme="light"] .primary-button { background: linear-gradient(135deg, #a86810, #e6b84b 55%, #a86810); color: #2b1a04; text-shadow: none; }
+html[data-theme="light"] :is(.primary-button, .admin-space-tabs button.active, .admin-primary-tab.active, .admin-primary-tab.has-unread, .registration-tab.active, .registration-tab.has-unread, .platform-tab.active, .platform-tab.has-unread, .ticket-workspace-tab.active, .ticket-workspace-tab.has-unread, .ticket-type-tab.active, .subfleet-tabs button.active, .subfleet-filter-tab.active) {
+  border-color: #c88617;
+  background-image: linear-gradient(112deg, transparent 5%, #fffbe2d9 28%, #fff4ae96 39%, transparent 57%), linear-gradient(135deg, #a86208 0%, #e6aa27 27%, #ffe98a 49%, #d79618 72%, #f2ca55 100%);
+  background-position: 105% 0, 0 0;
+  background-size: 185% 100%, 100% 100%;
+  color: #3d2602;
+  box-shadow: inset 0 1px 0 #fffde8, inset 0 -2px 0 #95560966, 0 0 0 1px #f4c958a8, 0 7px 17px #ad711f3b;
+  text-shadow: 0 1px 0 #fff4b4a8;
+  transition: background-position .34s ease, border-color .2s ease, box-shadow .2s ease, transform .2s ease;
+}
+html[data-theme="light"] :is(.primary-button, .admin-space-tabs button.active, .admin-primary-tab.active, .admin-primary-tab.has-unread, .registration-tab.active, .registration-tab.has-unread, .platform-tab.active, .platform-tab.has-unread, .ticket-workspace-tab.active, .ticket-workspace-tab.has-unread, .ticket-type-tab.active, .subfleet-tabs button.active, .subfleet-filter-tab.active):not(:disabled):hover {
+  border-color: #e3a72e;
+  background-position: 0 0, 0 0;
+  box-shadow: inset 0 1px 0 #ffffff, inset 0 -2px 0 #95560970, 0 0 0 2px #f4c9588f, 0 9px 22px #ad711f52;
+  transform: translateY(-1px);
+}
+html[data-theme="light"] .ticket-display-switch::before {
+  border-color: #c88617;
+  background: linear-gradient(112deg, transparent 8%, #fffbe2e8 36%, transparent 56%), linear-gradient(135deg, #d79618, #ffe98a 52%, #c77b0c);
+  box-shadow: inset 0 1px 0 #ffffff, inset 0 -1px 0 #95560966, 0 4px 12px #ad711f42;
+}
+html[data-theme="light"] .role-choice label:nth-child(1) input:checked + span {
+  background-image: linear-gradient(112deg, transparent 8%, #fffbe2d4 31%, transparent 52%), linear-gradient(105deg, #bd790b 0%, #f3ce62 39%, #dcb2a0 64%, #b47ae0 100%);
+  box-shadow: inset 0 1px 0 #ffffff, 0 0 0 2px #e9bd4e63, 0 10px 25px #b47a2947;
+}
 html[data-theme="light"] .subfleet-row.unread, html[data-theme="light"] .ticket-row.unread, html[data-theme="light"] .application-row.unread { background: linear-gradient(105deg, #fff1c8, #fff 50%); }
 html[data-theme="light"] .application-dialog, html[data-theme="light"] .delete-dialog, html[data-theme="light"] .dialog-top { background: #fff; color: var(--cream); }
 html[data-theme="light"] .message-bubble { background: #f3f5fa; color: #273247; }

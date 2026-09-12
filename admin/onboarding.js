@@ -27,7 +27,7 @@ const guides = {
       { icon: "⌑", target: '[data-subfleet-tab="pool"]', prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "Aici găsești activările pe care le poți revendica pentru sub-flota ta." },
       { icon: "24", target: "#subfleet-status-tabs", prepare: '[data-subfleet-tab="claimed"]', title: "Regula de 24 de ore", text: "Schimbă statusul unei revendicări în cel mult 24 de ore." },
       { icon: "✓", target: '[data-subfleet-tab="claimed"]', prepare: '[data-subfleet-tab="claimed"]', title: "Membrii tăi", text: "Deschide membrul și actualizează-i statusul." },
-      { icon: "✦", target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', title: "Tickete direcționate", text: "Procesează aici ticketele membrilor revendicați." },
+      { icon: "✦", target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', anchor: "bottom-right", title: "Tickete direcționate", text: "Procesează aici ticketele membrilor revendicați." },
       { icon: "✉", target: "#subfleet-message-bell", title: "Mesaje cu CibeRO", text: "Conversația rămâne în același fir de mesaje." },
     ],
   },
@@ -68,6 +68,29 @@ function pointOnRectangleEdge(box, towardX, towardY, inset = 0) {
   const divisor = Math.max(Math.abs(deltaX) / halfWidth, Math.abs(deltaY) / halfHeight, .001);
   const scale = 1 / divisor;
   return { x: centerX + deltaX * scale, y: centerY + deltaY * scale };
+}
+
+function targetCornerPoint(box, contentBox, forcedAnchor = "") {
+  const targetCenterX = box.left + box.width / 2;
+  const targetCenterY = box.top + box.height / 2;
+  const contentCenterX = contentBox.left + contentBox.width / 2;
+  const contentCenterY = contentBox.top + contentBox.height / 2;
+  const horizontalSide = forcedAnchor.includes("left")
+    ? "left"
+    : forcedAnchor.includes("right")
+      ? "right"
+      : contentCenterX >= targetCenterX ? "right" : "left";
+  const verticalSide = forcedAnchor.includes("top")
+    ? "top"
+    : forcedAnchor.includes("bottom")
+      ? "bottom"
+      : contentCenterY <= targetCenterY ? "bottom" : "top";
+  const outsideOffset = 7;
+
+  return {
+    x: horizontalSide === "right" ? box.right + outsideOffset : box.left - outsideOffset,
+    y: verticalSide === "bottom" ? box.bottom + outsideOffset : box.top - outsideOffset,
+  };
 }
 
 function positionTour() {
@@ -115,8 +138,9 @@ function positionTour() {
   content.style.visibility = "visible";
 
   const finalBox = content.getBoundingClientRect();
-  const start = pointOnRectangleEdge(finalBox, targetCenterX, targetCenterY, 5);
-  const end = pointOnRectangleEdge(targetBox, start.x, start.y);
+  const step = guides[activeGuide]?.steps[activeStep];
+  const end = targetCornerPoint(targetBox, finalBox, step?.anchor);
+  const start = pointOnRectangleEdge(finalBox, end.x, end.y, 5);
   const length = Math.max(28, Math.hypot(end.x - start.x, end.y - start.y) - 8);
   const angle = Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI;
   arrow.style.left = `${start.x}px`;
