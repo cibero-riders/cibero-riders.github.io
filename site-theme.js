@@ -43,9 +43,11 @@
     const header = document.querySelector(".global-header, .registration-header, .availability-header, .site-title");
     if (!header) return;
     const control = buildSwitch();
+    const navigation = header.matches(".global-header") ? header.querySelector("nav") : null;
     const menu = header.querySelector(".menu-toggle");
     const language = header.querySelector(".language-switch");
-    if (menu) header.insertBefore(control, menu);
+    if (navigation) navigation.append(control);
+    else if (menu) header.insertBefore(control, menu);
     else if (language) header.insertBefore(control, language);
     else header.append(control);
     applyTheme(storedTheme());

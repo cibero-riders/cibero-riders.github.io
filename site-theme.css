@@ -29,6 +29,7 @@
 .public-theme-switch button.active { background: linear-gradient(145deg, #785025, #3f2049); color: #ffeba2; box-shadow: inset 0 1px 0 #fff1b94f, 0 2px 7px #0502078f; }
 .public-theme-switch button:focus-visible { outline: 2px solid #f2cc6d; outline-offset: 2px; }
 .public-theme-switch span { font-size: 17px; line-height: 1; }
+.global-header nav > .public-theme-switch { margin-left: 8px; }
 .site-title { position: relative; }
 .site-title > .public-theme-switch { position: absolute; top: 0; right: 0; z-index: 2; }
 
@@ -100,7 +101,7 @@ html[data-theme="night"] .public-theme-switch button { color:#8d8a83; }
 html[data-theme="night"] .public-theme-switch button.active { background:linear-gradient(145deg,#514028,#23241f); color:#eeeae2; box-shadow:inset 0 1px 0 #d8bd9145,0 2px 7px #000b; }
 
 @media (max-width: 760px) {
-  .global-header .public-theme-switch { order: 1; grid-template-columns: repeat(3, 28px); }
+  .global-header nav > .public-theme-switch { order: 1; align-self: flex-end; margin: 7px 0 0; grid-template-columns: repeat(3, 28px); }
   .global-header .public-theme-switch button { width: 28px; }
   .global-header .menu-toggle { order: 2; margin-left: 0; }
   .registration-header .public-theme-switch { margin-left:auto; margin-right:7px; }
