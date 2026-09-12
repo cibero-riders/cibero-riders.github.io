@@ -356,6 +356,38 @@ body {
   text-align: left;
 }
 
+.offer-extension {
+  position: relative;
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin-top: clamp(10px, 2vw, 24px);
+  padding: 35px clamp(14px, 2vw, 24px) 24px;
+  border: 1px solid #dfb95452;
+  border-radius: 20px;
+  background: radial-gradient(circle at 50% 0, #7540782b, transparent 42%), linear-gradient(145deg, #25112f, #14091c);
+  box-shadow: inset 0 1px 0 #fff4c20d, 0 22px 54px #02010452;
+}
+.offer-bridge { position: absolute; top: -36px; left: 50%; width: 1px; height: 52px; background: linear-gradient(180deg, #d8b54e00, #d8b54e); }
+.offer-bridge span { position: absolute; left: 50%; bottom: -5px; width: 10px; height: 10px; border: 1px solid #f0cb64; background: #3a1a3e; transform: translateX(-50%) rotate(45deg); box-shadow: 0 0 16px #e8bd5270; }
+.offer-heading { margin-bottom: 20px; text-align: center; }
+.offer-heading p { margin: 0 0 5px; color: #d9b95d; font-size: 10px; font-weight: 850; letter-spacing: .16em; text-transform: uppercase; }
+.offer-heading h2 { margin: 0; color: #fff1c1; font: 700 clamp(27px, 3vw, 38px)/1.1 Cinzel, serif; }
+.offer-tabs { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; }
+.offer-tab { display: grid; min-width: 0; min-height: 82px; align-content: center; justify-items: center; gap: 8px; border: 1px solid #ba915b4a; border-radius: 11px; padding: 10px 8px; background: #1a0c22c9; color: #cdbed0; cursor: pointer; transition: transform .18s ease, border-color .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease; }
+.offer-tab:hover { border-color: #d9b95d9c; color: #fff0bd; transform: translateY(-3px); }
+.offer-tab:focus-visible { outline: 2px solid #f0cd6f; outline-offset: 3px; }
+.offer-tab.active { border-color: #edc861; background: linear-gradient(145deg, #603d22, #3a193f); color: #fff0bd; box-shadow: inset 0 1px 0 #fff0ad3b, 0 8px 20px #05020768; transform: translateY(-2px); }
+.offer-tab > span { display: grid; width: 28px; height: 28px; place-items: center; border: 1px solid #d9b74f; border-radius: 50%; color: #f0cb65; background: #3b1b3d; font-size: 14px; }
+.offer-tab strong { overflow-wrap: anywhere; font-size: 12px; line-height: 1.25; text-align: center; }
+.offer-panels { width: min(900px, 100%); min-height: 155px; margin: 14px auto 0; }
+.offer-panel { display: grid; grid-template-columns: 62px minmax(0, 1fr); gap: 20px; align-items: center; min-height: 155px; padding: 24px clamp(20px, 4vw, 42px); border: 1px solid #dfb95466; border-radius: 15px; background: linear-gradient(115deg, #45213ee8, #24102ee8 52%, #351d22e8); box-shadow: inset 0 1px 0 #fff1b01f; animation: offer-panel-in .3s ease both; }
+.offer-panel[hidden] { display: none; }
+.offer-panel > span { display: grid; width: 58px; height: 58px; place-items: center; border: 1px solid #edc861; border-radius: 50%; background: radial-gradient(circle, #765026, #30162f 72%); color: #ffe48f; font-size: 25px; box-shadow: 0 0 0 7px #dbad3f12, 0 9px 24px #05020762; }
+.offer-panel h3 { margin: 0 0 5px; color: #ffe49b; font: 700 21px/1.2 Cinzel, serif; }
+.offer-panel strong { display: block; color: #fff7e4; font-size: 16px; line-height: 1.4; }
+.offer-panel p { margin: 6px 0 0; color: #d1c2d3; font: italic 14px/1.5 Georgia, serif; }
+@keyframes offer-panel-in { from { opacity: 0; transform: translateY(8px) scale(.992); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
 .home-faq {
   width: min(1050px, calc(100% - 64px));
   margin: 0 auto 104px;
@@ -437,6 +469,8 @@ body {
   .showcase-benefits h1, .showcase-eyebrow { text-align: center; }
   .showcase-benefit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: none; flex: 0 0 auto; }
   .showcase-benefit { min-height: 72px; }
+  .offer-tabs { display: flex; overflow-x: auto; padding: 2px 2px 10px; scroll-snap-type: x mandatory; scrollbar-width: thin; }
+  .offer-tab { flex: 0 0 150px; scroll-snap-align: start; }
 }
 
 @media (max-width: 760px) {
@@ -459,6 +493,18 @@ body {
   .showcase-benefit:hover { transform: none; }
   .showcase-benefit-icon { width: 30px; height: 30px; }
   .showcase-benefit h2 { font-size: 13px; line-height: 1.27; }
+  .offer-extension { grid-column: auto; margin-top: 12px; padding: 30px 10px 12px; border-radius: 15px; }
+  .offer-bridge { top: -29px; height: 40px; }
+  .offer-heading { margin-bottom: 16px; }
+  .offer-heading h2 { font-size: 28px; }
+  .offer-tabs { margin-inline: -1px; gap: 7px; }
+  .offer-tab { flex-basis: 132px; min-height: 76px; }
+  .offer-panels { min-height: 0; margin-top: 5px; }
+  .offer-panel { grid-template-columns: 44px minmax(0, 1fr); min-height: 0; gap: 13px; padding: 18px 14px; border-radius: 11px; }
+  .offer-panel > span { width: 42px; height: 42px; font-size: 19px; }
+  .offer-panel h3 { font-size: 17px; }
+  .offer-panel strong { font-size: 14px; }
+  .offer-panel p { font-size: 13px; }
   .home-faq { width: calc(100% - 32px); margin-bottom: 70px; padding: 30px 13px 18px; border-radius: 15px; }
   .home-faq h2 { font-size: 28px; }
   .home-faq-list { margin-top: 24px; }

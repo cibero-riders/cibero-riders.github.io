@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="main-page.css?v=18" />
+  <link rel="stylesheet" href="main-page.css?v=19" />
   <link rel="stylesheet" href="site-navigation.css?v=9" />
   <link rel="stylesheet" href="smooth-typography.css?v=1" />
   <link rel="stylesheet" href="site-theme.css?v=1" />
@@ -89,6 +89,32 @@
           <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-announcements.svg" alt="" /></span><h2>Canal de anunțuri oficial</h2></article>
         </div>
       </div>
+
+      <section class="offer-extension" aria-labelledby="offer-extension-title">
+        <div class="offer-bridge" aria-hidden="true"><span></span></div>
+        <header class="offer-heading">
+          <p>Beneficii în detaliu</p>
+          <h2 id="offer-extension-title">Îți oferim:</h2>
+        </header>
+        <div class="offer-tabs" role="tablist" aria-label="Beneficiile flotei CibeRO">
+          <button id="offer-tab-flexibility" class="offer-tab active" type="button" role="tab" aria-selected="true" aria-controls="offer-panel-flexibility" data-offer-tab="flexibility"><span>◷</span><strong>Flexibilitate</strong></button>
+          <button id="offer-tab-autonomy" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-autonomy" data-offer-tab="autonomy" tabindex="-1"><span>◈</span><strong>Autonomie</strong></button>
+          <button id="offer-tab-earnings" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-earnings" data-offer-tab="earnings" tabindex="-1"><span>◉</span><strong>Câștiguri competitive</strong></button>
+          <button id="offer-tab-payments" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-payments" data-offer-tab="payments" tabindex="-1"><span>▤</span><strong>Plăți săptămânale</strong></button>
+          <button id="offer-tab-support" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-support" data-offer-tab="support" tabindex="-1"><span>◌</span><strong>Suport dedicat</strong></button>
+          <button id="offer-tab-safety" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-safety" data-offer-tab="safety" tabindex="-1"><span>◇</span><strong>Siguranță</strong></button>
+          <button id="offer-tab-system" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-system" data-offer-tab="system" tabindex="-1"><span>✦</span><strong>Sistemul flotei</strong></button>
+        </div>
+        <div class="offer-panels">
+          <article id="offer-panel-flexibility" class="offer-panel active" role="tabpanel" aria-labelledby="offer-tab-flexibility" data-offer-panel="flexibility"><span>◷</span><div><h3>Flexibilitate</h3><strong>Tu îți faci programul</strong><p>Dar ține minte că productivitatea se realizează prin disciplină și consistență.</p></div></article>
+          <article id="offer-panel-autonomy" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-autonomy" data-offer-panel="autonomy" hidden><span>◈</span><div><h3>Autonomie</h3><strong>Ești propriul șef — tu decizi nivelul de muncă și cum o faci</strong><p>Dar sperăm să ții cont de conduita de bun simț și cooperare a platformelor și flotei 🙏</p></div></article>
+          <article id="offer-panel-earnings" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-earnings" data-offer-panel="earnings" hidden><span>◉</span><div><h3>Câștiguri competitive</h3><strong>3.000–6.000 lei/lună venit net</strong><p>Noi îți oferim sfaturi, bonusuri și campanii pentru a-ți maximiza profitul — tu decizi unde pui pragul 💪</p></div></article>
+          <article id="offer-panel-payments" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-payments" data-offer-panel="payments" hidden><span>▤</span><div><h3>Plăți și rapoarte săptămânale stabile</h3><strong>Încasările tale sunt în siguranță cu noi</strong><p>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</p></div></article>
+          <article id="offer-panel-support" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-support" data-offer-panel="support" hidden><span>◌</span><div><h3>Suport dedicat</h3><strong>Staff-ul și comunitatea îți sunt alături</strong><p>Oricând ai probleme, nu ești singur — comunitatea, staff-ul flotei, cât și asistența de la platforme îți sunt alături.</p></div></article>
+          <article id="offer-panel-safety" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-safety" data-offer-panel="safety" hidden><span>◇</span><div><h3>Siguranță</h3><strong>Un mediu sigur și stabil</strong><p>Datele și activitatea ta din cadrul flotei sunt în siguranță cu noi — adică, ești în siguranță cu noi ✌️</p></div></article>
+          <article id="offer-panel-system" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-system" data-offer-panel="system" hidden><span>✦</span><div><h3>Sistemul flotei</h3><strong>Platforme unice, tehnologie intuitivă</strong><p>Avem aplicație mobilă, grup de comunitate, canal de anunțuri, sistem de ticketing și multe altele.</p></div></article>
+        </div>
+      </section>
     </section>
 
     <section class="home-faq" aria-labelledby="faq-title">
@@ -130,7 +156,7 @@
     </div>
     <span>© Powered by Cibero - 2026 | All rights reserved</span>
   </footer>
-  <script src="main-page.js?v=8"></script>
+  <script src="main-page.js?v=9"></script>
   <script src="site-theme.js?v=1"></script>
 </body>
 </html>

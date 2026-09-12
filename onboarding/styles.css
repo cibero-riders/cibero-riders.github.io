@@ -161,6 +161,7 @@ footer{color:#b6a77e}
 .card::before{background:linear-gradient(135deg,#54320b 0%,#c88d25 24%,#ffe8a0 49%,#bc781a 72%,#432609 100%);box-shadow:0 0 0 1px rgba(109,66,13,.86),0 0 16px rgba(213,155,36,.18),inset 0 1px 0 rgba(255,246,203,.65)}
 .card.intro-card{width:min(100%,1000px)}
 .welcome-layout{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(260px,.72fr);gap:38px;align-items:start}
+.welcome-layout-single{grid-template-columns:minmax(0,760px);justify-content:center}
 .benefits-panel{min-width:0;padding:4px 0 4px 31px;border-left:1px solid rgba(222,176,67,.42)}
 .benefits-panel h2{margin:0 0 18px;color:#f2cd73;font-family:Georgia,"Times New Roman",serif;font-size:23px;line-height:1.2}
 .benefits-panel ul{display:grid;gap:14px;margin:0;padding:0;list-style:none}

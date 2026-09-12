@@ -54,6 +54,41 @@ benefitEntries.forEach(entry => {
 touchQuery.addEventListener?.("change", configureBenefitInteraction);
 configureBenefitInteraction();
 
+const offerTabs = [...document.querySelectorAll("[data-offer-tab]")];
+const offerPanels = [...document.querySelectorAll("[data-offer-panel]")];
+
+function selectOffer(tab, moveFocus = false) {
+  if (!tab) return;
+  const selectedOffer = tab.dataset.offerTab;
+  offerTabs.forEach(item => {
+    const active = item === tab;
+    item.classList.toggle("active", active);
+    item.setAttribute("aria-selected", String(active));
+    item.tabIndex = active ? 0 : -1;
+  });
+  offerPanels.forEach(panel => {
+    const active = panel.dataset.offerPanel === selectedOffer;
+    panel.hidden = !active;
+    panel.classList.toggle("active", active);
+  });
+  tab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
+  if (moveFocus) tab.focus();
+}
+
+offerTabs.forEach((tab, index) => {
+  tab.addEventListener("click", () => selectOffer(tab));
+  tab.addEventListener("keydown", event => {
+    if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+    event.preventDefault();
+    let nextIndex = index;
+    if (event.key === "ArrowLeft") nextIndex = (index - 1 + offerTabs.length) % offerTabs.length;
+    if (event.key === "ArrowRight") nextIndex = (index + 1) % offerTabs.length;
+    if (event.key === "Home") nextIndex = 0;
+    if (event.key === "End") nextIndex = offerTabs.length - 1;
+    selectOffer(offerTabs[nextIndex], true);
+  });
+});
+
 document.querySelectorAll(".video-frame[data-youtube-id]").forEach(frame => {
   const poster = frame.querySelector(".video-poster");
   poster?.addEventListener("click", () => {
