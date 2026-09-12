@@ -1,0 +1,48 @@
+.wolt-standalone-page.active,
+#transfer-flow.active,
+#status-flow.active,
+#wolt-flow.active {
+  animation: woltPageFadeIn .38s ease-out;
+}
+
+.wolt-standalone-page .status-options {
+  margin-top: 24px;
+  padding: 16px;
+}
+
+.wolt-standalone-detail {
+  display: block;
+  width: min(680px, 100%);
+  margin: 24px auto 0;
+  padding: 34px 38px;
+}
+
+.wolt-standalone-detail:before,
+.wolt-standalone-detail:after {
+  display: none;
+}
+
+.title-explain {
+  display: block;
+  margin-top: 7px;
+  color: #d9c9df;
+  font: 600 .42em/1.25 "DM Sans", sans-serif;
+  letter-spacing: 0;
+}
+
+@keyframes woltPageFadeIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 680px) {
+  .wolt-standalone-page .status-options {
+    margin-top: 18px;
+    padding: 12px;
+  }
+
+  .wolt-standalone-detail {
+    margin-top: 18px;
+    padding: 24px 20px;
+  }
+}

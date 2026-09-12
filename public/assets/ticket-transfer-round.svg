@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Emblemă pentru transfer de cont</title>
+  <defs>
+    <radialGradient id="bg" cx="34%" cy="24%" r="82%"><stop stop-color="#278fa4"/><stop offset=".62" stop-color="#185665"/><stop offset="1" stop-color="#102c3b"/></radialGradient>
+    <linearGradient id="gold" x1="24" y1="16" x2="105" y2="112"><stop stop-color="#fff0ad"/><stop offset=".48" stop-color="#e3b84f"/><stop offset="1" stop-color="#9a601a"/></linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <circle cx="64" cy="64" r="53" fill="none" stroke="#fff5c8" stroke-opacity=".24"/>
+  <rect x="29" y="39" width="42" height="30" rx="5" fill="#fff6df" stroke="#e5b94e" stroke-width="3"/>
+  <path d="M37 50h26m-26 8h18" fill="none" stroke="#276472" stroke-width="4" stroke-linecap="round"/>
+  <path d="M52 83h39l-9-9m9 9-9 9M76 101H37l9-9m-9 9 9 9" fill="none" stroke="url(#gold)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,410 @@
+/* CibeRO purple-and-gold palette layer.
+   This file intentionally changes presentation only; markup, copy, icons and
+   onboarding behavior remain owned by index.html and app.js. */
+
+:root {
+  --bg: #100714;
+  --card: #25102e;
+  --card-2: #351541;
+  --text: #fff6df;
+  --muted: #dacadd;
+  --accent: #e1b74f;
+  --accent-dark: #3b2410;
+  --line: #745079;
+  --danger: #ef999f;
+  --gold-deep: #704516;
+  --gold: #e1b74f;
+  --gold-light: #ffe89b;
+  --ink: #0f0714;
+}
+
+body {
+  background:
+    radial-gradient(circle at 50% 0, rgba(121, 64, 135, .22), transparent 34rem),
+    linear-gradient(180deg, #190a21 0%, #0e0613 100%);
+}
+
+body::before {
+  background-image:
+    linear-gradient(rgba(53, 18, 63, .28), rgba(15, 6, 20, .44)),
+    url("assets/onboarding-ornamental-background.png");
+  background-position: center;
+  background-size: cover;
+  opacity: 1;
+}
+
+body::after {
+  background:
+    radial-gradient(circle at 50% 8%, rgba(103, 49, 119, .14), transparent 32rem),
+    linear-gradient(180deg, rgba(25, 8, 32, .16), rgba(12, 4, 16, .58));
+}
+
+.home-back {
+  color: #f1ce73;
+}
+
+.home-back:hover {
+  color: #fff0b4;
+}
+
+.site-title .header-art {
+  filter: drop-shadow(0 11px 22px rgba(9, 2, 12, .5));
+}
+
+.card,
+#app.card {
+  border-color: rgba(231, 190, 91, .9) !important;
+  background:
+    radial-gradient(circle at 14% 0, rgba(109, 54, 124, .28), transparent 24rem),
+    linear-gradient(145deg, #351541 0%, #210d2b 54%, #18091f 100%) !important;
+  box-shadow:
+    0 28px 76px rgba(8, 1, 11, .58),
+    inset 0 1px 0 rgba(255, 239, 192, .1) !important;
+  color: #fff6df;
+}
+
+#app.card h1,
+#app.card h2,
+.resume-dialog h2 {
+  color: #fff2c9;
+  text-shadow: 0 2px 18px rgba(213, 165, 62, .12);
+}
+
+#app.card p,
+.resume-dialog p {
+  color: #e2d3e5;
+}
+
+#app.card .lead {
+  color: #f8eddf;
+}
+
+#app.card .eyebrow {
+  color: #e7bf5c;
+}
+
+#app.card a:not(.button) {
+  color: #f2cb68;
+  text-decoration-color: rgba(242, 203, 104, .55);
+}
+
+.cibero-stepper > .step {
+  color: #c7aebd;
+}
+
+.cibero-stepper .progress-icon {
+  border-color: rgba(225, 183, 79, .78) !important;
+  background: radial-gradient(circle at 35% 28%, rgba(255, 236, 158, .17), rgba(55, 20, 61, .94) 68%) !important;
+  color: #dfb957;
+  filter: drop-shadow(0 0 8px rgba(217, 171, 62, .2));
+}
+
+.cibero-stepper > .step.current {
+  color: #ffe292;
+}
+
+.cibero-stepper > .step.current .progress-icon {
+  border-color: #ffe28a !important;
+  background: radial-gradient(circle at 35% 28%, rgba(255, 243, 178, .45), rgba(104, 57, 65, .95) 70%) !important;
+  color: #fff0a6;
+  filter: drop-shadow(0 0 12px rgba(248, 195, 63, .52));
+}
+
+.cibero-stepper > .step.complete {
+  color: #e5cfaa;
+}
+
+.cibero-stepper > .step.complete .progress-icon {
+  border-color: rgba(222, 174, 64, .76) !important;
+  background: radial-gradient(circle at 35% 28%, rgba(241, 208, 122, .23), rgba(67, 28, 65, .94) 70%) !important;
+  color: #f3cc6e;
+}
+
+.cibero-stepper > .step-connector {
+  background: linear-gradient(90deg, transparent, rgba(222, 177, 73, .72), transparent);
+}
+
+.benefits-panel {
+  border-color: rgba(225, 183, 79, .5);
+  background: linear-gradient(145deg, rgba(65, 24, 74, .74), rgba(30, 10, 40, .78));
+  box-shadow: inset 0 1px 0 rgba(255, 239, 192, .07);
+}
+
+.benefits-panel h2,
+.benefits-panel strong {
+  color: #ffe49b;
+}
+
+.benefits-panel li {
+  border-color: rgba(182, 132, 187, .2);
+}
+
+.benefits-panel li > div > span,
+.benefits-panel .benefit-note {
+  color: #c9b9cb;
+}
+
+.benefit-icon {
+  border-color: rgba(229, 184, 78, .72);
+  background: rgba(86, 45, 91, .42);
+  color: #f0c85f;
+}
+
+.welcome-next-steps,
+.welcome-steps {
+  color: #eadde8 !important;
+}
+
+.welcome-steps li::marker {
+  color: #e5b94e;
+}
+
+.button,
+.telegram-guides .button.secondary,
+.telegram-community-button {
+  border-color: rgba(255, 225, 143, .84) !important;
+  background: linear-gradient(135deg, #a8671c 0%, #dfaa3e 34%, #ffe392 61%, #b57320 100%) !important;
+  box-shadow: 0 11px 27px rgba(160, 99, 24, .38), inset 0 1px 0 rgba(255, 251, 220, .78) !important;
+}
+
+.button:hover:not(:disabled),
+.telegram-guides .button.secondary:hover:not(:disabled),
+.telegram-community-button:hover:not(:disabled) {
+  box-shadow: 0 14px 33px rgba(213, 153, 43, .48), inset 0 1px 0 rgba(255, 254, 232, .88) !important;
+}
+
+.button.secondary {
+  border-color: rgba(219, 182, 101, .48) !important;
+  background: linear-gradient(145deg, rgba(78, 39, 83, .96), rgba(43, 19, 52, .98)) !important;
+  color: #fff1cf !important;
+  box-shadow: inset 0 1px 0 rgba(255, 238, 187, .08) !important;
+}
+
+.button.danger {
+  border-color: rgba(220, 123, 137, .62) !important;
+  background: linear-gradient(135deg, #74333f, #431d2b) !important;
+}
+
+.notice,
+.equipment-notice {
+  border-color: rgba(229, 186, 76, .5);
+  background: linear-gradient(135deg, rgba(103, 61, 24, .54), rgba(52, 21, 61, .78));
+}
+
+.notice strong {
+  color: #fff0c5;
+}
+
+.quiz-prompt-note,
+.guided-line.is-current,
+.equipment-tab-transition,
+.hygiene-notice,
+.registration-data-warning {
+  background: linear-gradient(90deg, rgba(225, 180, 72, .14), rgba(73, 28, 81, .18));
+}
+
+.quiz-prompt-note {
+  color: #d8c7d7 !important;
+}
+
+.guided-line.is-current {
+  color: #fff3d2;
+}
+
+.guided-line mark,
+.continue-reading,
+.quiz-success {
+  color: #f2cd70 !important;
+}
+
+.bolt-quiz-instructions,
+.video-confirmation,
+.registration-confirmation {
+  border-color: rgba(226, 184, 79, .4);
+  background: rgba(56, 22, 66, .58);
+  color: #e6d9e7;
+}
+
+.resume-overlay {
+  background: rgba(10, 3, 13, .72);
+  backdrop-filter: blur(7px);
+}
+
+.resume-dialog {
+  border-color: rgba(231, 190, 91, .85);
+  background:
+    radial-gradient(circle at 50% 0, rgba(111, 56, 126, .28), transparent 19rem),
+    linear-gradient(145deg, #351541, #1d0a26);
+  box-shadow: 0 26px 70px rgba(7, 1, 10, .62), inset 0 1px 0 rgba(255, 239, 190, .1);
+  color: #fff6df;
+}
+
+.question legend {
+  border-color: rgba(232, 191, 89, .66);
+  background: linear-gradient(125deg, rgba(115, 68, 23, .94), rgba(63, 26, 72, .98));
+  color: #fff7e6;
+}
+
+.question .options {
+  border-color: rgba(205, 164, 91, .3);
+  background: linear-gradient(145deg, rgba(63, 29, 71, .96), rgba(36, 15, 47, .98));
+}
+
+.question .option {
+  border-color: rgba(167, 122, 172, .25);
+  background: rgba(49, 23, 58, .88);
+  color: #eadfea;
+}
+
+.question .option:hover {
+  border-color: rgba(230, 187, 82, .48);
+  background: rgba(77, 36, 82, .94);
+}
+
+.question .option.correct {
+  border-color: rgba(93, 201, 156, .68);
+  background: rgba(28, 89, 67, .48);
+}
+
+.question .option.incorrect {
+  border-color: rgba(230, 123, 133, .68);
+  background: rgba(112, 42, 56, .42);
+}
+
+.answer-note,
+.result {
+  border-color: rgba(226, 184, 79, .38);
+  background: rgba(59, 25, 68, .62);
+}
+
+.result.fail {
+  border-color: rgba(225, 121, 135, .48);
+  background: rgba(93, 34, 51, .42);
+}
+
+#lock-tooltip {
+  border-color: rgba(235, 197, 107, .62);
+  background: rgba(34, 12, 42, .98);
+  color: #fff0c8;
+}
+
+.equipment-tabs-card {
+  border-color: rgba(225, 181, 76, .7);
+  background: linear-gradient(145deg, rgba(62, 27, 70, .96), rgba(31, 12, 41, .99));
+  box-shadow: 0 19px 44px rgba(8, 1, 11, .3);
+}
+
+.equipment-tabs {
+  border-bottom-color: rgba(225, 181, 76, .38);
+  background: rgba(28, 9, 36, .52);
+}
+
+.equipment-tab {
+  color: #c4afbe;
+}
+
+.equipment-tab.is-active {
+  color: #ffe4a1;
+  background: linear-gradient(180deg, rgba(216, 166, 57, .17), rgba(63, 24, 71, .1));
+}
+
+.equipment-tab-heading > span {
+  background: rgba(48, 18, 57, .72);
+}
+
+.equipment-tab-heading p {
+  color: #ddcfdf !important;
+}
+
+.equipment-tab-transition,
+.hygiene-notice {
+  color: #ead6aa !important;
+}
+
+.hygiene-rules section {
+  border-color: rgba(181, 132, 188, .28);
+  background: rgba(40, 15, 50, .58);
+}
+
+.hygiene-rules ul {
+  color: #ded1df;
+}
+
+.hygiene-official-note {
+  background: linear-gradient(135deg, rgba(109, 69, 14, .2), rgba(58, 21, 66, .64));
+}
+
+.registration-note p,
+.registration-data-warning p {
+  color: #f0dfbc !important;
+}
+
+.telegram-guides,
+.guide-followup {
+  border-color: rgba(221, 181, 88, .3);
+  background: linear-gradient(145deg, rgba(61, 27, 69, .78), rgba(29, 11, 39, .86));
+}
+
+.guide-label,
+.guide-followup p,
+.telegram-guides .guide-label {
+  color: #eadcea;
+}
+
+.campaign-teaser {
+  background: linear-gradient(135deg, rgba(91, 53, 18, .36), rgba(68, 27, 75, .58));
+}
+
+.campaign-teaser:hover {
+  background: linear-gradient(135deg, rgba(108, 66, 20, .46), rgba(82, 34, 88, .68));
+}
+
+.campaign-teaser-icon {
+  background: radial-gradient(circle at 35% 30%, #ae7423, #4b2b0d 64%, #35163f 70%);
+}
+
+.campaign-teaser small {
+  color: #cbbdce;
+}
+
+.campaign-completion {
+  background:
+    radial-gradient(circle at 50% 0, rgba(182, 125, 31, .29), transparent 46%),
+    linear-gradient(145deg, rgba(66, 27, 75, .98), rgba(28, 10, 38, .98));
+}
+
+.campaign-completion-copy small {
+  color: #cdbfd0;
+}
+
+.final-close-note {
+  border-color: rgba(202, 160, 205, .22);
+  background: rgba(47, 18, 56, .52);
+  color: #c8b9ca !important;
+}
+
+@media (max-width: 780px) {
+  body::before {
+    background-image:
+      linear-gradient(rgba(53, 18, 63, .34), rgba(15, 6, 20, .52)),
+      url("assets/onboarding-ornamental-background.png");
+  }
+
+  body::after {
+    background: linear-gradient(180deg, rgba(25, 8, 32, .2), rgba(12, 4, 16, .64));
+  }
+
+  .cibero-stepper > .step {
+    color: #c7aebd;
+  }
+
+  .cibero-stepper > .step-connector,
+  .cibero-stepper > .step-connector:nth-child(2),
+  .cibero-stepper > .step-connector:nth-child(4),
+  .cibero-stepper > .step-connector:nth-child(6),
+  .cibero-stepper > .step-connector:nth-child(8),
+  .cibero-stepper > .step-connector:nth-child(10),
+  .cibero-stepper > .step-connector:nth-child(12) {
+    background: linear-gradient(90deg, rgba(222, 177, 73, .68), rgba(147, 94, 152, .22));
+  }
+}

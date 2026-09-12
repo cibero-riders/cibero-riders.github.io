@@ -1,0 +1,204 @@
+/* Direcția finală aleasă: Marmură nocturnă. */
+.status-options {
+  gap: 16px;
+}
+
+.status-card {
+  position: relative;
+  display: flex;
+  min-height: 245px;
+  padding: 31px 30px;
+  overflow: hidden;
+  align-items: center;
+  border: 1px solid #f8e3a4;
+  border-radius: 14px;
+  background:
+    radial-gradient(circle at 18% 4%, rgba(255,255,255,.96), transparent 35%),
+    radial-gradient(circle at 88% 95%, rgba(181,119,42,.2), transparent 38%),
+    linear-gradient(135deg, #fffdf5 0%, #f3e2c2 62%, #d8b273 100%);
+  color: #32153c;
+  text-align: left;
+  box-shadow: inset 0 0 40px rgba(116,64,20,.13), 0 16px 30px rgba(5,1,9,.3);
+}
+
+.status-card:before {
+  content: "";
+  position: absolute;
+  inset: 9px;
+  height: auto;
+  border: 1px solid rgba(123,72,20,.22);
+  border-radius: 10px;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
+}
+
+.status-card:after {
+  content: "✦";
+  position: absolute;
+  top: 18px;
+  right: 21px;
+  color: #976416;
+  font: 700 14px/1 Cinzel, serif;
+  opacity: .88;
+}
+
+.status-card:hover:not(.selected) {
+  transform: translateY(-3px);
+  border-color: #fff0b5;
+  background:
+    radial-gradient(circle at 18% 4%, #fff, transparent 36%),
+    radial-gradient(circle at 88% 95%, rgba(181,119,42,.24), transparent 40%),
+    linear-gradient(135deg, #fffef8 0%, #f5e6ca 62%, #ddb978 100%);
+  box-shadow: inset 0 0 40px rgba(116,64,20,.13), 0 20px 36px rgba(5,1,9,.4);
+}
+
+.status-card.selected {
+  transform: translateY(-3px);
+  border-color: #f6ce63;
+  background:
+    radial-gradient(circle at 18% 4%, #fff, transparent 36%),
+    radial-gradient(circle at 88% 95%, rgba(173,105,26,.3), transparent 42%),
+    linear-gradient(135deg, #fffdf5 0%, #f5dfb7 60%, #d4a45b 100%);
+  box-shadow: inset 0 0 0 2px rgba(163,104,23,.2), inset 0 0 42px rgba(116,64,20,.12), 0 20px 38px rgba(5,1,9,.42);
+}
+
+.status-card-copy {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr);
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 22px;
+  width: 100%;
+  min-width: 0;
+}
+
+.status-card .status-symbol {
+  display: grid;
+  grid-column: 1;
+  grid-row: 1 / 3;
+  place-items: center;
+  order: initial;
+  position: relative;
+  z-index: 1;
+  width: 66px;
+  height: 66px;
+  margin: 0;
+  border: 1px solid #b47a24;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 32%, #7f3b70 0%, #4a1f4d 48%, #29102f 74%);
+  color: #ffe99a;
+  font: 700 25px/1 "DM Sans", sans-serif;
+  box-shadow: 0 9px 20px rgba(62,20,60,.23), inset 0 1px 0 rgba(255,255,255,.22);
+}
+
+.status-card .status-symbol:before,
+.status-card .status-symbol:after {
+  content: none;
+}
+
+.status-card-copy b {
+  grid-column: 2;
+  grid-row: 1;
+  order: 1;
+  display: block;
+  max-width: 400px;
+  margin: 0;
+  color: #36143f;
+  font: 800 clamp(24px, 2.8vw, 31px)/1.12 "DM Sans", sans-serif;
+  letter-spacing: -1px;
+  text-transform: none;
+  text-align: left;
+  text-wrap: balance;
+  text-shadow: none;
+}
+
+.status-card-copy b:after {
+  content: none;
+}
+
+.status-card .status-action {
+  grid-column: 2;
+  grid-row: 2;
+  display: block;
+  order: 2;
+  width: auto;
+  min-height: 0;
+  margin: 18px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #70356d;
+  font: 800 18px/1.35 "DM Sans", sans-serif;
+  letter-spacing: -.2px;
+  text-transform: none;
+  text-align: left;
+  text-wrap: balance;
+  box-shadow: none;
+}
+
+.status-card .status-action:after {
+  content: "  →";
+  color: #9e6919;
+}
+
+.status-card > i {
+  position: absolute;
+  z-index: 2;
+  top: auto;
+  right: 20px;
+  bottom: 16px;
+  color: #8a5c18;
+  font: 800 11px/1 "DM Sans", sans-serif;
+  letter-spacing: 1px;
+}
+
+.status-card > i:after {
+  content: none;
+}
+
+.status-card:nth-child(1) > i { font-size: 0; }
+.status-card:nth-child(1) > i:before { content: "A"; font-size: 11px; }
+.status-card:nth-child(2) > i { font-size: 0; }
+.status-card:nth-child(2) > i:before { content: "B"; font-size: 11px; }
+.status-card.selected > i:before { content: "✓"; font-size: 15px; }
+
+@media (max-width: 680px) {
+  .status-card {
+    display: flex;
+    min-height: 278px;
+    padding: 29px 23px 25px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .status-card-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .status-card .status-symbol {
+    order: 1;
+    width: 62px;
+    height: 62px;
+    margin: 0 0 20px;
+    font-size: 23px;
+  }
+
+  .status-card-copy b {
+    order: 2;
+    font-size: 27px;
+    letter-spacing: -.8px;
+    text-align: center;
+  }
+
+  .status-card .status-action {
+    order: 3;
+    margin-top: 17px;
+    font-size: 17px;
+    text-align: center;
+  }
+}

@@ -1,0 +1,19 @@
+/* Tipografia comună a paginilor CibeRO: clară, rotunjită și ușor de citit. */
+body,
+body * {
+  font-family: "DM Sans", Arial, sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.choice-title,
+.stage-heading h2,
+.ticket-intro h1 {
+  letter-spacing: -.035em;
+}
+
+.eyebrow,
+.ticket-kicker,
+.category-separator,
+.step-label {
+  letter-spacing: .09em;
+}
