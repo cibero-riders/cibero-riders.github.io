@@ -5,20 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Panou administrativ | CibeRO</title>
-  <script>try { if (localStorage.getItem("cibero-admin-theme") === "light") document.documentElement.dataset.theme = "light"; } catch {}</script>
+  <script>try { const savedTheme = localStorage.getItem("cibero-admin-theme-v2"); const legacyTheme = localStorage.getItem("cibero-admin-theme"); document.documentElement.dataset.theme = ["light", "midday", "night"].includes(savedTheme) ? savedTheme : legacyTheme === "light" ? "light" : "midday"; } catch { document.documentElement.dataset.theme = "midday"; }</script>
   <link rel="icon" type="image/png" href="../assets/cibero-favicon.png?v=3" />
   <link rel="apple-touch-icon" href="../assets/cibero-favicon.png?v=3" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=53" />
+  <link rel="stylesheet" href="admin.css?v=54" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
   <header class="admin-header">
     <a href="../" aria-label="Înapoi la CibeRO"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
     <span>Panou administrativ</span>
-    <div class="admin-header-actions"><label class="theme-switch" title="Schimbă tema zi/noapte"><input id="theme-toggle" type="checkbox" aria-label="Activează tema de zi" /><span class="theme-switch-track"><span class="theme-icon theme-sun" aria-hidden="true">☀</span><span class="theme-icon theme-moon" aria-hidden="true">☾</span><span class="theme-switch-thumb" aria-hidden="true"></span></span></label><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
+    <div class="admin-header-actions"><div id="theme-switch" class="theme-switch" role="group" aria-label="Alege tema panoului"><button type="button" data-theme-option="light" aria-label="Tema de zi" title="Zi">☀</button><button type="button" data-theme-option="midday" aria-label="Tema CibeRO mid-day" title="Mid-day CibeRO">◐</button><button type="button" data-theme-option="night" aria-label="Tema de noapte" title="Noapte">☾</button></div><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
   </header>
 
   <main>
@@ -291,6 +291,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=52"></script>
+  <script type="module" src="admin.js?v=53"></script>
 </body>
 </html>

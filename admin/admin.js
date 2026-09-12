@@ -71,7 +71,8 @@ const loginButton = loginForm.querySelector("button[type='submit']");
 const loginFeedback = document.querySelector("#login-feedback");
 const dashboardFeedback = document.querySelector("#dashboard-feedback");
 const logoutButton = document.querySelector("#logout-button");
-const themeToggle = document.querySelector("#theme-toggle");
+const themeSwitch = document.querySelector("#theme-switch");
+const themeOptions = [...document.querySelectorAll("[data-theme-option]")];
 const refreshButton = document.querySelector("#refresh-button");
 const exportButton = document.querySelector("#export-button");
 const applicationsList = document.querySelector("#applications-list");
@@ -1983,17 +1984,21 @@ openSubfleetMessagesButton.addEventListener("click", async () => {
 });
 
 function applyAdminTheme(theme, persist = true) {
-  const isLight = theme === "light";
-  document.documentElement.dataset.theme = isLight ? "light" : "night";
-  themeToggle.checked = isLight;
-  themeToggle.setAttribute("aria-label", isLight ? "Activează tema de noapte" : "Activează tema de zi");
+  const resolvedTheme = ["light", "midday", "night"].includes(theme) ? theme : "midday";
+  document.documentElement.dataset.theme = resolvedTheme;
+  themeSwitch.dataset.theme = resolvedTheme;
+  themeOptions.forEach(option => {
+    const active = option.dataset.themeOption === resolvedTheme;
+    option.classList.toggle("active", active);
+    option.setAttribute("aria-pressed", String(active));
+  });
   if (persist) {
-    try { localStorage.setItem("cibero-admin-theme", isLight ? "light" : "night"); } catch { /* Preferința de temă este opțională. */ }
+    try { localStorage.setItem("cibero-admin-theme-v2", resolvedTheme); } catch { /* Preferința de temă este opțională. */ }
   }
 }
 
-applyAdminTheme(document.documentElement.dataset.theme === "light" ? "light" : "night", false);
-themeToggle.addEventListener("change", () => applyAdminTheme(themeToggle.checked ? "light" : "night"));
+applyAdminTheme(document.documentElement.dataset.theme, false);
+themeOptions.forEach(option => option.addEventListener("click", () => applyAdminTheme(option.dataset.themeOption)));
 
 renderAvailability();
 availabilityEditors.forEach(editor => {

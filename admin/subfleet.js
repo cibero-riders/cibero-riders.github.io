@@ -77,7 +77,17 @@ function formatElapsed(value) {
 }
 
 function setFeedback(message = "", success = false) { feedback.classList.toggle("success", success); feedback.textContent = message; }
-function updateTabCounts() { poolCount.textContent = pool.length; claimedCount.textContent = claimed.length; ticketCount.textContent = tickets.length; }
+function updateTabCounts() {
+  poolCount.textContent = pool.length;
+  claimedCount.textContent = claimed.length;
+  ticketCount.textContent = tickets.length;
+  const unreadCounts = {
+    pool: pool.length,
+    claimed: claimed.filter(item => item.status === "new").length,
+    tickets: tickets.filter(item => item.status === "new" && !item.opened_at).length,
+  };
+  tabs.forEach(button => button.classList.toggle("has-unread", unreadCounts[button.dataset.subfleetTab] > 0));
+}
 function updateMessageBadge() {
   const unreadCount = messages.filter(item => item.sender_role === "admin" && !item.read_at).length;
   messageBadge.textContent = unreadCount;
