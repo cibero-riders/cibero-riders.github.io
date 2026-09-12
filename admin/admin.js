@@ -347,6 +347,17 @@ function ticketViewById(viewId) {
   return ticketViews.find(view => view.id === viewId) ?? ticketViews[0];
 }
 
+// A ticket with a subfleet owner is handled exclusively from that subfleet's
+// portal. Admins retain audit access in Supabase (and for duplicate alerts),
+// but it must never enter CibeRO's operational ticket queue or its counters.
+function isCiberoManagedTicket(item) {
+  return !item.subfleet_id;
+}
+
+function ciberoTickets() {
+  return tickets.filter(isCiberoManagedTicket);
+}
+
 function ticketMatchesActiveView(item) {
   const view = ticketViewById(activeTicketView);
   return view.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType);
@@ -395,16 +406,17 @@ function setActiveTicketView(viewId, persist = true) {
 }
 
 function renderTicketNavigation() {
+  const centralTickets = ciberoTickets();
   ticketWorkspaceTabs.forEach(tab => {
     const workspace = tab.dataset.ticketWorkspace;
     const active = workspace === activeTicketWorkspace;
     tab.classList.toggle("active", active);
     tab.setAttribute("aria-selected", String(active));
-    updateTabUnreadBadge(tab, tickets.filter(item => ticketViews.some(view => view.workspace === workspace && view.matches(item)) && item.status === "new").length);
+    updateTabUnreadBadge(tab, centralTickets.filter(item => ticketViews.some(view => view.workspace === workspace && view.matches(item)) && item.status === "new").length);
   });
   const workspaceViews = ticketViews.filter(view => view.workspace === activeTicketWorkspace);
   ticketCategoryTabsContainer.innerHTML = workspaceViews.map(view => {
-    const newCount = tickets.filter(item => view.matches(item) && item.status === "new").length;
+    const newCount = centralTickets.filter(item => view.matches(item) && item.status === "new").length;
     const active = view.id === activeTicketView;
     return `<button class="platform-tab${active ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-view="${escapeHtml(view.id)}">${escapeHtml(view.label)} <span class="unread-badge"${newCount ? "" : " hidden"}>${newCount}</span></button>`;
   }).join("");
@@ -425,7 +437,7 @@ function renderTicketTypeNavigation() {
   const filters = [{ id: "", label: "Toate solicitările" }, ...types.map(id => ({ id, label: ticketTypeLabels[id] ?? id }))];
   ticketTypeTabsContainer.innerHTML = filters.map(filter => {
     const active = filter.id === activeTicketRequestType;
-    const newCount = tickets.filter(item => view.matches(item) && (!filter.id || item.request_type === filter.id) && item.status === "new").length;
+    const newCount = ciberoTickets().filter(item => view.matches(item) && (!filter.id || item.request_type === filter.id) && item.status === "new").length;
     return `<button class="ticket-type-tab${active ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" aria-selected="${active}" data-ticket-request-type="${escapeHtml(filter.id)}">${escapeHtml(filter.label)} <span${newCount ? "" : " hidden"}>${newCount}</span></button>`;
   }).join("");
   ticketTypeTabsContainer.querySelectorAll("[data-ticket-request-type]").forEach(tab => {
@@ -1102,19 +1114,20 @@ async function loadTickets() {
 }
 
 function updateTicketSummary() {
-  const viewTickets = tickets.filter(ticketMatchesActiveView);
+  const centralTickets = ciberoTickets();
+  const viewTickets = centralTickets.filter(ticketMatchesActiveView);
   renderTicketNavigation();
   document.querySelector("#tickets-total-count").textContent = viewTickets.length;
   document.querySelector("#tickets-new-count").textContent = viewTickets.filter(item => item.status === "new").length;
   document.querySelector("#tickets-reviewing-count").textContent = viewTickets.filter(item => ["reviewing", "clarification", "sent_to_platform"].includes(item.status)).length;
   document.querySelector("#tickets-approved-count").textContent = viewTickets.filter(item => item.status === "approved").length;
-  updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, tickets.filter(item => item.status === "new").length);
+  updatePrimaryUnreadBadge("tickets-panel", ticketsPrimaryCount, centralTickets.filter(item => item.status === "new").length);
 }
 
 function filteredTickets() {
   const query = ticketSearchFilter.value.trim().toLocaleLowerCase("ro-RO");
   const status = ticketStatusFilter.value;
-  return tickets.filter(item => {
+  return ciberoTickets().filter(item => {
     const reference = item.id.slice(0, 8).toUpperCase();
     const haystack = [reference, item.first_name, item.last_name, item.email, item.phone, ticketTypeLabels[item.request_type]].join(" ").toLocaleLowerCase("ro-RO");
     return ticketMatchesActiveView(item) && (!query || haystack.includes(query)) && (!status || item.status === status);
