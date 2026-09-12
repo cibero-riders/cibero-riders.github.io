@@ -159,9 +159,7 @@ window.addEventListener("scroll", schedulePositionTour, { passive: true });
 export function showAccountGuide(profile) {
   const role = profile?.role === "subfleet" ? "subfleet" : "admin";
   const loginCount = Number(profile?.onboarding_login_count ?? 1);
-  if (loginCount <= 1) openGuide(role, true);
-  else if (loginCount <= 3) {
-    choiceDialog.dataset.role = role;
-    choiceDialog.showModal();
-  }
+  // During the current testing phase, show the contextual tour at every login.
+  // Only a brand-new account must finish it without closing it.
+  openGuide(role, loginCount <= 1);
 }
