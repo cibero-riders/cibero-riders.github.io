@@ -5,19 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
   <title>Panou administrativ | CibeRO</title>
+  <script>try { if (localStorage.getItem("cibero-admin-theme") === "light") document.documentElement.dataset.theme = "light"; } catch {}</script>
   <link rel="icon" type="image/png" href="../assets/cibero-favicon.png?v=3" />
   <link rel="apple-touch-icon" href="../assets/cibero-favicon.png?v=3" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=45" />
+  <link rel="stylesheet" href="admin.css?v=46" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
   <header class="admin-header">
     <a href="../" aria-label="Înapoi la CibeRO"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
     <span>Panou administrativ</span>
-    <div class="admin-header-actions"><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
+    <div class="admin-header-actions"><div id="ticket-layout-preferences" class="header-preferences" hidden><button id="ticket-layout-toggle" class="header-icon-button" type="button" aria-label="Alege stilul de afișare al ticketelor" aria-expanded="false" aria-controls="ticket-layout-menu">☷<span>Stil listă</span></button><div id="ticket-layout-menu" class="header-preferences-menu" hidden><strong>Tickete</strong><button type="button" data-header-ticket-display-mode="structured">Structurat</button><button type="button" data-header-ticket-display-mode="all">Toate la grămadă</button></div></div><label class="theme-switch" title="Schimbă tema zi/noapte"><input id="theme-toggle" type="checkbox" aria-label="Activează tema de zi" /><span class="theme-switch-track"><span class="theme-icon theme-sun" aria-hidden="true">☀</span><span class="theme-icon theme-moon" aria-hidden="true">☾</span><span class="theme-switch-thumb" aria-hidden="true"></span></span></label><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
   </header>
 
   <main>
@@ -293,6 +294,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=48"></script>
+  <script type="module" src="admin.js?v=49"></script>
 </body>
 </html>

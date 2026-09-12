@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-import { showAccountGuide } from "./onboarding.js?v=3";
+import { showAccountGuide } from "./onboarding.js?v=4";
 
 const SUPABASE_URL = "https://xpzgvknnrkyvcnncfqrq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_yqSB3WMkNNxujsJhLMqLJA_8Q99BmbN";
@@ -71,6 +71,11 @@ const loginButton = loginForm.querySelector("button[type='submit']");
 const loginFeedback = document.querySelector("#login-feedback");
 const dashboardFeedback = document.querySelector("#dashboard-feedback");
 const logoutButton = document.querySelector("#logout-button");
+const ticketLayoutPreferences = document.querySelector("#ticket-layout-preferences");
+const ticketLayoutToggle = document.querySelector("#ticket-layout-toggle");
+const ticketLayoutMenu = document.querySelector("#ticket-layout-menu");
+const headerTicketDisplayModeControls = [...document.querySelectorAll("[data-header-ticket-display-mode]")];
+const themeToggle = document.querySelector("#theme-toggle");
 const refreshButton = document.querySelector("#refresh-button");
 const exportButton = document.querySelector("#export-button");
 const applicationsList = document.querySelector("#applications-list");
@@ -156,6 +161,7 @@ let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
 let activeTicketDisplayMode = "structured";
+let activeAccessRole = "";
 let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
@@ -383,6 +389,19 @@ function persistTicketNavigation() {
   writeAdminPreference("ticket-navigation", { workspace: activeTicketWorkspace, view: activeTicketView, requestType: activeTicketRequestType, displayMode: activeTicketDisplayMode });
 }
 
+function syncHeaderTicketDisplayMode(mode) {
+  headerTicketDisplayModeControls.forEach(button => {
+    const active = button.dataset.headerTicketDisplayMode === mode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+}
+
+function announceTicketDisplayMode(mode) {
+  syncHeaderTicketDisplayMode(mode);
+  window.dispatchEvent(new CustomEvent("cibero-ticket-display-mode-changed", { detail: { mode } }));
+}
+
 function restoreTicketNavigation() {
   const saved = readAdminPreference("ticket-navigation");
   const savedView = ticketViews.find(view => view.id === saved?.view);
@@ -391,6 +410,7 @@ function restoreTicketNavigation() {
   activeTicketView = savedView?.workspace === activeTicketWorkspace ? savedView.id : ticketViews.find(view => view.workspace === activeTicketWorkspace).id;
   activeTicketRequestType = savedView?.types?.includes(saved?.requestType) ? saved.requestType : "";
   activeTicketDisplayMode = saved?.displayMode === "all" ? "all" : "structured";
+  syncHeaderTicketDisplayMode(activeTicketDisplayMode);
   renderTicketNavigation();
 }
 
@@ -398,6 +418,7 @@ function setTicketDisplayMode(mode, persist = true) {
   activeTicketDisplayMode = mode === "all" ? "all" : "structured";
   activeTicketRequestType = "";
   if (persist) persistTicketNavigation();
+  announceTicketDisplayMode(activeTicketDisplayMode);
   renderTicketNavigation();
   updateTicketSummary();
   renderTickets();
@@ -789,6 +810,7 @@ function syncTicketReadState(item) {
 }
 
 function showLogin(message = "") {
+  activeAccessRole = "";
   sessionLoading.hidden = true;
   loginView.hidden = false;
   dashboardView.hidden = true;
@@ -797,6 +819,7 @@ function showLogin(message = "") {
   logoutButton.hidden = true;
   adminDuplicateAlertBell.hidden = true;
   adminMessageBell.hidden = true;
+  ticketLayoutPreferences.hidden = true;
   loginButton.disabled = false;
   loginFeedback.textContent = message;
 }
@@ -809,6 +832,7 @@ function showDashboard() {
   logoutButton.hidden = false;
   adminDuplicateAlertBell.hidden = false;
   adminMessageBell.hidden = false;
+  ticketLayoutPreferences.hidden = false;
   loginForm.reset();
   loginFeedback.textContent = "";
   restoreTicketNavigation();
@@ -845,13 +869,15 @@ async function openAccessProfile(user, requestedRole = "") {
     showLogin(requestedRole === "admin" ? "Acest cont este de sub-flotă. Selectează „Sub-flotă” pentru autentificare." : "Acest cont este de administrator. Selectează „Admin” pentru autentificare.");
     return false;
   }
+  activeAccessRole = profile.role;
   profile.onboarding_login_count = await recordOnboardingLogin();
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=10");
+    subfleetPortal ??= await import("./subfleet.js?v=11");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
     logoutButton.hidden = false;
+    ticketLayoutPreferences.hidden = false;
     loginForm.reset();
     await subfleetPortal.showSubfleetPortal(profile);
     showAccountGuide(profile);
@@ -1976,6 +2002,40 @@ openSubfleetMessagesButton.addEventListener("click", async () => {
   await openAdminConversation(activeSubfleetId);
   if (!adminMessagesDialog.open) adminMessagesDialog.showModal();
 });
+
+function applyAdminTheme(theme, persist = true) {
+  const isLight = theme === "light";
+  document.documentElement.dataset.theme = isLight ? "light" : "night";
+  themeToggle.checked = isLight;
+  themeToggle.setAttribute("aria-label", isLight ? "Activează tema de noapte" : "Activează tema de zi");
+  if (persist) {
+    try { localStorage.setItem("cibero-admin-theme", isLight ? "light" : "night"); } catch { /* Preferința de temă este opțională. */ }
+  }
+}
+
+function setTicketLayoutMenu(open) {
+  ticketLayoutMenu.hidden = !open;
+  ticketLayoutToggle.setAttribute("aria-expanded", String(open));
+}
+
+applyAdminTheme(document.documentElement.dataset.theme === "light" ? "light" : "night", false);
+themeToggle.addEventListener("change", () => applyAdminTheme(themeToggle.checked ? "light" : "night"));
+ticketLayoutToggle.addEventListener("click", event => {
+  event.stopPropagation();
+  setTicketLayoutMenu(ticketLayoutMenu.hidden);
+});
+headerTicketDisplayModeControls.forEach(button => button.addEventListener("click", () => {
+  window.dispatchEvent(new CustomEvent("cibero-ticket-display-mode-request", { detail: { mode: button.dataset.headerTicketDisplayMode } }));
+  setTicketLayoutMenu(false);
+}));
+window.addEventListener("cibero-ticket-display-mode-request", event => {
+  if (activeAccessRole === "admin") setTicketDisplayMode(event.detail?.mode);
+});
+window.addEventListener("cibero-ticket-display-mode-changed", event => syncHeaderTicketDisplayMode(event.detail?.mode === "all" ? "all" : "structured"));
+document.addEventListener("click", event => {
+  if (!ticketLayoutPreferences.contains(event.target)) setTicketLayoutMenu(false);
+});
+
 renderAvailability();
 availabilityEditors.forEach(editor => {
   const platform = editor.dataset.availabilityEditor;

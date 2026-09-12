@@ -216,6 +216,7 @@ function setTicketDisplayMode(mode) {
   activeTicketDisplayMode = mode === "all" ? "all" : "structured";
   activeTicketRequestType = "";
   try { localStorage.setItem(`cibero-subfleet-ticket-display:${profile?.user_id ?? "default"}`, activeTicketDisplayMode); } catch { /* Preferința este opțională. */ }
+  window.dispatchEvent(new CustomEvent("cibero-ticket-display-mode-changed", { detail: { mode: activeTicketDisplayMode } }));
   render();
 }
 function detailField(label, value, full = false) { return `<div class="detail-field${full ? " full" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || "—")}</strong></div>`; }
@@ -275,12 +276,16 @@ tabs.forEach(button => button.addEventListener("click", () => selectTab(button.d
 refresh.addEventListener("click", load);
 poolSort.addEventListener("change", () => { activePoolSort = poolSort.value === "oldest" ? "oldest" : "newest"; render(); });
 ticketDisplayModeControls.forEach(button => button.addEventListener("click", () => setTicketDisplayMode(button.dataset.subfleetTicketDisplayMode)));
+window.addEventListener("cibero-ticket-display-mode-request", event => {
+  if (profile && !view.hidden) setTicketDisplayMode(event.detail?.mode);
+});
 messageBell.addEventListener("click", openMessages);
 messageForm.addEventListener("submit", sendMessage);
 
 export async function showSubfleetPortal(userProfile) {
   profile = userProfile; view.hidden = false;
   try { activeTicketDisplayMode = localStorage.getItem(`cibero-subfleet-ticket-display:${profile.user_id}`) === "all" ? "all" : "structured"; } catch { activeTicketDisplayMode = "structured"; }
+  window.dispatchEvent(new CustomEvent("cibero-ticket-display-mode-changed", { detail: { mode: activeTicketDisplayMode } }));
   const { data: fleet } = await supabase.from("subfleets").select("name").eq("id", profile.subfleet_id).maybeSingle();
   title.textContent = fleet?.name ? `Portal ${fleet.name}` : "Portal sub-flotă";
   selectTab("pool");
