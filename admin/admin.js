@@ -815,7 +815,7 @@ async function openAccessProfile(user, requestedRole = "") {
   }
   profile.onboarding_login_count = await recordOnboardingLogin();
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=8");
+    subfleetPortal ??= await import("./subfleet.js?v=9");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;

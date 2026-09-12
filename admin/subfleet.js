@@ -167,6 +167,9 @@ function sortedPool() {
 }
 function ticketViewById(id) { return ticketViews.find(item => item.id === id) ?? ticketViews[0]; }
 function ticketMatchesActiveView(item) { const selected = ticketViewById(activeTicketView); return selected.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType); }
+function isUnreadTicket(item) { return item.status === "new" && !item.opened_at; }
+function ticketUnreadCount(matches) { return tickets.filter(item => isUnreadTicket(item) && matches(item)).length; }
+function unreadBadge(count) { return `<span class="unread-badge"${count ? "" : " hidden"}>${count}</span>`; }
 function renderStatusTabs() {
   const statuses = [["all", "Toți"], ["new", "Noi"], ["reviewing", "În verificare"], ["sent_to_platform", "Trimis la Platformă"], ["activated", "Activi"], ["rejected", "Respinși"], ["archived", "Arhivă"]];
   statusTabs.innerHTML = statuses.map(([value, label]) => `<button class="subfleet-filter-tab${value === activeClaimedStatus ? " active" : ""}${value === "archived" ? " archive" : ""}" type="button" role="tab" aria-selected="${value === activeClaimedStatus}" data-claimed-status="${escapeHtml(value)}">${value === "archived" ? '<b aria-hidden="true">⌫</b>' : ""}${escapeHtml(label)} <span>${value === "all" ? claimed.filter(item => item.status !== "archived").length : claimed.filter(item => item.status === value).length}</span></button>`).join("");
@@ -174,14 +177,23 @@ function renderStatusTabs() {
 }
 function renderTicketNavigation() {
   const workspaces = [["platforms", "Platforme"], ["reports", "Rapoarte și Plăți"], ["administrative", "Administrativ"], ["reimbursement", "5% Decontare"]];
-  ticketWorkspaces.innerHTML = workspaces.map(([id, label]) => `<button class="ticket-workspace-tab${id === activeTicketWorkspace ? " active" : ""}" type="button" role="tab" data-subfleet-ticket-workspace="${id}">${label}</button>`).join("");
+  ticketWorkspaces.innerHTML = workspaces.map(([id, label]) => {
+    const newCount = ticketUnreadCount(item => ticketViews.some(view => view.workspace === id && view.matches(item)));
+    return `<button class="ticket-workspace-tab${id === activeTicketWorkspace ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" data-subfleet-ticket-workspace="${id}">${label}${unreadBadge(newCount)}</button>`;
+  }).join("");
   ticketWorkspaces.querySelectorAll("[data-subfleet-ticket-workspace]").forEach(button => button.addEventListener("click", () => { activeTicketWorkspace = button.dataset.subfleetTicketWorkspace; activeTicketView = ticketViews.find(item => item.workspace === activeTicketWorkspace)?.id ?? "bolt"; activeTicketRequestType = ""; render(); }));
   const views = ticketViews.filter(item => item.workspace === activeTicketWorkspace);
-  ticketCategories.innerHTML = views.map(item => `<button class="platform-tab${item.id === activeTicketView ? " active" : ""}" type="button" role="tab" data-subfleet-ticket-view="${item.id}">${item.label}</button>`).join("");
+  ticketCategories.innerHTML = views.map(item => {
+    const newCount = ticketUnreadCount(item.matches);
+    return `<button class="platform-tab${item.id === activeTicketView ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" data-subfleet-ticket-view="${item.id}">${item.label}${unreadBadge(newCount)}</button>`;
+  }).join("");
   ticketCategories.querySelectorAll("[data-subfleet-ticket-view]").forEach(button => button.addEventListener("click", () => { activeTicketView = button.dataset.subfleetTicketView; activeTicketRequestType = ""; render(); }));
   const selected = ticketViewById(activeTicketView);
   ticketTypes.hidden = !(selected.types?.length);
-  ticketTypes.innerHTML = selected.types?.map(type => `<button class="ticket-type-tab${type === activeTicketRequestType ? " active" : ""}" type="button" data-subfleet-ticket-type="${type}">${ticketTypeLabels[type] ?? type}</button>`).join("") ?? "";
+  ticketTypes.innerHTML = selected.types?.map(type => {
+    const newCount = ticketUnreadCount(item => selected.matches(item) && item.request_type === type);
+    return `<button class="ticket-type-tab${type === activeTicketRequestType ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" data-subfleet-ticket-type="${type}">${ticketTypeLabels[type] ?? type}${unreadBadge(newCount)}</button>`;
+  }).join("") ?? "";
   ticketTypes.querySelectorAll("[data-subfleet-ticket-type]").forEach(button => button.addEventListener("click", () => { activeTicketRequestType = activeTicketRequestType === button.dataset.subfleetTicketType ? "" : button.dataset.subfleetTicketType; render(); }));
 }
 function detailField(label, value, full = false) { return `<div class="detail-field${full ? " full" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || "—")}</strong></div>`; }
