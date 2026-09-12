@@ -30,13 +30,12 @@ const poolCount = document.querySelector("#subfleet-pool-count");
 const claimedCount = document.querySelector("#subfleet-claimed-count");
 const ticketCount = document.querySelector("#subfleet-ticket-count");
 const workspaceEyebrow = document.querySelector("#subfleet-workspace-eyebrow");
-const workspaceTitle = document.querySelector("#subfleet-workspace-title");
-const workspaceCopy = document.querySelector("#subfleet-workspace-copy");
 const poolToolbar = document.querySelector("#subfleet-pool-toolbar");
 const poolAvailability = document.querySelector("#subfleet-pool-availability");
 const poolSort = document.querySelector("#subfleet-pool-sort");
 const statusTabs = document.querySelector("#subfleet-status-tabs");
 const ticketNavigation = document.querySelector("#subfleet-ticket-navigation");
+const ticketDisplayModeControls = [...document.querySelectorAll("[data-subfleet-ticket-display-mode]")];
 const ticketWorkspaces = document.querySelector("#subfleet-ticket-workspaces");
 const ticketCategories = document.querySelector("#subfleet-ticket-categories");
 const ticketTypes = document.querySelector("#subfleet-ticket-types");
@@ -57,6 +56,7 @@ let activeClaimedStatus = "all";
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
+let activeTicketDisplayMode = "structured";
 let pool = [];
 let claimed = [];
 let tickets = [];
@@ -136,12 +136,12 @@ function subscribeToMessages() {
 function selectTab(tab) {
   activeTab = tab;
   tabs.forEach(button => button.classList.toggle("active", button.dataset.subfleetTab === tab));
-  const copy = {
-    pool: ["Pool privat", "Activări disponibile", "Datele de contact devin vizibile doar după revendicare."],
-    claimed: ["Portofoliu sub-flotă", "Membrii mei", "Ai acces la datele complete doar pentru persoanele revendicate de sub-flota ta."],
-    tickets: ["Suport direcționat", "Tickete direcționate", "Aici ajung automat ticketele membrilor revendicați."],
-  }[tab];
-  [workspaceEyebrow.textContent, workspaceTitle.textContent, workspaceCopy.textContent] = copy;
+  const labels = {
+    pool: "CibeRO · activări disponibile",
+    claimed: "CibeRO · membrii mei",
+    tickets: "CibeRO · tickete direcționate",
+  };
+  workspaceEyebrow.textContent = labels[tab];
   poolToolbar.hidden = tab !== "pool";
   statusTabs.hidden = tab !== "claimed";
   ticketNavigation.hidden = tab !== "tickets";
@@ -166,7 +166,11 @@ function sortedPool() {
   return [...pool].sort((first, second) => direction * (new Date(first.created_at) - new Date(second.created_at)));
 }
 function ticketViewById(id) { return ticketViews.find(item => item.id === id) ?? ticketViews[0]; }
-function ticketMatchesActiveView(item) { const selected = ticketViewById(activeTicketView); return selected.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType); }
+function ticketMatchesActiveView(item) {
+  if (activeTicketDisplayMode === "all") return ticketViews.some(view => view.workspace === activeTicketWorkspace && view.matches(item));
+  const selected = ticketViewById(activeTicketView);
+  return selected.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType);
+}
 function isUnreadTicket(item) { return item.status === "new" && !item.opened_at; }
 function ticketUnreadCount(matches) { return tickets.filter(item => isUnreadTicket(item) && matches(item)).length; }
 function unreadBadge(count) { return `<span class="unread-badge"${count ? "" : " hidden"}>${count}</span>`; }
@@ -176,12 +180,24 @@ function renderStatusTabs() {
   statusTabs.querySelectorAll("[data-claimed-status]").forEach(button => button.addEventListener("click", () => { activeClaimedStatus = button.dataset.claimedStatus; render(); }));
 }
 function renderTicketNavigation() {
+  ticketDisplayModeControls.forEach(button => {
+    const active = button.dataset.subfleetTicketDisplayMode === activeTicketDisplayMode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
   const workspaces = [["platforms", "Platforme"], ["reports", "Rapoarte și Plăți"], ["administrative", "Administrativ"], ["reimbursement", "5% Decontare"]];
   ticketWorkspaces.innerHTML = workspaces.map(([id, label]) => {
     const newCount = ticketUnreadCount(item => ticketViews.some(view => view.workspace === id && view.matches(item)));
     return `<button class="ticket-workspace-tab${id === activeTicketWorkspace ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" role="tab" data-subfleet-ticket-workspace="${id}">${label}${unreadBadge(newCount)}</button>`;
   }).join("");
   ticketWorkspaces.querySelectorAll("[data-subfleet-ticket-workspace]").forEach(button => button.addEventListener("click", () => { activeTicketWorkspace = button.dataset.subfleetTicketWorkspace; activeTicketView = ticketViews.find(item => item.workspace === activeTicketWorkspace)?.id ?? "bolt"; activeTicketRequestType = ""; render(); }));
+  ticketCategories.hidden = activeTicketDisplayMode === "all";
+  ticketTypes.hidden = activeTicketDisplayMode === "all";
+  if (activeTicketDisplayMode === "all") {
+    ticketCategories.innerHTML = "";
+    ticketTypes.innerHTML = "";
+    return;
+  }
   const views = ticketViews.filter(item => item.workspace === activeTicketWorkspace);
   ticketCategories.innerHTML = views.map(item => {
     const newCount = ticketUnreadCount(item.matches);
@@ -195,6 +211,12 @@ function renderTicketNavigation() {
     return `<button class="ticket-type-tab${type === activeTicketRequestType ? " active" : ""}${newCount ? " has-unread" : ""}" type="button" data-subfleet-ticket-type="${type}">${ticketTypeLabels[type] ?? type}${unreadBadge(newCount)}</button>`;
   }).join("") ?? "";
   ticketTypes.querySelectorAll("[data-subfleet-ticket-type]").forEach(button => button.addEventListener("click", () => { activeTicketRequestType = activeTicketRequestType === button.dataset.subfleetTicketType ? "" : button.dataset.subfleetTicketType; render(); }));
+}
+function setTicketDisplayMode(mode) {
+  activeTicketDisplayMode = mode === "all" ? "all" : "structured";
+  activeTicketRequestType = "";
+  try { localStorage.setItem(`cibero-subfleet-ticket-display:${profile?.user_id ?? "default"}`, activeTicketDisplayMode); } catch { /* Preferința este opțională. */ }
+  render();
 }
 function detailField(label, value, full = false) { return `<div class="detail-field${full ? " full" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || "—")}</strong></div>`; }
 function openClaimedMember(id) {
@@ -224,7 +246,9 @@ function render() {
   }
   else if (activeTab === "claimed") { renderStatusTabs(); list.innerHTML = rows.map(item => `<article class="subfleet-row claimed-member-row${item.opened_at ? "" : " unread"}"><button class="subfleet-member-open" type="button" data-member-id="${escapeHtml(item.id)}"><span><strong>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong><small>${escapeHtml(item.email)} · ${escapeHtml(item.phone)} · ${escapeHtml(item.city)}</small><small>${escapeHtml(platformLabel(item.desired_platforms))} · revendicat ${escapeHtml(formatDate(item.claimed_at))}</small></span><b aria-hidden="true">→</b></button><select data-application-status="${escapeHtml(item.id)}">${Object.entries(applicationStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
   else { renderTicketNavigation(); list.innerHTML = rows.map(item => `<article class="subfleet-row${item.opened_at ? "" : " unread"}"><div><h3>${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</h3><p><strong>${escapeHtml(item.category)}</strong> · ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)} · ${escapeHtml(item.email)}</p><small>#${escapeHtml(item.id.slice(0, 8).toUpperCase())} · ${escapeHtml(formatDate(item.created_at))}</small></div><select data-ticket-status="${escapeHtml(item.id)}">${Object.entries(ticketStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
-  empty.textContent = activeTab === "tickets" ? "Nu există tickete în categoria selectată." : activeTab === "claimed" ? "Nu există membri cu statusul selectat." : "Nu sunt membri disponibili în acest moment.";
+  empty.textContent = activeTab === "tickets"
+    ? (activeTicketDisplayMode === "all" ? "Nu există tickete în aria selectată." : "Nu există tickete în categoria selectată.")
+    : activeTab === "claimed" ? "Nu există membri cu statusul selectat." : "Nu sunt membri disponibili în acest moment.";
   list.querySelectorAll("[data-claim-id]").forEach(button => button.addEventListener("click", () => claim(button.dataset.claimId, button)));
   list.querySelectorAll("[data-member-id]").forEach(button => button.addEventListener("click", () => openClaimedMember(button.dataset.memberId)));
   list.querySelectorAll("[data-application-status]").forEach(select => select.addEventListener("change", () => updateStatus("applications", select.dataset.applicationStatus, select.value)));
@@ -250,11 +274,13 @@ async function updateStatus(table, id, status) {
 tabs.forEach(button => button.addEventListener("click", () => selectTab(button.dataset.subfleetTab)));
 refresh.addEventListener("click", load);
 poolSort.addEventListener("change", () => { activePoolSort = poolSort.value === "oldest" ? "oldest" : "newest"; render(); });
+ticketDisplayModeControls.forEach(button => button.addEventListener("click", () => setTicketDisplayMode(button.dataset.subfleetTicketDisplayMode)));
 messageBell.addEventListener("click", openMessages);
 messageForm.addEventListener("submit", sendMessage);
 
 export async function showSubfleetPortal(userProfile) {
   profile = userProfile; view.hidden = false;
+  try { activeTicketDisplayMode = localStorage.getItem(`cibero-subfleet-ticket-display:${profile.user_id}`) === "all" ? "all" : "structured"; } catch { activeTicketDisplayMode = "structured"; }
   const { data: fleet } = await supabase.from("subfleets").select("name").eq("id", profile.subfleet_id).maybeSingle();
   title.textContent = fleet?.name ? `Portal ${fleet.name}` : "Portal sub-flotă";
   selectTab("pool");

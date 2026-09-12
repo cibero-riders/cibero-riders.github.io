@@ -89,6 +89,8 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 #applications-panel { overflow: visible; }
 #tickets-panel { overflow: visible; }
 .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 25px 26px 21px; border-bottom: 1px solid #dcb44d29; }
+.section-heading.compact-heading { min-height: 71px; padding-block: 16px; }
+.section-heading.compact-heading .eyebrow { margin: 0; }
 .section-heading h2 { font-size: clamp(22px, 3vw, 31px); }
 .section-heading > div > p:last-child { margin: 7px 0 0; color: var(--muted); font-size: 14px; }
 .section-heading > div > .availability-admin-update { margin-top: 10px; color: #f2d482; font-size: 12px; font-weight: 700; }
@@ -105,6 +107,9 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .registration-tab .unread-badge[hidden], .ticket-workspace-tab .unread-badge[hidden] { display: none; }
 .registration-platform-tabs { padding-top: 10px; }
 .ticket-navigation { margin: 18px 26px 0; padding: 12px; border: 1px solid #dcb44d2b; border-radius: 14px; background: linear-gradient(135deg, #1d0b25e8, #28102fd4); }
+.ticket-display-mode { display: flex; justify-content: flex-end; gap: 5px; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #dcb44d1d; }
+.ticket-display-mode button { min-height: 32px; border: 1px solid #8f68903f; border-radius: 8px; padding: 6px 10px; background: #180a20a8; color: var(--muted); font: inherit; font-size: 12px; font-weight: 800; }
+.ticket-display-mode button.active { border-color: var(--gold); background: linear-gradient(135deg, #66431f, #3a173f); color: var(--gold-light); box-shadow: inset 0 1px 0 #ffe28b; }
 .ticket-workspace-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
 .ticket-workspace-tab { display: inline-flex; min-height: 40px; align-items: center; justify-content: center; border: 1px solid #8f68903f; border-radius: 10px; padding: 9px 15px; background: #27102fb3; color: var(--muted); font-weight: 800; transition: border-color .18s ease, background .18s ease, color .18s ease; }
 .ticket-workspace-tab:hover { border-color: #d8b15d99; color: var(--cream); }
@@ -345,6 +350,7 @@ body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index:
   .registration-navigation { padding: 16px 17px 0; }
   .registration-tab { flex: 1 1 145px; min-width: 0; }
   .ticket-navigation { margin: 16px 17px 0; padding: 10px; }
+  .ticket-display-mode { justify-content: stretch; }.ticket-display-mode button { flex: 1 1 0; min-width: 0; }
   .ticket-navigation .platform-tabs { padding: 9px 0 0; }
   .ticket-type-tabs { padding-top: 9px; }
   .ticket-type-tab { flex: 1 1 130px; min-width: 0; }

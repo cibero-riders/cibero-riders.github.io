@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=44" />
+  <link rel="stylesheet" href="admin.css?v=45" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -48,7 +48,7 @@
         <button type="button" data-subfleet-tab="tickets">Tickete direcționate <span id="subfleet-ticket-count">0</span></button>
         <button id="subfleet-message-bell" class="notification-bell" type="button" aria-label="Mesaje CibeRO">🔔<span id="subfleet-message-badge" hidden>0</span></button>
       </div>
-      <section class="panel subfleet-workspace"><div class="section-heading"><div><p class="eyebrow" id="subfleet-workspace-eyebrow">Pool privat</p><h2 id="subfleet-workspace-title">Activări disponibile</h2><p id="subfleet-workspace-copy">Datele de contact devin vizibile doar după revendicare.</p></div><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-pool-toolbar" class="subfleet-pool-toolbar"><span id="subfleet-pool-availability" class="pool-availability">0 activări disponibile</span><label>Sortează după timp<select id="subfleet-pool-sort"><option value="newest">Mai noi întâi</option><option value="oldest">Mai vechi întâi</option></select></label></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
+      <section class="panel subfleet-workspace"><div class="section-heading compact-heading"><p class="eyebrow" id="subfleet-workspace-eyebrow">CibeRO · activări disponibile</p><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-pool-toolbar" class="subfleet-pool-toolbar"><span id="subfleet-pool-availability" class="pool-availability">0 activări disponibile</span><label>Sortează după timp<select id="subfleet-pool-sort"><option value="newest">Mai noi întâi</option><option value="oldest">Mai vechi întâi</option></select></label></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div id="subfleet-ticket-display-mode" class="ticket-display-mode" role="group" aria-label="Stil de afișare tickete"><button class="active" type="button" data-subfleet-ticket-display-mode="structured" aria-pressed="true">Structurat</button><button type="button" data-subfleet-ticket-display-mode="all" aria-pressed="false">Toate la grămadă</button></div><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
     </section>
 
     <section id="dashboard-view" class="dashboard" hidden>
@@ -62,12 +62,8 @@
         <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-area="cibero" data-admin-section="availability-panel"><span class="tab-icon" aria-hidden="true">⌖</span><span><strong>Control Operațional</strong></span></button>
       </div>
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">CibeRO · înregistrări</p>
-            <h2>Înregistrări</h2>
-            <p>Gestionează înregistrările primite și cererile de deschidere cont.</p>
-          </div>
+        <div class="section-heading compact-heading">
+          <p class="eyebrow">CibeRO · înregistrări</p>
           <button id="refresh-button" class="quiet-button" type="button">Actualizează</button>
         </div>
 
@@ -109,16 +105,16 @@
       </section>
 
       <section id="tickets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">CibeRO Support</p>
-            <h2>Tickete Curieri</h2>
-            <p>Gestionează solicitările pentru platforme, plăți, documente și deconturi.</p>
-          </div>
+        <div class="section-heading compact-heading">
+          <p class="eyebrow">CibeRO · control tickete</p>
           <button id="refresh-tickets-button" class="quiet-button" type="button">Actualizează</button>
         </div>
 
         <div class="ticket-navigation" aria-label="Organizare tickete">
+          <div id="ticket-display-mode" class="ticket-display-mode" role="group" aria-label="Stil de afișare tickete">
+            <button class="active" type="button" data-ticket-display-mode="structured" aria-pressed="true">Structurat</button>
+            <button type="button" data-ticket-display-mode="all" aria-pressed="false">Toate la grămadă</button>
+          </div>
           <div class="ticket-workspace-tabs" role="tablist" aria-label="Arie de ticket">
             <button class="ticket-workspace-tab active" type="button" role="tab" aria-selected="true" data-ticket-workspace="platforms">Platforme <span class="unread-badge" hidden>0</span></button>
             <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="reports">Rapoarte și Plăți <span class="unread-badge" hidden>0</span></button>
@@ -148,12 +144,9 @@
       </section>
 
       <section id="availability-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading">
-          <div>
-            <p class="eyebrow">Publicare rapidă</p>
-            <h2>Locuri disponibile</h2>
-            <p id="availability-admin-update" class="availability-admin-update" aria-live="polite">Ultima actualizare de către un admin: —</p>
-          </div>
+        <div class="section-heading compact-heading">
+          <p class="eyebrow">CibeRO · control operațional</p>
+          <span id="availability-admin-update" hidden>Ultima actualizare de către un admin: —</span>
           <a class="quiet-button availability-public-link" href="../locuri/" target="_blank" rel="noopener noreferrer">Deschide pagina publică ↗</a>
         </div>
 
@@ -208,7 +201,7 @@
       </section>
 
       <section id="subfleets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading"><div><p class="eyebrow">Sub-Flote · administrare</p><h2>Sub-Flote</h2><p>Deschide o sub-flotă pentru a vedea membrii revendicați și activitatea ei.</p></div><button id="add-subfleet-button" class="quiet-button add-subfleet-button" type="button"><span aria-hidden="true">＋</span> Adaugă sub-flotă</button></div>
+        <div class="section-heading compact-heading"><p class="eyebrow">CibeRO · sub-flote</p><button id="add-subfleet-button" class="quiet-button add-subfleet-button" type="button"><span aria-hidden="true">＋</span> Adaugă sub-flotă</button></div>
         <div class="toolbar subfleets-toolbar"><label>Caută sub-flotă<input id="subfleet-search" type="search" placeholder="Nume sau descriere sub-flotă" /></label></div>
         <p id="subfleets-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><section id="subfleet-alerts" class="subfleet-alerts" hidden></section><div id="subfleets-list" class="subfleet-cards"></div>
         <p id="subfleets-empty" class="empty-state" hidden>Nu există încă sub-flote.</p>
@@ -300,6 +293,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=47"></script>
+  <script type="module" src="admin.js?v=48"></script>
 </body>
 </html>

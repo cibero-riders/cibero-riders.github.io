@@ -100,6 +100,7 @@ const ticketsEmptyState = document.querySelector("#tickets-empty-state");
 const ticketSearchFilter = document.querySelector("#ticket-search-filter");
 const ticketStatusFilter = document.querySelector("#ticket-status-filter");
 const ticketWorkspaceTabs = [...document.querySelectorAll("[data-ticket-workspace]")];
+const ticketDisplayModeControls = [...document.querySelectorAll("[data-ticket-display-mode]")];
 const ticketCategoryTabsContainer = document.querySelector("#ticket-category-tabs");
 const ticketTypeTabsContainer = document.querySelector("#ticket-type-tabs");
 const ticketsPrimaryCount = document.querySelector("#tickets-primary-count");
@@ -154,6 +155,7 @@ let duplicateAlertTickets = [];
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
+let activeTicketDisplayMode = "structured";
 let pendingTicketDeletion = null;
 let availability = [];
 let availabilityDraft = { glovo: [], wolt: [] };
@@ -366,6 +368,9 @@ function ticketForDuplicateAlert(ticketId) {
 }
 
 function ticketMatchesActiveView(item) {
+  if (activeTicketDisplayMode === "all") {
+    return ticketViews.some(view => view.workspace === activeTicketWorkspace && view.matches(item));
+  }
   const view = ticketViewById(activeTicketView);
   return view.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType);
 }
@@ -375,7 +380,7 @@ function ticketDisplayCategory(item) {
 }
 
 function persistTicketNavigation() {
-  writeAdminPreference("ticket-navigation", { workspace: activeTicketWorkspace, view: activeTicketView, requestType: activeTicketRequestType });
+  writeAdminPreference("ticket-navigation", { workspace: activeTicketWorkspace, view: activeTicketView, requestType: activeTicketRequestType, displayMode: activeTicketDisplayMode });
 }
 
 function restoreTicketNavigation() {
@@ -385,7 +390,17 @@ function restoreTicketNavigation() {
   activeTicketWorkspace = savedView?.workspace ?? savedWorkspace;
   activeTicketView = savedView?.workspace === activeTicketWorkspace ? savedView.id : ticketViews.find(view => view.workspace === activeTicketWorkspace).id;
   activeTicketRequestType = savedView?.types?.includes(saved?.requestType) ? saved.requestType : "";
+  activeTicketDisplayMode = saved?.displayMode === "all" ? "all" : "structured";
   renderTicketNavigation();
+}
+
+function setTicketDisplayMode(mode, persist = true) {
+  activeTicketDisplayMode = mode === "all" ? "all" : "structured";
+  activeTicketRequestType = "";
+  if (persist) persistTicketNavigation();
+  renderTicketNavigation();
+  updateTicketSummary();
+  renderTickets();
 }
 
 function setActiveTicketWorkspace(workspace, persist = true) {
@@ -414,6 +429,11 @@ function setActiveTicketView(viewId, persist = true) {
 
 function renderTicketNavigation() {
   const centralTickets = ciberoTickets();
+  ticketDisplayModeControls.forEach(button => {
+    const active = button.dataset.ticketDisplayMode === activeTicketDisplayMode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
   ticketWorkspaceTabs.forEach(tab => {
     const workspace = tab.dataset.ticketWorkspace;
     const active = workspace === activeTicketWorkspace;
@@ -422,6 +442,13 @@ function renderTicketNavigation() {
     updateTabUnreadBadge(tab, centralTickets.filter(item => ticketViews.some(view => view.workspace === workspace && view.matches(item)) && item.status === "new").length);
   });
   const workspaceViews = ticketViews.filter(view => view.workspace === activeTicketWorkspace);
+  ticketCategoryTabsContainer.hidden = activeTicketDisplayMode === "all";
+  ticketTypeTabsContainer.hidden = activeTicketDisplayMode === "all";
+  if (activeTicketDisplayMode === "all") {
+    ticketCategoryTabsContainer.innerHTML = "";
+    ticketTypeTabsContainer.innerHTML = "";
+    return;
+  }
   ticketCategoryTabsContainer.innerHTML = workspaceViews.map(view => {
     const newCount = centralTickets.filter(item => view.matches(item) && item.status === "new").length;
     const active = view.id === activeTicketView;
@@ -434,6 +461,11 @@ function renderTicketNavigation() {
 }
 
 function renderTicketTypeNavigation() {
+  if (activeTicketDisplayMode === "all") {
+    ticketTypeTabsContainer.hidden = true;
+    ticketTypeTabsContainer.innerHTML = "";
+    return;
+  }
   const view = ticketViewById(activeTicketView);
   const types = view.types ?? [];
   ticketTypeTabsContainer.hidden = types.length === 0;
@@ -815,7 +847,7 @@ async function openAccessProfile(user, requestedRole = "") {
   }
   profile.onboarding_login_count = await recordOnboardingLogin();
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=9");
+    subfleetPortal ??= await import("./subfleet.js?v=10");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
@@ -1185,7 +1217,9 @@ function renderTickets() {
     </div>
   `).join("");
   ticketsEmptyState.hidden = rows.length > 0;
-  ticketsEmptyState.textContent = `Nu există tickete în categoria ${ticketViewById(activeTicketView).label} pentru filtrele selectate.`;
+  ticketsEmptyState.textContent = activeTicketDisplayMode === "all"
+    ? "Nu există tickete în aria selectată pentru filtrele selectate."
+    : `Nu există tickete în categoria ${ticketViewById(activeTicketView).label} pentru filtrele selectate.`;
   ticketsList.querySelectorAll("[data-ticket-id]").forEach(button => button.addEventListener("click", () => openTicket(button.dataset.ticketId)));
   ticketsList.querySelectorAll("[data-ticket-status-toggle]").forEach(button => button.addEventListener("click", event => {
     event.stopPropagation();
@@ -1977,6 +2011,7 @@ resetAvailabilityDraftButton.addEventListener("click", resetAvailabilityDraft);
 publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialog);
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
 ticketWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveTicketWorkspace(tab.dataset.ticketWorkspace)));
+ticketDisplayModeControls.forEach(button => button.addEventListener("click", () => setTicketDisplayMode(button.dataset.ticketDisplayMode)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
   if (tab.dataset.adminSection === "subfleets-panel") void loadSubfleets();
