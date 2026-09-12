@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Emblemă pentru plată lipsă</title>
+  <defs>
+    <radialGradient id="bg" cx="34%" cy="24%" r="82%"><stop stop-color="#2f9f82"/><stop offset=".62" stop-color="#176252"/><stop offset="1" stop-color="#10352f"/></radialGradient>
+    <linearGradient id="gold" x1="24" y1="16" x2="105" y2="112"><stop stop-color="#fff0ad"/><stop offset=".48" stop-color="#e3b84f"/><stop offset="1" stop-color="#9a601a"/></linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <circle cx="64" cy="64" r="53" fill="none" stroke="#fff5c8" stroke-opacity=".24"/>
+  <path d="m29 49 35-19 35 19M33 53h62M38 91h52M41 53v31m16-31v31" fill="none" stroke="#fff6df" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="83" cy="78" r="21" fill="#8a3f42" stroke="url(#gold)" stroke-width="3"/>
+  <path d="m75 70 16 16m0-16L75 86" stroke="#fff6df" stroke-width="5" stroke-linecap="round"/>
+</svg>
