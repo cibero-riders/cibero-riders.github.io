@@ -148,8 +148,8 @@ function selectTab(tab) {
   tabs.forEach(button => button.classList.toggle("active", button.dataset.subfleetTab === tab));
   const labels = {
     pool: "CibeRO · activări disponibile",
-    claimed: "CibeRO · membrii mei",
-    tickets: "CibeRO · tickete direcționate",
+    claimed: "CibeRO · revendicări",
+    tickets: "CibeRO · tickete",
   };
   workspaceEyebrow.textContent = labels[tab];
   poolToolbar.hidden = tab !== "pool";

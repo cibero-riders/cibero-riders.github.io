@@ -24,11 +24,12 @@ const guides = {
   subfleet: {
     label: "GHID PORTAL SUB-FLOTĂ",
     steps: [
-      { icon: "⌑", target: '[data-subfleet-tab="pool"]', prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "Aici găsești activările pe care le poți revendica pentru sub-flota ta." },
-      { icon: "24", target: "#subfleet-status-tabs", prepare: '[data-subfleet-tab="claimed"]', title: "Regula de 24 de ore", text: "Schimbă statusul unei revendicări în cel mult 24 de ore." },
-      { icon: "✓", target: '[data-subfleet-tab="claimed"]', prepare: '[data-subfleet-tab="claimed"]', title: "Membrii tăi", text: "Deschide membrul și actualizează-i statusul." },
-      { icon: "✦", target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', anchor: "bottom-right", title: "Tickete direcționate", text: "Procesează aici ticketele membrilor revendicați." },
-      { icon: "✉", target: "#subfleet-message-bell", title: "Mesaje cu CibeRO", text: "Conversația rămâne în același fir de mesaje." },
+      { target: '[data-subfleet-tab="pool"]', prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "Aici găsești activările pe care le poți revendica pentru sub-flota ta." },
+      { target: '[data-subfleet-tab="claimed"]', prepare: '[data-subfleet-tab="claimed"]', title: "Revendicări", text: "Aici sunt membrii revendicați. Schimbă statusul în cel mult 24 de ore." },
+      { target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', title: "Tickete", text: "Primești ticketele curierilor revendicați de sub-flota ta." },
+      { target: "#subfleet-ticket-display-switch", prepare: '[data-subfleet-tab="tickets"]', title: "Afișarea ticketelor", text: "Alege dacă vezi ticketele organizate sau toate la grămadă." },
+      { statusExample: true, prepare: '[data-subfleet-tab="claimed"]', title: "Statusul cererii", text: "De aici poți schimba statusul unei cereri pentru a ține evidența progresului. Când schimbi statusul, cererea se mută în sub-tab-ul corespunzător. Dacă statusul nu avansează în 24 de ore, cererea se va întoarce în pool." },
+      { target: "#subfleet-message-bell", title: "Chat cu adminul", text: "De aici poți accesa chat-ul cu adminul." },
     ],
   },
 };
@@ -45,8 +46,36 @@ function setTourScrollLock(locked) {
   document.body.classList.toggle("onboarding-tour-active", locked);
 }
 
+function removeStatusTourExample() {
+  const example = document.querySelector("#onboarding-status-example");
+  if (!example) return;
+  const empty = document.querySelector("#subfleet-empty");
+  if (empty) empty.hidden = example.dataset.emptyWasHidden === "true";
+  example.remove();
+}
+
+function statusTargetForTour() {
+  const demonstration = document.querySelector("#onboarding-status-target");
+  if (demonstration) return demonstration;
+  const existing = document.querySelector("#subfleet-list [data-application-status]");
+  if (existing) return existing;
+  const list = document.querySelector("#subfleet-list");
+  const empty = document.querySelector("#subfleet-empty");
+  if (!list) return null;
+  const example = document.createElement("article");
+  example.id = "onboarding-status-example";
+  example.className = "subfleet-row claimed-member-row onboarding-status-example";
+  example.dataset.emptyWasHidden = String(empty?.hidden ?? true);
+  example.setAttribute("aria-label", "Exemplu de cerere afișat doar în ghid");
+  example.innerHTML = '<div class="subfleet-member-open"><span><strong>Exemplu curier</strong><small>cerere demonstrativă · București</small><small>Wolt · revendicată acum</small></span><b aria-hidden="true">→</b></div><select id="onboarding-status-target" aria-label="Exemplu status cerere"><option>Nouă</option><option>În verificare</option><option>Trimisă platformei</option><option>Activată</option></select>';
+  list.prepend(example);
+  if (empty) empty.hidden = true;
+  return example.querySelector("#onboarding-status-target");
+}
+
 function targetForStep() {
-  return document.querySelector(guides[activeGuide]?.steps[activeStep]?.target ?? "");
+  const step = guides[activeGuide]?.steps[activeStep];
+  return step?.statusExample ? statusTargetForTour() : document.querySelector(step?.target ?? "");
 }
 
 function prepareStep(step) {
@@ -68,29 +97,6 @@ function pointOnRectangleEdge(box, towardX, towardY, inset = 0) {
   const divisor = Math.max(Math.abs(deltaX) / halfWidth, Math.abs(deltaY) / halfHeight, .001);
   const scale = 1 / divisor;
   return { x: centerX + deltaX * scale, y: centerY + deltaY * scale };
-}
-
-function targetCornerPoint(box, contentBox, forcedAnchor = "") {
-  const targetCenterX = box.left + box.width / 2;
-  const targetCenterY = box.top + box.height / 2;
-  const contentCenterX = contentBox.left + contentBox.width / 2;
-  const contentCenterY = contentBox.top + contentBox.height / 2;
-  const horizontalSide = forcedAnchor.includes("left")
-    ? "left"
-    : forcedAnchor.includes("right")
-      ? "right"
-      : contentCenterX >= targetCenterX ? "right" : "left";
-  const verticalSide = forcedAnchor.includes("top")
-    ? "top"
-    : forcedAnchor.includes("bottom")
-      ? "bottom"
-      : contentCenterY <= targetCenterY ? "bottom" : "top";
-  const outsideOffset = 7;
-
-  return {
-    x: horizontalSide === "right" ? box.right + outsideOffset : box.left - outsideOffset,
-    y: verticalSide === "bottom" ? box.bottom + outsideOffset : box.top - outsideOffset,
-  };
 }
 
 function positionTour() {
@@ -137,11 +143,18 @@ function positionTour() {
   content.style.top = `${top}px`;
   content.style.visibility = "visible";
 
-  const finalBox = content.getBoundingClientRect();
-  const step = guides[activeGuide]?.steps[activeStep];
-  const end = targetCornerPoint(targetBox, finalBox, step?.anchor);
-  const start = pointOnRectangleEdge(finalBox, end.x, end.y, 5);
-  const length = Math.max(28, Math.hypot(end.x - start.x, end.y - start.y) - 8);
+  const textBox = stage.getBoundingClientRect();
+  const textCenterX = textBox.left + textBox.width / 2;
+  const textCenterY = textBox.top + textBox.height / 2;
+  const targetEdge = pointOnRectangleEdge(targetBox, textCenterX, textCenterY);
+  const start = pointOnRectangleEdge(textBox, targetEdge.x, targetEdge.y, 2);
+  const deltaX = targetEdge.x - start.x;
+  const deltaY = targetEdge.y - start.y;
+  const distance = Math.hypot(deltaX, deltaY);
+  const unitX = distance ? deltaX / distance : 0;
+  const unitY = distance ? deltaY / distance : 0;
+  const end = { x: targetEdge.x - unitX * 8, y: targetEdge.y - unitY * 8 };
+  const length = Math.max(24, Math.hypot(end.x - start.x, end.y - start.y) - 12);
   const angle = Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI;
   arrow.style.left = `${start.x}px`;
   arrow.style.top = `${start.y}px`;
@@ -200,6 +213,7 @@ function renderGuide() {
   stopTypewriter();
   const guide = guides[activeGuide];
   const step = guide.steps[activeStep];
+  if (!step.statusExample) removeStatusTourExample();
   roleLabel.textContent = guide.label;
   stepLabel.textContent = `${activeStep + 1} / ${guide.steps.length}`;
   stage.innerHTML = `<h2 id="onboarding-title">${step.title}</h2><p data-onboarding-description aria-label="${step.text}">${step.text}</p>`;
@@ -221,6 +235,7 @@ function openGuide(role, mandatory) {
 function closeGuide() {
   window.clearTimeout(positionTimer);
   stopTypewriter();
+  removeStatusTourExample();
   setTourScrollLock(false);
   guideDialog.close();
   activeGuide = null;
