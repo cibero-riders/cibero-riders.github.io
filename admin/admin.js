@@ -128,6 +128,10 @@ const subfleetMembersList = document.querySelector("#subfleet-members-list");
 const subfleetMembersEmpty = document.querySelector("#subfleet-members-empty");
 const backToSubfleetsButton = document.querySelector("#back-to-subfleets");
 const openSubfleetMessagesButton = document.querySelector("#open-subfleet-messages");
+const adminDuplicateAlertBell = document.querySelector("#admin-duplicate-alert-bell");
+const adminDuplicateAlertBadge = document.querySelector("#admin-duplicate-alert-badge");
+const duplicateAlertsDialog = document.querySelector("#duplicate-alerts-dialog");
+const duplicateAlertsList = document.querySelector("#duplicate-alerts-list");
 const adminMessageBell = document.querySelector("#admin-message-bell");
 const adminMessageBadge = document.querySelector("#admin-message-badge");
 const adminMessagesDialog = document.querySelector("#admin-messages-dialog");
@@ -158,6 +162,7 @@ let subfleetPortal = null;
 let subfleets = [];
 let subfleetAccounts = [];
 let subfleetAlertsData = [];
+let duplicateAlerts = [];
 let subfleetMessages = [];
 let activeMessageSubfleetId = "";
 let activeAdminArea = "cibero";
@@ -692,7 +697,8 @@ function subscribeToAdminNotifications() {
   adminRealtimeChannel = supabase
     .channel(`cibero-admin-notifications-${currentAdminUserId}`)
     .on("postgres_changes", { event: "*", schema: "public", table: "applications" }, () => { void loadApplications(); })
-    .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, () => { void loadTickets(); })
+    .on("postgres_changes", { event: "*", schema: "public", table: "tickets" }, () => { void Promise.all([loadTickets(), loadDuplicateAlerts()]); })
+    .on("postgres_changes", { event: "*", schema: "public", table: "admin_alerts" }, () => { void Promise.all([loadSubfleetAlerts(), loadDuplicateAlerts()]); })
     .on("postgres_changes", { event: "*", schema: "public", table: "subfleet_messages" }, () => { void loadAdminMessages(); })
     .subscribe();
 }
@@ -738,6 +744,7 @@ function showLogin(message = "") {
   subfleetDashboardView.hidden = true;
   subfleetPortal?.hideSubfleetPortal();
   logoutButton.hidden = true;
+  adminDuplicateAlertBell.hidden = true;
   adminMessageBell.hidden = true;
   loginButton.disabled = false;
   loginFeedback.textContent = message;
@@ -749,6 +756,7 @@ function showDashboard() {
   dashboardView.hidden = false;
   subfleetDashboardView.hidden = true;
   logoutButton.hidden = false;
+  adminDuplicateAlertBell.hidden = false;
   adminMessageBell.hidden = false;
   loginForm.reset();
   loginFeedback.textContent = "";
@@ -794,7 +802,7 @@ async function openAccessProfile(user, requestedRole = "") {
   showDashboard();
   await Promise.all([loadApplications(), loadTickets(), loadAvailability(), loadSubfleets()]);
   await reconcileStaleSubfleetClaims();
-  await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts(), loadAdminMessages()]);
+  await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts(), loadDuplicateAlerts(), loadAdminMessages()]);
   subscribeToAvailabilityUpdates();
   subscribeToAdminNotifications();
   return true;
@@ -821,6 +829,69 @@ async function loadSubfleetAlerts() {
   if (error) { console.warn("Alertele sub-flotelor nu sunt disponibile încă.", error); return; }
   subfleetAlertsData = data ?? [];
   renderSubfleetAlerts();
+}
+
+function duplicateMatchLabel(fields) {
+  return (fields ?? []).map(field => ({ email: "email", telefon: "telefon", "nume complet": "nume complet" }[field] ?? field)).join(", ") || "date de contact";
+}
+
+function updateDuplicateAlertBadge() {
+  const unreadCount = duplicateAlerts.filter(item => !item.read_at).length;
+  adminDuplicateAlertBadge.textContent = unreadCount;
+  adminDuplicateAlertBadge.hidden = unreadCount === 0;
+}
+
+function renderDuplicateAlerts() {
+  duplicateAlertsList.innerHTML = duplicateAlerts.map(alert => {
+    const application = applications.find(item => item.id === alert.application_id);
+    const ticket = tickets.find(item => item.id === alert.ticket_id);
+    const applicationName = application ? `${application.first_name} ${application.last_name}` : "Înregistrare indisponibilă";
+    const ticketName = ticket ? `${ticket.first_name} ${ticket.last_name}` : "Ticket indisponibil";
+    const ticketReference = ticket ? `#${ticket.id.slice(0, 8).toUpperCase()}` : "Ticket nou";
+    return `<article class="duplicate-alert-card${alert.read_at ? " read" : ""}"><h3>Posibilă dublură detectată</h3><p class="duplicate-match-fields">Potrivire: ${escapeHtml(duplicateMatchLabel(alert.match_fields))}</p><div class="duplicate-records"><button class="duplicate-record" type="button" data-open-duplicate-application="${escapeHtml(alert.id)}"><small>Înregistrare existentă</small><strong>${escapeHtml(applicationName)}</strong><span>${escapeHtml(application?.email ?? "—")} · ${escapeHtml(application?.phone ?? "—")}</span><span>${escapeHtml(application?.city ?? "")}</span></button><button class="duplicate-record" type="button" data-open-duplicate-ticket="${escapeHtml(alert.id)}"><small>${escapeHtml(ticketReference)} · ticket nou</small><strong>${escapeHtml(ticketName)}</strong><span>${escapeHtml(ticket?.email ?? "—")} · ${escapeHtml(ticket?.phone ?? "—")}</span><span>${escapeHtml(ticket ? (ticketTypeLabels[ticket.request_type] ?? ticket.request_type) : "")}</span></button></div>${alert.read_at ? "" : `<button class="quiet-button" type="button" data-read-duplicate-alert="${escapeHtml(alert.id)}">Marchează citită</button>`}</article>`;
+  }).join("") || '<p class="message-empty">Nu există alerte de dublură.</p>';
+  duplicateAlertsList.querySelectorAll("[data-read-duplicate-alert]").forEach(button => button.addEventListener("click", () => markDuplicateAlertRead(button.dataset.readDuplicateAlert)));
+  duplicateAlertsList.querySelectorAll("[data-open-duplicate-application]").forEach(button => button.addEventListener("click", () => openDuplicateApplication(button.dataset.openDuplicateApplication)));
+  duplicateAlertsList.querySelectorAll("[data-open-duplicate-ticket]").forEach(button => button.addEventListener("click", () => openDuplicateTicket(button.dataset.openDuplicateTicket)));
+}
+
+async function loadDuplicateAlerts() {
+  const { data, error } = await supabase.from("admin_alerts").select("id, application_id, ticket_id, match_fields, message, created_at, read_at").eq("alert_type", "ticket_duplicate_registration").order("created_at", { ascending: false }).limit(30);
+  if (error) { console.warn("Alertele de dublură nu sunt disponibile încă.", error); return; }
+  duplicateAlerts = data ?? [];
+  updateDuplicateAlertBadge();
+  renderDuplicateAlerts();
+}
+
+async function markDuplicateAlertRead(alertId) {
+  const { error } = await supabase.from("admin_alerts").update({ read_at: new Date().toISOString() }).eq("id", alertId);
+  if (error) { console.warn("Alerta nu a putut fi marcată drept citită.", error); return; }
+  duplicateAlerts = duplicateAlerts.map(item => item.id === alertId ? { ...item, read_at: new Date().toISOString() } : item);
+  updateDuplicateAlertBadge();
+  renderDuplicateAlerts();
+}
+
+async function openDuplicateApplication(alertId) {
+  const alert = duplicateAlerts.find(item => item.id === alertId);
+  if (!alert?.application_id) return;
+  if (!alert.read_at) await markDuplicateAlertRead(alertId);
+  duplicateAlertsDialog.close();
+  setActiveAdminSection("applications-panel");
+  await openApplication(alert.application_id);
+}
+
+async function openDuplicateTicket(alertId) {
+  const alert = duplicateAlerts.find(item => item.id === alertId);
+  if (!alert?.ticket_id) return;
+  if (!alert.read_at) await markDuplicateAlertRead(alertId);
+  duplicateAlertsDialog.close();
+  setActiveAdminSection("tickets-panel");
+  await openTicket(alert.ticket_id);
+}
+
+async function openDuplicateAlerts() {
+  await Promise.all([loadApplications(), loadTickets(), loadDuplicateAlerts()]);
+  duplicateAlertsDialog.showModal();
 }
 
 function updateAdminMessageBadge() {
@@ -1779,6 +1850,7 @@ logoutButton.addEventListener("click", async () => {
   tickets = [];
   availability = [];
   availabilityDraft = { glovo: [], wolt: [] };
+  duplicateAlerts = [];
   subfleetMessages = [];
   activeMessageSubfleetId = "";
   currentAdminUserId = "";
@@ -1820,6 +1892,7 @@ createSubfleetForm.addEventListener("submit", async event => {
 backToSubfleetsButton.addEventListener("click", () => setActiveAdminSection("subfleets-panel"));
 [subfleetMemberSearch, subfleetMemberStatus].forEach(control => control.addEventListener("input", renderSubfleetMembers));
 subfleetSearch.addEventListener("input", renderSubfleets);
+adminDuplicateAlertBell.addEventListener("click", openDuplicateAlerts);
 adminMessageBell.addEventListener("click", openAdminMessages);
 adminMessageForm.addEventListener("submit", sendAdminMessage);
 openSubfleetMessagesButton.addEventListener("click", async () => {

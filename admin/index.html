@@ -10,14 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=41" />
+  <link rel="stylesheet" href="admin.css?v=42" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
   <header class="admin-header">
     <a href="../" aria-label="Înapoi la CibeRO"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
     <span>Panou administrativ</span>
-    <div class="admin-header-actions"><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
+    <div class="admin-header-actions"><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
   </header>
 
   <main>
@@ -252,6 +252,11 @@
     <div class="message-inbox admin-message-inbox"><aside id="admin-message-conversations" class="message-conversations" aria-label="Conversații sub-flote"></aside><section class="message-thread-panel"><div id="admin-message-thread-title" class="message-thread-title">Alege o sub-flotă</div><div id="admin-message-thread" class="message-thread" aria-live="polite"></div><form id="admin-message-form" class="message-composer"><textarea id="admin-message-input" maxlength="4000" placeholder="Scrie un mesaj…" disabled></textarea><button id="admin-message-send" class="primary-button" type="submit" disabled>Trimite</button></form><p id="admin-message-feedback" class="feedback" role="status" aria-live="polite"></p></section></div>
   </dialog>
 
+  <dialog id="duplicate-alerts-dialog" class="application-dialog duplicate-alerts-dialog">
+    <form method="dialog" class="dialog-top"><strong>Posibile dubluri</strong><button aria-label="Închide">×</button></form>
+    <div id="duplicate-alerts-list" class="duplicate-alerts-list"></div>
+  </dialog>
+
   <dialog id="subfleet-messages-dialog" class="application-dialog message-inbox-dialog">
     <form method="dialog" class="dialog-top"><strong>Mesaje CibeRO</strong><button aria-label="Închide">×</button></form>
     <section class="message-thread-panel subfleet-message-thread-panel"><div class="message-thread-title">Conversație cu CibeRO</div><div id="subfleet-message-thread" class="message-thread" aria-live="polite"></div><form id="subfleet-message-form" class="message-composer"><textarea id="subfleet-message-input" maxlength="4000" placeholder="Scrie un mesaj către CibeRO…"></textarea><button id="subfleet-message-send" class="primary-button" type="submit">Trimite</button></form><p id="subfleet-message-feedback" class="feedback" role="status" aria-live="polite"></p></section>
@@ -276,6 +281,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=41"></script>
+  <script type="module" src="admin.js?v=42"></script>
 </body>
 </html>
