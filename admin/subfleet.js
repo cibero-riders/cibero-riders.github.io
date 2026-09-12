@@ -32,6 +32,9 @@ const ticketCount = document.querySelector("#subfleet-ticket-count");
 const workspaceEyebrow = document.querySelector("#subfleet-workspace-eyebrow");
 const workspaceTitle = document.querySelector("#subfleet-workspace-title");
 const workspaceCopy = document.querySelector("#subfleet-workspace-copy");
+const poolToolbar = document.querySelector("#subfleet-pool-toolbar");
+const poolAvailability = document.querySelector("#subfleet-pool-availability");
+const poolSort = document.querySelector("#subfleet-pool-sort");
 const statusTabs = document.querySelector("#subfleet-status-tabs");
 const ticketNavigation = document.querySelector("#subfleet-ticket-navigation");
 const ticketWorkspaces = document.querySelector("#subfleet-ticket-workspaces");
@@ -49,6 +52,7 @@ const messageSend = document.querySelector("#subfleet-message-send");
 const messageFeedback = document.querySelector("#subfleet-message-feedback");
 let profile = null;
 let activeTab = "pool";
+let activePoolSort = "newest";
 let activeClaimedStatus = "all";
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
@@ -62,6 +66,15 @@ let messageRealtimeChannel = null;
 const escapeHtml = value => String(value ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 const formatDate = value => new Intl.DateTimeFormat("ro-RO", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
 const platformLabel = values => (values ?? []).map(value => ({ bolt: "Bolt Food", glovo: "Glovo", wolt: "Wolt" }[value] ?? value)).join(" · ") || "Platformă neprecizată";
+function formatElapsed(value) {
+  const minutes = Math.max(0, Math.floor((Date.now() - new Date(value).getTime()) / 60000));
+  if (minutes < 1) return "acum câteva secunde";
+  if (minutes < 60) return `acum ${minutes} min.`;
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return `acum ${hours} ${hours === 1 ? "oră" : "ore"}`;
+  const days = Math.floor(hours / 24);
+  return `acum ${days} ${days === 1 ? "zi" : "zile"}`;
+}
 
 function setFeedback(message = "", success = false) { feedback.classList.toggle("success", success); feedback.textContent = message; }
 function updateTabCounts() { poolCount.textContent = pool.length; claimedCount.textContent = claimed.length; ticketCount.textContent = tickets.length; }
@@ -129,6 +142,7 @@ function selectTab(tab) {
     tickets: ["Suport direcționat", "Tickete direcționate", "Aici ajung automat ticketele membrilor revendicați."],
   }[tab];
   [workspaceEyebrow.textContent, workspaceTitle.textContent, workspaceCopy.textContent] = copy;
+  poolToolbar.hidden = tab !== "pool";
   statusTabs.hidden = tab !== "claimed";
   ticketNavigation.hidden = tab !== "tickets";
   render();
@@ -147,6 +161,10 @@ async function load() {
   updateTabCounts(); setFeedback(""); render();
 }
 function filteredClaimed() { return activeClaimedStatus === "all" ? claimed.filter(item => item.status !== "archived") : claimed.filter(item => item.status === activeClaimedStatus); }
+function sortedPool() {
+  const direction = activePoolSort === "oldest" ? 1 : -1;
+  return [...pool].sort((first, second) => direction * (new Date(first.created_at) - new Date(second.created_at)));
+}
 function ticketViewById(id) { return ticketViews.find(item => item.id === id) ?? ticketViews[0]; }
 function ticketMatchesActiveView(item) { const selected = ticketViewById(activeTicketView); return selected.matches(item) && (!activeTicketRequestType || item.request_type === activeTicketRequestType); }
 function renderStatusTabs() {
@@ -183,9 +201,15 @@ async function markMemberRead(item) {
   if (error) { console.warn("Marcajul de citire nu a putut fi salvat.", error); }
 }
 function render() {
-  const rows = activeTab === "pool" ? pool : activeTab === "claimed" ? filteredClaimed() : tickets.filter(ticketMatchesActiveView);
+  const rows = activeTab === "pool" ? sortedPool() : activeTab === "claimed" ? filteredClaimed() : tickets.filter(ticketMatchesActiveView);
   empty.hidden = rows.length > 0;
-  if (activeTab === "pool") list.innerHTML = rows.map(item => `<article class="subfleet-row"><div><h3>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</h3><p><strong>${escapeHtml(item.city)}</strong> · ${escapeHtml(item.nationality || "Naționalitate neprecizată")}</p><small>${escapeHtml(courierTypeLabels[item.courier_type] ?? item.courier_type)} · ${escapeHtml(item.vehicle || "Vehicul neprecizat")} · ${escapeHtml(platformLabel(item.desired_platforms))} · ${escapeHtml(formatDate(item.created_at))}</small></div><button class="primary-button subfleet-claim" type="button" data-claim-id="${escapeHtml(item.id)}">Revendică membrul</button></article>`).join("");
+  if (activeTab === "pool") {
+    poolAvailability.textContent = `${pool.length} ${pool.length === 1 ? "activare disponibilă" : "activări disponibile"}`;
+    list.innerHTML = rows.map(item => {
+      const initials = `${item.first_name?.[0] ?? ""}${item.last_name?.[0] ?? ""}`.toLocaleUpperCase("ro-RO") || "?";
+      return `<article class="subfleet-row subfleet-pool-row"><span class="subfleet-pool-avatar" aria-hidden="true">${escapeHtml(initials)}</span><div class="subfleet-pool-identity"><h3>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</h3><small>${escapeHtml(courierTypeLabels[item.courier_type] ?? item.courier_type)} · trimisă ${escapeHtml(formatElapsed(item.created_at))}</small></div><div class="subfleet-pool-location"><strong>${escapeHtml(item.city || "Oraș neprecizat")}</strong><small>${escapeHtml(item.nationality || "Naționalitate neprecizată")} · ${escapeHtml(item.vehicle || "Vehicul neprecizat")}</small></div><div class="subfleet-pool-platforms"><span>${escapeHtml(platformLabel(item.desired_platforms))}</span><small>${escapeHtml(formatDate(item.created_at))}</small></div><button class="primary-button subfleet-claim" type="button" data-claim-id="${escapeHtml(item.id)}">Revendică</button></article>`;
+    }).join("");
+  }
   else if (activeTab === "claimed") { renderStatusTabs(); list.innerHTML = rows.map(item => `<article class="subfleet-row claimed-member-row${item.opened_at ? "" : " unread"}"><button class="subfleet-member-open" type="button" data-member-id="${escapeHtml(item.id)}"><span><strong>${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)}</strong><small>${escapeHtml(item.email)} · ${escapeHtml(item.phone)} · ${escapeHtml(item.city)}</small><small>${escapeHtml(platformLabel(item.desired_platforms))} · revendicat ${escapeHtml(formatDate(item.claimed_at))}</small></span><b aria-hidden="true">→</b></button><select data-application-status="${escapeHtml(item.id)}">${Object.entries(applicationStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
   else { renderTicketNavigation(); list.innerHTML = rows.map(item => `<article class="subfleet-row${item.opened_at ? "" : " unread"}"><div><h3>${escapeHtml(ticketTypeLabels[item.request_type] ?? item.request_type)}</h3><p><strong>${escapeHtml(item.category)}</strong> · ${escapeHtml(item.first_name)} ${escapeHtml(item.last_name)} · ${escapeHtml(item.email)}</p><small>#${escapeHtml(item.id.slice(0, 8).toUpperCase())} · ${escapeHtml(formatDate(item.created_at))}</small></div><select data-ticket-status="${escapeHtml(item.id)}">${Object.entries(ticketStatuses).map(([value, label]) => `<option value="${value}"${value === item.status ? " selected" : ""}>${label}</option>`).join("")}</select></article>`).join(""); }
   empty.textContent = activeTab === "tickets" ? "Nu există tickete în categoria selectată." : activeTab === "claimed" ? "Nu există membri cu statusul selectat." : "Nu sunt membri disponibili în acest moment.";
@@ -213,6 +237,7 @@ async function updateStatus(table, id, status) {
 
 tabs.forEach(button => button.addEventListener("click", () => selectTab(button.dataset.subfleetTab)));
 refresh.addEventListener("click", load);
+poolSort.addEventListener("change", () => { activePoolSort = poolSort.value === "oldest" ? "oldest" : "newest"; render(); });
 messageBell.addEventListener("click", openMessages);
 messageForm.addEventListener("submit", sendMessage);
 

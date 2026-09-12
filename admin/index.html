@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=42" />
+  <link rel="stylesheet" href="admin.css?v=43" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -48,7 +48,7 @@
         <button type="button" data-subfleet-tab="tickets">Tickete direcționate <span id="subfleet-ticket-count">0</span></button>
         <button id="subfleet-message-bell" class="notification-bell" type="button" aria-label="Mesaje CibeRO">🔔<span id="subfleet-message-badge" hidden>0</span></button>
       </div>
-      <section class="panel subfleet-workspace"><div class="section-heading"><div><p class="eyebrow" id="subfleet-workspace-eyebrow">Pool privat</p><h2 id="subfleet-workspace-title">Activări disponibile</h2><p id="subfleet-workspace-copy">Datele de contact devin vizibile doar după revendicare.</p></div><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
+      <section class="panel subfleet-workspace"><div class="section-heading"><div><p class="eyebrow" id="subfleet-workspace-eyebrow">Pool privat</p><h2 id="subfleet-workspace-title">Activări disponibile</h2><p id="subfleet-workspace-copy">Datele de contact devin vizibile doar după revendicare.</p></div><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-pool-toolbar" class="subfleet-pool-toolbar"><span id="subfleet-pool-availability" class="pool-availability">0 activări disponibile</span><label>Sortează după timp<select id="subfleet-pool-sort"><option value="newest">Mai noi întâi</option><option value="oldest">Mai vechi întâi</option></select></label></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
     </section>
 
     <section id="dashboard-view" class="dashboard" hidden>
@@ -262,6 +262,23 @@
     <section class="message-thread-panel subfleet-message-thread-panel"><div class="message-thread-title">Conversație cu CibeRO</div><div id="subfleet-message-thread" class="message-thread" aria-live="polite"></div><form id="subfleet-message-form" class="message-composer"><textarea id="subfleet-message-input" maxlength="4000" placeholder="Scrie un mesaj către CibeRO…"></textarea><button id="subfleet-message-send" class="primary-button" type="submit">Trimite</button></form><p id="subfleet-message-feedback" class="feedback" role="status" aria-live="polite"></p></section>
   </dialog>
 
+  <dialog id="onboarding-choice-dialog" class="application-dialog onboarding-choice-dialog" aria-labelledby="onboarding-choice-title">
+    <section class="onboarding-choice-content">
+      <p class="eyebrow">GHID DE UTILIZARE</p>
+      <h2 id="onboarding-choice-title">Vrei să revezi ghidul?</h2>
+      <p>Îți arătăm pe scurt funcțiile importante și cum circulă cererile între CibeRO și sub-flote.</p>
+      <div class="onboarding-choice-actions"><button id="onboarding-choice-skip" class="quiet-button" type="button">Continuă fără ghid</button><button id="onboarding-choice-start" class="primary-button" type="button">Vezi ghidul</button></div>
+    </section>
+  </dialog>
+
+  <dialog id="onboarding-dialog" class="application-dialog onboarding-dialog" aria-labelledby="onboarding-title">
+    <section class="onboarding-content">
+      <div class="onboarding-progress"><span id="onboarding-role-label">GHID</span><span id="onboarding-step-label">1 / 4</span></div>
+      <div id="onboarding-stage" class="onboarding-stage"></div>
+      <div class="onboarding-actions"><button id="onboarding-back" class="quiet-button" type="button" hidden>Înapoi</button><button id="onboarding-next" class="primary-button" type="button">Continuă</button></div>
+    </section>
+  </dialog>
+
   <dialog id="availability-publish-dialog" class="application-dialog availability-publish-dialog">
     <form method="dialog" class="dialog-top"><strong>Confirmă publicarea</strong><button aria-label="Închide">×</button></form>
     <div id="availability-publish-details"></div>
@@ -281,6 +298,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=44"></script>
+  <script type="module" src="admin.js?v=45"></script>
 </body>
 </html>

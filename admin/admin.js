@@ -1,5 +1,7 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
+import { showAccountGuide } from "./onboarding.js?v=1";
+
 const SUPABASE_URL = "https://xpzgvknnrkyvcnncfqrq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_yqSB3WMkNNxujsJhLMqLJA_8Q99BmbN";
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
@@ -785,12 +787,18 @@ function showDashboard() {
 async function accessProfile(userId) {
   const { data, error } = await supabase
     .from("admin_users")
-    .select("user_id, display_name, role, subfleet_id, is_active")
+    .select("user_id, display_name, role, subfleet_id, is_active, onboarding_login_count")
     .eq("user_id", userId)
     .maybeSingle();
 
   if (error) throw error;
   return data;
+}
+
+async function recordOnboardingLogin() {
+  const { data, error } = await supabase.rpc("record_admin_onboarding_login");
+  if (error) throw error;
+  return Number(data ?? 1);
 }
 
 async function openAccessProfile(user, requestedRole = "") {
@@ -805,14 +813,16 @@ async function openAccessProfile(user, requestedRole = "") {
     showLogin(requestedRole === "admin" ? "Acest cont este de sub-flotă. Selectează „Sub-flotă” pentru autentificare." : "Acest cont este de administrator. Selectează „Admin” pentru autentificare.");
     return false;
   }
+  profile.onboarding_login_count = await recordOnboardingLogin();
   if (profile.role === "subfleet") {
-    subfleetPortal ??= await import("./subfleet.js?v=7");
+    subfleetPortal ??= await import("./subfleet.js?v=8");
     sessionLoading.hidden = true;
     loginView.hidden = true;
     dashboardView.hidden = true;
     logoutButton.hidden = false;
     loginForm.reset();
     await subfleetPortal.showSubfleetPortal(profile);
+    showAccountGuide(profile);
     return true;
   }
   currentAdminUserId = user.id;
@@ -822,6 +832,7 @@ async function openAccessProfile(user, requestedRole = "") {
   await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts(), loadDuplicateAlerts(), loadAdminMessages()]);
   subscribeToAvailabilityUpdates();
   subscribeToAdminNotifications();
+  showAccountGuide(profile);
   return true;
 }
 
