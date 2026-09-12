@@ -24,7 +24,7 @@ const guides = {
   subfleet: {
     label: "GHID PORTAL SUB-FLOTĂ",
     steps: [
-      { icon: "⌑", target: "#subfleet-pool-toolbar", prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "Sortează și revendică activările potrivite." },
+      { icon: "⌑", target: '[data-subfleet-tab="pool"]', prepare: '[data-subfleet-tab="pool"]', title: "Activări disponibile", text: "Aici găsești activările pe care le poți revendica pentru sub-flota ta." },
       { icon: "24", target: "#subfleet-status-tabs", prepare: '[data-subfleet-tab="claimed"]', title: "Regula de 24 de ore", text: "Schimbă statusul unei revendicări în cel mult 24 de ore." },
       { icon: "✓", target: '[data-subfleet-tab="claimed"]', prepare: '[data-subfleet-tab="claimed"]', title: "Membrii tăi", text: "Deschide membrul și actualizează-i statusul." },
       { icon: "✦", target: '[data-subfleet-tab="tickets"]', prepare: '[data-subfleet-tab="tickets"]', title: "Tickete direcționate", text: "Procesează aici ticketele membrilor revendicați." },
@@ -37,6 +37,8 @@ let activeGuide = null;
 let activeStep = 0;
 let guideIsMandatory = false;
 let positionTimer = null;
+let typingStartTimer = null;
+let typingTimer = null;
 
 function setTourScrollLock(locked) {
   document.documentElement.classList.toggle("onboarding-tour-active", locked);
@@ -50,6 +52,22 @@ function targetForStep() {
 function prepareStep(step) {
   const control = step.prepare ? document.querySelector(step.prepare) : null;
   if (control && control.getAttribute("aria-selected") !== "true" && !control.classList.contains("active")) control.click();
+}
+
+function clamp(value, minimum, maximum) {
+  return Math.max(minimum, Math.min(maximum, value));
+}
+
+function pointOnRectangleEdge(box, towardX, towardY, inset = 0) {
+  const centerX = box.left + box.width / 2;
+  const centerY = box.top + box.height / 2;
+  const deltaX = towardX - centerX;
+  const deltaY = towardY - centerY;
+  const halfWidth = Math.max(1, box.width / 2 - inset);
+  const halfHeight = Math.max(1, box.height / 2 - inset);
+  const divisor = Math.max(Math.abs(deltaX) / halfWidth, Math.abs(deltaY) / halfHeight, .001);
+  const scale = 1 / divisor;
+  return { x: centerX + deltaX * scale, y: centerY + deltaY * scale };
 }
 
 function positionTour() {
@@ -67,30 +85,42 @@ function positionTour() {
   content.style.left = "16px";
   content.style.top = "16px";
   const contentBox = content.getBoundingClientRect();
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
   const targetCenterX = targetBox.left + targetBox.width / 2;
   const targetCenterY = targetBox.top + targetBox.height / 2;
-  const placeRight = targetCenterX < window.innerWidth * .52;
-  const left = placeRight
-    ? Math.min(window.innerWidth - contentBox.width - 16, targetBox.right + 34)
-    : Math.max(16, targetBox.left - contentBox.width - 34);
-  const canPlaceBelow = targetBox.bottom + contentBox.height + 34 < window.innerHeight;
-  const top = canPlaceBelow
-    ? Math.max(16, targetBox.bottom + 34)
-    : Math.max(16, Math.min(window.innerHeight - contentBox.height - 16, targetBox.top - contentBox.height - 34));
+  const edgeGap = 46;
+  const pageMargin = 16;
+  const availableRight = viewportWidth - targetBox.right - edgeGap - pageMargin;
+  const availableLeft = targetBox.left - edgeGap - pageMargin;
+  const canPlaceBeside = Math.max(availableRight, availableLeft) >= contentBox.width;
+  let left;
+  let top;
+
+  if (canPlaceBeside) {
+    const placeRight = availableRight >= contentBox.width || availableRight >= availableLeft;
+    left = placeRight ? targetBox.right + edgeGap : targetBox.left - contentBox.width - edgeGap;
+    top = clamp(targetCenterY - contentBox.height / 2, pageMargin, viewportHeight - contentBox.height - pageMargin);
+  } else {
+    const availableBelow = viewportHeight - targetBox.bottom - edgeGap - pageMargin;
+    const availableAbove = targetBox.top - edgeGap - pageMargin;
+    const placeBelow = availableBelow >= contentBox.height || availableBelow >= availableAbove;
+    left = clamp(targetCenterX - contentBox.width / 2, pageMargin, viewportWidth - contentBox.width - pageMargin);
+    top = placeBelow ? targetBox.bottom + edgeGap : targetBox.top - contentBox.height - edgeGap;
+    top = clamp(top, pageMargin, viewportHeight - contentBox.height - pageMargin);
+  }
+
   content.style.left = `${left}px`;
   content.style.top = `${top}px`;
   content.style.visibility = "visible";
 
   const finalBox = content.getBoundingClientRect();
-  const contentIsRightOfTarget = finalBox.left >= targetBox.right;
-  const startX = contentIsRightOfTarget ? finalBox.left : finalBox.right;
-  const startY = Math.max(finalBox.top + 30, Math.min(targetCenterY, finalBox.bottom - 30));
-  const endX = targetCenterX;
-  const endY = targetCenterY;
-  const length = Math.max(28, Math.hypot(endX - startX, endY - startY) - 14);
-  const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
-  arrow.style.left = `${startX}px`;
-  arrow.style.top = `${startY}px`;
+  const start = pointOnRectangleEdge(finalBox, targetCenterX, targetCenterY, 5);
+  const end = pointOnRectangleEdge(targetBox, start.x, start.y);
+  const length = Math.max(28, Math.hypot(end.x - start.x, end.y - start.y) - 8);
+  const angle = Math.atan2(end.y - start.y, end.x - start.x) * 180 / Math.PI;
+  arrow.style.left = `${start.x}px`;
+  arrow.style.top = `${start.y}px`;
   arrow.style.width = `${length}px`;
   arrow.style.transform = `rotate(${angle}deg)`;
 }
@@ -112,16 +142,48 @@ function revealTarget() {
   }));
 }
 
+function stopTypewriter() {
+  window.clearTimeout(typingStartTimer);
+  window.clearInterval(typingTimer);
+  typingStartTimer = null;
+  typingTimer = null;
+}
+
+function typewriteDescription(text) {
+  const paragraph = stage.querySelector("[data-onboarding-description]");
+  if (!paragraph) return;
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    paragraph.textContent = text;
+    return;
+  }
+
+  const characters = Array.from(text);
+  let characterIndex = 0;
+  paragraph.textContent = "";
+  paragraph.classList.add("typing");
+  typingTimer = window.setInterval(() => {
+    paragraph.textContent += characters[characterIndex] ?? "";
+    characterIndex += 1;
+    if (characterIndex >= characters.length) {
+      window.clearInterval(typingTimer);
+      typingTimer = null;
+      paragraph.classList.remove("typing");
+    }
+  }, 24);
+}
+
 function renderGuide() {
+  stopTypewriter();
   const guide = guides[activeGuide];
   const step = guide.steps[activeStep];
   roleLabel.textContent = guide.label;
   stepLabel.textContent = `${activeStep + 1} / ${guide.steps.length}`;
-  stage.innerHTML = `<span class="onboarding-icon" aria-hidden="true">${step.icon}</span><h2 id="onboarding-title">${step.title}</h2><p>${step.text}</p>`;
+  stage.innerHTML = `<h2 id="onboarding-title">${step.title}</h2><p data-onboarding-description aria-label="${step.text}">${step.text}</p>`;
   backButton.hidden = activeStep === 0;
   nextButton.textContent = activeStep === guide.steps.length - 1 ? "Încheie ghidul" : "Următorul pas";
   prepareStep(step);
   revealTarget();
+  typingStartTimer = window.setTimeout(() => typewriteDescription(step.text), 160);
 }
 
 function openGuide(role, mandatory) {
@@ -134,6 +196,7 @@ function openGuide(role, mandatory) {
 
 function closeGuide() {
   window.clearTimeout(positionTimer);
+  stopTypewriter();
   setTourScrollLock(false);
   guideDialog.close();
   activeGuide = null;

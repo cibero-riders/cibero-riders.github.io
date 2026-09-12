@@ -11,14 +11,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=46" />
+  <link rel="stylesheet" href="admin.css?v=49" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
   <header class="admin-header">
     <a href="../" aria-label="Înapoi la CibeRO"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
     <span>Panou administrativ</span>
-    <div class="admin-header-actions"><div id="ticket-layout-preferences" class="header-preferences" hidden><button id="ticket-layout-toggle" class="header-icon-button" type="button" aria-label="Alege stilul de afișare al ticketelor" aria-expanded="false" aria-controls="ticket-layout-menu">☷<span>Stil listă</span></button><div id="ticket-layout-menu" class="header-preferences-menu" hidden><strong>Tickete</strong><button type="button" data-header-ticket-display-mode="structured">Structurat</button><button type="button" data-header-ticket-display-mode="all">Toate la grămadă</button></div></div><label class="theme-switch" title="Schimbă tema zi/noapte"><input id="theme-toggle" type="checkbox" aria-label="Activează tema de zi" /><span class="theme-switch-track"><span class="theme-icon theme-sun" aria-hidden="true">☀</span><span class="theme-icon theme-moon" aria-hidden="true">☾</span><span class="theme-switch-thumb" aria-hidden="true"></span></span></label><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
+    <div class="admin-header-actions"><label class="theme-switch" title="Schimbă tema zi/noapte"><input id="theme-toggle" type="checkbox" aria-label="Activează tema de zi" /><span class="theme-switch-track"><span class="theme-icon theme-sun" aria-hidden="true">☀</span><span class="theme-icon theme-moon" aria-hidden="true">☾</span><span class="theme-switch-thumb" aria-hidden="true"></span></span></label><button id="admin-duplicate-alert-bell" class="notification-bell duplicate-alert-bell" type="button" aria-label="Alerte duplicate" hidden>⚠<span id="admin-duplicate-alert-badge" hidden>0</span></button><button id="admin-message-bell" class="notification-bell" type="button" aria-label="Mesaje sub-flote" hidden>🔔<span id="admin-message-badge" hidden>0</span></button><button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button></div>
   </header>
 
   <main>
@@ -49,7 +49,7 @@
         <button type="button" data-subfleet-tab="tickets">Tickete direcționate <span id="subfleet-ticket-count">0</span></button>
         <button id="subfleet-message-bell" class="notification-bell" type="button" aria-label="Mesaje CibeRO">🔔<span id="subfleet-message-badge" hidden>0</span></button>
       </div>
-      <section class="panel subfleet-workspace"><div class="section-heading compact-heading"><p class="eyebrow" id="subfleet-workspace-eyebrow">CibeRO · activări disponibile</p><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-pool-toolbar" class="subfleet-pool-toolbar"><span id="subfleet-pool-availability" class="pool-availability">0 activări disponibile</span><label>Sortează după timp<select id="subfleet-pool-sort"><option value="newest">Mai noi întâi</option><option value="oldest">Mai vechi întâi</option></select></label></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div id="subfleet-ticket-display-mode" class="ticket-display-mode" role="group" aria-label="Stil de afișare tickete"><button class="active" type="button" data-subfleet-ticket-display-mode="structured" aria-pressed="true">Structurat</button><button type="button" data-subfleet-ticket-display-mode="all" aria-pressed="false">Toate la grămadă</button></div><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
+      <section class="panel subfleet-workspace"><div class="section-heading compact-heading"><p class="eyebrow" id="subfleet-workspace-eyebrow">CibeRO · activări disponibile</p><button id="subfleet-refresh" class="quiet-button" type="button">Actualizează</button></div><div id="subfleet-pool-toolbar" class="subfleet-pool-toolbar"><span id="subfleet-pool-availability" class="pool-availability">0 activări disponibile</span><label>Sortează după timp<select id="subfleet-pool-sort"><option value="newest">Mai noi întâi</option><option value="oldest">Mai vechi întâi</option></select></label></div><div id="subfleet-status-tabs" class="subfleet-filter-tabs" role="tablist" aria-label="Status membri" hidden></div><div id="subfleet-ticket-navigation" class="ticket-navigation subfleet-ticket-navigation" aria-label="Organizare tickete" hidden><div class="ticket-display-mode"><button id="subfleet-ticket-display-switch" class="ticket-display-switch" type="button" role="switch" aria-checked="false" aria-label="Schimbă stilul de afișare al ticketelor"><span>Structurat</span><span>Toate la grămadă</span></button></div><div id="subfleet-ticket-workspaces" class="ticket-workspace-tabs" role="tablist" aria-label="Arie ticket"></div><div id="subfleet-ticket-categories" class="platform-tabs ticket-category-tabs" role="tablist" aria-label="Categorie ticket"></div><div id="subfleet-ticket-types" class="ticket-type-tabs" role="tablist" aria-label="Tip ticket" hidden></div></div><p id="subfleet-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p><div id="subfleet-list" class="subfleet-list"></div><p id="subfleet-empty" class="empty-state" hidden>Nu sunt înregistrări în această listă.</p></section>
     </section>
 
     <section id="dashboard-view" class="dashboard" hidden>
@@ -112,10 +112,7 @@
         </div>
 
         <div class="ticket-navigation" aria-label="Organizare tickete">
-          <div id="ticket-display-mode" class="ticket-display-mode" role="group" aria-label="Stil de afișare tickete">
-            <button class="active" type="button" data-ticket-display-mode="structured" aria-pressed="true">Structurat</button>
-            <button type="button" data-ticket-display-mode="all" aria-pressed="false">Toate la grămadă</button>
-          </div>
+          <div class="ticket-display-mode"><button id="ticket-display-switch" class="ticket-display-switch" type="button" role="switch" aria-checked="false" aria-label="Schimbă stilul de afișare al ticketelor"><span>Structurat</span><span>Toate la grămadă</span></button></div>
           <div class="ticket-workspace-tabs" role="tablist" aria-label="Arie de ticket">
             <button class="ticket-workspace-tab active" type="button" role="tab" aria-selected="true" data-ticket-workspace="platforms">Platforme <span class="unread-badge" hidden>0</span></button>
             <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-ticket-workspace="reports">Rapoarte și Plăți <span class="unread-badge" hidden>0</span></button>
@@ -294,6 +291,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=49"></script>
+  <script type="module" src="admin.js?v=51"></script>
 </body>
 </html>

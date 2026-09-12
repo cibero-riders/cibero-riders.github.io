@@ -35,7 +35,7 @@ const poolAvailability = document.querySelector("#subfleet-pool-availability");
 const poolSort = document.querySelector("#subfleet-pool-sort");
 const statusTabs = document.querySelector("#subfleet-status-tabs");
 const ticketNavigation = document.querySelector("#subfleet-ticket-navigation");
-const ticketDisplayModeControls = [...document.querySelectorAll("[data-subfleet-ticket-display-mode]")];
+const ticketDisplayModeSwitch = document.querySelector("#subfleet-ticket-display-switch");
 const ticketWorkspaces = document.querySelector("#subfleet-ticket-workspaces");
 const ticketCategories = document.querySelector("#subfleet-ticket-categories");
 const ticketTypes = document.querySelector("#subfleet-ticket-types");
@@ -180,11 +180,8 @@ function renderStatusTabs() {
   statusTabs.querySelectorAll("[data-claimed-status]").forEach(button => button.addEventListener("click", () => { activeClaimedStatus = button.dataset.claimedStatus; render(); }));
 }
 function renderTicketNavigation() {
-  ticketDisplayModeControls.forEach(button => {
-    const active = button.dataset.subfleetTicketDisplayMode === activeTicketDisplayMode;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", String(active));
-  });
+  ticketDisplayModeSwitch.dataset.mode = activeTicketDisplayMode;
+  ticketDisplayModeSwitch.setAttribute("aria-checked", String(activeTicketDisplayMode === "all"));
   const workspaces = [["platforms", "Platforme"], ["reports", "Rapoarte și Plăți"], ["administrative", "Administrativ"], ["reimbursement", "5% Decontare"]];
   ticketWorkspaces.innerHTML = workspaces.map(([id, label]) => {
     const newCount = ticketUnreadCount(item => ticketViews.some(view => view.workspace === id && view.matches(item)));
@@ -216,7 +213,6 @@ function setTicketDisplayMode(mode) {
   activeTicketDisplayMode = mode === "all" ? "all" : "structured";
   activeTicketRequestType = "";
   try { localStorage.setItem(`cibero-subfleet-ticket-display:${profile?.user_id ?? "default"}`, activeTicketDisplayMode); } catch { /* Preferința este opțională. */ }
-  window.dispatchEvent(new CustomEvent("cibero-ticket-display-mode-changed", { detail: { mode: activeTicketDisplayMode } }));
   render();
 }
 function detailField(label, value, full = false) { return `<div class="detail-field${full ? " full" : ""}"><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || "—")}</strong></div>`; }
@@ -275,17 +271,13 @@ async function updateStatus(table, id, status) {
 tabs.forEach(button => button.addEventListener("click", () => selectTab(button.dataset.subfleetTab)));
 refresh.addEventListener("click", load);
 poolSort.addEventListener("change", () => { activePoolSort = poolSort.value === "oldest" ? "oldest" : "newest"; render(); });
-ticketDisplayModeControls.forEach(button => button.addEventListener("click", () => setTicketDisplayMode(button.dataset.subfleetTicketDisplayMode)));
-window.addEventListener("cibero-ticket-display-mode-request", event => {
-  if (profile && !view.hidden) setTicketDisplayMode(event.detail?.mode);
-});
+ticketDisplayModeSwitch.addEventListener("click", () => setTicketDisplayMode(activeTicketDisplayMode === "all" ? "structured" : "all"));
 messageBell.addEventListener("click", openMessages);
 messageForm.addEventListener("submit", sendMessage);
 
 export async function showSubfleetPortal(userProfile) {
   profile = userProfile; view.hidden = false;
   try { activeTicketDisplayMode = localStorage.getItem(`cibero-subfleet-ticket-display:${profile.user_id}`) === "all" ? "all" : "structured"; } catch { activeTicketDisplayMode = "structured"; }
-  window.dispatchEvent(new CustomEvent("cibero-ticket-display-mode-changed", { detail: { mode: activeTicketDisplayMode } }));
   const { data: fleet } = await supabase.from("subfleets").select("name").eq("id", profile.subfleet_id).maybeSingle();
   title.textContent = fleet?.name ? `Portal ${fleet.name}` : "Portal sub-flotă";
   selectTab("pool");
