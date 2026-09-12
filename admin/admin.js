@@ -148,6 +148,7 @@ let activePlatform = "all";
 let activeRegistrationView = "all";
 const selectedApplicationIds = new Set();
 let tickets = [];
+let duplicateAlertTickets = [];
 let activeTicketWorkspace = "platforms";
 let activeTicketView = "bolt";
 let activeTicketRequestType = "";
@@ -356,6 +357,10 @@ function isCiberoManagedTicket(item) {
 
 function ciberoTickets() {
   return tickets.filter(isCiberoManagedTicket);
+}
+
+function ticketForDuplicateAlert(ticketId) {
+  return tickets.find(item => item.id === ticketId) ?? duplicateAlertTickets.find(item => item.id === ticketId);
 }
 
 function ticketMatchesActiveView(item) {
@@ -856,7 +861,7 @@ function updateDuplicateAlertBadge() {
 function renderDuplicateAlerts() {
   duplicateAlertsList.innerHTML = duplicateAlerts.map(alert => {
     const application = applications.find(item => item.id === alert.application_id);
-    const ticket = tickets.find(item => item.id === alert.ticket_id);
+    const ticket = ticketForDuplicateAlert(alert.ticket_id);
     const applicationName = application ? `${application.first_name} ${application.last_name}` : "Înregistrare indisponibilă";
     const ticketName = ticket ? `${ticket.first_name} ${ticket.last_name}` : "Ticket indisponibil";
     const ticketReference = ticket ? `#${ticket.id.slice(0, 8).toUpperCase()}` : "Ticket nou";
@@ -871,6 +876,17 @@ async function loadDuplicateAlerts() {
   const { data, error } = await supabase.from("admin_alerts").select("id, application_id, ticket_id, match_fields, message, created_at, read_at").eq("alert_type", "ticket_duplicate_registration").order("created_at", { ascending: false }).limit(30);
   if (error) { console.warn("Alertele de dublură nu sunt disponibile încă.", error); return; }
   duplicateAlerts = data ?? [];
+  const ticketIds = [...new Set(duplicateAlerts.map(item => item.ticket_id).filter(Boolean))];
+  if (ticketIds.length) {
+    const { data: alertTickets, error: alertTicketsError } = await supabase
+      .from("tickets")
+      .select("*, ticket_files(*)")
+      .in("id", ticketIds);
+    if (alertTicketsError) console.warn("Detaliile ticketelor semnalate nu sunt disponibile încă.", alertTicketsError);
+    duplicateAlertTickets = alertTickets ?? [];
+  } else {
+    duplicateAlertTickets = [];
+  }
   updateDuplicateAlertBadge();
   renderDuplicateAlerts();
 }
@@ -898,7 +914,7 @@ async function openDuplicateTicket(alertId) {
   if (!alert.read_at) await markDuplicateAlertRead(alertId);
   duplicateAlertsDialog.close();
   setActiveAdminSection("tickets-panel");
-  await openTicket(alert.ticket_id);
+  await openTicket(alert.ticket_id, ticketForDuplicateAlert(alert.ticket_id));
 }
 
 async function openDuplicateAlerts() {
@@ -1100,6 +1116,7 @@ async function loadTickets() {
   const { data, error } = await supabase
     .from("tickets")
     .select("*, ticket_files(*)")
+    .is("subfleet_id", null)
     .order("created_at", { ascending: false });
   refreshTicketsButton.disabled = false;
   if (error) {
@@ -1608,8 +1625,8 @@ async function deleteSelectedApplications() {
   renderApplications();
 }
 
-async function openTicket(id) {
-  const item = tickets.find(ticket => ticket.id === id);
+async function openTicket(id, suppliedTicket = null) {
+  const item = tickets.find(ticket => ticket.id === id) ?? suppliedTicket;
   if (!item) return;
   const requestedValues = [
     ["Telefon nou", item.new_phone], ["Email nou", item.new_email], ["IBAN nou", item.new_iban],
