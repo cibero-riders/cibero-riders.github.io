@@ -873,6 +873,10 @@ async function openAdminConversation(subfleetId) {
   const unreadIds = subfleetMessages.filter(item => item.subfleet_id === subfleetId && item.sender_role === "subfleet" && !item.read_at).map(item => item.id);
   renderAdminMessageConversations();
   renderAdminMessageThread();
+  await markAdminMessagesRead(unreadIds);
+}
+
+async function markAdminMessagesRead(unreadIds) {
   if (!unreadIds.length) return;
   const { error } = await supabase.rpc("mark_subfleet_messages_read", { p_message_ids: unreadIds });
   if (error) { console.warn("Mesajele nu au putut fi marcate drept citite.", error); return; }
@@ -884,6 +888,7 @@ async function openAdminConversation(subfleetId) {
 async function openAdminMessages() {
   await Promise.all([loadSubfleets(), loadAdminMessages()]);
   if (!activeMessageSubfleetId && subfleets.length) activeMessageSubfleetId = subfleets[0].id;
+  await markAdminMessagesRead(subfleetMessages.filter(item => item.sender_role === "subfleet" && !item.read_at).map(item => item.id));
   renderAdminMessageConversations();
   renderAdminMessageThread();
   adminMessagesDialog.showModal();

@@ -352,8 +352,10 @@ body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index:
   .toolbar label:first-child { grid-column: auto; }
   .selection-toolbar { margin-inline: 17px; align-items: stretch; flex-direction: column; }
   .selection-toolbar .danger-button { width: 100%; }
-  .application-row { grid-template-columns: 35px minmax(0, 1fr) auto; }
-  .application-open { grid-template-columns: 72px minmax(0, 1fr); gap: 9px; padding: 14px 11px; }
+  .application-row { grid-template-columns: 35px minmax(0, 1fr); align-items: stretch; }
+  .row-selector { grid-row: 1 / span 2; }
+  .application-open { grid-column: 2; grid-row: 1; grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); align-items: start; gap: 9px; padding: 14px 11px; }
+  .application-open > .platform, .application-open > .identity, .application-open > .date, .application-open > .city { min-width: 0; overflow-wrap: anywhere; }
   .applications-list { padding: 0 17px 20px; }
   .dashboard-feedback { margin-inline: 17px; }
   .application-row .platform { grid-column: 1; }
@@ -361,6 +363,9 @@ body.status-menu-open::before { content: ""; position: fixed; inset: 0; z-index:
   .application-row .date { grid-column: 1; grid-row: 2; }
   .application-row .city { grid-column: 2; }
   .application-row .arrow { display: none; }
+  .application-status-combobox { grid-column: 2; grid-row: 2; justify-self: end; width: min(calc(100% - 11px), 188px); min-width: 0; margin: 0 11px 12px 0; }
+  .subfleet-member-row { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+  .subfleet-member-row .application-open, .subfleet-member-row > .status-pill { grid-column: auto; grid-row: auto; }
   .detail-grid { grid-template-columns: 1fr; }
   .detail-field.full { grid-column: auto; }
   .ticket-toolbar { grid-template-columns: 1fr; }
