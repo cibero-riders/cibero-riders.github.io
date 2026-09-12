@@ -54,6 +54,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
     <html lang="ro" data-theme="midday" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+        <meta property="og:image:secure_url" content={socialImage} />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
