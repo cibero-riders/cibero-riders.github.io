@@ -115,6 +115,20 @@
   box-shadow: inset 0 0 0 2px #3a2030, inset 0 1px 0 #fff4c7a6, 0 8px 23px #d69b3042;
 }
 
+html[data-theme="night"] .global-header nav .nav-account {
+  border-color: #f5d692;
+  background: linear-gradient(135deg, #89651f, #f2cc70 52%, #a47a31);
+  color: #17130a;
+  text-shadow: 0 1px 0 #fff7d0b8;
+  box-shadow: inset 0 1px 0 #fff7d0cc, 0 7px 20px #0009;
+}
+
+html[data-theme="night"] .global-header nav .nav-account:hover,
+html[data-theme="night"] .global-header nav .nav-account:focus-visible {
+  filter: brightness(1.12) contrast(1.06);
+  box-shadow: inset 0 1px 0 #fffbe6, 0 10px 26px #000c;
+}
+
 .global-header .menu-toggle { display: none; }
 
 @media (max-width: 1120px) and (min-width: 761px) {
