@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Emblemă pentru concediu și inactivitate</title>
+  <defs>
+    <radialGradient id="bg" cx="34%" cy="24%" r="82%">
+      <stop offset="0" stop-color="#bc7c3d"/>
+      <stop offset="0.62" stop-color="#70401f"/>
+      <stop offset="1" stop-color="#382014"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="23" y1="16" x2="104" y2="112">
+      <stop stop-color="#fff0ad"/>
+      <stop offset="0.46" stop-color="#e4b94f"/>
+      <stop offset="1" stop-color="#955918"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <circle cx="64" cy="64" r="53" fill="none" stroke="#fff1b2" stroke-opacity=".22"/>
+  <rect x="28" y="34" width="72" height="66" rx="9" fill="#fff6df" stroke="#e5b94e" stroke-width="3"/>
+  <path d="M29 53h70" stroke="#bb7d29" stroke-width="7"/>
+  <path d="M44 25v18M84 25v18" stroke="#ffe69a" stroke-width="6" stroke-linecap="round"/>
+  <path d="M75 64c-9 2-14 12-10 21 4 8 14 12 22 7-3 8-11 14-21 14-13 0-24-11-24-24s11-24 24-24c4 0 7 1 9 2Z" fill="#7b4520"/>
+  <path d="M85 62v13M93 62v13" stroke="#d59c3e" stroke-width="5" stroke-linecap="round"/>
+</svg>

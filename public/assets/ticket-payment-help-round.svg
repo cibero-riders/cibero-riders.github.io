@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Emblemă pentru altă problemă cu plata</title>
+  <defs>
+    <radialGradient id="bg" cx="34%" cy="24%" r="82%"><stop stop-color="#84506e"/><stop offset=".62" stop-color="#4d2946"/><stop offset="1" stop-color="#28152b"/></radialGradient>
+    <linearGradient id="gold" x1="24" y1="16" x2="105" y2="112"><stop stop-color="#fff0ad"/><stop offset=".48" stop-color="#e3b84f"/><stop offset="1" stop-color="#9a601a"/></linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <circle cx="64" cy="64" r="53" fill="none" stroke="#fff5c8" stroke-opacity=".24"/>
+  <rect x="25" y="35" width="78" height="57" rx="9" fill="#fff6df" stroke="#e5b94e" stroke-width="3"/>
+  <path d="M36 51h30m-30 11h21" fill="none" stroke="#6f3b68" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="82" cy="72" r="20" fill="url(#gold)" stroke="#fff0ad" stroke-width="2"/>
+  <path d="M77 67a5.6 5.6 0 1 1 8.8 4.6c-2.4 1.8-3.8 2.6-3.8 5.4m0 6h.1" fill="none" stroke="#321833" stroke-width="4" stroke-linecap="round"/>
+</svg>

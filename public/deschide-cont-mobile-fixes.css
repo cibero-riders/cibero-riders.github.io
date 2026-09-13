@@ -1,0 +1,48 @@
+/* Corecții mobile punctuale pentru titlul de intrare și antetul Wolt. */
+.mobile-title-break {
+  display: none;
+}
+
+@media (max-width: 620px) {
+  #platform-step h1 {
+    width: 100%;
+    font-size: clamp(27px, 8vw, 34px);
+    line-height: 1.12;
+    letter-spacing: -1.35px;
+    white-space: nowrap;
+    text-wrap: nowrap;
+  }
+
+  .mobile-title-break {
+    display: initial;
+  }
+
+  .desktop-title-break {
+    display: none;
+  }
+
+  #platform-step h1 em {
+    display: inline-block;
+    margin-top: .1em;
+  }
+}
+
+@media (max-width: 680px) {
+  .wolt-rule-head {
+    padding-top: 22px;
+  }
+
+  .wolt-rule-head .wolt-round-header {
+    position: static;
+    display: block;
+    width: 62px;
+    height: 62px;
+    margin: 0 0 18px auto;
+  }
+
+  .wolt-rule-head h2 {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+  }
+}

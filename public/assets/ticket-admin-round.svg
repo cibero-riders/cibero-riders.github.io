@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-labelledby="title">
+  <title id="title">Emblemă pentru probleme administrative</title>
+  <defs>
+    <radialGradient id="bg" cx="34%" cy="24%" r="82%">
+      <stop offset="0" stop-color="#74447f"/>
+      <stop offset="0.58" stop-color="#46224f"/>
+      <stop offset="1" stop-color="#25102c"/>
+    </radialGradient>
+    <linearGradient id="gold" x1="22" y1="16" x2="104" y2="112">
+      <stop stop-color="#fff0ad"/>
+      <stop offset="0.42" stop-color="#e6bd55"/>
+      <stop offset="1" stop-color="#9b611b"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="61" fill="url(#bg)" stroke="url(#gold)" stroke-width="4"/>
+  <circle cx="64" cy="64" r="53" fill="none" stroke="#fff0ad" stroke-opacity=".2"/>
+  <path d="M39 29h34l17 17v49a5 5 0 0 1-5 5H39a5 5 0 0 1-5-5V34a5 5 0 0 1 5-5Z" fill="#fff6df" stroke="#e5b94e" stroke-width="3"/>
+  <path d="M73 29v17h17" fill="#d8aa43" stroke="#9d651b" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M47 58h28M47 69h25M47 80h15" fill="none" stroke="#5b2c62" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="82" cy="84" r="18" fill="url(#gold)" stroke="#fff0ad" stroke-width="2"/>
+  <path d="m73 84 6 6 12-14" fill="none" stroke="#2a1231" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

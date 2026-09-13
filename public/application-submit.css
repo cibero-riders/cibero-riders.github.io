@@ -1,0 +1,28 @@
+.submission-honeypot {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+.submit-feedback {
+  min-height: 22px;
+  margin: 14px 0 0 !important;
+  color: #ffb5bc !important;
+  font-size: 13px !important;
+  font-weight: 700;
+  line-height: 1.45 !important;
+  text-align: center;
+}
+
+.submit-feedback.success {
+  color: #9fe1c4 !important;
+}
+
+button[aria-busy="true"] {
+  cursor: wait;
+  opacity: .72;
+}

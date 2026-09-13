@@ -1,0 +1,4 @@
+/* Numele platformelor folosesc aceeași familie curată de interfață ca acțiunile din onboarding. */
+.platform-card .platform-center b{font-family:"DM Sans",sans-serif;letter-spacing:-1.4px}
+h1,h2,.eyebrow,.brand,.platform-card .platform-center b{font-family:"DM Sans",sans-serif}
+h1 em{font-style:normal}
