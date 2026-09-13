@@ -6,11 +6,18 @@ function getEnvironment() {
 
 export async function GET() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const keyPresence = {
+    hasPublishableKey: Boolean(
+      process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY,
+    ),
+    hasSecretKey: Boolean(process.env.SUPABASE_SECRET_KEY),
+  };
 
   if (!supabaseUrl) {
     return Response.json(
       {
         environment: getEnvironment(),
+        ...keyPresence,
         error: "NEXT_PUBLIC_SUPABASE_URL is not configured.",
       },
       { status: 500 },
@@ -21,11 +28,13 @@ export async function GET() {
     return Response.json({
       environment: getEnvironment(),
       supabaseHost: new URL(supabaseUrl).hostname,
+      ...keyPresence,
     });
   } catch {
     return Response.json(
       {
         environment: getEnvironment(),
+        ...keyPresence,
         error: "NEXT_PUBLIC_SUPABASE_URL is invalid.",
       },
       { status: 500 },
