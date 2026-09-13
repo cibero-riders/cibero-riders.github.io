@@ -1,0 +1,1 @@
+-- No-op migration used to trigger initial staging database synchronization.
