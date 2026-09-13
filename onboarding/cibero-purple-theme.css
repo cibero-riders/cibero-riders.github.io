@@ -124,32 +124,6 @@ body::after {
   background: linear-gradient(90deg, transparent, rgba(222, 177, 73, .72), transparent);
 }
 
-.benefits-panel {
-  border-color: rgba(225, 183, 79, .5);
-  background: linear-gradient(145deg, rgba(65, 24, 74, .74), rgba(30, 10, 40, .78));
-  box-shadow: inset 0 1px 0 rgba(255, 239, 192, .07);
-}
-
-.benefits-panel h2,
-.benefits-panel strong {
-  color: #ffe49b;
-}
-
-.benefits-panel li {
-  border-color: rgba(182, 132, 187, .2);
-}
-
-.benefits-panel li > div > span,
-.benefits-panel .benefit-note {
-  color: #c9b9cb;
-}
-
-.benefit-icon {
-  border-color: rgba(229, 184, 78, .72);
-  background: rgba(86, 45, 91, .42);
-  color: #f0c85f;
-}
-
 .welcome-next-steps,
 .welcome-steps {
   color: #eadde8 !important;

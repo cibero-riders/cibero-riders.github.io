@@ -162,14 +162,7 @@ footer{color:#b6a77e}
 .card.intro-card{width:min(100%,1000px)}
 .welcome-layout{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(260px,.72fr);gap:38px;align-items:start}
 .welcome-layout-single{grid-template-columns:minmax(0,760px);justify-content:center}
-.benefits-panel{min-width:0;padding:4px 0 4px 31px;border-left:1px solid rgba(222,176,67,.42)}
-.benefits-panel h2{margin:0 0 18px;color:#f2cd73;font-family:Georgia,"Times New Roman",serif;font-size:23px;line-height:1.2}
-.benefits-panel ul{display:grid;gap:14px;margin:0;padding:0;list-style:none}
-.benefits-panel li{display:grid;grid-template-columns:27px minmax(0,1fr);gap:10px;align-items:start}
-.benefit-icon{display:grid;place-items:center;width:25px;height:25px;border:1px solid rgba(69,210,207,.72);border-radius:50%;color:#55d8d2;font-size:14px;line-height:1}
-.benefits-panel strong{display:block;color:#f4dfaa;font-size:14px;line-height:1.25}.benefits-panel span:not(.benefit-icon){display:block;margin-top:2px;color:#b9c9d9;font-size:12px;line-height:1.36}
-@media(max-width:780px){.card.intro-card{width:min(100%,720px)}.welcome-layout{grid-template-columns:1fr;gap:28px}.benefits-panel{padding:25px 0 0;border-top:1px solid rgba(222,176,67,.42);border-left:0}.benefits-panel h2{text-align:center}.benefits-panel ul{grid-template-columns:1fr 1fr;gap:15px 14px}.benefits-panel li{grid-template-columns:25px minmax(0,1fr)}.benefits-panel li:last-child{grid-column:1/-1}}
-@media(max-width:480px){.benefits-panel ul{grid-template-columns:1fr}.benefits-panel li:last-child{grid-column:auto}}
+@media(max-width:780px){.card.intro-card{width:min(100%,720px)}.welcome-layout{grid-template-columns:1fr;gap:28px}}
 
 /* A slightly deeper outline gives the content panel the same polished contrast as the visual study. */
 .card{border-color:rgba(100,178,255,.27);box-shadow:0 26px 74px rgba(0,0,0,.46),inset 0 1px 0 rgba(178,221,255,.06)}
@@ -188,8 +181,7 @@ footer{color:#b6a77e}
 .card{border:1px solid rgba(228,184,79,.9)!important;background:linear-gradient(145deg,#0c2944 0%,#071b31 56%,#061426 100%)!important;box-shadow:0 26px 74px rgba(0,0,0,.46),inset 0 1px 0 rgba(189,225,255,.1)!important}
 .card::before{display:none!important}
 
-/* Shared editorial type: prompt copy now matches the classic serif used by the
-   benefits panel and by the progress labels, while retaining a clear hierarchy. */
+/* Shared editorial type: prompt copy matches the classic serif used by the progress labels. */
 #app.card,.resume-dialog{font-family:Georgia,"Times New Roman",serif}
 #app.card h1,.resume-dialog h2{font-family:Georgia,"Times New Roman",serif;font-weight:700;letter-spacing:-.025em;line-height:1.14}
 #app.card h1{font-size:clamp(29px,4.1vw,43px);margin-bottom:20px}
@@ -271,11 +263,7 @@ body::after{background:linear-gradient(180deg,rgba(3,8,16,.18),rgba(3,8,16,.52))
 /* A compact caution separates data accuracy from the larger registration-return reminder. */
 .registration-data-warning{display:flex;align-items:flex-start;gap:9px;margin:21px 0 0;padding:11px 13px;border-left:3px solid #e4aa39;border-radius:8px;background:rgba(119,76,13,.2);color:#f5d58d}.registration-data-warning>span{display:grid;place-items:center;flex:0 0 auto;width:20px;height:20px;margin-top:2px;border-radius:50%;background:#d99b2a;color:#16100a;font-family:Arial,sans-serif;font-size:13px;font-weight:800}.registration-data-warning p{margin:0!important;color:#f5dc9d!important;font-size:15px!important;font-weight:700;line-height:1.48!important}
 
-/* Supporting notes give every benefit helpful context without competing with its title. */
-.benefits-panel .benefit-note{display:block;margin-top:6px;color:#8fa1b4;font-family:Georgia,"Times New Roman",serif;font-size:11px;font-style:italic;line-height:1.38}
-@media(max-width:780px){.benefits-panel li:last-child{grid-column:auto}}
-
-/* On desktop, both halves of the opening panel finish on the same baseline. */
+/* Keep the opening panel action aligned consistently on desktop. */
 @media(min-width:781px){.welcome-layout{align-items:stretch}.welcome-content{display:flex;flex-direction:column}.welcome-content .actions{margin-top:auto;padding-top:26px}}
 @media(max-width:780px){.welcome-content .actions{margin-top:32px;padding-top:0}}
 
