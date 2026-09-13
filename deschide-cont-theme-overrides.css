@@ -1,0 +1,107 @@
+/* Theme-specific account-opening and Wolt-transfer surfaces. */
+html[data-theme="light"] .account-gate-card,
+html[data-theme="light"] .flow-head,
+html[data-theme="light"] .rule-card,
+html[data-theme="light"] .status-options,
+html[data-theme="light"] .status-detail,
+html[data-theme="light"] #wolt-form {
+  border-color: #c79a4d8a;
+  background: linear-gradient(145deg, #fffefa, #f5edde);
+  color: #30263a;
+  box-shadow: inset 0 1px 0 #fff, 0 16px 38px #654a1c1f;
+}
+html[data-theme="light"] .flow-head h2,
+html[data-theme="light"] .flow-head .eyebrow,
+html[data-theme="light"] .status-detail .detail-title,
+html[data-theme="light"] .account-gate-card h1 { color: #35253a; }
+html[data-theme="light"] .account-gate-card h1 em { color: #a56b13; }
+html[data-theme="light"] .flow-head > p:not(.eyebrow),
+html[data-theme="light"] .account-gate-intro { color: #675d6b; }
+html[data-theme="light"] .account-answer {
+  border-color: #c69a4d80;
+  background: linear-gradient(145deg, #fffdfa, #eee5d6);
+  color: #30263a;
+  box-shadow: inset 0 1px 0 #fff, 0 7px 18px #5f451313;
+}
+html[data-theme="light"] .account-answer:hover,
+html[data-theme="light"] .account-answer:focus-visible {
+  border-color: #aa741d;
+  background: linear-gradient(145deg, #fff7df, #e9ca80);
+  box-shadow: inset 0 1px 0 #fff7da, 0 12px 24px #835b1c24;
+}
+html[data-theme="light"] .account-answer strong { color: #3c2a14; }
+html[data-theme="light"] .account-answer small { color: #665a62; }
+html[data-theme="light"] .account-answer-mark { border-color: #ad791f; background: #f5dfa6; color: #58400f; }
+html[data-theme="light"] .status-card { border-color: #c79e5780; background: #fff; color: #332a3b; box-shadow: 0 8px 19px #60481814; }
+html[data-theme="light"] .status-card:hover,
+html[data-theme="light"] .status-card.selected { border-color: #a97622; background: #fff4d7; }
+html[data-theme="light"] .status-card-copy b { color: #33273b; }
+html[data-theme="light"] .status-card .status-action { color: #176e85; }
+html[data-theme="light"] .transfer-procedure {
+  border-color: #c88d2599;
+  background: linear-gradient(145deg, #fffdf7, #f5e7c7);
+  box-shadow: inset 0 1px 0 #fff;
+}
+html[data-theme="light"] .transfer-procedure h4,
+html[data-theme="light"] .transfer-procedure .detail-steps b { color: #633d09; }
+html[data-theme="light"] .transfer-procedure .detail-steps span { color: #4f4b53; }
+html[data-theme="light"] .transfer-accept { border-color: #c28a2b; background: #fff5d9; color: #4d3510; }
+html[data-theme="light"] .transfer-intro { color: #71480d; }
+
+html[data-theme="midday"] .account-gate-card,
+html[data-theme="midday"] .flow-head,
+html[data-theme="midday"] .rule-card,
+html[data-theme="midday"] .status-options,
+html[data-theme="midday"] .status-detail,
+html[data-theme="midday"] #wolt-form { border-color: #d4ac5a76; background: linear-gradient(145deg, #32183e, #1b0d27); }
+html[data-theme="midday"] .account-answer { border-color: #d0a85775; background: linear-gradient(145deg, #3a2047, #22112e); }
+html[data-theme="midday"] .account-answer:hover,
+html[data-theme="midday"] .account-answer:focus-visible { border-color: #f0cc6c; background: linear-gradient(145deg, #51305c, #2c1738); }
+html[data-theme="midday"] .transfer-procedure { border-color: #d0a04a; background: linear-gradient(145deg, #3a2046, #21132d); }
+html[data-theme="midday"] .transfer-procedure h4 { color: #f1ca6c; }
+html[data-theme="midday"] .transfer-procedure .detail-steps b { color: #fff0c9; }
+html[data-theme="midday"] .transfer-procedure .detail-steps span { color: #e3d4e3; }
+html[data-theme="midday"] .transfer-accept { border-color: #d2a952; background: #321b3d; color: #fff0c8; }
+html[data-theme="midday"] .transfer-intro { color: #f1d18a; }
+
+html[data-theme="night"] .account-gate-card,
+html[data-theme="night"] .flow-head,
+html[data-theme="night"] .rule-card,
+html[data-theme="night"] .status-options,
+html[data-theme="night"] .status-detail,
+html[data-theme="night"] #wolt-form {
+  border-color: #80674780;
+  background: linear-gradient(145deg, #282923, #171814);
+  color: #eeeae2;
+  box-shadow: inset 0 1px 0 #d8bd9110, 0 16px 38px #0009;
+}
+html[data-theme="night"] .flow-head h2,
+html[data-theme="night"] .account-gate-card h1,
+html[data-theme="night"] .status-detail .detail-title { color: #eeeae2; }
+html[data-theme="night"] .account-gate-card h1 em { color: #d4b27d; }
+html[data-theme="night"] .view h1 em,
+html[data-theme="night"] .view h2 em { color: #d4b27d; }
+html[data-theme="night"] .flow-head > p:not(.eyebrow),
+html[data-theme="night"] .account-gate-intro { color: #b8b4ac; }
+html[data-theme="night"] .account-answer { border-color: #80674780; background: linear-gradient(145deg, #2c2d27, #1a1b17); color: #eeeae2; }
+html[data-theme="night"] .account-answer:hover,
+html[data-theme="night"] .account-answer:focus-visible { border-color: #c19a61; background: linear-gradient(145deg, #3a3830, #23241f); box-shadow: 0 13px 26px #000a; }
+html[data-theme="night"] .account-answer strong { color: #eeeae2; }
+html[data-theme="night"] .account-answer small { color: #b8b4ac; }
+html[data-theme="night"] .account-answer-mark { border-color: #b99561; background: #4b402e; color: #f0d49e; }
+html[data-theme="night"] .status-card { border-color: #80674780; background: linear-gradient(145deg, #2b2c27, #191a16); color: #eeeae2; box-shadow: inset 0 1px 0 #d8bd910d, 0 9px 22px #0007; }
+html[data-theme="night"] .status-card:hover,
+html[data-theme="night"] .status-card.selected { border-color: #bd9862; background: linear-gradient(145deg, #393830, #22231e); }
+html[data-theme="night"] .status-card-copy b { color: #eeeae2; }
+html[data-theme="night"] .status-card .status-action { color: #c5e7eb; }
+html[data-theme="night"] .transfer-procedure {
+  border-color: #92764f;
+  background: linear-gradient(145deg, #2b2c27, #181916);
+  box-shadow: inset 0 1px 0 #d8bd9110;
+}
+html[data-theme="night"] .transfer-procedure h4 { color: #d9ba83; }
+html[data-theme="night"] .transfer-procedure .detail-steps b { color: #eeeae2; }
+html[data-theme="night"] .transfer-procedure .detail-steps span { color: #c5c1b8; }
+html[data-theme="night"] .transfer-procedure .detail-steps li { border-bottom-color: #80674755; }
+html[data-theme="night"] .transfer-accept { border-color: #876b46; background: #252620; color: #e2d7c5; }
+html[data-theme="night"] .transfer-intro { color: #d8bd91; }
