@@ -47,6 +47,11 @@ html[data-theme="light"] .transfer-procedure .detail-steps b { color: #633d09; }
 html[data-theme="light"] .transfer-procedure .detail-steps span { color: #4f4b53; }
 html[data-theme="light"] .transfer-accept { border-color: #c28a2b; background: #fff5d9; color: #4d3510; }
 html[data-theme="light"] .transfer-intro { color: #71480d; }
+html[data-theme="light"] .rule-card .rule small {
+  color: #fff0ad;
+  font-weight: 600;
+  text-shadow: 0 1px 2px #17435d;
+}
 
 html[data-theme="midday"] .account-gate-card,
 html[data-theme="midday"] .flow-head,
@@ -105,3 +110,8 @@ html[data-theme="night"] .transfer-procedure .detail-steps span { color: #c5c1b8
 html[data-theme="night"] .transfer-procedure .detail-steps li { border-bottom-color: #80674755; }
 html[data-theme="night"] .transfer-accept { border-color: #876b46; background: #252620; color: #e2d7c5; }
 html[data-theme="night"] .transfer-intro { color: #d8bd91; }
+html[data-theme="night"] .rule-card .rule small {
+  color: #ffe19a;
+  font-weight: 600;
+  text-shadow: 0 1px 2px #0c2838;
+}
