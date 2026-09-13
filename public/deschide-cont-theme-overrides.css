@@ -48,9 +48,47 @@ html[data-theme="light"] .transfer-procedure .detail-steps span { color: #4f4b53
 html[data-theme="light"] .transfer-accept { border-color: #c28a2b; background: #fff5d9; color: #4d3510; }
 html[data-theme="light"] .transfer-intro { color: #71480d; }
 html[data-theme="light"] .rule-card .rule small {
-  color: #fff0ad;
+  color: #5f5660;
   font-weight: 600;
-  text-shadow: 0 1px 2px #17435d;
+  text-shadow: none;
+}
+html[data-theme="light"] .rule-card .rule,
+html[data-theme="light"] .rule-card .rule.blue,
+html[data-theme="light"] .rule-card .rule.gold,
+html[data-theme="light"] .rule-card .rule.red,
+html[data-theme="light"] .wolt-rule-head .rule-note.info,
+html[data-theme="light"] .hero-accept,
+html[data-theme="light"] .status-detail .accept {
+  border-color: #c79a4d73;
+  background: linear-gradient(145deg, #fffefa, #f4ead7);
+  color: #302638;
+  box-shadow: inset 0 1px 0 #fff;
+}
+html[data-theme="light"] .wolt-rule-head .rule-note.info strong,
+html[data-theme="light"] .hero-accept span,
+html[data-theme="light"] .rule-card .rule strong { color: #34263a; }
+html[data-theme="light"] .wolt-rule-head .rule-note.info small { color: #5f5660; }
+html[data-theme="light"] .wolt-rule-head .rule-note.info b {
+  border: 1px solid #58c8dd;
+  background: #e8f9fc;
+  color: #087c9b;
+}
+html[data-theme="light"] .hero-accept input { accent-color: #0aaed2; }
+html[data-theme="light"] .flow-shell .continue:disabled {
+  border-color: #8ad8e6;
+  background: linear-gradient(135deg, #d8f4f7, #9edfeb 55%, #d9f3f6);
+  color: #456068;
+  box-shadow: none;
+}
+html[data-theme="light"] .flow-warning {
+  border-color: #c79a4d73;
+  background: #fff5df;
+  color: #58401b;
+}
+html[data-theme="light"] .status-detail .upload {
+  border-color: #43bcd2;
+  background: linear-gradient(145deg, #f2fbfc, #fffaf0);
+  color: #176f82;
 }
 html[data-theme="light"] :is(.back, .text-back, .glovo-back) {
   color: #79500e;
