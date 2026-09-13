@@ -32,6 +32,10 @@ const copy = {
     newVehicle: "Tip vehicul nou",
     newPlate: "Număr de înmatriculare nou",
     newCity: "Oraș nou",
+    transferCity: "Orașul în care livrezi",
+    transferPlatform: "Platforma contului activ",
+    transferAdminNote: "Notă pentru admin",
+    transferAdminNotePlaceholder: "Spune pe scurt orice informație utilă pentru procesarea transferului.",
     choose: "Selectează…",
     describe: "Descrie problema ta",
     describePlaceholder: "Descrie situația cât mai clar și include toate detaliile utile.",
@@ -102,6 +106,10 @@ const copy = {
     newVehicle: "New vehicle type",
     newPlate: "New registration number",
     newCity: "New city",
+    transferCity: "City where you deliver",
+    transferPlatform: "Platform with the active account",
+    transferAdminNote: "Note for the admin",
+    transferAdminNotePlaceholder: "Briefly add any information useful for processing the transfer.",
     choose: "Select…",
     describe: "Describe your issue",
     describePlaceholder: "Describe the situation clearly and include all useful details.",
@@ -205,7 +213,7 @@ const dialog = document.querySelector("#ticket-dialog");
 const dialogContent = document.querySelector("#ticket-dialog-content");
 const state = {
   language: "ro", step: 1, category: "", type: "", firstName: "", lastName: "", phone: "", email: "",
-  details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", directType: false,
+  details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", directType: false, transferChecklistConfirmed: false,
 };
 
 function t(key) { return copy[state.language][key] ?? key; }
@@ -297,6 +305,11 @@ function renderTypes() {
   stage.innerHTML = `${heading(t("typeTitle"), t("typeSubtitle"))}<div class="stage-body"><div class="category-grid">${woltGuide}${cards}</div>${actions()}</div>`;
 }
 
+function renderTransferProcedure() {
+  const ro = state.language === "ro";
+  stage.innerHTML = `${heading(ro ? "Transfer cont Wolt" : "Wolt account transfer", ro ? "Parcurge procedura Wolt înainte să completezi ticket-ul." : "Complete Wolt's procedure before filling in the ticket.")}<div class="stage-body"><section class="ticket-transfer-procedure"><p class="ticket-transfer-label">${ro ? "Pași obligatorii înainte de transfer" : "Required steps before transfer"}</p><ol><li><span>1</span><div><strong>${ro ? "Asigură-te că ai balanța 0" : "Make sure your balance is zero"}</strong><p>${ro ? "Verifică în Wolt Courier că nu ai bani neîncasați. Contactează flota actuală dacă ai sold rămas." : "Check Wolt Courier for any unpaid balance. Contact your current fleet if money remains."}</p></div></li><li><span>2</span><div><strong>${ro ? "Cere să fii setat Offline" : "Ask to be set Offline"}</strong><p>${ro ? "Flota la care ești activ trebuie să te seteze Offline în aplicația sa de management." : "Your current fleet must set you Offline in its management app."}</p></div></li><li><span>3</span><div><strong>${ro ? "Cere să fii pus în Offboarding" : "Request Offboarding"}</strong><p>${ro ? "Flota actuală trebuie să inițieze offboarding-ul. Fără acest pas, Wolt nu poate procesa transferul." : "Your current fleet must start offboarding. Wolt cannot process the transfer without it."}</p></div></li></ol></section><div class="ticket-transfer-warning"><strong>${ro ? "Nu completa un formular de înscriere nouă." : "Do not submit a new registration form."}</strong><p>${ro ? "O înregistrare duplicată poate bloca sau șterge contul existent." : "A duplicate registration may block or delete the existing account."}</p></div><p class="ticket-transfer-instruction">${ro ? "Doar după ce îndeplinești cele 3 criterii, completează ticket-ul și informează adminul." : "Only after completing all three requirements, fill in the ticket and inform the admin."}</p><label class="confirm-control transfer-checklist"><input name="transferChecklist" type="checkbox"${state.transferChecklistConfirmed ? " checked" : ""} /><span>${ro ? "Confirm că am îndeplinit toate cele 3 criterii de mai sus." : "I confirm that I completed all three requirements above."}</span></label><div class="actions"><button class="secondary-action" type="button" data-action="cancel-transfer">← ${ro ? "Înapoi la categorii" : "Back to categories"}</button><button class="primary-action" type="button" data-action="begin-transfer"${state.transferChecklistConfirmed ? "" : " disabled"}>${ro ? "Completează ticket-ul" : "Fill in the ticket"} →</button></div></div>`;
+}
+
 function detailValue() {
   const map = { phone: "newPhone", email: "newEmail", iban: "newIban", city: "newCity", vehicle: "newVehicle", plate_number: "newPlate" };
   return state.details[map[state.type]] || "";
@@ -319,7 +332,12 @@ function platformFields() {
 function renderDetails() {
   let content = "";
   const simpleFields = ["phone", "email", "iban", "city", "vehicle", "plate_number"];
-  if (paymentTypes.includes(state.type)) {
+  if (state.type === "transfer_cont") {
+    content += `<div class="info-note wolt-guide"><b>W</b><div>${state.language === "ro" ? "Completează datele necesare pentru solicitarea de transfer către CibeRO." : "Enter the details needed for your transfer request to CibeRO."}</div></div>`;
+    content += field("newCity", t("transferCity"), state.details.newCity || "", { select: cities, full: true });
+    content += field("transferPlatform", t("transferPlatform"), state.details.platforms?.[0] || "", { select: inactivityPlatforms, full: true });
+    content += field("notes", t("transferAdminNote"), state.notes || "", { textarea: true, placeholder: t("transferAdminNotePlaceholder"), full: true });
+  } else if (paymentTypes.includes(state.type)) {
     content += `<div class="info-note"><b>i</b><div>${state.language === "ro" ? "Selectează toate platformele afectate, apoi descrie perioada și situația pe care trebuie să o verificăm." : "Select every affected platform, then describe the period and the situation we need to review."}</div></div>`;
     content += platformFields();
     content += field("description", t("describe"), state.details.description || "", { textarea: true, placeholder: t("describePlaceholder"), full: true });
@@ -333,11 +351,6 @@ function renderDetails() {
     if (state.type === "plate_number") content += field("newPlate", t("newPlate"), state.details.newPlate || "", { placeholder: "B 123 ABC", full: true });
   } else if (state.type === "other") {
     content += field("description", t("describe"), state.details.description || "", { textarea: true, placeholder: t("describePlaceholder"), full: true });
-  } else if (state.type === "transfer_cont") {
-    content += `<div class="info-note wolt-guide"><b>W</b><div>${state.language === "ro" ? "Completează datele exacte din aplicația Wolt Courier. Ele sunt necesare pentru transferul contului în flota noastră." : "Enter the exact details from Wolt Courier. They are required to transfer your account to our fleet."}</div></div>`;
-    content += field("woltAppPhone", t("transferPhone"), state.details.woltAppPhone || "", { type: "tel", hint: t("transferPhoneHint"), full: true });
-    content += field("woltCourierId", t("courierId"), state.details.woltCourierId || "", { hint: t("courierIdHint"), full: true });
-    content += field("woltEmail", t("woltEmail"), state.details.woltEmail || "", { type: "email", hint: t("woltEmailHint"), full: true });
   } else if (state.type === "comanda_anulata") {
     content += field("orderCode", t("orderCode"), state.details.orderCode || "", { placeholder: "123456789012", full: true });
     content += uploadField("receipt", t("receipt"), t("receiptHelp"), "image/jpeg,image/png,image/webp", state.receipt);
@@ -363,10 +376,11 @@ function renderConfirm() {
   if (state.details.newPhone) details.push(summaryItem(t("newPhone"), state.details.newPhone));
   if (state.details.newEmail) details.push(summaryItem(t("newEmail"), state.details.newEmail));
   if (state.details.newIban) details.push(summaryItem(t("newIban"), state.details.newIban));
-  if (state.details.newCity) details.push(summaryItem(t("newCity"), state.details.newCity));
+  if (state.details.newCity) details.push(summaryItem(state.type === "transfer_cont" ? t("transferCity") : t("newCity"), state.details.newCity));
   if (state.details.newVehicle) details.push(summaryItem(t("newVehicle"), state.details.newVehicle));
   if (state.details.newPlate) details.push(summaryItem(t("newPlate"), state.details.newPlate));
   if (state.details.description) details.push(summaryItem(t("describe"), state.details.description, true));
+  if (state.type === "transfer_cont" && state.notes) details.push(summaryItem(t("transferAdminNote"), state.notes, true));
   if (state.details.woltAppPhone) details.push(summaryItem(t("transferPhone"), state.details.woltAppPhone));
   if (state.details.woltCourierId) details.push(summaryItem(t("courierId"), state.details.woltCourierId));
   if (state.details.woltEmail) details.push(summaryItem(t("woltEmail"), state.details.woltEmail, true));
@@ -392,9 +406,10 @@ function render() {
     button.classList.toggle("active", active);
     button.setAttribute("aria-pressed", String(active));
   });
-  stepper.hidden = Boolean(state.reference);
+  stepper.hidden = Boolean(state.reference) || (state.type === "transfer_cont" && !state.transferChecklistConfirmed);
   if (!state.reference) renderStepper();
   if (state.reference) renderSuccess();
+  else if (state.type === "transfer_cont" && !state.transferChecklistConfirmed) renderTransferProcedure();
   else if (state.step === 1) renderCategories();
   else if (state.step === 2) renderIdentity();
   else if (state.step === 3) renderTypes();
@@ -409,6 +424,7 @@ function syncInputs() {
   stage.querySelectorAll("input[name], select[name], textarea[name]").forEach(input => {
     const name = input.name;
     if (name === "platforms") return;
+    if (name === "transferPlatform") { state.details.platforms = input.value ? [input.value] : []; return; }
     if (name === "firstName" || name === "lastName" || name === "phone" || name === "email" || name === "notes") state[name] = input.type === "checkbox" ? input.checked : input.value;
     else if (name === "confirmed") state.confirmed = input.checked;
     else state.details[name] = input.value;
@@ -440,7 +456,7 @@ function validateDetails() {
   else if (state.type === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.newEmail || "")) return t("invalidEmail");
   else if (state.type === "iban" && !/^RO[A-Z0-9]{22}$/.test((d.newIban || "").replace(/\s/g, "").toUpperCase())) return state.language === "ro" ? "IBAN-ul trebuie să înceapă cu RO și să conțină 24 de caractere." : "The IBAN must start with RO and contain 24 characters.";
   else if (["city", "vehicle", "plate_number", "other"].includes(state.type) && !detailValue() && !d.description) return t("required");
-  else if (state.type === "transfer_cont" && (!d.woltAppPhone || !d.woltCourierId || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.woltEmail || ""))) return t("required");
+  else if (state.type === "transfer_cont" && (!state.transferChecklistConfirmed || !d.newCity || d.platforms?.length !== 1 || !state.notes.trim())) return t("required");
   else if (state.type === "comanda_anulata" && (!/^\d{12}$/.test(d.orderCode || "") || !state.receipt)) return t("required");
   return "";
 }
@@ -559,6 +575,7 @@ async function submitTicket() {
   form.set("phone", state.phone.trim());
   form.set("email", state.email.trim());
   form.set("notes", state.notes.trim());
+  if (state.type === "transfer_cont") form.set("transfer_checklist_confirmed", String(state.transferChecklistConfirmed));
   form.set("confirmed", "true");
   Object.entries(state.details).forEach(([key, value]) => form.set(key.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`), Array.isArray(value) ? value.join(",") : String(value).trim()));
   state.files.forEach(file => form.append("files", file));
@@ -577,7 +594,7 @@ async function submitTicket() {
 }
 
 function resetState() {
-  Object.assign(state, { step: 1, category: "", type: "", firstName: "", lastName: "", phone: "", email: "", details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", submitting: false, directType: false });
+  Object.assign(state, { step: 1, category: "", type: "", firstName: "", lastName: "", phone: "", email: "", details: {}, files: [], receipt: null, receiptsPdf: null, notes: "", confirmed: false, error: "", reference: "", submitting: false, directType: false, transferChecklistConfirmed: false });
   render(); scrollTop();
 }
 
@@ -587,6 +604,10 @@ function bindStageEvents() {
   stage.querySelector('[data-action="next"]')?.addEventListener("click", next);
   stage.querySelector('[data-action="back"]')?.addEventListener("click", back);
   stage.querySelector('[data-action="submit"]')?.addEventListener("click", submitTicket);
+  stage.querySelector('[data-action="cancel-transfer"]')?.addEventListener("click", () => { Object.assign(state, { step: 1, category: "", type: "", directType: false, transferChecklistConfirmed: false }); render(); scrollTop(); });
+  const transferChecklist = stage.querySelector('input[name="transferChecklist"]');
+  transferChecklist?.addEventListener("change", () => { state.transferChecklistConfirmed = transferChecklist.checked; const beginButton = stage.querySelector('[data-action="begin-transfer"]'); if (beginButton) beginButton.disabled = !transferChecklist.checked; });
+  stage.querySelector('[data-action="begin-transfer"]')?.addEventListener("click", () => { if (state.transferChecklistConfirmed) { state.step = 2; render(); scrollTop(); } });
   stage.querySelector('[data-action="restart"]')?.addEventListener("click", resetState);
   stage.querySelectorAll("input[name], select[name], textarea[name]").forEach(input => input.addEventListener("input", syncInputs));
   stage.querySelectorAll("[data-upload]").forEach(input => input.addEventListener("change", () => {
@@ -609,8 +630,11 @@ mainNav.querySelectorAll("a").forEach(link => link.addEventListener("click", () 
 
 const requestedCategory = new URLSearchParams(window.location.search).get("category");
 const requestedType = new URLSearchParams(window.location.search).get("type");
+const transferCriteriaConfirmed = new URLSearchParams(window.location.search).get("criteria") === "confirmed";
+const requestedTransferPlatform = new URLSearchParams(window.location.search).get("platform");
 if (requestedCategory && requestedType && typeSets[requestedCategory]?.includes(requestedType)) {
-  Object.assign(state, { category: requestedCategory, type: requestedType, directType: true, step: 2 });
+  Object.assign(state, { category: requestedCategory, type: requestedType, directType: true, step: 2, transferChecklistConfirmed: requestedType === "transfer_cont" && transferCriteriaConfirmed });
+  if (requestedType === "transfer_cont" && requestedTransferPlatform === "wolt") state.details.platforms = ["Wolt"];
 }
 
 render();
