@@ -10,12 +10,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 # CibeRO Project Rules
 
-- Nu lucra direct pe `main`.
-- Fiecare task semnificativ trebuie să folosească un branch separat pornit din ultimul `main`.
-- Folosește convențiile de naming: `feat/<name>`, `fix/<name>`, `chore/<name>` sau `refactor/<name>`.
-- Un branch trebuie să conțină o singură zonă logică de lucru.
-- Nu face merge automat în `main` decât dacă utilizatorul cere explicit.
-- Înainte de finalizarea unui task rulează `npm run typecheck` și `npm run build`.
+- Site-ul public curent este GitHub Pages, publicat din `main`. Nu utiliza Vercel pentru preview, deploy sau validare decât dacă utilizatorul solicită explicit o migrare la Vercel.
+- Înainte de orice schimbare, pornește din ultimul `main` disponibil.
+- Fluxul standard este economic: grupează ajustările mici care țin de aceeași zonă, creează commit și fă push direct pe `main`. Nu crea Pull Request și nu cere confirmare manuală pentru publicarea unui task obișnuit.
+- Folosește branch și Pull Request numai dacă utilizatorul le cere explicit sau dacă o schimbare cu risc ridicat are nevoie de izolare.
+- Pentru modificări de CSS, HTML static sau conținut, fă verificări țintite și `git diff --check`; rulează `npm run typecheck` și `npm run build` doar dacă utilizatorul le cere sau modificarea afectează cod TypeScript/Next.js, configurația, dependențele, autentificarea ori baza de date.
+- Pentru schimbări funcționale ample, verifică atât desktop cât și mobile.
 - Nu expune environment variables secrete.
 - `SUPABASE_SECRET_KEY` și cheile service-role sunt exclusiv server-side.
 - Variabilele `NEXT_PUBLIC_*` pot ajunge în browser și nu trebuie să conțină secrete.
@@ -23,6 +23,5 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Nu modifica schema Production direct fără instrucțiune explicită.
 - Preserve existing public URLs unless the task explicitly requires changing them.
 - Preserve existing visual design unless redesign is explicitly requested.
-- Pentru modificări ample, verifică atât desktop cât și mobile.
 - Nu șterge assets sau cod legacy până nu confirmi că nu mai sunt utilizate.
-- Dacă există un PR activ pentru aceeași zonă, evită să creezi modificări concurente incompatibile.
+- Dacă există un branch sau PR activ pentru aceeași zonă, verifică mai întâi dacă modificările lui au ajuns deja în `main`.
