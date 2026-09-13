@@ -52,6 +52,82 @@ html[data-theme="light"] .rule-card .rule small {
   font-weight: 600;
   text-shadow: 0 1px 2px #17435d;
 }
+html[data-theme="light"] :is(.back, .text-back, .glovo-back) {
+  color: #79500e;
+  font-weight: 800;
+  text-shadow: none;
+}
+html[data-theme="light"] :is(.back, .text-back, .glovo-back):hover,
+html[data-theme="light"] :is(.back, .text-back, .glovo-back):focus-visible {
+  color: #4f3308;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+html[data-theme="light"] .glovo-flow-head {
+  border-color: #c79a4d8a;
+  background: linear-gradient(145deg, #fffefa, #f4ead7);
+  color: #302638;
+  box-shadow: inset 0 1px 0 #fff, 0 16px 38px #654a1c1f;
+}
+html[data-theme="light"] .glovo-flow-head small { color: #8a580d; }
+html[data-theme="light"] .glovo-flow-head strong { color: #302337; }
+html[data-theme="light"] .glovo-progress i { background: #827063; }
+html[data-theme="light"] .glovo-progress i.active { background: linear-gradient(90deg, #d98515, #ffc244); }
+html[data-theme="light"] .glovo-reveal,
+html[data-theme="light"] :is(.glovo-confirm-card, #glovo-form) {
+  border-color: #c79a4d80;
+  background: linear-gradient(145deg, #fffefa, #f7f0e5);
+  color: #302638;
+  box-shadow: inset 0 1px 0 #fff, 0 16px 36px #654a1c1b;
+}
+html[data-theme="light"] .glovo-reveal-item {
+  border-color: #c69a4d75;
+  background: linear-gradient(145deg, #fffdf8, #f2e6d1);
+  color: #302638;
+  box-shadow: inset 0 1px 0 #fff;
+}
+html[data-theme="light"] .glovo-reveal-item.notice {
+  border-color: #c69a4d75;
+  background: #fff5df;
+}
+html[data-theme="light"] .glovo-reveal-item b,
+html[data-theme="light"] .glovo-confirm-card > p { color: #68420a; }
+html[data-theme="light"] .glovo-reveal-item p,
+html[data-theme="light"] .glovo-confirm-card label { color: #514752; }
+html[data-theme="light"] .glovo-confirm-card label { border-bottom-color: #b98a4038; }
+html[data-theme="light"] .glovo-next:disabled { border-color: #c9c2b7; background: #e8e3dc; color: #756d72; }
+html[data-theme="light"] .glovo-flex-note {
+  border-color: #69b9c777;
+  background: linear-gradient(105deg, #edf9fa, #fff9ec);
+  color: #34464a;
+  box-shadow: 0 9px 22px #3d78831a;
+}
+html[data-theme="light"] .glovo-form-shell .form-intro {
+  border-color: #c49a4c61;
+  background: #fff7e8;
+  color: #5c515b;
+}
+html[data-theme="light"] .glovo-form-shell label { color: #493847; }
+html[data-theme="light"] .glovo-form-shell :is(input, select, textarea) {
+  border-color: #c49a4c75;
+  background: #fff;
+  color: #29202e;
+}
+html[data-theme="light"] .glovo-form-shell :is(input, textarea)::placeholder { color: #817780; }
+html[data-theme="light"] .glovo-success h2 { color: #302337; }
+html[data-theme="light"] .glovo-success > p:not(.eyebrow) { color: #655b66; }
+html[data-theme="light"] .wolt-info-note {
+  border-color: #c79a4d80 !important;
+  border-left-color: #b57a1d !important;
+  background: linear-gradient(110deg, #fff4d9, #fffdf8) !important;
+  color: #4c3a28 !important;
+  box-shadow: 0 10px 26px #6e4c151b !important;
+}
+html[data-theme="light"] :is(.upload-preview, .upload-preview-empty, .upload-preview-card) {
+  border-color: #c49a4c70;
+  background: linear-gradient(145deg, #fffefa, #f5edde);
+  color: #3d3340;
+}
 
 html[data-theme="midday"] .account-gate-card,
 html[data-theme="midday"] .flow-head,
