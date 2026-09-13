@@ -100,6 +100,98 @@ html[data-theme="night"] .public-theme-switch { border-color:#80613e; background
 html[data-theme="night"] .public-theme-switch button { color:#8d8a83; }
 html[data-theme="night"] .public-theme-switch button.active { background:linear-gradient(145deg,#514028,#23241f); color:#eeeae2; box-shadow:inset 0 1px 0 #d8bd9145,0 2px 7px #000b; }
 
+/* Night stays neutral across every public route: graphite first, bronze/gold accents. */
+html[data-theme="night"] :is(.language-switch,.ticket-stepper,.map-summary) { border-color:#80674759; background:#121310e8; color:#c8c4bc; }
+html[data-theme="night"] :is(.language-switch button,footer,.site-footer) { color:#aaa69e; }
+html[data-theme="night"] .language-switch button.active { background:linear-gradient(135deg,#71502a,#b88a4d); color:#f4eee4; box-shadow:0 3px 12px #0008; }
+
+/* Campaigns */
+html[data-theme="night"] body .campaign-shell { border-color:#87694373; background:linear-gradient(145deg,#242521,#11120f); box-shadow:0 25px 55px #000a,inset 0 1px 0 #d8bd910c; }
+html[data-theme="night"] .tab { border-color:#79634852; background:linear-gradient(145deg,#252621,#191a17); color:#bdb9b1; box-shadow:inset 0 1px 0 #ded4c20a; }
+html[data-theme="night"] .tab:hover { border-color:#aa8352; background:linear-gradient(145deg,#32312b,#20211d); transform:translateY(-2px); }
+html[data-theme="night"] .tab.active { border-color:#bd9256; background:linear-gradient(135deg,#684a26,#343029 56%,#20211d); color:#f0e7d8; box-shadow:inset 0 1px 0 #e7c9933b,0 8px 22px #0008; }
+html[data-theme="night"] .tab :is(small,strong) { color:inherit; }
+html[data-theme="night"] .tab-icon { border-color:#9c7749; background:#292823; color:#dec18e; }
+html[data-theme="night"] body .campaign-panel { border-color:#80674761; background:radial-gradient(circle at 50% 0,#8c6b4121,transparent 28%),linear-gradient(145deg,#22231f,#141512); }
+html[data-theme="night"] .panel-header { border-bottom-color:#80674745; }
+html[data-theme="night"] .panel-header :is(h2,p) { color:#e9e5de; }
+html[data-theme="night"] .campaign-seal { border-color:#b78a4d; background:radial-gradient(circle,#8b642f,#3d3020 58%,#1a1b17 76%); box-shadow:0 0 0 7px #ad824716,0 0 27px #0006; }
+html[data-theme="night"] .period-label { border-color:#8f704a; background:#302d27; color:#d9bf96; }
+html[data-theme="night"] .period-value { color:#bbb7af; }
+html[data-theme="night"] :is(.goal,.strategy,.example-card,.enrollment,.raffle-prize) { border-color:#80674761; background:linear-gradient(135deg,#2b2c27,#1b1c18); }
+html[data-theme="night"] :is(.goal,.strategy,.example-card,.enrollment,.raffle-prize) :is(h3,b,strong) { color:#e6d4b7; }
+html[data-theme="night"] :is(.goal,.strategy,.example-card,.enrollment,.raffle-prize) p { color:#bbb7af; }
+html[data-theme="night"] .section-title h3 { color:#e5d2af; }
+html[data-theme="night"] .prize-list li { border-color:#78644c59; background:linear-gradient(135deg,#292a26,#191a17); box-shadow:inset 0 1px 0 #ded4c20a; }
+html[data-theme="night"] .prize-list :is(b,strong) { color:#e2cda8; }
+html[data-theme="night"] .prize-list p { color:#b9b5ad; }
+html[data-theme="night"] .veteran-prizes .first { border-color:#bf9658; background:linear-gradient(135deg,#755326,#3b3021 52%,#20211d); }
+html[data-theme="night"] .veteran-prizes .second { border-color:#8f918f; background:linear-gradient(135deg,#4c4d49,#30312d 52%,#1e1f1c); }
+html[data-theme="night"] .veteran-prizes .third,
+html[data-theme="night"] .veteran-prizes li:nth-child(n+4) { border-color:#8f684d; background:linear-gradient(135deg,#553822,#302a22 54%,#1b1c18); }
+html[data-theme="night"] :is(.result-note,.chance) { border-color:#8a704d; background:linear-gradient(105deg,#37342d,#20211d); color:#ddd5c9; }
+html[data-theme="night"] .closing { color:#d8bd91; }
+
+/* City map and availability */
+html[data-theme="night"] .map-shell { border-color:#8067475c; background:linear-gradient(145deg,#242521,#121310); box-shadow:0 22px 50px #0009; }
+html[data-theme="night"] .map-summary { box-shadow:0 10px 25px #0008; }
+html[data-theme="night"] .map-summary strong { color:#d8bd91; }
+html[data-theme="night"] :is(.map-summary span,.cities-heading>span,.city-search small) { color:#aaa69f; }
+html[data-theme="night"] .city-search>span:first-child { color:#d8bd91; }
+html[data-theme="night"] .city-search input { border-color:#80674766; background:#11120f; color:#eeeae2; }
+html[data-theme="night"] .map-frame { border-color:#8067474f; background:radial-gradient(ellipse at 50% 45%,#80674724,transparent 52%),#11120f; }
+html[data-theme="night"] .country-base { fill:#171814; }
+html[data-theme="night"] .county-shape { fill:#30312c; stroke:#9d7a4e; }
+html[data-theme="night"] .county-tone-1 { fill:#292a26; }
+html[data-theme="night"] .county-tone-2 { fill:#37362f; }
+html[data-theme="night"] .county-tone-3 { fill:#242521; }
+html[data-theme="night"] .county-tone-4 { fill:#32332e; }
+html[data-theme="night"] .county-shape:hover { fill:#454239; stroke:#d8bd91; }
+html[data-theme="night"] .platform-card { border-color:#80674761; background:linear-gradient(145deg,#292a26,#171814); }
+html[data-theme="night"] .glovo-card { background:radial-gradient(circle at 14% 0,#b68a4930,transparent 36%),linear-gradient(145deg,#292a26,#171814); }
+html[data-theme="night"] .wolt-card { background:radial-gradient(circle at 14% 0,#6f797830,transparent 36%),linear-gradient(145deg,#292a26,#171814); }
+html[data-theme="night"] .slot-row { border-color:#80674752; background:#191a17; }
+html[data-theme="night"] .application-confirmation-dialog { border-color:#907049; background:linear-gradient(145deg,#272823,#121310); }
+html[data-theme="night"] .dialog-top { border-bottom-color:#80674752; background:#1d1e1af4; }
+html[data-theme="night"] .application-notes li { border-color:#8067474a; background:#1b1c18; color:#ccc7be; }
+
+/* Registration */
+html[data-theme="night"] .registration-card { border-color:#80674761; background:linear-gradient(145deg,#292a26,#151613); }
+html[data-theme="night"] :is(.profile-option,.platform-grid span) { border-color:#79634859; background:#191a17; color:#b8b4ac; }
+html[data-theme="night"] .profile-option:hover,
+html[data-theme="night"] .profile-option:has(input:checked),
+html[data-theme="night"] .platform-grid input:checked+span { border-color:#b78a4d; background:linear-gradient(145deg,#4b3b27,#23241f); color:#e6d4b7; }
+html[data-theme="night"] .courier-guide-dialog { border-color:#80674770; background:#181916; }
+html[data-theme="night"] :is(.courier-guide-close,.courier-guide-item-icon) { border-color:#80674770; background:#252621; color:#d8bd91; }
+
+/* Ticket flow */
+html[data-theme="night"] .ticket-page { background:radial-gradient(circle at 50% 5%,#8067472b,transparent 34rem),linear-gradient(180deg,#181916,#0d0e0c 86%); }
+html[data-theme="night"] :is(.ticket-stage,.stage-heading) { border-color:#80674759; background:linear-gradient(145deg,#292a26,#151613); }
+html[data-theme="night"] :is(.choice-card,.platform-picker label,.value-panel,.summary-item) { border-color:#79634852; background:linear-gradient(145deg,#252621,#181916); color:#e8e4dd; }
+html[data-theme="night"] .choice-card:hover { border-color:#ad8247; background:linear-gradient(145deg,#34332d,#20211d); }
+html[data-theme="night"] .choice-card.logo-card:not(.platform-card),
+html[data-theme="night"] .choice-card.logo-card:not(.platform-card):hover { background:radial-gradient(circle at 18% 50%,var(--accent-soft),transparent 38%),linear-gradient(145deg,#2b2c27,#191a17); }
+html[data-theme="night"] .choice-card.platform-card { background:linear-gradient(90deg,var(--accent) 0 31%,color-mix(in srgb,var(--accent) 45%,#242520) 36%,#242520 43% 100%); }
+html[data-theme="night"] .choice-card.platform-card:hover { background:linear-gradient(90deg,var(--accent) 0 31%,color-mix(in srgb,var(--accent) 52%,#2f302b) 36%,#2f302b 43% 100%); }
+html[data-theme="night"] :is(.choice-icon,.choice-card.logo-card .choice-icon) { background:#242520; }
+html[data-theme="night"] .upload-zone { border-color:#8e704a; background:#151613; }
+html[data-theme="night"] .upload-zone:hover { background:#242520; }
+html[data-theme="night"] :is(.file-pill,.ticket-reference) { border-color:#80674752; background:#191a17; color:#d8d3ca; }
+html[data-theme="night"] .secondary-action { border-color:#80674766; background:#292a26; color:#e7e3dc; }
+html[data-theme="night"] .ticket-dialog { border-color:#80674770; background:linear-gradient(145deg,#292a26,#121310); }
+html[data-theme="night"] :is(.info-note,.wolt-guide) { border-color:#8d7049; background:linear-gradient(135deg,#39342b,#20211d); color:#e1d7c8; }
+html[data-theme="night"] .site-footer { border-top-color:#80674745; background:#0d0e0c; }
+
+/* Glovo and Wolt account-opening details */
+html[data-theme="night"] :is(.glovo-flow-head,.glovo-reveal,.glovo-confirm-card,#glovo-form) { border-color:#80674770; background:linear-gradient(145deg,#292a26,#151613); color:#eeeae2; }
+html[data-theme="night"] .glovo-reveal-item { border-color:#80674761; background:linear-gradient(145deg,#30312c,#1b1c18); color:#eeeae2; }
+html[data-theme="night"] :is(.glovo-reveal-item.notice,.glovo-form-shell .form-intro) { border-color:#80674759; background:#20211d; color:#cbc6bd; }
+html[data-theme="night"] :is(.glovo-reveal-item p,.glovo-confirm-card label,.glovo-success>p:not(.eyebrow)) { color:#c3beb5; }
+html[data-theme="night"] .glovo-form-shell :is(input,select,textarea) { border-color:#80674770; background:#11120f; color:#eeeae2; }
+html[data-theme="night"] .wolt-info-note { border-color:#9b7449!important; border-left-color:#c29656!important; background:linear-gradient(110deg,#4a3823,#282720 58%,#1c1d1a)!important; color:#eee3cf!important; }
+html[data-theme="night"] :is(.upload-preview,.upload-preview-empty,.upload-preview-card) { border-color:#80674761; background:linear-gradient(145deg,#292a26,#171814); }
+html[data-theme="night"] .hero h1 em { color:#c7a776; }
+
 @media (max-width: 760px) {
   .global-header nav > .public-theme-switch { order: 1; align-self: flex-end; margin: 7px 0 0; grid-template-columns: repeat(3, 28px); }
   .global-header .public-theme-switch button { width: 28px; }
@@ -109,4 +201,6 @@ html[data-theme="night"] .public-theme-switch button.active { background:linear-
   .availability-header .public-theme-switch { margin-left:auto; }
   .availability-header>span { display:none; }
   .site-title > .public-theme-switch { top: -8px; right: -2px; transform: scale(.9); transform-origin: top right; }
+  body footer { flex-wrap:wrap; }
+  .footer-socials { max-width:100%; }
 }
