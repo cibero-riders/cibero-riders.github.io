@@ -163,9 +163,37 @@ input:focus, select:focus, textarea:focus { border-color: var(--gold); box-shado
 .dialog-guide { margin: 15px 0; padding: 15px; border: 1px solid #27bfdc61; border-radius: 13px; background: #0b88a43b; color: #d7f8ff; text-align: left; }
 .dialog-guide ol { margin: 8px 0 0; padding-left: 22px; }
 
+.ticket-transfer-procedure { padding: 22px; border: 1px solid #d8ab455f; border-radius: 17px; background: linear-gradient(145deg, #311630, #1b0c22); }
+.ticket-transfer-label { margin: 0 0 7px; color: var(--gold); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+.ticket-transfer-procedure ol { margin: 0; padding: 0; list-style: none; }
+.ticket-transfer-procedure li { display: grid; grid-template-columns: 34px 1fr; gap: 13px; padding: 16px 0; border-bottom: 1px solid #deb64d2e; }
+.ticket-transfer-procedure li:last-child { padding-bottom: 2px; border-bottom: 0; }
+.ticket-transfer-procedure li > span { display: grid; width: 30px; height: 30px; place-items: center; border-radius: 50%; background: linear-gradient(145deg, #f2cb65, #b7771c); color: #281625; font-weight: 900; }
+.ticket-transfer-procedure strong { color: var(--gold-light); font-size: 15px; }
+.ticket-transfer-procedure li p { margin: 5px 0 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+.ticket-transfer-warning { margin-top: 15px; padding: 16px 18px; border: 1px solid #e47d6b7a; border-radius: 14px; background: linear-gradient(135deg, #6b242835, #251025); color: #ffd5ce; }
+.ticket-transfer-warning strong { color: #ffb5a9; }
+.ticket-transfer-warning p { margin: 4px 0 0; font-size: 13px; line-height: 1.5; }
+.ticket-transfer-instruction { max-width: 650px; margin: 21px auto 0; color: var(--gold-light); font-weight: 800; line-height: 1.55; text-align: center; }
+.transfer-checklist { margin-top: 16px; }
+html[data-theme="light"] .ticket-transfer-procedure { border-color: #c18b2b99; background: linear-gradient(145deg, #fffdf8, #f8edd6); box-shadow: inset 0 1px 0 #fff; }
+html[data-theme="light"] .ticket-transfer-label { color: #82500a; }
+html[data-theme="light"] .ticket-transfer-procedure strong { color: #36230a; }
+html[data-theme="light"] .ticket-transfer-procedure li { border-bottom-color: #bf8b3442; }
+html[data-theme="light"] .ticket-transfer-procedure li p { color: #62594f; }
+html[data-theme="light"] .ticket-transfer-warning { border-color: #c8645573; background: #fff0ed; color: #742b21; }
+html[data-theme="light"] .ticket-transfer-warning strong { color: #8d271b; }
+html[data-theme="light"] .ticket-transfer-instruction { color: #70460b; }
+html[data-theme="night"] .ticket-transfer-procedure { border-color: #80674766; background: linear-gradient(145deg, #292a26, #171814); }
+html[data-theme="night"] .ticket-transfer-procedure strong { color: #e6d4b7; }
+html[data-theme="night"] .ticket-transfer-warning { border-color: #8a594f73; background: #2a1b18; color: #d9cbc5; }
+html[data-theme="night"] .ticket-transfer-warning strong { color: #e2b8a9; }
+html[data-theme="night"] .ticket-transfer-instruction { color: #d8bd91; }
+
 .site-footer { padding: 25px 18px; border-top: 1px solid #ddb14933; background: #0d0510; color: #9e899e; font-size: 12px; text-align: center; }
 
 @media (max-width: 760px) {
+  .ticket-transfer-procedure { padding: 16px; }
   .ticket-page { min-height: calc(100vh - 72px); padding: 31px 10px 60px; }
   .ticket-intro { align-items: flex-start; flex-direction: column; gap: 17px; padding-inline: 7px; }
   .ticket-intro h1 { font-size: clamp(31px, 10vw, 43px); }

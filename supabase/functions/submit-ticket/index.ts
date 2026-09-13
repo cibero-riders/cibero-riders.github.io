@@ -127,7 +127,13 @@ Deno.serve(async (request: Request) => {
     if (requestType === "vehicle" && !fields.new_vehicle) return json(origin, { error: "Vehiculul nou este obligatoriu." }, 400);
     if (requestType === "plate_number" && !fields.new_plate) return json(origin, { error: "Numărul de înmatriculare este obligatoriu." }, 400);
     if (requestType === "other" && !fields.description) return json(origin, { error: "Descrierea solicitării este obligatorie." }, 400);
-    if (requestType === "transfer_cont" && (!fields.wolt_app_phone || !fields.wolt_courier_id || !fields.wolt_email)) return json(origin, { error: "Completează toate datele contului Wolt." }, 400);
+    if (requestType === "transfer_cont") {
+      const transferChecklistConfirmed = value(form, "transfer_checklist_confirmed", 10) === "true";
+      const allowedTransferPlatforms = new Set(["Bolt Food", "Glovo", "Wolt"]);
+      if (!transferChecklistConfirmed || !fields.new_city || fields.platforms.length !== 1 || !allowedTransferPlatforms.has(fields.platforms[0]) || !fields.notes) {
+        return json(origin, { error: "Completează criteriile și datele obligatorii pentru transferul contului." }, 400);
+      }
+    }
     if (["suma_incorecta", "lipsa_plata", "alta_problema_plata"].includes(requestType)) {
       const allowedPlatforms = new Set(["Bolt Food", "Glovo", "Wolt"]);
       if (!fields.platforms.length || fields.platforms.some(platform => !allowedPlatforms.has(platform)) || !fields.description) {

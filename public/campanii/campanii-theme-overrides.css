@@ -1,0 +1,33 @@
+/* Readable, award-inspired cards for the public day theme. */
+html[data-theme="light"] body .campaign-shell { border-color: #bd8426a8; background: linear-gradient(145deg, #fffdf8, #f4ead8); box-shadow: 0 24px 58px #6e4d1726; }
+html[data-theme="light"] .tab { border-color: #b990535c; background: linear-gradient(145deg, #f8f5ef, #e7e4df); color: #4f4753; box-shadow: inset 0 1px 0 #fff; }
+html[data-theme="light"] .tab:hover { border-color: #a96d12; background: linear-gradient(145deg, #fff9e9, #ead6a7); transform: translateY(-2px); }
+html[data-theme="light"] .tab.active { border-color: #a96c0d; background: linear-gradient(135deg, #8f5910, #f5cf68 52%, #a66b16); color: #281b08; box-shadow: inset 0 1px 0 #fff2bd, 0 9px 24px #8d5c182e; }
+html[data-theme="light"] .tab :is(small, strong) { color: inherit; }
+html[data-theme="light"] .tab-icon { border-color: #a87017; background: #fff7df; color: #4b310d; }
+html[data-theme="light"] body .campaign-panel { border-color: #c18b3175; background: radial-gradient(circle at 50% 0, #f0c85d24, transparent 30%), #fffdfa; }
+html[data-theme="light"] .panel-header { border-bottom-color: #ae7b2940; }
+html[data-theme="light"] .panel-header h2 { color: #2d2034; }
+html[data-theme="light"] .panel-header p { color: #86570d; }
+html[data-theme="light"] .period-label { border-color: #b67a1f85; background: #f5dfab; color: #543608; }
+html[data-theme="light"] .period-value { color: #665c69; }
+html[data-theme="light"] .goal { border-color: #c4862180; background: linear-gradient(135deg, #fff4d3, #ead19a); }
+html[data-theme="light"] .strategy { border-color: #aeb3bd; background: linear-gradient(135deg, #f7f8fa, #d9dde3); }
+html[data-theme="light"] :is(.goal, .strategy, .example-card, .enrollment) h3 { color: #342338; }
+html[data-theme="light"] :is(.goal, .strategy, .example-card, .enrollment) p { color: #554b5a; }
+html[data-theme="light"] .section-title h3 { color: #38253c; }
+html[data-theme="light"] .prize-list li { border-color: #c5b188; background: #fff; box-shadow: 0 6px 16px #4a36110d; }
+html[data-theme="light"] .prize-list b { color: #382538; }
+html[data-theme="light"] .prize-list p { color: #5a5260; }
+html[data-theme="light"] .veteran-prizes .first { border-color: #c88a12; background: linear-gradient(135deg, #fff0b4, #d79a25); }
+html[data-theme="light"] .veteran-prizes .second { border-color: #969da9; background: linear-gradient(135deg, #f9fafc, #c8cdd6); }
+html[data-theme="light"] .veteran-prizes .third { border-color: #b67145; background: linear-gradient(135deg, #f9d9bd, #c98659); }
+html[data-theme="light"] .veteran-prizes li:nth-child(n) b, html[data-theme="light"] .veteran-prizes li:nth-child(n) p { color: #312433; }
+html[data-theme="light"] .result-note { border-color: #2c8aa3; background: linear-gradient(105deg, #d9f5fa, #b9e5ec); color: #173f4c; }
+html[data-theme="light"] .example-card { border-color: #b99cc2; background: linear-gradient(135deg, #f5eef8, #e1d2e7); }
+html[data-theme="light"] .enrollment { border-color: #7fae8c; background: linear-gradient(135deg, #edf8ef, #cee7d3); }
+html[data-theme="light"] .raffle-prize { border-color: #c59a3b; background: #fff8e5; }
+html[data-theme="light"] .raffle-prize > p, html[data-theme="light"] .raffle-prize i { color: #5b5160; }
+html[data-theme="light"] .raffle-prize b { border-color: #b78524; background: #f4dc9c; color: #3d2a09; }
+html[data-theme="light"] .chance { border-left-color: #b87c16; background: #fff3cf; color: #503710; }
+html[data-theme="light"] .closing { color: #6f4709; }
