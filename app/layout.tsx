@@ -65,7 +65,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="stylesheet" href="/main-page.css?v=24" />
         <link rel="stylesheet" href="/site-navigation.css?v=15" />
         <link rel="stylesheet" href="/smooth-typography.css?v=1" />
-        <link rel="stylesheet" href="/site-theme.css?v=8" />
+        <link rel="stylesheet" href="/site-theme.css?v=9" />
       </head>
       <body>{children}</body>
     </html>
