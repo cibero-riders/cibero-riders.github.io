@@ -31,7 +31,17 @@
   width: 100%;
   height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 4px 8px #0201038a);
+}
+
+/* Keep the transparent wordmark integrated with every public header. */
+html[data-theme="light"] .global-header .brand-wordmark img,
+html[data-theme="midday"] .global-header .brand-wordmark img {
+  filter: none;
+}
+
+html[data-theme="night"] .global-header .brand-wordmark img {
+  filter: grayscale(1) sepia(.24) saturate(.72) brightness(1.13) contrast(.94);
+  opacity: .94;
 }
 
 .header-socials {
