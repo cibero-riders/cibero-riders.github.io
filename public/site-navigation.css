@@ -39,6 +39,11 @@ html[data-theme="light"] .global-header .brand-wordmark img {
   filter: none;
 }
 
+html[data-theme="night"] .global-header .brand-wordmark img {
+  filter: grayscale(1) sepia(.24) saturate(.72) brightness(1.13) contrast(.94) drop-shadow(0 0 5px #c2a77b26);
+  opacity: .94;
+}
+
 .header-socials {
   display: flex;
   align-items: center;
