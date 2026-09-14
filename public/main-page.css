@@ -414,6 +414,28 @@ body {
 .offer-panel p { margin: 6px 0 0; color: #d1c2d3; font: italic 14px/1.5 Georgia, serif; }
 @keyframes offer-panel-in { from { opacity: 0; transform: translateY(8px) scale(.992); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
+.home-activity-video {
+  width: min(1050px, calc(100% - 64px));
+  margin: 0 auto 72px;
+  text-align: center;
+}
+.home-activity-video .showcase-section-title { grid-template-columns: minmax(12px, 44px) minmax(0, auto) minmax(12px, 44px); }
+.home-activity-video .showcase-section-title > span { white-space: normal; text-wrap: balance; }
+.home-activity-video .video-frame { aspect-ratio: 16 / 9; background: #13100d; }
+.home-activity-video .video-poster { background: #13100d; }
+.home-activity-video .video-shade { background: linear-gradient(180deg, #13100d08 45%, #13100dcc); }
+.home-activity-video .video-play { width: clamp(58px, 7vw, 78px); height: clamp(58px, 7vw, 78px); }
+.activity-video-link { display: inline-block; margin-top: 16px; color: #e1c674; font-size: 13px; text-underline-offset: 4px; }
+.activity-video-link:hover { color: #fff2c1; }
+.activity-video-link:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
+html[data-theme="light"] .home-activity-video .video-frame { border-color: #b985287d; box-shadow: 0 18px 42px #60420825; }
+html[data-theme="light"] .activity-video-link { color: #72501b; }
+html[data-theme="light"] .activity-video-link:hover { color: #30210a; }
+html[data-theme="night"] .home-activity-video .video-frame { border-color: #a78e5b80; box-shadow: 0 18px 42px #0006; }
+html[data-theme="night"] .home-activity-video .showcase-section-title { color: #ece6da; }
+html[data-theme="night"] .home-activity-video .video-play { box-shadow: 0 11px 30px #000a, 0 0 0 7px #211f1cc4; }
+html[data-theme="night"] .activity-video-link { color: #d5c8af; }
+
 .home-faq {
   width: min(1050px, calc(100% - 64px));
   margin: 0 auto 104px;
@@ -531,6 +553,9 @@ body {
   .offer-panel strong { font-size: 14px; }
   .offer-panel p { font-size: 13px; }
   .home-faq { width: calc(100% - 32px); margin-bottom: 70px; padding: 30px 13px 18px; border-radius: 15px; }
+  .home-activity-video { width: calc(100% - 32px); margin-bottom: 50px; }
+  .home-activity-video .video-frame { border-radius: 12px; }
+  .home-activity-video .video-action { bottom: 16px; font-size: 9px; }
   .home-faq h2 { font-size: 28px; }
   .home-faq-list { margin-top: 24px; }
   .home-faq summary { min-height: 56px; padding: 14px; font-size: 14px; }

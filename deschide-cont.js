@@ -79,7 +79,7 @@ const openClientDetail = type => {
 const renderStatus = card => {
   const type = card.dataset.status;
   if (type === 'new') { showClientQuestion(); return; }
-  if (type === 'courier') { selectedStatus = type; transferDetail.innerHTML = details.courier; transferDetail.className = 'status-detail show transfer-standalone'; const transferCheck = transferDetail.querySelector('.transfer-check'); const transferButton = transferDetail.querySelector('[data-ticket-transfer]'); transferCheck?.addEventListener('change', () => { transferButton.disabled = !transferCheck.checked; }); transferButton?.addEventListener('click', () => { window.location.href = 'ticket/?category=probleme_admin&type=transfer_cont&criteria=confirmed&platform=wolt'; }); show('transfer-flow'); return; }
+  if (type === 'courier') { window.location.href = 'ticket/?category=probleme_admin&type=transfer_cont&platform=wolt'; return; }
   openClientDetail(type);
 };
 const bindStatusCards = root => root.querySelectorAll('.status-card').forEach(card => card.addEventListener('click', () => renderStatus(card)));

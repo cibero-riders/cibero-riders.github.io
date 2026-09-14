@@ -1700,6 +1700,8 @@ async function openTicket(id, suppliedTicket = null) {
       ${detailField("Email", item.email, true)}
       ${requestedValues.map(([label, value]) => detailField(label, value, label === "Descriere")).join("")}
       ${detailField("Note solicitant", item.notes, true)}
+      ${detailField("Motivul plecării de la flota actuală", item.transfer_reason, true)}
+      ${detailField("Așteptări de la CibeRO", item.transfer_expectations, true)}
       ${detailField("Data trimiterii", formatDate(item.created_at), true)}
     </div>
     ${files.length ? `<div class="ticket-files"><h3>Fișiere atașate</h3>${files.map(file => `<button class="quiet-button" type="button" data-ticket-file="${escapeHtml(file.storage_path)}">${escapeHtml(file.original_name)} <span>↗</span></button>`).join("")}</div>` : ""}
@@ -1883,7 +1885,7 @@ function exportCsv() {
 
 function exportTicketsCsv() {
   const rows = filteredTickets();
-  const columns = ["id", "created_at", "category", "request_type", "status", "first_name", "last_name", "phone", "email", "new_phone", "new_email", "new_iban", "new_city", "new_vehicle", "new_plate", "description", "wolt_app_phone", "wolt_courier_id", "wolt_email", "order_code", "declared_amount", "platforms", "inactive_start", "inactive_end", "notes", "admin_notes"];
+  const columns = ["id", "created_at", "category", "request_type", "status", "first_name", "last_name", "phone", "email", "new_phone", "new_email", "new_iban", "new_city", "new_vehicle", "new_plate", "description", "wolt_app_phone", "wolt_courier_id", "wolt_email", "order_code", "declared_amount", "platforms", "inactive_start", "inactive_end", "notes", "transfer_reason", "transfer_expectations", "admin_notes"];
   const quote = value => {
     const raw = String(value ?? "");
     const safe = /^[=+\-@\t\r]/.test(raw) ? `'${raw}` : raw;

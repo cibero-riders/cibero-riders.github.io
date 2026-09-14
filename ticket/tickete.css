@@ -209,3 +209,22 @@ html[data-theme="night"] .ticket-transfer-instruction { color: #d8bd91; }
   .primary-action, .secondary-action { width: 100%; }
   .dialog-actions { flex-direction: column-reverse; }
 }
+/* A single account-transfer flow, with registration-style platform cards. */
+.ticket-stepper.transfer-stepper { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.transfer-platform-picker { margin-bottom: 24px; }
+.transfer-platform-picker legend { line-height: 1.6; margin-bottom: 18px; }
+.transfer-platform-picker > div { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.transfer-platform-picker label { position: relative; min-width: 0; padding: 8px; }
+.transfer-platform-picker label:has(input:checked) { border-color: var(--gold); box-shadow: inset 0 0 0 1px var(--gold); }
+.transfer-platform-picker label > span { display: flex; align-items: center; justify-content: center; gap: 10px; min-height: 64px; width: 100%; }
+.transfer-platform-picker img { width: 28px; height: 28px; object-fit: contain; }
+.transfer-platform-picker input:focus-visible + span { outline: 2px solid currentColor; outline-offset: 3px; }
+.form-field textarea.autogrow-textarea { min-height: 70px; resize: vertical; overflow-y: hidden; }
+.summary-item strong { white-space: pre-wrap; overflow-wrap: anywhere; }
+.ticket-transfer-procedure { margin-top: 20px; }
+.transfer-success-note { line-height: 1.8; max-width: 660px; margin: 24px auto; }
+@media (max-width: 480px) {
+  .transfer-platform-picker > div { gap: 6px; }
+  .transfer-platform-picker label > span { flex-direction: column; gap: 7px; padding: 12px 4px; font-size: 12px; }
+  .transfer-stepper .step-label { font-size: 9px; white-space: normal; }
+}

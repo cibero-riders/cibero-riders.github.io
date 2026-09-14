@@ -449,6 +449,35 @@ html[data-theme="light"] .theme-switch { border-color: #b98726; background: #fff
 html[data-theme="light"] .theme-switch button { color: #806b4c; }
 html[data-theme="light"] .theme-switch button.active { background: linear-gradient(145deg, #ffe995, #d79b21); color: #322000; box-shadow: inset 0 1px 0 #fffef0, 0 2px 7px #9b681a4a; }
 
+/* Paired Day colors for operational rows, menus, alerts and nested panels. */
+html[data-theme="light"] label { color: #393d43; }
+html[data-theme="light"] :is(.admin-primary-tabs,.availability-editor,.availability-preview,.availability-draft-row,.availability-preview-platform,.duplicate-alert-card,.duplicate-record) { border-color:#c49a4c61; background:linear-gradient(145deg,#fffefa,#f5edde); color:var(--cream); box-shadow:inset 0 1px 0 #fff; }
+html[data-theme="light"] :is(.application-row,.ticket-row) { border-color:#c49a4c50; background:#fffefa; color:var(--cream); }
+html[data-theme="light"] :is(.application-row,.ticket-row,.subfleet-card):hover { border-color:#ad7925; background:#faf1df; }
+html[data-theme="light"] .application-row.selected { border-color:#a57422; background:#f5e6c5; }
+html[data-theme="light"] :is(.ticket-status-suggestions,.availability-city-suggestions) { border-color:#b58a4399; background:#fffdfa; box-shadow:0 12px 30px #62481430; scrollbar-color:#af8849 #f5edde; }
+html[data-theme="light"] :is(.ticket-status-suggestions,.availability-city-suggestions) button { color:#39352f; }
+html[data-theme="light"] :is(.ticket-status-suggestions,.availability-city-suggestions) button:is(:hover,:focus-visible) { background:#f0dfb8; color:#33250c; }
+html[data-theme="light"] .status-pill { border-color:#a9947470; background:#eee7dc; color:#4a4235 !important; }
+html[data-theme="light"] .status-pill[data-status="new"] { border-color:#bf9139; background:#f7e6bb; color:#67420d !important; }
+html[data-theme="light"] .status-pill[data-status="activated"] { border-color:#72a88a; background:#e2f0e7; color:#23583c !important; }
+html[data-theme="light"] .status-pill[data-status="rejected"] { border-color:#c48a83; background:#f7e6e2; color:#802f27 !important; }
+html[data-theme="light"] :is(.subfleet-pool-avatar,.subfleet-pool-platforms > span,.availability-count,.availability-preview-row span) { border-color:#bb913f70; background:#f4e7c8; color:#624312; }
+html[data-theme="light"] :is(.admin-control-label,.subfleet-row small,.message-bubble small,.availability-live-count,.availability-live-count b,.duplicate-record span) { color:#625f5a; }
+html[data-theme="light"] .availability-live-count span { color:#276647; }
+html[data-theme="light"] .availability-live-count.has-applications span { color:#735019; }
+html[data-theme="light"] :is(.availability-draft-row strong,.availability-preview-platform.wolt h4,.duplicate-alert-card h3,.availability-public-link) { color:#574015; }
+html[data-theme="light"] .duplicate-match-fields { color:#87451b !important; }
+html[data-theme="light"] :is(.subfleet-alerts,.subfleet-note-alerts,.availability-confirmation > .availability-confirmation-note) { border-color:#bd934b70; background:linear-gradient(135deg,#fff7e4,#f1e1bd); color:#4e4330; }
+html[data-theme="light"] :is(.subfleet-alerts p,.subfleet-note-alerts p,.subfleet-note-alerts small) { color:#5e564b; }
+html[data-theme="light"] :is(.subfleet-note-alerts::before,.subfleet-note-alerts article > span) { color:#674715; }
+html[data-theme="light"] :is(.subfleet-alerts article button,.subfleet-note-alerts button,.header-preferences-menu button:hover,.header-preferences-menu button.active) { border-color:#b58a4380; background:#f4e7cc; color:#4d3917; }
+html[data-theme="light"] :is(.availability-remove,.subfleet-filter-tab.archive b) { color:#8d342c; }
+html[data-theme="light"] .availability-remove { border-color:#c48a83; background:#f9e9e5; }
+html[data-theme="light"] .availability-remove:hover { background:#f1cec6; }
+html[data-theme="light"] .availability-add-form input.availability-slots-ready { border-color:#9e762c; background:#fff4d8; }
+html[data-theme="light"] .message-conversation:is(:hover,.active) { background:#f4e9d1; }
+
 /* Night mode: grafit, bronz și text neutru; tema mov-aurie implicită rămâne Mid-day CibeRO. */
 :root[data-theme="night"] { color-scheme: dark; --bg: #090a09; --panel: #1a1916; --panel-2: #25211b; --gold: #ad8247; --gold-light: #d1b27d; --cream: #ececea; --muted: #aaa9a5; --line: rgba(177, 137, 80, .34); --danger: #e39a9f; --success: #78c9a1; }
 html[data-theme="night"] body { background: radial-gradient(circle at 52% 0, #73502b2e, transparent 35rem), linear-gradient(180deg, #171510, #090a09 72%); color: var(--cream); }

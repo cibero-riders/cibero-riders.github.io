@@ -115,6 +115,8 @@ Deno.serve(async (request: Request) => {
       wolt_email: value(form, "wolt_email", 254).toLowerCase() || null,
       order_code: value(form, "order_code", 12) || null,
       notes: value(form, "notes", 2000) || null,
+      transfer_reason: requestType === "transfer_cont" ? value(form, "transfer_reason", 2000) || null : null,
+      transfer_expectations: requestType === "transfer_cont" ? value(form, "transfer_expectations", 2000) || null : null,
       platforms: value(form, "platforms", 100).split(",").map(item => item.trim()).filter(Boolean),
       inactive_start: value(form, "inactive_start", 10) || null,
       inactive_end: value(form, "inactive_end", 10) || null,
@@ -130,8 +132,11 @@ Deno.serve(async (request: Request) => {
     if (requestType === "transfer_cont") {
       const transferChecklistConfirmed = value(form, "transfer_checklist_confirmed", 10) === "true";
       const allowedTransferPlatforms = new Set(["Bolt Food", "Glovo", "Wolt"]);
-      if (!transferChecklistConfirmed || !fields.new_city || fields.platforms.length !== 1 || !allowedTransferPlatforms.has(fields.platforms[0]) || !fields.notes) {
+      if (!transferChecklistConfirmed || !fields.new_city || !fields.platforms.length || fields.platforms.length > 3 || new Set(fields.platforms).size !== fields.platforms.length || fields.platforms.some(platform => !allowedTransferPlatforms.has(platform)) || !fields.notes) {
         return json(origin, { error: "Completează criteriile și datele obligatorii pentru transferul contului." }, 400);
+      }
+      if (["transfer_reason", "transfer_expectations", "notes"].some(name => String(form.get(name) ?? "").trim().length > 2000)) {
+        return json(origin, { error: "Fiecare răspuns poate avea maximum 2000 de caractere." }, 400);
       }
     }
     if (["suma_incorecta", "lipsa_plata", "alta_problema_plata"].includes(requestType)) {

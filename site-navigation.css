@@ -16,7 +16,9 @@
 }
 
 .global-header .brand-wordmark {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 0 0 auto;
   width: 210px;
   height: 82px;
@@ -25,6 +27,7 @@
 
 .global-header .brand-wordmark img {
   display: block;
+  flex: 0 0 auto;
   width: 100%;
   height: auto;
   object-fit: contain;

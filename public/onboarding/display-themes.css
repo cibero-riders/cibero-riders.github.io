@@ -1,0 +1,138 @@
+/* Onboarding keeps its original Midday palette; Day and Night cover every stage. */
+html[data-theme="light"] {
+  --onboarding-bg: #fbf8f1;
+  --onboarding-card: #fffefa;
+  --onboarding-soft: #f5edde;
+  --onboarding-active: #eddbb4;
+  --onboarding-border: #bb934f73;
+  --onboarding-text: #302c25;
+  --onboarding-muted: #615b52;
+  --onboarding-accent: #705019;
+  --onboarding-shadow: #60451620;
+  --onboarding-positive: #e1f0e6;
+  --onboarding-positive-text: #275e3d;
+  --onboarding-negative: #fae7e2;
+  --onboarding-negative-text: #87392b;
+}
+html[data-theme="night"] {
+  --onboarding-bg: #11120f;
+  --onboarding-card: #252621;
+  --onboarding-soft: #1b1c18;
+  --onboarding-active: #3c382e;
+  --onboarding-border: #9b7a4e75;
+  --onboarding-text: #eeeae2;
+  --onboarding-muted: #c5c0b6;
+  --onboarding-accent: #dcc49d;
+  --onboarding-shadow: #0008;
+  --onboarding-positive: #253c30;
+  --onboarding-positive-text: #c3ead1;
+  --onboarding-negative: #432923;
+  --onboarding-negative-text: #f5cdc3;
+}
+.onboarding-page .site-title > .public-theme-switch {
+  position: relative;
+  top: auto;
+  right: auto;
+  order: -1;
+  align-self: flex-end;
+  transform: none;
+  margin-bottom: 4px;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page {
+  background: radial-gradient(circle at 50% 0, var(--onboarding-active), transparent 35rem), var(--onboarding-bg);
+  color: var(--onboarding-text);
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page::before {
+  background: url("assets/onboarding-ornamental-background.png") center/cover;
+  filter: grayscale(1) sepia(.2);
+  opacity: .05;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page::after { background: none; }
+html:is([data-theme="light"],[data-theme="night"]) #app.card,
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .resume-dialog {
+  border-color: var(--onboarding-border) !important;
+  background: linear-gradient(145deg, var(--onboarding-card), var(--onboarding-soft)) !important;
+  color: var(--onboarding-text);
+  box-shadow: 0 20px 48px var(--onboarding-shadow), inset 0 1px 0 #ffffff12 !important;
+}
+html:is([data-theme="light"],[data-theme="night"]) #app.card :is(h1,h2,h3,strong,b,legend),
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .resume-dialog :is(h2,strong) {
+  color: var(--onboarding-text) !important;
+  text-shadow: none;
+}
+html:is([data-theme="light"],[data-theme="night"]) #app.card :is(p,small,ul,ol,.guide-label,.guided-line,.welcome-steps,.proud-action > span),
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .resume-dialog p {
+  color: var(--onboarding-muted) !important;
+  text-shadow: none;
+}
+html:is([data-theme="light"],[data-theme="night"]) #app.card :is(.eyebrow,mark,.continue-reading,.quiz-success),
+html:is([data-theme="light"],[data-theme="night"]) #app.card a:not(.button),
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .home-back {
+  color: var(--onboarding-accent) !important;
+  text-shadow: none !important;
+  text-decoration-color: var(--onboarding-border);
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page :is(.notice,.equipment-notice,.quiz-prompt-note,.guided-line.is-current,.equipment-tab-transition,.hygiene-notice,.registration-data-warning,.bolt-quiz-instructions,.video-confirmation,.registration-confirmation,.answer-note,.result,.equipment-tabs-card,.equipment-tabs,.hygiene-rules section,.hygiene-official-note,.telegram-guides,.guide-followup,.campaign-teaser,.campaign-completion,.final-close-note,.timer,.question .options,.question .option) {
+  border-color: var(--onboarding-border) !important;
+  background: linear-gradient(145deg, var(--onboarding-card), var(--onboarding-soft)) !important;
+  color: var(--onboarding-text) !important;
+  box-shadow: inset 0 1px 0 #ffffff10;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page :is(.question legend,.equipment-tab.is-active,.campaign-active) {
+  border-color: var(--onboarding-border);
+  background: var(--onboarding-active);
+  color: var(--onboarding-text);
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page :is(.equipment-tab,.equipment-tab-heading > span,.equipment-alert > span,.hygiene-official-note > span,.registration-attention-title > span,.final-close-note > span) {
+  border-color: var(--onboarding-border);
+  color: var(--onboarding-accent);
+  background: var(--onboarding-soft);
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page :is(.question legend::before,.guided-line::before,.guided-typing-line::after,.hygiene-rules li::before,.welcome-steps li::marker,.bolt-quiz-instructions li::marker) { color: var(--onboarding-accent); }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .question .option:hover { background: var(--onboarding-active) !important; }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .question .option.correct {
+  border-color: #5b9978 !important;
+  background: var(--onboarding-positive) !important;
+  color: var(--onboarding-positive-text) !important;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page :is(.question .option.incorrect,.result.fail) {
+  border-color: #c57f70 !important;
+  background: var(--onboarding-negative) !important;
+  color: var(--onboarding-negative-text) !important;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .button {
+  color: #30220b !important;
+  text-shadow: none !important;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .button.secondary {
+  border-color: var(--onboarding-border) !important;
+  background: var(--onboarding-active) !important;
+  color: var(--onboarding-text) !important;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .button.danger {
+  border-color: #c57f70 !important;
+  background: var(--onboarding-negative) !important;
+  color: var(--onboarding-negative-text) !important;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .campaign-completion > b { color: #30220b !important; text-shadow: none; }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .cibero-stepper > .step { color: var(--onboarding-muted); }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .cibero-stepper .progress-icon {
+  border-color: var(--onboarding-border) !important;
+  background: var(--onboarding-soft) !important;
+  color: var(--onboarding-accent);
+  filter: none;
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .cibero-stepper > .step.current { color: var(--onboarding-text); }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .cibero-stepper > .step.current .progress-icon {
+  border-color: var(--onboarding-accent) !important;
+  background: var(--onboarding-active) !important;
+  color: var(--onboarding-accent);
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .cibero-stepper > .step.complete .progress-icon {
+  border-color: #5b9978 !important;
+  background: var(--onboarding-positive) !important;
+  color: var(--onboarding-positive-text);
+}
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page .cibero-stepper > .step-connector { background: var(--onboarding-border); }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page #lock-tooltip { border-color: var(--onboarding-border); background: var(--onboarding-card); color: var(--onboarding-text); }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-page footer { color: var(--onboarding-muted); }

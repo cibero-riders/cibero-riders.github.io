@@ -1,4 +1,5 @@
 import { HomeFaq } from "@/components/home/home-faq";
+import { HomeActivityVideo } from "@/components/home/home-activity-video";
 import { HomeShowcase } from "@/components/home/home-showcase";
 import { LegacyHomepageScripts } from "@/components/home/legacy-homepage-scripts";
 import { PublicFooter } from "@/components/site/public-footer";
@@ -10,6 +11,7 @@ export default function HomePage() {
       <PublicHeader />
       <main id="acasa">
         <HomeShowcase />
+        <HomeActivityVideo />
         <HomeFaq />
       </main>
       <PublicFooter />

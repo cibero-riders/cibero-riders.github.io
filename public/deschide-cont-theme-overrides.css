@@ -236,3 +236,22 @@ html[data-theme="night"] .rule-card .rule small {
   font-weight: 600;
   text-shadow: 0 1px 2px #0c2838;
 }
+html[data-theme="night"] .wolt-rule-head .rule-note.info {
+  border-color: #80674770;
+  background: linear-gradient(145deg, #30312c, #20211d);
+  color: #eeeae2;
+  box-shadow: inset 0 1px 0 #d8bd9110;
+}
+html[data-theme="night"] .wolt-rule-head .rule-note.info strong { color: #eeeae2; }
+html[data-theme="night"] .wolt-rule-head .rule-note.info small { color: #cbc6bd; }
+html[data-theme="night"] .wolt-rule-head .rule-note.info b {
+  border: 1px solid #9b7c53;
+  background: #3d3a32;
+  color: #e3d1b2;
+}
+html[data-theme="night"] .flow-shell .continue:disabled {
+  border-color: #5f5a50;
+  background: linear-gradient(145deg, #393a35, #2b2c28);
+  color: #aaa69f;
+  box-shadow: none;
+}

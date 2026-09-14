@@ -91,16 +91,32 @@ offerTabs.forEach((tab, index) => {
 
 document.querySelectorAll(".video-frame[data-youtube-id]").forEach(frame => {
   const poster = frame.querySelector(".video-poster");
+  const thumbnail = poster?.querySelector("img[data-thumbnail-fallback]");
+  if (thumbnail) {
+    const useFallback = () => {
+      const fallback = thumbnail.dataset.thumbnailFallback;
+      if (!fallback) return;
+      delete thumbnail.dataset.thumbnailFallback;
+      thumbnail.src = fallback;
+    };
+    thumbnail.addEventListener("error", useFallback, { once: true });
+    thumbnail.addEventListener("load", () => {
+      if (thumbnail.naturalWidth < 300) useFallback();
+    }, { once: true });
+    if (thumbnail.complete && thumbnail.naturalWidth < 300) useFallback();
+  }
   poster?.addEventListener("click", () => {
     const videoId = frame.dataset.youtubeId;
     if (!videoId) return;
 
     const iframe = document.createElement("iframe");
     iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&playsinline=1&rel=0`;
-    iframe.title = "Videoclip de prezentare CibeRO";
+    iframe.title = frame.dataset.videoTitle || "Videoclip de prezentare CibeRO";
+    iframe.referrerPolicy = "strict-origin-when-cross-origin";
     iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
     iframe.allowFullscreen = true;
     frame.replaceChildren(iframe);
+    iframe.focus();
   }, { once: true });
 });
 
