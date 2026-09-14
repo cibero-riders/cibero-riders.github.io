@@ -22,7 +22,7 @@
   flex: 0 0 auto;
   width: 210px;
   height: 82px;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .global-header .brand-wordmark img {
@@ -32,6 +32,11 @@
   height: auto;
   object-fit: contain;
   filter: drop-shadow(0 4px 8px #0201038a);
+}
+
+/* The transparent edge of the wordmark should blend into the warm Day header. */
+html[data-theme="light"] .global-header .brand-wordmark img {
+  filter: none;
 }
 
 .header-socials {
