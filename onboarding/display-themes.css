@@ -29,6 +29,12 @@ html[data-theme="night"] {
   --onboarding-negative: #432923;
   --onboarding-negative-text: #f5cdc3;
 }
+
+html[data-theme="night"] .onboarding-page .site-title .header-art {
+  filter: grayscale(1) sepia(.24) saturate(.72) brightness(1.13) contrast(.94) drop-shadow(0 0 5px #c2a77b26);
+  opacity: .94;
+}
+
 .onboarding-page .site-title > .public-theme-switch {
   position: relative;
   top: auto;

@@ -48,7 +48,7 @@ body::after {
 }
 
 .site-title .header-art {
-  filter: drop-shadow(0 11px 22px rgba(9, 2, 12, .5));
+  filter: drop-shadow(0 7px 14px rgba(9, 2, 12, .34));
 }
 
 .card,

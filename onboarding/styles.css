@@ -18,7 +18,6 @@ body::after{content:"";position:fixed;inset:0;z-index:0;background:linear-gradie
 .button:hover:not(:disabled){filter:brightness(1.06);box-shadow:0 12px 28px rgba(21,197,137,.3)}
 .resume-dialog{background:linear-gradient(145deg,rgba(26,39,59,.98),rgba(13,21,35,.97));backdrop-filter:blur(18px)}
 .site-title{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;margin:0 0 126px;text-align:center;color:#f6f8fc;font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.04em;text-wrap:balance;text-shadow:0 4px 22px rgba(0,0,0,.48);overflow:visible}
-.home-back{display:inline-flex;align-items:center;margin:0 0 18px;color:#f4d985;font-size:14px;font-weight:800;text-decoration:none;transition:color .18s ease,transform .18s ease}.home-back:hover{transform:translateX(-2px);color:#fff0aa}
 .site-title img{position:relative;z-index:1;display:block;width:144px;height:144px;object-fit:contain;filter:drop-shadow(0 9px 17px rgba(0,0,0,.42))}
 
 /* Quiz cards: the prompt forms a connected header for its answers. */
@@ -102,7 +101,7 @@ body::after{content:"";position:fixed;inset:0;z-index:0;background:linear-gradie
 @media(max-width:560px){.stepper{margin:-16px 0 24px}}
 
 /* The approved GPT composition is used as one cohesive header artwork. */
-.site-title{margin:0 0 24px;padding:0}.site-title .header-art{position:relative;z-index:1;display:block;width:min(100%,560px);height:auto;filter:drop-shadow(0 9px 17px rgba(0,0,0,.32))}
+.site-title{margin:0 0 24px;padding:0}.site-title .header-art{position:relative;z-index:1;display:block;width:min(100%,760px);height:auto;filter:drop-shadow(0 7px 14px rgba(0,0,0,.28))}
 @media(max-width:560px){.site-title{margin-bottom:12px}.site-title>img.header-art{width:100%!important;height:auto!important}.stepper{margin:0 0 14px;padding-top:14px;padding-bottom:16px;row-gap:22px}}
 
 /* Equipment joins the custom-artwork family without the generic status disc. */
@@ -138,7 +137,6 @@ body::after{background:linear-gradient(180deg,rgba(3,8,16,.66),rgba(4,8,17,.93))
 .result{border-color:#d8aa47;background:linear-gradient(145deg,#273d34,#142b29)}.result.fail{border-color:#b97252}
 .resume-dialog{border-color:rgba(236,199,112,.38);background:linear-gradient(145deg,rgba(45,40,29,.98),rgba(12,23,37,.98));box-shadow:0 24px 70px rgba(0,0,0,.52),inset 0 1px 0 rgba(255,233,169,.08)}
 footer{color:#b6a77e}
-@media(max-width:560px){.home-back{margin-bottom:12px;font-size:13px}}
 
 /* A visible metallic frame around every onboarding prompt. */
 .card{position:relative;isolation:isolate;border:0!important;background:linear-gradient(145deg,rgba(13,28,45,.96),rgba(5,15,28,.97))!important}
@@ -160,16 +158,7 @@ footer{color:#b6a77e}
 .card{background:linear-gradient(145deg,#0c2239,#061526)!important;box-shadow:0 25px 74px rgba(0,0,0,.48),inset 0 1px 0 rgba(204,234,255,.1)!important}
 .card::before{background:linear-gradient(135deg,#54320b 0%,#c88d25 24%,#ffe8a0 49%,#bc781a 72%,#432609 100%);box-shadow:0 0 0 1px rgba(109,66,13,.86),0 0 16px rgba(213,155,36,.18),inset 0 1px 0 rgba(255,246,203,.65)}
 .card.intro-card{width:min(100%,1000px)}
-.welcome-layout{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(260px,.72fr);gap:38px;align-items:start}
-.welcome-layout-single{grid-template-columns:minmax(0,760px);justify-content:center}
-.benefits-panel{min-width:0;padding:4px 0 4px 31px;border-left:1px solid rgba(222,176,67,.42)}
-.benefits-panel h2{margin:0 0 18px;color:#f2cd73;font-family:Georgia,"Times New Roman",serif;font-size:23px;line-height:1.2}
-.benefits-panel ul{display:grid;gap:14px;margin:0;padding:0;list-style:none}
-.benefits-panel li{display:grid;grid-template-columns:27px minmax(0,1fr);gap:10px;align-items:start}
-.benefit-icon{display:grid;place-items:center;width:25px;height:25px;border:1px solid rgba(69,210,207,.72);border-radius:50%;color:#55d8d2;font-size:14px;line-height:1}
-.benefits-panel strong{display:block;color:#f4dfaa;font-size:14px;line-height:1.25}.benefits-panel span:not(.benefit-icon){display:block;margin-top:2px;color:#b9c9d9;font-size:12px;line-height:1.36}
-@media(max-width:780px){.card.intro-card{width:min(100%,720px)}.welcome-layout{grid-template-columns:1fr;gap:28px}.benefits-panel{padding:25px 0 0;border-top:1px solid rgba(222,176,67,.42);border-left:0}.benefits-panel h2{text-align:center}.benefits-panel ul{grid-template-columns:1fr 1fr;gap:15px 14px}.benefits-panel li{grid-template-columns:25px minmax(0,1fr)}.benefits-panel li:last-child{grid-column:1/-1}}
-@media(max-width:480px){.benefits-panel ul{grid-template-columns:1fr}.benefits-panel li:last-child{grid-column:auto}}
+.welcome-layout{display:block}
 
 /* A slightly deeper outline gives the content panel the same polished contrast as the visual study. */
 .card{border-color:rgba(100,178,255,.27);box-shadow:0 26px 74px rgba(0,0,0,.46),inset 0 1px 0 rgba(178,221,255,.06)}
@@ -271,12 +260,7 @@ body::after{background:linear-gradient(180deg,rgba(3,8,16,.18),rgba(3,8,16,.52))
 /* A compact caution separates data accuracy from the larger registration-return reminder. */
 .registration-data-warning{display:flex;align-items:flex-start;gap:9px;margin:21px 0 0;padding:11px 13px;border-left:3px solid #e4aa39;border-radius:8px;background:rgba(119,76,13,.2);color:#f5d58d}.registration-data-warning>span{display:grid;place-items:center;flex:0 0 auto;width:20px;height:20px;margin-top:2px;border-radius:50%;background:#d99b2a;color:#16100a;font-family:Arial,sans-serif;font-size:13px;font-weight:800}.registration-data-warning p{margin:0!important;color:#f5dc9d!important;font-size:15px!important;font-weight:700;line-height:1.48!important}
 
-/* Supporting notes give every benefit helpful context without competing with its title. */
-.benefits-panel .benefit-note{display:block;margin-top:6px;color:#8fa1b4;font-family:Georgia,"Times New Roman",serif;font-size:11px;font-style:italic;line-height:1.38}
-@media(max-width:780px){.benefits-panel li:last-child{grid-column:auto}}
-
-/* On desktop, both halves of the opening panel finish on the same baseline. */
-@media(min-width:781px){.welcome-layout{align-items:stretch}.welcome-content{display:flex;flex-direction:column}.welcome-content .actions{margin-top:auto;padding-top:26px}}
+@media(min-width:781px){.welcome-content{display:flex;flex-direction:column}.welcome-content .actions{margin-top:auto;padding-top:26px}}
 @media(max-width:780px){.welcome-content .actions{margin-top:32px;padding-top:0}}
 
 /* On phones, the full seven-step journey becomes one compact, swipeable ribbon. */
