@@ -416,7 +416,7 @@ body {
 
 .home-activity-video {
   width: min(1050px, calc(100% - 64px));
-  margin: 0 auto 72px;
+  margin: clamp(32px, 4vw, 48px) auto 72px;
   text-align: center;
 }
 .home-activity-video .showcase-section-title { grid-template-columns: minmax(12px, 44px) minmax(0, auto) minmax(12px, 44px); }
@@ -553,7 +553,7 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
   .offer-panel strong { font-size: 14px; }
   .offer-panel p { font-size: 13px; }
   .home-faq { width: calc(100% - 32px); margin-bottom: 70px; padding: 30px 13px 18px; border-radius: 15px; }
-  .home-activity-video { width: calc(100% - 32px); margin-bottom: 50px; }
+  .home-activity-video { width: calc(100% - 32px); margin: 28px auto 50px; }
   .home-activity-video .video-frame { border-radius: 12px; }
   .home-activity-video .video-action { bottom: 16px; font-size: 9px; }
   .home-faq h2 { font-size: 28px; }
