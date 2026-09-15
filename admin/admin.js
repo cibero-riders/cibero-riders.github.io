@@ -550,7 +550,7 @@ function focusAvailabilitySlotsAfterCitySelection(platform) {
   window.setTimeout(() => slotsInput.classList.remove("availability-slots-ready"), 850);
 }
 
-function renderAvailabilityCitySuggestions(platform) {
+function renderLegacyAvailabilityCitySuggestions(platform) {
   const cityInput = availabilityEditorField(platform, "city");
   const suggestions = availabilityEditorField(platform, "city-suggestions");
   const query = cityInput.value.trim();
@@ -589,7 +589,7 @@ function renderAvailabilityAdminUpdate() {
     : "Ultima actualizare de către un admin: —";
 }
 
-function renderAvailability() {
+function renderLegacyAvailability() {
   sortAvailabilityDraft();
   ["glovo", "wolt"].forEach(platform => {
     const rows = availabilityDraft[platform];
@@ -617,7 +617,7 @@ function renderAvailability() {
   renderAvailabilityAdminUpdate();
 }
 
-async function loadAvailability({ restoreDraft = true } = {}) {
+async function loadLegacyAvailability({ restoreDraft = true } = {}) {
   ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Se încarcă disponibilitățile publicate…"));
   const { data, error } = await supabase
     .from("available_slots")
@@ -688,7 +688,7 @@ function addAvailabilityCity(platform) {
   cityInput.focus();
 }
 
-function resetAvailabilityDraft() {
+function resetLegacyAvailabilityDraft() {
   availabilityDraft = {
     glovo: cloneAvailabilityRows(availability.filter(row => row.platform === "glovo")),
     wolt: cloneAvailabilityRows(availability.filter(row => row.platform === "wolt")),
@@ -705,7 +705,7 @@ function resetAvailabilityDraft() {
   renderAvailability();
 }
 
-function openAvailabilityPublishDialog() {
+function openLegacyAvailabilityPublishDialog() {
   const total = availabilityDraft.glovo.length + availabilityDraft.wolt.length;
   availabilityPublishDetails.innerHTML = `<div class="availability-confirmation"><p>Urmează să publici <strong>${availabilityCountLabel(total)}</strong> pe pagina publică. Orice listă publicată anterior va fi înlocuită.</p><p class="availability-confirmation-note">Publicarea începe un nou ciclu de evidență: pentru lista nouă, contorul de aplicări pornește de la 0.</p><div class="availability-preview-columns confirmation">${["glovo", "wolt"].map(platform => `<section class="availability-preview-platform ${platform}"><h4>${availabilityPlatformLabel(platform)}</h4>${availabilityRowsMarkup(availabilityDraft[platform], true)}</section>`).join("")}</div><div class="availability-actions dialog-actions"><button class="quiet-button" type="button" data-close-availability-dialog>Înapoi la editare</button><button id="confirm-publish-availability" class="primary-button" type="button">Publică acum</button></div><p id="availability-publish-feedback" class="feedback" role="status" aria-live="polite"></p></div>`;
   availabilityPublishDetails.querySelector("[data-close-availability-dialog]").addEventListener("click", () => availabilityPublishDialog.close());
@@ -713,7 +713,7 @@ function openAvailabilityPublishDialog() {
   availabilityPublishDialog.showModal();
 }
 
-async function publishAvailability() {
+async function publishLegacyAvailability() {
   const confirmButton = availabilityPublishDetails.querySelector("#confirm-publish-availability");
   const feedback = availabilityPublishDetails.querySelector("#availability-publish-feedback");
   sortAvailabilityDraft();
@@ -752,7 +752,7 @@ async function publishAvailability() {
   ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Disponibilitățile au fost publicate pe pagina publică.", true));
 }
 
-function subscribeToAvailabilityUpdates() {
+function subscribeToLegacyAvailabilityUpdates() {
   if (availabilityRealtimeChannel) supabase.removeChannel(availabilityRealtimeChannel);
   availabilityRealtimeChannel = supabase
     .channel(`cibero-admin-availability-${currentAdminUserId}`)
