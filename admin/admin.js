@@ -523,7 +523,7 @@ function availabilityEditorField(platform, name) {
   return document.querySelector(`[data-availability-${name}="${platform}"]`);
 }
 
-function setAvailabilityFeedback(platform, message = "", success = false) {
+function setLegacyAvailabilityFeedback(platform, message = "", success = false) {
   const feedback = availabilityEditorField(platform, "feedback");
   feedback.classList.toggle("success", success);
   feedback.textContent = message;
@@ -618,7 +618,7 @@ function renderAvailability() {
 }
 
 async function loadAvailability({ restoreDraft = true } = {}) {
-  ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Se încarcă disponibilitățile publicate…"));
+  ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Se încarcă disponibilitățile publicate…"));
   const { data, error } = await supabase
     .from("available_slots")
     .select("id, platform, city, slots, initial_slots, application_count, sort_order, admin_updated_at")
@@ -631,10 +631,10 @@ async function loadAvailability({ restoreDraft = true } = {}) {
     if (savedDraft) {
       availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
       availabilityDraftDirty = savedDraft.dirty;
-      ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Draftul local a fost restaurat. Disponibilitățile publicate nu au putut fi actualizate acum.", true));
+      ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Draftul local a fost restaurat. Disponibilitățile publicate nu au putut fi actualizate acum.", true));
       renderAvailability();
     } else {
-      ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune."));
+      ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Disponibilitățile nu pot fi încărcate. Verifică migrarea Supabase pentru această secțiune."));
     }
     return;
   }
@@ -647,11 +647,11 @@ async function loadAvailability({ restoreDraft = true } = {}) {
   if (savedDraft?.dirty) {
     availabilityDraft = { glovo: savedDraft.glovo, wolt: savedDraft.wolt };
     availabilityDraftDirty = true;
-    ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Draftul nepublicat a fost restaurat.", true));
+    ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Draftul nepublicat a fost restaurat.", true));
   } else {
     availabilityDraft = publishedDraft;
     availabilityDraftDirty = false;
-    ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform));
+    ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform));
   }
   sortAvailabilityDraft();
   renderAvailability();
@@ -663,14 +663,14 @@ function addAvailabilityCity(platform) {
   const rawCity = cityInput.value.trim();
   const city = canonicalAvailabilityCity(rawCity);
   const slots = Number(slotsInput.value);
-  setAvailabilityFeedback(platform);
+  setLegacyAvailabilityFeedback(platform);
   if (!city) {
-    setAvailabilityFeedback(platform, "Alege un oraș din lista disponibilă.");
+    setLegacyAvailabilityFeedback(platform, "Alege un oraș din lista disponibilă.");
     cityInput.focus();
     return;
   }
   if (!Number.isInteger(slots) || slots < 1 || slots > 999) {
-    setAvailabilityFeedback(platform, "Introdu un număr între 1 și 999 pentru locurile disponibile.");
+    setLegacyAvailabilityFeedback(platform, "Introdu un număr între 1 și 999 pentru locurile disponibile.");
     slotsInput.focus();
     return;
   }
@@ -683,7 +683,7 @@ function addAvailabilityCity(platform) {
   cityInput.value = "";
   slotsInput.value = "";
   updateAvailabilitySlotsLabel(platform);
-  setAvailabilityFeedback(platform, existing ? `${city} a fost actualizat în listă.` : `${city} a fost adăugat în listă.`, true);
+  setLegacyAvailabilityFeedback(platform, existing ? `${city} a fost actualizat în listă.` : `${city} a fost adăugat în listă.`, true);
   renderAvailability();
   cityInput.focus();
 }
@@ -698,7 +698,7 @@ function resetAvailabilityDraft() {
     availabilityEditorField(platform, "city").value = "";
     availabilityEditorField(platform, "slots").value = "";
     updateAvailabilitySlotsLabel(platform);
-    setAvailabilityFeedback(platform, "Modificările nepublicate au fost anulate.");
+    setLegacyAvailabilityFeedback(platform, "Modificările nepublicate au fost anulate.");
   });
   availabilityDraftDirty = false;
   clearAdminPreference("availability-draft");
@@ -749,7 +749,7 @@ async function publishAvailability() {
   availabilityDraftDirty = false;
   await loadAvailability({ restoreDraft: false });
   availabilityPublishDialog.close();
-  ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Disponibilitățile au fost publicate pe pagina publică.", true));
+  ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Disponibilitățile au fost publicate pe pagina publică.", true));
 }
 
 function subscribeToAvailabilityUpdates() {
@@ -759,7 +759,7 @@ function subscribeToAvailabilityUpdates() {
     .on("postgres_changes", { event: "*", schema: "public", table: "available_slots" }, async () => {
       await loadAvailability({ restoreDraft: availabilityDraftDirty });
       if (!availabilityDraftDirty) {
-        ["glovo", "wolt"].forEach(platform => setAvailabilityFeedback(platform, "Locurile publicate au fost actualizate live după o cerere nouă.", true));
+        ["glovo", "wolt"].forEach(platform => setLegacyAvailabilityFeedback(platform, "Locurile publicate au fost actualizate live după o cerere nouă.", true));
       }
     })
     .subscribe();
