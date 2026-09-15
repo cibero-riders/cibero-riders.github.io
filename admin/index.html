@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=60" />
+  <link rel="stylesheet" href="admin.css?v=61" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -181,7 +181,16 @@
 
           <section id="availability-organized-list" class="availability-preview availability-city-list" aria-labelledby="availability-list-title">
             <div class="availability-editor-heading"><div><p class="eyebrow">Situație curentă</p><h3 id="availability-list-title">Orașe active</h3></div><span id="availability-list-count" class="availability-count">0 orașe</span></div>
+            <label class="availability-list-search">Caută oraș<input id="availability-organized-search" type="search" autocomplete="off" placeholder="Ex. Cluj-Napoca" /></label>
             <div id="availability-city-list" class="availability-city-rows" aria-live="polite"></div>
+          </section>
+          <section id="availability-all-list" class="availability-preview availability-simple-list" aria-labelledby="availability-all-list-title" hidden>
+            <div class="availability-editor-heading"><div><p class="eyebrow">Lista rapidă</p><h3 id="availability-all-list-title">Orașe</h3></div></div>
+            <label class="availability-list-search">Caută oraș<input id="availability-all-search" type="search" autocomplete="off" placeholder="Ex. Cluj-Napoca" /></label>
+            <div class="availability-simple-columns">
+              <section><h4>Cu locuri disponibile</h4><div id="availability-open-cities" class="availability-simple-cities" aria-live="polite"></div></section>
+              <section><h4>Fără locuri</h4><div id="availability-closed-cities" class="availability-simple-cities" aria-live="polite"></div></section>
+            </div>
           </section>
         </div>
 
@@ -283,6 +292,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=57"></script>
+  <script type="module" src="admin.js?v=58"></script>
 </body>
 </html>

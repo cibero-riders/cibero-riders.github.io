@@ -1,6 +1,6 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
 
-import { showAccountGuide } from "./onboarding.js?v=8";
+import { showAccountGuide } from "./onboarding.js?v=9";
 
 const SUPABASE_URL = "https://xpzgvknnrkyvcnncfqrq.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_yqSB3WMkNNxujsJhLMqLJA_8Q99BmbN";
@@ -119,8 +119,13 @@ const availabilityWoltInput = document.querySelector("#availability-wolt-input")
 const availabilitySaveCityButton = document.querySelector("#availability-save-city");
 const availabilityFeedback = document.querySelector("#availability-feedback");
 const availabilityOrganizedList = document.querySelector("#availability-organized-list");
+const availabilityAllList = document.querySelector("#availability-all-list");
 const availabilityCityList = document.querySelector("#availability-city-list");
 const availabilityListCount = document.querySelector("#availability-list-count");
+const availabilityOrganizedSearch = document.querySelector("#availability-organized-search");
+const availabilityAllSearch = document.querySelector("#availability-all-search");
+const availabilityOpenCities = document.querySelector("#availability-open-cities");
+const availabilityClosedCities = document.querySelector("#availability-closed-cities");
 const availabilityActiveCities = document.querySelector("#availability-active-cities");
 const availabilityGlovoSlots = document.querySelector("#availability-glovo-slots");
 const availabilityWoltSlots = document.querySelector("#availability-wolt-slots");
@@ -2061,7 +2066,9 @@ function syncAvailabilityDisplayMode() {
   availabilityDisplayModeSwitch.setAttribute("aria-checked", String(allMode));
   document.querySelector("#availability-view-tabs").hidden = allMode;
   availabilityOrganizedList.hidden = allMode;
+  availabilityAllList.hidden = !allMode;
   document.querySelector(".availability-helper").hidden = allMode;
+  document.querySelector(".availability-city-workspace").classList.toggle("all-mode", allMode);
   availabilityViewTabs.forEach(tab => {
     const active = tab.dataset.availabilityView === activeAvailabilityView;
     tab.classList.toggle("active", active);
@@ -2085,8 +2092,12 @@ function selectedAvailabilityMatrix(matrix) {
   return matrix;
 }
 
+function availabilityMatchesSearch(row, query) {
+  return !query || row.city.toLocaleLowerCase("ro-RO").includes(query.toLocaleLowerCase("ro-RO"));
+}
+
 function renderAvailabilityList(matrix) {
-  const rows = selectedAvailabilityMatrix(matrix);
+  const rows = selectedAvailabilityMatrix(matrix).filter(row => availabilityMatchesSearch(row, availabilityOrganizedSearch.value.trim()));
   availabilityListCount.textContent = availabilityCountLabel(rows.length);
   const registry = activeAvailabilityView === "registry";
   const title = document.querySelector("#availability-list-title");
@@ -2100,12 +2111,23 @@ function renderAvailabilityList(matrix) {
   availabilityCityList.querySelectorAll("[data-availability-select-city]").forEach(button => button.addEventListener("click", () => selectAvailabilityCity(button.dataset.availabilitySelectCity)));
 }
 
+function renderSimpleAvailabilityList(matrix) {
+  const rows = matrix.filter(row => availabilityMatchesSearch(row, availabilityAllSearch.value.trim()));
+  const renderColumn = (items, emptyCopy) => items.length
+    ? items.map(row => `<button type="button" class="availability-simple-city" data-availability-select-city="${escapeHtml(row.city)}"><strong>${escapeHtml(row.city)}</strong><span>${availabilitySlotBadge("glovo", row.glovo)}${availabilitySlotBadge("wolt", row.wolt)}</span></button>`).join("")
+    : `<p class="availability-simple-empty">${emptyCopy}</p>`;
+  availabilityOpenCities.innerHTML = renderColumn(rows.filter(row => row.glovo > 0 || row.wolt > 0), "Niciun oraș.");
+  availabilityClosedCities.innerHTML = renderColumn(rows.filter(row => row.glovo === 0 && row.wolt === 0), "Niciun oraș fără locuri.");
+  availabilityAllList.querySelectorAll("[data-availability-select-city]").forEach(button => button.addEventListener("click", () => selectAvailabilityCity(button.dataset.availabilitySelectCity)));
+}
+
 function renderAvailability() {
   sortAvailabilityDraft();
   const matrix = availabilityMatrix();
   renderAvailabilitySummary(matrix);
   syncAvailabilityDisplayMode();
-  if (activeAvailabilityDisplayMode !== "all") renderAvailabilityList(selectedAvailabilityMatrix(matrix));
+  if (activeAvailabilityDisplayMode === "all") renderSimpleAvailabilityList(matrix);
+  else renderAvailabilityList(matrix);
 }
 
 function selectAvailabilityCity(city) {
@@ -2244,6 +2266,8 @@ availabilityCityInput.addEventListener("keydown", event => {
   if (event.key === "Enter") { event.preventDefault(); saveAvailabilityCity(); }
 }));
 availabilitySaveCityButton.addEventListener("click", saveAvailabilityCity);
+availabilityOrganizedSearch.addEventListener("input", renderAvailability);
+availabilityAllSearch.addEventListener("input", renderAvailability);
 availabilityDisplayModeSwitch.addEventListener("click", () => {
   activeAvailabilityDisplayMode = activeAvailabilityDisplayMode === "all" ? "structured" : "all";
   persistAvailabilityNavigation();

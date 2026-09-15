@@ -785,3 +785,35 @@ html[data-theme="night"] #availability-panel .availability-summary-grid article.
 }
 html[data-theme="night"] #availability-panel .availability-summary-grid article.glovo strong { color: #f1cf82; }
 html[data-theme="night"] #availability-panel .availability-summary-grid article.wolt strong { color: #bcecf2; }
+
+/* În „La grămadă”, lista rapidă rămâne lângă editor și arată doar disponibilitatea. */
+.availability-list-search { display: grid; gap: 6px; margin: -4px 0 13px; color: var(--muted); font-size: 11px; font-weight: 800; }
+.availability-list-search input { min-height: 39px; padding: 8px 10px; }
+.availability-city-workspace.all-mode { align-items: stretch; }
+.availability-city-workspace.all-mode .availability-city-editor,
+.availability-city-workspace.all-mode .availability-simple-list { min-height: 424px; }
+.availability-city-workspace.all-mode .availability-city-editor { align-self: stretch; }
+.availability-simple-list { display: grid; grid-template-rows: auto auto minmax(0, 1fr); }
+.availability-simple-columns { display: grid; grid-template-columns: 1fr 1fr; min-height: 0; gap: 11px; }
+.availability-simple-columns > section { display: grid; grid-template-rows: auto minmax(0, 1fr); min-width: 0; overflow: hidden; border: 1px solid #c49a4c42; border-radius: 11px; background: #180b20a0; }
+.availability-simple-columns h4 { margin: 0; padding: 10px 11px; border-bottom: 1px solid #dcb44d2b; color: var(--gold-light); font: 700 12px Cinzel, serif; }
+.availability-simple-columns > section:last-child h4 { color: #d6becf; }
+.availability-simple-cities { display: grid; align-content: start; gap: 7px; overflow: auto; padding: 8px; }
+.availability-simple-city { display: grid; gap: 7px; width: 100%; border: 1px solid #b68eaf45; border-radius: 9px; padding: 9px; background: #2a1234a8; color: var(--cream); text-align: left; transition: border-color .18s ease, background .18s ease, transform .18s ease; }
+.availability-simple-city:hover { border-color: var(--gold); background: #3a193f; transform: translateY(-1px); }
+.availability-simple-city strong { overflow: hidden; color: #fff0bd; font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.availability-simple-city > span { display: grid; gap: 5px; }
+.availability-simple-city .availability-platform-status { justify-content: space-between; min-height: 24px; padding: 4px 6px; font-size: 10px; }
+.availability-simple-empty { margin: auto 0; padding: 13px 6px; color: var(--muted); font-size: 11px; text-align: center; }
+html[data-theme="light"] #availability-panel .availability-simple-columns > section { border-color: #c9a35a70; background: #fffaf0; }
+html[data-theme="light"] #availability-panel .availability-simple-columns h4 { color: #705017; }
+html[data-theme="light"] #availability-panel .availability-simple-columns > section:last-child h4 { color: #665a4c; }
+html[data-theme="light"] #availability-panel .availability-simple-city { border-color: #cdb583; background: #fffefa; color: #2d3441; }
+html[data-theme="light"] #availability-panel .availability-simple-city:hover { border-color: #aa7b24; background: #f8e9c8; }
+html[data-theme="light"] #availability-panel .availability-simple-city strong { color: #3d3020; }
+html[data-theme="night"] #availability-panel .availability-simple-columns > section { border-color: #80674761; background: #151613; }
+html[data-theme="night"] #availability-panel .availability-simple-city { border-color: #80674758; background: #22221f; color: #ececea; }
+html[data-theme="night"] #availability-panel .availability-simple-city:hover { border-color: #b98a4d; background: #302e27; }
+html[data-theme="night"] #availability-panel .availability-simple-city strong { color: #e6d4b7; }
+@media(max-width:900px){.availability-city-workspace.all-mode .availability-city-editor,.availability-city-workspace.all-mode .availability-simple-list{min-height:0}.availability-simple-list{min-height:390px}.availability-simple-columns{min-height:290px}}
+@media(max-width:560px){.availability-simple-columns{grid-template-columns:1fr;min-height:0}.availability-simple-columns>section{min-height:190px}.availability-simple-list{min-height:0}}

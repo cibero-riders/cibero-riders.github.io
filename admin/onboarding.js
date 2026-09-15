@@ -14,10 +14,10 @@ const guides = {
   admin: {
     label: "GHID ADMIN CIBERO",
     steps: [
-      { icon: "⌑", target: '[data-admin-section="applications-panel"]', title: "Registrul central", text: "Verifică înscrierile și filtrează-le după tip." },
-      { icon: "✦", target: '[data-admin-section="tickets-panel"]', prepare: '[data-admin-section="tickets-panel"]', title: "Tickete CibeRO", text: "Aici rămân doar ticketele gestionate de CibeRO." },
-      { icon: "⌘", target: '.admin-space-tabs [data-admin-area="subfleets"]', prepare: '.admin-space-tabs [data-admin-area="subfleets"]', title: "Sub-Flote", text: "Creezi conturi și urmărești activitatea echipelor." },
-      { icon: "✉", target: "#admin-message-bell", title: "Inboxul CibeRO", text: "Deschide conversațiile și răspunde direct sub-flotelor." },
+      { icon: "⌑", target: '[data-admin-section="applications-panel"]', title: "Registrul central", text: "Aici vin toate înregistrările, organizate ca PFA, SRL, Sub-Flote și Cererile de Deschidere de cont la Wolt sau Glovo." },
+      { icon: "✦", target: '[data-admin-section="tickets-panel"]', prepare: '[data-admin-section="tickets-panel"]', title: "Tickete CibeRO", text: "Doar ticketele curierilor din Cibero vor ajunge aici. Ticketele trimise de curierii sub-flotelor merg în panoul de sub-flote. 👌" },
+      { icon: "⌘", target: '.admin-space-tabs [data-admin-area="subfleets"]', prepare: '.admin-space-tabs [data-admin-area="subfleets"]', title: "Sub-Flote", text: "Acesta este tab-ul de gestiune a sub-flotelor." },
+      { icon: "✉", target: "#admin-message-bell", title: "Inboxul CibeRO", text: "Aici poți conversa direct cu orice sub-flotă." },
     ],
   },
   subfleet: {
