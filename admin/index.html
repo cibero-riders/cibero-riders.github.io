@@ -142,53 +142,46 @@
       </section>
 
       <section id="availability-panel" class="panel admin-section-panel" role="tabpanel" hidden>
-        <div class="section-heading compact-heading">
-          <p class="eyebrow">CibeRO · control operațional</p>
-          <span id="availability-admin-update" hidden>Ultima actualizare de către un admin: —</span>
+        <div class="section-heading compact-heading availability-heading">
+          <div><p class="eyebrow">CibeRO · control operațional</p><h2>Locuri disponibile</h2><span id="availability-admin-update" class="availability-admin-update">Ultima actualizare: —</span></div>
           <a class="quiet-button availability-public-link" href="../locuri/" target="_blank" rel="noopener noreferrer">Deschide pagina publică ↗</a>
         </div>
 
-        <div class="availability-workspace">
-          <section class="availability-editor" data-availability-editor="glovo" aria-labelledby="availability-editor-title-glovo">
-            <div class="availability-editor-heading">
-              <div><p class="eyebrow">Disponibilități Glovo</p><h3 id="availability-editor-title-glovo">Adaugă un oraș</h3></div>
-              <span class="availability-count" data-availability-draft-count="glovo">0 orașe</span>
-            </div>
-            <div class="availability-add-form">
+        <div class="availability-summary-grid" aria-label="Rezumat disponibilități">
+          <article><span>Orașe cu locuri</span><strong id="availability-active-cities">0</strong></article>
+          <article class="glovo"><span>Locuri Glovo</span><strong id="availability-glovo-slots">0</strong></article>
+          <article class="wolt"><span>Locuri Wolt</span><strong id="availability-wolt-slots">0</strong></article>
+          <article><span>Aplicări în ciclul curent</span><strong id="availability-applications">0</strong></article>
+        </div>
+
+        <div class="availability-navigation" aria-label="Afișare control operațional">
+          <div class="ticket-display-mode"><button id="availability-display-switch" class="ticket-display-switch" type="button" role="switch" aria-checked="false" aria-label="Schimbă stilul de afișare al locurilor"><span>Organizat</span><span>La grămadă</span></button></div>
+          <div id="availability-view-tabs" class="ticket-workspace-tabs" role="tablist" aria-label="Organizează locurile">
+            <button class="ticket-workspace-tab active" type="button" role="tab" aria-selected="true" data-availability-view="cities">Orașe</button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-availability-view="glovo">Glovo</button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-availability-view="wolt">Wolt</button>
+            <button class="ticket-workspace-tab" type="button" role="tab" aria-selected="false" data-availability-view="registry">Registru</button>
+          </div>
+        </div>
+
+        <div class="availability-workspace availability-city-workspace">
+          <section class="availability-editor availability-city-editor" aria-labelledby="availability-editor-title">
+            <div class="availability-editor-heading"><div><p class="eyebrow">Editează un oraș</p><h3 id="availability-editor-title">Glovo și Wolt, într-un singur loc</h3></div></div>
+            <div class="availability-city-form">
               <label>Oraș
-                <span class="availability-city-combobox">
-                  <input data-availability-city="glovo" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions-glovo" aria-expanded="false" />
-                  <span id="availability-city-suggestions-glovo" data-availability-city-suggestions="glovo" class="availability-city-suggestions" role="listbox" hidden></span>
-                </span>
+                <span class="availability-city-combobox"><input id="availability-city" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions" aria-expanded="false" /><span id="availability-city-suggestions" class="availability-city-suggestions" role="listbox" hidden></span></span>
               </label>
-              <label><span data-availability-slots-label="glovo">Locuri disponibile</span>
-                <input data-availability-slots="glovo" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
-              </label>
-              <button data-availability-add-city="glovo" class="primary-button" type="button">Adaugă în listă</button>
+              <label>Locuri Glovo<input id="availability-glovo-input" type="number" min="0" max="999" inputmode="numeric" placeholder="0" /></label>
+              <label>Locuri Wolt<input id="availability-wolt-input" type="number" min="0" max="999" inputmode="numeric" placeholder="0" /></label>
+              <button id="availability-save-city" class="primary-button" type="button">Adaugă sau actualizează</button>
             </div>
-            <p data-availability-feedback="glovo" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
-            <div data-availability-draft-list="glovo" class="availability-draft-list" aria-live="polite"></div>
+            <p id="availability-feedback" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
+            <p class="availability-helper">Introdu <strong>0</strong> pentru a închide o platformă în orașul respectiv. Dacă ambele valori sunt 0, orașul este eliminat din lista publică.</p>
           </section>
 
-          <section class="availability-editor" data-availability-editor="wolt" aria-labelledby="availability-editor-title-wolt">
-            <div class="availability-editor-heading">
-              <div><p class="eyebrow">Disponibilități Wolt</p><h3 id="availability-editor-title-wolt">Adaugă un oraș</h3></div>
-              <span class="availability-count" data-availability-draft-count="wolt">0 orașe</span>
-            </div>
-            <div class="availability-add-form">
-              <label>Oraș
-                <span class="availability-city-combobox">
-                  <input data-availability-city="wolt" type="search" autocomplete="off" placeholder="Caută sau scrie orașul" aria-autocomplete="list" aria-controls="availability-city-suggestions-wolt" aria-expanded="false" />
-                  <span id="availability-city-suggestions-wolt" data-availability-city-suggestions="wolt" class="availability-city-suggestions" role="listbox" hidden></span>
-                </span>
-              </label>
-              <label><span data-availability-slots-label="wolt">Locuri disponibile</span>
-                <input data-availability-slots="wolt" type="number" min="1" max="999" inputmode="numeric" placeholder="ex. 4" />
-              </label>
-              <button data-availability-add-city="wolt" class="primary-button" type="button">Adaugă în listă</button>
-            </div>
-            <p data-availability-feedback="wolt" class="feedback dashboard-feedback" role="status" aria-live="polite"></p>
-            <div data-availability-draft-list="wolt" class="availability-draft-list" aria-live="polite"></div>
+          <section id="availability-organized-list" class="availability-preview availability-city-list" aria-labelledby="availability-list-title">
+            <div class="availability-editor-heading"><div><p class="eyebrow">Situație curentă</p><h3 id="availability-list-title">Orașe active</h3></div><span id="availability-list-count" class="availability-count">0 orașe</span></div>
+            <div id="availability-city-list" class="availability-city-rows" aria-live="polite"></div>
           </section>
         </div>
 
