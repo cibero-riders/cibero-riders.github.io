@@ -246,7 +246,13 @@ window.addEventListener("resize", schedulePositionTour);
 export function showAccountGuide(profile) {
   const role = profile?.role === "subfleet" ? "subfleet" : "admin";
   const loginCount = Number(profile?.onboarding_login_count ?? 1);
-  // During the current testing phase, show the contextual tour at every login.
-  // Only a brand-new account must finish it without closing it.
-  openGuide(role, loginCount <= 1);
+  // Prima conectare: ghid obligatoriu. Următoarele două: doar invitație opțională.
+  if (loginCount <= 1) {
+    openGuide(role, true);
+    return;
+  }
+  if (loginCount <= 3) {
+    choiceDialog.dataset.role = role;
+    choiceDialog.showModal();
+  }
 }
