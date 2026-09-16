@@ -131,6 +131,37 @@ const fleetDefaultCommission = document.querySelector("#fleet-default-commission
 const fleetReportDueDay = document.querySelector("#fleet-report-due-day");
 const fleetAutoInvoice = document.querySelector("#fleet-auto-invoice");
 const fleetSettingsFeedback = document.querySelector("#fleet-settings-feedback");
+const fleetWorkspaceTabs = [...document.querySelectorAll("[data-fleet-workspace]")];
+const fleetWorkspacePanels = [...document.querySelectorAll("[data-fleet-workspace-panel]")];
+const fleetMembersTable = document.querySelector("#fleet-members-table");
+const fleetFinanceTable = document.querySelector("#fleet-finance-table");
+const fleetAutofactureTable = document.querySelector("#fleet-autofacture-table");
+const fleetVehiclesTable = document.querySelector("#fleet-vehicles-table");
+const fleetAddMember = document.querySelector("#fleet-add-member");
+const fleetAddMemberReport = document.querySelector("#fleet-add-member-report");
+const fleetAddVehicle = document.querySelector("#fleet-add-vehicle");
+const fleetMemberDialog = document.querySelector("#fleet-member-dialog");
+const fleetMemberForm = document.querySelector("#fleet-member-form");
+const fleetMemberSource = document.querySelector("#fleet-member-source");
+const fleetMemberFirstName = document.querySelector("#fleet-member-first-name");
+const fleetMemberLastName = document.querySelector("#fleet-member-last-name");
+const fleetMemberType = document.querySelector("#fleet-member-type");
+const fleetMemberStatus = document.querySelector("#fleet-member-status");
+const fleetMemberCity = document.querySelector("#fleet-member-city");
+const fleetMemberHours = document.querySelector("#fleet-member-hours");
+const fleetMemberCommission = document.querySelector("#fleet-member-commission");
+const fleetMemberContract = document.querySelector("#fleet-member-contract");
+const fleetMemberDocuments = document.querySelector("#fleet-member-documents");
+const fleetMemberNote = document.querySelector("#fleet-member-note");
+const fleetMemberFeedback = document.querySelector("#fleet-member-feedback");
+const fleetVehicleDialog = document.querySelector("#fleet-vehicle-dialog");
+const fleetVehicleForm = document.querySelector("#fleet-vehicle-form");
+const fleetVehicleMember = document.querySelector("#fleet-vehicle-member");
+const fleetVehicleType = document.querySelector("#fleet-vehicle-type");
+const fleetVehiclePlate = document.querySelector("#fleet-vehicle-plate");
+const fleetVehicleStatus = document.querySelector("#fleet-vehicle-status");
+const fleetVehicleNote = document.querySelector("#fleet-vehicle-note");
+const fleetVehicleFeedback = document.querySelector("#fleet-vehicle-feedback");
 const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
 const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
@@ -232,6 +263,11 @@ let fleetCourierProfiles = [];
 let fleetReports = [];
 let fleetSettings = {};
 let activeFleetReportId = "";
+let fleetMembers = [];
+let fleetVehicles = [];
+let fleetAutofactureJobs = [];
+let activeFleetMemberId = "";
+let fleetReportOwnerMode = "application";
 let activeMessageSubfleetId = "";
 let activeAdminArea = "cibero";
 let activeSubfleetId = "";
@@ -503,20 +539,26 @@ function renderFleetManagement() {
 }
 
 async function loadFleetOperations() {
-  const [profilesResult, reportsResult, settingsResult] = await Promise.all([
+  const [profilesResult, reportsResult, settingsResult, membersResult, vehiclesResult, jobsResult] = await Promise.all([
     supabase.from("fleet_courier_profiles").select("*").order("updated_at", { ascending: false }),
     supabase.from("fleet_reports").select("*").order("period_end", { ascending: false }),
     supabase.from("fleet_settings").select("key, value"),
+    supabase.from("fleet_members").select("*").order("updated_at", { ascending: false }),
+    supabase.from("fleet_member_vehicles").select("*").order("created_at", { ascending: false }),
+    supabase.from("fleet_autofacture_jobs").select("*").order("created_at", { ascending: false }),
   ]);
-  const error = profilesResult.error || reportsResult.error || settingsResult.error;
+  const error = profilesResult.error || reportsResult.error || settingsResult.error || membersResult.error || vehiclesResult.error || jobsResult.error;
   if (error) {
     console.warn("Fleet Control Center data is awaiting its migration.", error);
-    fleetSettingsFeedback.textContent = "Datele operaționale vor fi disponibile după aplicarea migrării 024.";
+    fleetSettingsFeedback.textContent = "Datele operaționale vor fi disponibile după aplicarea migrărilor 024 și 025.";
     return;
   }
   fleetCourierProfiles = profilesResult.data ?? [];
   fleetReports = reportsResult.data ?? [];
   fleetSettings = Object.fromEntries((settingsResult.data ?? []).map(item => [item.key, item.value]));
+  fleetMembers = membersResult.data ?? [];
+  fleetVehicles = vehiclesResult.data ?? [];
+  fleetAutofactureJobs = jobsResult.data ?? [];
   renderFleetControlCenter();
 }
 
@@ -531,12 +573,15 @@ function openFleetCourierDialog(applicationId = "") {
   fleetCourierDialog.showModal();
 }
 
-function openFleetReportDialog(reportId = "") {
+function openFleetReportDialog(reportId = "", memberMode = false) {
   const report = fleetReports.find(item => item.id === reportId);
-  const defaultCourier = report?.application_id ?? applications.filter(isSocialRegistration).find(item => item.status === "activated")?.id ?? applications.filter(isSocialRegistration)[0]?.id;
+  fleetReportOwnerMode = report?.member_id || memberMode ? "member" : "application";
+  const defaultCourier = fleetReportOwnerMode === "member"
+    ? (report?.member_id ?? fleetMembers[0]?.id)
+    : (report?.application_id ?? applications.filter(isSocialRegistration).find(item => item.status === "activated")?.id ?? applications.filter(isSocialRegistration)[0]?.id);
   if (!defaultCourier) return;
   activeFleetReportId = report?.id ?? "";
-  fleetReportApplication.innerHTML = fleetCourierOptions(defaultCourier);
+  fleetReportApplication.innerHTML = fleetReportOwnerMode === "member" ? fleetMemberOptions(defaultCourier) : fleetCourierOptions(defaultCourier);
   fleetReportPlatform.value = report?.platform ?? "wolt";
   fleetReportStart.value = report?.period_start ?? "";
   fleetReportEnd.value = report?.period_end ?? "";
@@ -568,7 +613,7 @@ async function saveFleetReport(event) {
   const submit = fleetReportForm.querySelector("button[type='submit']");
   submit.disabled = true;
   fleetReportFeedback.textContent = "Se salvează…";
-  const payload = { application_id: fleetReportApplication.value, platform: fleetReportPlatform.value, period_start: fleetReportStart.value, period_end: fleetReportEnd.value, gross_amount: Number(fleetReportGross.value), commission_amount: Number(fleetReportCommission.value), net_amount: Number(fleetReportNet.value), status: fleetReportStatus.value, internal_note: fleetReportNote.value.trim() || null, updated_by: currentAdminUserId };
+  const payload = { application_id: fleetReportOwnerMode === "application" ? fleetReportApplication.value : null, member_id: fleetReportOwnerMode === "member" ? fleetReportApplication.value : null, platform: fleetReportPlatform.value, period_start: fleetReportStart.value, period_end: fleetReportEnd.value, gross_amount: Number(fleetReportGross.value), commission_amount: Number(fleetReportCommission.value), net_amount: Number(fleetReportNet.value), status: fleetReportStatus.value, internal_note: fleetReportNote.value.trim() || null, updated_by: currentAdminUserId };
   const query = activeFleetReportId
     ? supabase.from("fleet_reports").update(payload).eq("id", activeFleetReportId)
     : supabase.from("fleet_reports").insert({ ...payload, created_by: currentAdminUserId });
@@ -585,6 +630,10 @@ async function setFleetInvoiceReady(reportId) {
   const invoiceStatus = report.invoice_status === "not_ready" ? "ready" : report.invoice_status === "ready" ? "queued" : report.invoice_status;
   const { error } = await supabase.from("fleet_reports").update({ invoice_status: invoiceStatus, updated_by: currentAdminUserId }).eq("id", reportId);
   if (error) { console.error(error); return; }
+  if (invoiceStatus === "queued") {
+    const { error: jobError } = await supabase.from("fleet_autofacture_jobs").upsert({ report_id: reportId, member_id: report.member_id ?? null, status: "ready", created_by: currentAdminUserId, updated_by: currentAdminUserId }, { onConflict: "report_id" });
+    if (jobError) console.error(jobError);
+  }
   await loadFleetOperations();
 }
 
@@ -605,6 +654,50 @@ async function saveFleetSettings(event) {
   fleetSettingsFeedback.textContent = "Regulile de procesare au fost salvate.";
   await loadFleetOperations();
 }
+
+function setFleetWorkspace(workspace) {
+  const current = ["members", "finance", "accounting", "assets"].includes(workspace) ? workspace : "overview";
+  fleetWorkspaceTabs.forEach(tab => tab.classList.toggle("active", tab.dataset.fleetWorkspace === current));
+  fleetWorkspacePanels.forEach(panel => { panel.hidden = panel.dataset.fleetWorkspacePanel !== current; });
+  if (current !== "overview") renderFleetPrivateWorkspaces();
+}
+
+function memberName(member) { return `${member.first_name} ${member.last_name}`.trim(); }
+function fleetMemberOptions(selectedId = "") { return fleetMembers.map(member => `<option value="${escapeHtml(member.id)}"${member.id === selectedId ? " selected" : ""}>${escapeHtml(memberName(member))} · ${escapeHtml(member.city || "oraș neprecizat")}</option>`).join(""); }
+
+function renderFleetPrivateWorkspaces() {
+  fleetMembersTable.innerHTML = fleetMembers.length ? `<div class="fleet-table-head">Colaborator<span>Tip</span><span>Status</span><span>Platforme</span><span>Contract · documente</span></div>${fleetMembers.map(member => `<button type="button" class="fleet-table-row" data-fleet-member-id="${escapeHtml(member.id)}"><strong>${escapeHtml(memberName(member))}<small>${escapeHtml(member.city || "oraș neprecizat")} · ${Number(member.work_norm_hours ?? 0)} h · ${Number(member.commission_percent ?? 0)}%</small></strong><span>${escapeHtml(member.member_type.toUpperCase())}</span><span class="fleet-status-pill ${escapeHtml(member.operational_status)}">${escapeHtml(fleetOperationalStatusLabels[member.operational_status])}</span><span>${escapeHtml((member.platform_accounts ?? []).map(item => item.platform ?? item).join(", ") || "—")}</span><span>${escapeHtml(member.contract_status)} · ${escapeHtml(member.document_status)}</span></button>`).join("")}` : '<p class="fleet-empty">Nu există colaboratori în registrul intern. Adaugă unul sau importă o înscriere.</p>';
+  fleetFinanceTable.innerHTML = fleetReports.length ? `<div class="fleet-table-head">Raport<span>Perioadă</span><span>Brut</span><span>Net</span><span>Status</span></div>${fleetReports.map(report => { const member = fleetMembers.find(item => item.id === report.member_id); return `<button type="button" class="fleet-table-row" data-fleet-report-id="${escapeHtml(report.id)}"><strong>${escapeHtml(member ? memberName(member) : "Raport din registrul vechi")}<small>${escapeHtml(fleetPlatformLabels[report.platform] ?? report.platform)}</small></strong><span>${escapeHtml(report.period_start)} — ${escapeHtml(report.period_end)}</span><span>${Number(report.gross_amount).toFixed(2)} RON</span><span>${Number(report.net_amount).toFixed(2)} RON</span><span class="fleet-status-pill ${escapeHtml(report.status)}">${escapeHtml(fleetReportStatusLabels[report.status])}</span></button>`; }).join("")}` : '<p class="fleet-empty">Nu există rapoarte financiare înregistrate.</p>';
+  fleetAutofactureTable.innerHTML = fleetAutofactureJobs.length ? `<div class="fleet-table-head">Document<span>Colaborator</span><span>Factură</span><span>Status</span><span>Acțiune</span></div>${fleetAutofactureJobs.map(job => { const member = fleetMembers.find(item => item.id === job.member_id); return `<div class="fleet-table-row fleet-job-row"><strong>Raport pregătit<small>${escapeHtml(job.created_at ? formatDate(job.created_at) : "")}</small></strong><span>${escapeHtml(member ? memberName(member) : "—")}</span><span>${escapeHtml(job.invoice_number || "neemisă")}</span><span class="fleet-status-pill ${escapeHtml(job.status)}">${escapeHtml(job.status)}</span><button type="button" data-fleet-job-advance="${escapeHtml(job.id)}">Avansează</button></div>`; }).join("")}` : '<p class="fleet-empty">Coada este goală. Aprobă un raport și pregătește-l pentru autofactură.</p>';
+  fleetVehiclesTable.innerHTML = fleetVehicles.length ? `<div class="fleet-table-head">Vehicul<span>Colaborator</span><span>Identificare</span><span>Status</span><span>Observații</span></div>${fleetVehicles.map(vehicle => { const member = fleetMembers.find(item => item.id === vehicle.member_id); return `<div class="fleet-table-row"><strong>${escapeHtml(vehicle.vehicle_type)}<small>${escapeHtml(member ? memberName(member) : "nealocat")}</small></strong><span>${escapeHtml(member ? memberName(member) : "—")}</span><span>${escapeHtml(vehicle.plate_number || "—")}</span><span class="fleet-status-pill ${escapeHtml(vehicle.status)}">${escapeHtml(vehicle.status)}</span><span>${escapeHtml(vehicle.note || "—")}</span></div>`; }).join("")}` : '<p class="fleet-empty">Nu există vehicule înregistrate.</p>';
+  fleetMembersTable.querySelectorAll("[data-fleet-member-id]").forEach(button => button.addEventListener("click", () => openFleetMemberDialog(button.dataset.fleetMemberId)));
+  fleetFinanceTable.querySelectorAll("[data-fleet-report-id]").forEach(button => button.addEventListener("click", () => openFleetReportDialog(button.dataset.fleetReportId)));
+  fleetAutofactureTable.querySelectorAll("[data-fleet-job-advance]").forEach(button => button.addEventListener("click", () => advanceFleetAutofactureJob(button.dataset.fleetJobAdvance)));
+}
+
+function openFleetMemberDialog(memberId = "") {
+  const member = fleetMembers.find(item => item.id === memberId);
+  activeFleetMemberId = member?.id ?? "";
+  fleetMemberSource.innerHTML = `<option value="">Introdu manual</option>${applications.filter(isSocialRegistration).map(item => `<option value="${escapeHtml(item.id)}"${item.id === member?.source_application_id ? " selected" : ""}>${escapeHtml(`${item.first_name} ${item.last_name}`.trim())} · ${escapeHtml(item.city || "")}</option>`).join("")}`;
+  fleetMemberFirstName.value = member?.first_name ?? ""; fleetMemberLastName.value = member?.last_name ?? ""; fleetMemberType.value = member?.member_type ?? "courier"; fleetMemberStatus.value = member?.operational_status ?? "onboarding"; fleetMemberCity.value = member?.city ?? ""; fleetMemberHours.value = member?.work_norm_hours ?? ""; fleetMemberCommission.value = member?.commission_percent ?? fleetSettings.default_commission_percent ?? 5; fleetMemberContract.value = member?.contract_status ?? "missing"; fleetMemberDocuments.value = member?.document_status ?? "missing"; fleetMemberNote.value = member?.internal_note ?? ""; fleetMemberFeedback.textContent = ""; fleetMemberDialog.showModal();
+}
+
+function importFleetMemberSource() {
+  const source = applications.find(item => item.id === fleetMemberSource.value);
+  if (!source) return;
+  fleetMemberFirstName.value = source.first_name ?? ""; fleetMemberLastName.value = source.last_name ?? ""; fleetMemberCity.value = source.city ?? ""; fleetMemberType.value = source.courier_type === "pfa" || source.courier_type === "srl" ? source.courier_type : "courier"; fleetMemberStatus.value = source.status === "activated" ? "active" : "onboarding";
+}
+
+async function saveFleetMember(event) {
+  event.preventDefault(); const submit = fleetMemberForm.querySelector("button[type='submit']"); submit.disabled = true; fleetMemberFeedback.textContent = "Se salvează…";
+  const payload = { source_application_id: fleetMemberSource.value || null, first_name: fleetMemberFirstName.value.trim(), last_name: fleetMemberLastName.value.trim(), member_type: fleetMemberType.value, operational_status: fleetMemberStatus.value, city: fleetMemberCity.value.trim() || null, work_norm_hours: fleetMemberHours.value ? Number(fleetMemberHours.value) : null, commission_percent: fleetMemberCommission.value ? Number(fleetMemberCommission.value) : null, contract_status: fleetMemberContract.value, document_status: fleetMemberDocuments.value, internal_note: fleetMemberNote.value.trim() || null, updated_by: currentAdminUserId };
+  const query = activeFleetMemberId ? supabase.from("fleet_members").update(payload).eq("id", activeFleetMemberId) : supabase.from("fleet_members").insert({ ...payload, created_by: currentAdminUserId }); const { error } = await query; submit.disabled = false;
+  if (error) { console.error(error); fleetMemberFeedback.textContent = "Colaboratorul nu a putut fi salvat."; return; } await loadFleetOperations(); fleetMemberDialog.close();
+}
+
+function openFleetVehicleDialog() { if (!fleetMembers.length) return; fleetVehicleMember.innerHTML = fleetMemberOptions(); fleetVehicleType.value = "bicycle"; fleetVehiclePlate.value = ""; fleetVehicleStatus.value = "active"; fleetVehicleNote.value = ""; fleetVehicleFeedback.textContent = ""; fleetVehicleDialog.showModal(); }
+async function saveFleetVehicle(event) { event.preventDefault(); const submit = fleetVehicleForm.querySelector("button[type='submit']"); submit.disabled = true; const { error } = await supabase.from("fleet_member_vehicles").insert({ member_id: fleetVehicleMember.value, vehicle_type: fleetVehicleType.value, plate_number: fleetVehiclePlate.value.trim() || null, status: fleetVehicleStatus.value, note: fleetVehicleNote.value.trim() || null }); submit.disabled = false; if (error) { console.error(error); fleetVehicleFeedback.textContent = "Vehiculul nu a putut fi salvat."; return; } await loadFleetOperations(); fleetVehicleDialog.close(); }
+async function advanceFleetAutofactureJob(id) { const job = fleetAutofactureJobs.find(item => item.id === id); if (!job) return; const status = job.status === "ready" ? "queued" : job.status === "queued" ? "issued" : job.status; const { error } = await supabase.from("fleet_autofacture_jobs").update({ status, updated_by: currentAdminUserId }).eq("id", id); if (!error) await loadFleetOperations(); }
 
 function ticketViewById(viewId) {
   return ticketViews.find(view => view.id === viewId) ?? ticketViews[0];
@@ -2533,6 +2626,13 @@ fleetAddReport.addEventListener("click", () => openFleetReportDialog());
 fleetCourierForm.addEventListener("submit", saveFleetCourierProfile);
 fleetReportForm.addEventListener("submit", saveFleetReport);
 fleetSettingsForm.addEventListener("submit", saveFleetSettings);
+fleetWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setFleetWorkspace(tab.dataset.fleetWorkspace)));
+fleetAddMember.addEventListener("click", () => openFleetMemberDialog());
+fleetAddMemberReport.addEventListener("click", () => openFleetReportDialog("", true));
+fleetAddVehicle.addEventListener("click", openFleetVehicleDialog);
+fleetMemberSource.addEventListener("change", importFleetMemberSource);
+fleetMemberForm.addEventListener("submit", saveFleetMember);
+fleetVehicleForm.addEventListener("submit", saveFleetVehicle);
 document.querySelectorAll("[data-fleet-action]").forEach(button => button.addEventListener("click", () => openFleetWorkspace(button.dataset.fleetAction)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
