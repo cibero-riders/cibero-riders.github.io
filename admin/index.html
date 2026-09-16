@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=61" />
+  <link rel="stylesheet" href="admin.css?v=62" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -61,6 +61,7 @@
         <button class="admin-primary-tab active" type="button" role="tab" aria-selected="true" aria-controls="applications-panel" data-admin-area="cibero" data-admin-section="applications-panel"><span class="tab-icon" aria-hidden="true">⌑</span><span><strong>Înregistrări</strong></span><span class="primary-unread-badge" id="applications-primary-count" hidden>0</span></button>
         <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="tickets-panel" data-admin-area="cibero" data-admin-section="tickets-panel"><span class="tab-icon" aria-hidden="true">✦</span><span><strong>Control Tickete</strong></span><span class="primary-unread-badge" id="tickets-primary-count" hidden>0</span></button>
         <button class="admin-primary-tab" type="button" role="tab" aria-selected="false" aria-controls="availability-panel" data-admin-area="cibero" data-admin-section="availability-panel"><span class="tab-icon" aria-hidden="true">⌖</span><span><strong>Control Operațional</strong></span></button>
+        <button class="admin-primary-tab fleet-control-tab" type="button" role="tab" aria-selected="false" aria-controls="fleet-control-panel" data-admin-area="cibero" data-admin-section="fleet-control-panel"><span class="tab-icon" aria-hidden="true">◈</span><span><strong>Centrul Flotei</strong><small>test operațional</small></span></button>
       </div>
       <section id="applications-panel" class="panel admin-section-panel" role="tabpanel">
         <div class="section-heading compact-heading">
@@ -198,6 +199,17 @@
           <button id="reset-availability-draft" class="quiet-button" type="button">Renunță la modificări</button>
           <button id="publish-availability" class="primary-button" type="button">Verifică și publică</button>
         </div>
+      </section>
+
+      <section id="fleet-control-panel" class="panel admin-section-panel fleet-control-panel" role="tabpanel" hidden>
+        <div class="fleet-control-hero"><div><p class="eyebrow">CibeRO · centru de control</p><h2>Privire de ansamblu asupra flotei</h2><p>Un punct unic pentru curieri, sub-flote și coada financiară. Datele se alimentează din înregistrările și ticketele CibeRO existente.</p></div><button id="fleet-control-refresh" class="quiet-button" type="button">Actualizează datele</button></div>
+        <div class="fleet-kpi-grid" aria-label="Indicatori principali flotă"><article><span>Curieri activi</span><strong id="fleet-active-couriers">0</strong><small>înregistrări activate</small></article><article><span>Curieri în procesare</span><strong id="fleet-processing-couriers">0</strong><small>în verificare sau trimiși platformei</small></article><article><span>Sub-flote active</span><strong id="fleet-active-subfleets">0</strong><small>echipe cu acces activ</small></article><article class="fleet-kpi-alert"><span>Necesită atenție</span><strong id="fleet-attention-count">0</strong><small>cereri și tickete noi</small></article></div>
+        <div class="fleet-control-grid">
+          <section class="fleet-card fleet-queue-card" aria-labelledby="fleet-queue-title"><div class="fleet-card-heading"><div><p class="eyebrow">Flux operațional</p><h3 id="fleet-queue-title">Priorități de procesare</h3></div><button class="quiet-button" type="button" data-fleet-action="couriers">Vezi curierii</button></div><div id="fleet-priority-list" class="fleet-priority-list" aria-live="polite"></div></section>
+          <section class="fleet-card fleet-automation-card" aria-labelledby="fleet-automation-title"><div class="fleet-card-heading"><div><p class="eyebrow">Automatizare financiară</p><h3 id="fleet-automation-title">Rapoarte &amp; autofacturi</h3></div><span class="fleet-stage">Etapa 1</span></div><ol class="fleet-automation-steps"><li><b>1</b><span><strong>Colectare rapoarte</strong><small>Centralizarea rapoartelor pe curier și platformă.</small></span></li><li><b>2</b><span><strong>Validare excepții</strong><small>Raport eronat, plată lipsă și documente care necesită intervenție.</small></span></li><li><b>3</b><span><strong>Generare autofacturi</strong><small>Următorul modul: documente pregătite după validarea raportului.</small></span></li></ol><button class="primary-button fleet-automation-action" type="button" data-fleet-action="reports">Deschide coada de rapoarte</button></section>
+          <section class="fleet-card fleet-network-card" aria-labelledby="fleet-network-title"><div class="fleet-card-heading"><div><p class="eyebrow">Rețea</p><h3 id="fleet-network-title">Sub-flote &amp; colaboratori</h3></div><button class="quiet-button" type="button" data-fleet-action="subfleets">Gestionează</button></div><div class="fleet-network-metrics"><span><b id="fleet-total-subfleets">0</b> sub-flote înregistrate</span><span><b id="fleet-collaborators">0</b> colaboratori în registru</span></div><div id="fleet-subfleet-list" class="fleet-subfleet-list" aria-live="polite"></div></section>
+        </div>
+        <p class="fleet-control-note">Test de produs: panoul nu creează încă facturi și nu înlocuiește un sistem contabil. Următorul pas este conectarea unei tabele de rapoarte, apoi a regulilor de validare și emitere.</p>
       </section>
 
       <section id="subfleets-panel" class="panel admin-section-panel" role="tabpanel" hidden>

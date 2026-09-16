@@ -95,6 +95,15 @@ const confirmDeleteButton = document.querySelector("#confirm-delete-button");
 const deleteFeedback = document.querySelector("#delete-feedback");
 const adminSectionTabs = [...document.querySelectorAll("[data-admin-section]")];
 const adminAreaTabs = [...document.querySelectorAll("[data-admin-area]:not([data-admin-section])")];
+const fleetControlRefresh = document.querySelector("#fleet-control-refresh");
+const fleetActiveCouriers = document.querySelector("#fleet-active-couriers");
+const fleetProcessingCouriers = document.querySelector("#fleet-processing-couriers");
+const fleetActiveSubfleets = document.querySelector("#fleet-active-subfleets");
+const fleetAttentionCount = document.querySelector("#fleet-attention-count");
+const fleetTotalSubfleets = document.querySelector("#fleet-total-subfleets");
+const fleetCollaborators = document.querySelector("#fleet-collaborators");
+const fleetPriorityList = document.querySelector("#fleet-priority-list");
+const fleetSubfleetList = document.querySelector("#fleet-subfleet-list");
 const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
 const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
@@ -369,6 +378,55 @@ function updateTabUnreadBadge(tab, unreadCount) {
   badge.textContent = unreadCount;
   badge.hidden = unreadCount === 0;
   tab.classList.toggle("has-unread", unreadCount > 0);
+}
+
+function renderFleetControlCenter() {
+  const courierApplications = applications.filter(isSocialRegistration);
+  const activeCouriers = courierApplications.filter(item => item.status === "activated");
+  const processingCouriers = courierApplications.filter(item => ["reviewing", "sent_to_platform"].includes(item.status));
+  const newApplications = courierApplications.filter(item => item.status === "new");
+  const reportTickets = ciberoTickets().filter(item => ticketViews.some(view => view.workspace === "reports" && view.matches(item)));
+  const newReportTickets = reportTickets.filter(item => item.status === "new");
+  const activeFleets = subfleets.filter(item => item.is_active);
+  const attention = [...newApplications, ...newReportTickets].sort((first, second) => new Date(second.created_at) - new Date(first.created_at)).slice(0, 5);
+  fleetActiveCouriers.textContent = activeCouriers.length;
+  fleetProcessingCouriers.textContent = processingCouriers.length;
+  fleetActiveSubfleets.textContent = activeFleets.length;
+  fleetAttentionCount.textContent = newApplications.length + newReportTickets.length;
+  fleetTotalSubfleets.textContent = subfleets.length;
+  fleetCollaborators.textContent = courierApplications.length;
+  fleetPriorityList.innerHTML = attention.length
+    ? attention.map(item => {
+      const isReport = "request_type" in item;
+      const label = isReport ? (ticketTypeLabels[item.request_type] ?? "Solicitare raport") : "Curier nou de procesat";
+      const name = `${item.first_name ?? ""} ${item.last_name ?? ""}`.trim() || "Curier fără nume";
+      return `<button type="button" class="fleet-priority-row" data-fleet-action="${isReport ? "reports" : "couriers"}"><span class="fleet-priority-mark ${isReport ? "report" : "courier"}" aria-hidden="true">${isReport ? "↗" : "◉"}</span><span><strong>${escapeHtml(label)}</strong><small>${escapeHtml(name)} · ${escapeHtml(item.city || "oraș neprecizat")}</small></span><time>${escapeHtml(formatDate(item.created_at))}</time><b aria-hidden="true">→</b></button>`;
+    }).join("")
+    : '<p class="fleet-empty">Nu există priorități noi. Fluxul operațional este la zi.</p>';
+  fleetSubfleetList.innerHTML = subfleets.length
+    ? subfleets.slice(0, 4).map(item => {
+      const members = applications.filter(application => application.subfleet_id === item.id);
+      const active = members.filter(application => application.status === "activated").length;
+      return `<button class="fleet-subfleet-row" type="button" data-fleet-subfleet-id="${escapeHtml(item.id)}"><span class="fleet-subfleet-badge" aria-hidden="true">⌘</span><span><strong>${escapeHtml(item.name)}</strong><small>${members.length} curieri · ${active} activi</small></span><span class="fleet-subfleet-state ${item.is_active ? "active" : "inactive"}">${item.is_active ? "activă" : "inactivă"}</span><b aria-hidden="true">→</b></button>`;
+    }).join("")
+    : '<p class="fleet-empty">Adaugă prima sub-flotă pentru a vedea rețeaua aici.</p>';
+  fleetPriorityList.querySelectorAll("[data-fleet-action]").forEach(button => button.addEventListener("click", () => openFleetWorkspace(button.dataset.fleetAction)));
+  fleetSubfleetList.querySelectorAll("[data-fleet-subfleet-id]").forEach(button => button.addEventListener("click", () => openSubfleetDetails(button.dataset.fleetSubfleetId)));
+}
+
+function openFleetWorkspace(action) {
+  if (action === "reports") { setActiveAdminSection("tickets-panel"); setActiveTicketWorkspace("reports"); return; }
+  if (action === "subfleets") { setActiveAdminArea("subfleets"); return; }
+  activeRegistrationView = "all";
+  activePlatform = "all";
+  registrationTabs.forEach(tab => {
+    const active = tab.dataset.registrationView === "all";
+    tab.classList.toggle("active", active);
+    tab.setAttribute("aria-selected", String(active));
+  });
+  setActiveAdminSection("applications-panel");
+  updateSummary();
+  renderApplications();
 }
 
 function ticketViewById(viewId) {
@@ -1146,6 +1204,7 @@ async function loadSubfleets() {
   subfleetAccounts = accountResult.data ?? [];
   renderSubfleets();
   renderSubfleetAlerts();
+  renderFleetControlCenter();
 }
 
 async function manageSubfleetAccount(payload) {
@@ -1177,6 +1236,7 @@ async function loadApplications() {
   updateSummary();
   renderApplications();
   renderSubfleets();
+  renderFleetControlCenter();
 }
 
 async function loadTickets() {
@@ -1198,6 +1258,7 @@ async function loadTickets() {
   ticketsFeedback.textContent = "";
   updateTicketSummary();
   renderTickets();
+  renderFleetControlCenter();
 }
 
 function updateTicketSummary() {
@@ -2283,9 +2344,18 @@ publishAvailabilityButton.addEventListener("click", openAvailabilityPublishDialo
 [ticketSearchFilter, ticketStatusFilter].forEach(control => control.addEventListener("input", renderTickets));
 ticketWorkspaceTabs.forEach(tab => tab.addEventListener("click", () => setActiveTicketWorkspace(tab.dataset.ticketWorkspace)));
 ticketDisplayModeSwitch.addEventListener("click", () => setTicketDisplayMode(activeTicketDisplayMode === "all" ? "structured" : "all"));
+fleetControlRefresh.addEventListener("click", async () => {
+  fleetControlRefresh.disabled = true;
+  fleetControlRefresh.textContent = "Se actualizează…";
+  await Promise.all([loadApplications(), loadTickets(), loadSubfleets()]);
+  fleetControlRefresh.disabled = false;
+  fleetControlRefresh.textContent = "Actualizează datele";
+});
+document.querySelectorAll("[data-fleet-action]").forEach(button => button.addEventListener("click", () => openFleetWorkspace(button.dataset.fleetAction)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
   if (tab.dataset.adminSection === "subfleets-panel") void loadSubfleets();
+  if (tab.dataset.adminSection === "fleet-control-panel") renderFleetControlCenter();
 }));
 adminAreaTabs.forEach(tab => tab.addEventListener("click", () => setActiveAdminArea(tab.dataset.adminArea)));
 selectAllApplications.addEventListener("change", () => {
