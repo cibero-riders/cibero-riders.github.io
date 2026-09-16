@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="admin.css?v=62" />
+  <link rel="stylesheet" href="admin.css?v=63" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
 </head>
 <body>
@@ -209,7 +209,12 @@
           <section class="fleet-card fleet-automation-card" aria-labelledby="fleet-automation-title"><div class="fleet-card-heading"><div><p class="eyebrow">Automatizare financiară</p><h3 id="fleet-automation-title">Rapoarte &amp; autofacturi</h3></div><span class="fleet-stage">Etapa 1</span></div><ol class="fleet-automation-steps"><li><b>1</b><span><strong>Colectare rapoarte</strong><small>Centralizarea rapoartelor pe curier și platformă.</small></span></li><li><b>2</b><span><strong>Validare excepții</strong><small>Raport eronat, plată lipsă și documente care necesită intervenție.</small></span></li><li><b>3</b><span><strong>Generare autofacturi</strong><small>Următorul modul: documente pregătite după validarea raportului.</small></span></li></ol><button class="primary-button fleet-automation-action" type="button" data-fleet-action="reports">Deschide coada de rapoarte</button></section>
           <section class="fleet-card fleet-network-card" aria-labelledby="fleet-network-title"><div class="fleet-card-heading"><div><p class="eyebrow">Rețea</p><h3 id="fleet-network-title">Sub-flote &amp; colaboratori</h3></div><button class="quiet-button" type="button" data-fleet-action="subfleets">Gestionează</button></div><div class="fleet-network-metrics"><span><b id="fleet-total-subfleets">0</b> sub-flote înregistrate</span><span><b id="fleet-collaborators">0</b> colaboratori în registru</span></div><div id="fleet-subfleet-list" class="fleet-subfleet-list" aria-live="polite"></div></section>
         </div>
-        <p class="fleet-control-note">Test de produs: panoul nu creează încă facturi și nu înlocuiește un sistem contabil. Următorul pas este conectarea unei tabele de rapoarte, apoi a regulilor de validare și emitere.</p>
+        <div class="fleet-management-grid">
+          <section class="fleet-card fleet-management-card"><div class="fleet-card-heading"><div><p class="eyebrow">Registru operațional</p><h3>Curieri gestionați intern</h3></div><button id="fleet-add-courier-profile" class="quiet-button" type="button">Actualizează profil</button></div><p class="fleet-card-copy">Statusul intern și observațiile se păstrează separat de formularul public de înscriere.</p><div id="fleet-courier-management-list" class="fleet-management-list" aria-live="polite"></div></section>
+          <section class="fleet-card fleet-management-card"><div class="fleet-card-heading"><div><p class="eyebrow">Procesare financiară</p><h3>Rapoarte &amp; plăți</h3></div><button id="fleet-add-report" class="quiet-button" type="button">Adaugă raport</button></div><p class="fleet-card-copy">Înregistrezi perioadele, sumele și excepțiile; apoi marchezi raportul pregătit pentru autofactură.</p><div id="fleet-report-management-list" class="fleet-management-list" aria-live="polite"></div></section>
+          <section class="fleet-card fleet-settings-card"><div class="fleet-card-heading"><div><p class="eyebrow">Reguli interne</p><h3>Setări de automatizare</h3></div></div><form id="fleet-settings-form" class="fleet-settings-form"><label>Comision implicit (%)<input id="fleet-default-commission" type="number" min="0" max="100" step="0.01" inputmode="decimal" /></label><label>Zi limită raport<select id="fleet-report-due-day"><option>Luni</option><option>Marți</option><option>Miercuri</option><option>Joi</option><option>Vineri</option></select></label><label class="fleet-toggle"><input id="fleet-auto-invoice" type="checkbox" /><span>Activează pregătirea automată pentru autofactură</span></label><button class="primary-button" type="submit">Salvează regulile</button><p id="fleet-settings-feedback" class="feedback" role="status" aria-live="polite"></p></form></section>
+        </div>
+        <p class="fleet-control-note">Acțiunile operaționale de mai sus se salvează în sistem. Emiterea efectivă a facturilor rămâne dezactivată până la integrarea contabilă; deocamdată poți pregăti și organiza coada de emitere.</p>
       </section>
 
       <section id="subfleets-panel" class="panel admin-section-panel" role="tabpanel" hidden>
@@ -245,6 +250,16 @@
       <fieldset><legend>Creează contul sub-flotei</legend><label>E-mail de login<input name="email" required type="email" autocomplete="email" /></label><label>Parolă de login<input name="password" required type="password" minlength="10" autocomplete="new-password" /><small>Minimum 10 caractere.</small></label></fieldset>
       <p id="create-subfleet-feedback" class="feedback" role="status" aria-live="polite"></p><button class="primary-button" type="submit">Creează sub-flota</button>
     </form>
+  </dialog>
+
+  <dialog id="fleet-courier-dialog" class="application-dialog">
+    <form method="dialog" class="dialog-top"><strong>Profil operațional curier</strong><button aria-label="Închide">×</button></form>
+    <form id="fleet-courier-form" class="fleet-dialog-form"><label>Curier<select id="fleet-courier-application" required></select></label><label>Status operațional<select id="fleet-courier-status"><option value="onboarding">Onboarding</option><option value="active">Activ</option><option value="paused">Pauzat</option><option value="offboarded">Ieșit din flotă</option></select></label><label>Observații interne<textarea id="fleet-courier-note" maxlength="2000" placeholder="Ex. documente în verificare, preferințe de plată, următorul pas"></textarea></label><button class="primary-button" type="submit">Salvează profilul</button><p id="fleet-courier-feedback" class="feedback" role="status" aria-live="polite"></p></form>
+  </dialog>
+
+  <dialog id="fleet-report-dialog" class="application-dialog">
+    <form method="dialog" class="dialog-top"><strong>Raport curier</strong><button aria-label="Închide">×</button></form>
+    <form id="fleet-report-form" class="fleet-dialog-form fleet-report-form"><label>Curier<select id="fleet-report-application" required></select></label><label>Platformă<select id="fleet-report-platform"><option value="bolt">Bolt Food</option><option value="glovo">Glovo</option><option value="wolt">Wolt</option><option value="other">Altă platformă</option></select></label><div class="fleet-dialog-fields"><label>Început perioadă<input id="fleet-report-start" type="date" required /></label><label>Sfârșit perioadă<input id="fleet-report-end" type="date" required /></label><label>Brut (RON)<input id="fleet-report-gross" type="number" min="0" step="0.01" required /></label><label>Comision (RON)<input id="fleet-report-commission" type="number" min="0" step="0.01" required /></label><label>Net (RON)<input id="fleet-report-net" type="number" min="0" step="0.01" required /></label><label>Status<select id="fleet-report-status"><option value="draft">Ciornă</option><option value="review">De verificat</option><option value="approved">Aprobat</option><option value="paid">Plătit</option><option value="exception">Excepție</option></select></label></div><label>Observații interne<textarea id="fleet-report-note" maxlength="2000" placeholder="Diferențe, documente lipsă sau explicații"></textarea></label><button class="primary-button" type="submit">Salvează raportul</button><p id="fleet-report-feedback" class="feedback" role="status" aria-live="polite"></p></form>
   </dialog>
 
   <dialog id="subfleet-member-dialog" class="application-dialog">
@@ -304,6 +319,6 @@
     </div>
   </dialog>
 
-  <script type="module" src="admin.js?v=59"></script>
+  <script type="module" src="admin.js?v=60"></script>
 </body>
 </html>

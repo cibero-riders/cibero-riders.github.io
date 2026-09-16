@@ -104,6 +104,33 @@ const fleetTotalSubfleets = document.querySelector("#fleet-total-subfleets");
 const fleetCollaborators = document.querySelector("#fleet-collaborators");
 const fleetPriorityList = document.querySelector("#fleet-priority-list");
 const fleetSubfleetList = document.querySelector("#fleet-subfleet-list");
+const fleetCourierManagementList = document.querySelector("#fleet-courier-management-list");
+const fleetReportManagementList = document.querySelector("#fleet-report-management-list");
+const fleetAddCourierProfile = document.querySelector("#fleet-add-courier-profile");
+const fleetAddReport = document.querySelector("#fleet-add-report");
+const fleetCourierDialog = document.querySelector("#fleet-courier-dialog");
+const fleetCourierForm = document.querySelector("#fleet-courier-form");
+const fleetCourierApplication = document.querySelector("#fleet-courier-application");
+const fleetCourierStatus = document.querySelector("#fleet-courier-status");
+const fleetCourierNote = document.querySelector("#fleet-courier-note");
+const fleetCourierFeedback = document.querySelector("#fleet-courier-feedback");
+const fleetReportDialog = document.querySelector("#fleet-report-dialog");
+const fleetReportForm = document.querySelector("#fleet-report-form");
+const fleetReportApplication = document.querySelector("#fleet-report-application");
+const fleetReportPlatform = document.querySelector("#fleet-report-platform");
+const fleetReportStart = document.querySelector("#fleet-report-start");
+const fleetReportEnd = document.querySelector("#fleet-report-end");
+const fleetReportGross = document.querySelector("#fleet-report-gross");
+const fleetReportCommission = document.querySelector("#fleet-report-commission");
+const fleetReportNet = document.querySelector("#fleet-report-net");
+const fleetReportStatus = document.querySelector("#fleet-report-status");
+const fleetReportNote = document.querySelector("#fleet-report-note");
+const fleetReportFeedback = document.querySelector("#fleet-report-feedback");
+const fleetSettingsForm = document.querySelector("#fleet-settings-form");
+const fleetDefaultCommission = document.querySelector("#fleet-default-commission");
+const fleetReportDueDay = document.querySelector("#fleet-report-due-day");
+const fleetAutoInvoice = document.querySelector("#fleet-auto-invoice");
+const fleetSettingsFeedback = document.querySelector("#fleet-settings-feedback");
 const refreshTicketsButton = document.querySelector("#refresh-tickets-button");
 const ticketsFeedback = document.querySelector("#tickets-feedback");
 const ticketsList = document.querySelector("#tickets-list");
@@ -201,6 +228,10 @@ let subfleetAccounts = [];
 let subfleetAlertsData = [];
 let duplicateAlerts = [];
 let subfleetMessages = [];
+let fleetCourierProfiles = [];
+let fleetReports = [];
+let fleetSettings = {};
+let activeFleetReportId = "";
 let activeMessageSubfleetId = "";
 let activeAdminArea = "cibero";
 let activeSubfleetId = "";
@@ -412,6 +443,7 @@ function renderFleetControlCenter() {
     : '<p class="fleet-empty">Adaugă prima sub-flotă pentru a vedea rețeaua aici.</p>';
   fleetPriorityList.querySelectorAll("[data-fleet-action]").forEach(button => button.addEventListener("click", () => openFleetWorkspace(button.dataset.fleetAction)));
   fleetSubfleetList.querySelectorAll("[data-fleet-subfleet-id]").forEach(button => button.addEventListener("click", () => openSubfleetDetails(button.dataset.fleetSubfleetId)));
+  renderFleetManagement();
 }
 
 function openFleetWorkspace(action) {
@@ -427,6 +459,151 @@ function openFleetWorkspace(action) {
   setActiveAdminSection("applications-panel");
   updateSummary();
   renderApplications();
+}
+
+const fleetOperationalStatusLabels = { onboarding: "Onboarding", active: "Activ", paused: "Pauzat", offboarded: "Ieșit din flotă" };
+const fleetReportStatusLabels = { draft: "Ciornă", review: "De verificat", approved: "Aprobat", paid: "Plătit", exception: "Excepție" };
+const fleetInvoiceStatusLabels = { not_ready: "Neeligibil", ready: "Pregătit", queued: "În coadă", issued: "Emis" };
+const fleetPlatformLabels = { bolt: "Bolt Food", glovo: "Glovo", wolt: "Wolt", other: "Altă platformă" };
+
+function fleetCourierOptions(selectedId = "") {
+  const rows = applications.filter(isSocialRegistration);
+  return rows.map(item => `<option value="${escapeHtml(item.id)}"${item.id === selectedId ? " selected" : ""}>${escapeHtml(`${item.first_name} ${item.last_name}`.trim())} · ${escapeHtml(item.city || "oraș neprecizat")}</option>`).join("");
+}
+
+function profileForCourier(applicationId) {
+  return fleetCourierProfiles.find(profile => profile.application_id === applicationId);
+}
+
+function renderFleetManagement() {
+  const couriers = applications.filter(isSocialRegistration);
+  const profiles = [...fleetCourierProfiles].sort((first, second) => new Date(second.updated_at) - new Date(first.updated_at));
+  const managedCouriers = profiles.map(profile => applications.find(item => item.id === profile.application_id)).filter(Boolean).slice(0, 6);
+  const displayCouriers = managedCouriers.length ? managedCouriers : couriers.slice(0, 6);
+  fleetCourierManagementList.innerHTML = displayCouriers.length
+    ? displayCouriers.map(courier => {
+      const profile = profileForCourier(courier.id);
+      const status = profile?.operational_status ?? "onboarding";
+      return `<button class="fleet-manage-row" type="button" data-fleet-courier-id="${escapeHtml(courier.id)}"><span><strong>${escapeHtml(`${courier.first_name} ${courier.last_name}`.trim())}</strong><small>${escapeHtml(courier.city || "oraș neprecizat")} · ${escapeHtml((courier.desired_platforms ?? []).join(", ") || "platformă neprecizată")}</small></span><span class="fleet-status-pill ${escapeHtml(status)}">${escapeHtml(fleetOperationalStatusLabels[status])}</span><b aria-hidden="true">→</b></button>`;
+    }).join("")
+    : '<p class="fleet-empty">Nu există încă înregistrări de curieri.</p>';
+  fleetReportManagementList.innerHTML = fleetReports.length
+    ? [...fleetReports].sort((first, second) => new Date(second.period_end) - new Date(first.period_end)).slice(0, 6).map(report => {
+      const courier = applications.find(item => item.id === report.application_id);
+      const courierName = courier ? `${courier.first_name} ${courier.last_name}`.trim() : "Curier indisponibil";
+      return `<article class="fleet-report-row"><button type="button" data-fleet-report-id="${escapeHtml(report.id)}"><span><strong>${escapeHtml(courierName)} · ${escapeHtml(fleetPlatformLabels[report.platform] ?? report.platform)}</strong><small>${escapeHtml(report.period_start)} — ${escapeHtml(report.period_end)} · net ${Number(report.net_amount).toFixed(2)} RON</small></span><span class="fleet-status-pill ${escapeHtml(report.status)}">${escapeHtml(fleetReportStatusLabels[report.status])}</span></button><button class="fleet-invoice-button" type="button" data-fleet-invoice-ready="${escapeHtml(report.id)}"${report.invoice_status === "issued" ? " disabled" : ""}>${escapeHtml(fleetInvoiceStatusLabels[report.invoice_status])}</button></article>`;
+    }).join("")
+    : '<p class="fleet-empty">Nu există rapoarte adăugate. Începe cu prima perioadă procesată.</p>';
+  fleetCourierManagementList.querySelectorAll("[data-fleet-courier-id]").forEach(button => button.addEventListener("click", () => openFleetCourierDialog(button.dataset.fleetCourierId)));
+  fleetReportManagementList.querySelectorAll("[data-fleet-report-id]").forEach(button => button.addEventListener("click", () => openFleetReportDialog(button.dataset.fleetReportId)));
+  fleetReportManagementList.querySelectorAll("[data-fleet-invoice-ready]").forEach(button => button.addEventListener("click", () => setFleetInvoiceReady(button.dataset.fleetInvoiceReady)));
+  fleetDefaultCommission.value = fleetSettings.default_commission_percent ?? 5;
+  fleetReportDueDay.value = fleetSettings.report_due_weekday ?? "Luni";
+  fleetAutoInvoice.checked = Boolean(fleetSettings.auto_invoice_enabled);
+}
+
+async function loadFleetOperations() {
+  const [profilesResult, reportsResult, settingsResult] = await Promise.all([
+    supabase.from("fleet_courier_profiles").select("*").order("updated_at", { ascending: false }),
+    supabase.from("fleet_reports").select("*").order("period_end", { ascending: false }),
+    supabase.from("fleet_settings").select("key, value"),
+  ]);
+  const error = profilesResult.error || reportsResult.error || settingsResult.error;
+  if (error) {
+    console.warn("Fleet Control Center data is awaiting its migration.", error);
+    fleetSettingsFeedback.textContent = "Datele operaționale vor fi disponibile după aplicarea migrării 024.";
+    return;
+  }
+  fleetCourierProfiles = profilesResult.data ?? [];
+  fleetReports = reportsResult.data ?? [];
+  fleetSettings = Object.fromEntries((settingsResult.data ?? []).map(item => [item.key, item.value]));
+  renderFleetControlCenter();
+}
+
+function openFleetCourierDialog(applicationId = "") {
+  const courier = applications.find(item => item.id === applicationId) ?? applications.filter(isSocialRegistration)[0];
+  if (!courier) return;
+  const profile = profileForCourier(courier.id);
+  fleetCourierApplication.innerHTML = fleetCourierOptions(courier.id);
+  fleetCourierStatus.value = profile?.operational_status ?? (courier.status === "activated" ? "active" : "onboarding");
+  fleetCourierNote.value = profile?.internal_note ?? "";
+  fleetCourierFeedback.textContent = "";
+  fleetCourierDialog.showModal();
+}
+
+function openFleetReportDialog(reportId = "") {
+  const report = fleetReports.find(item => item.id === reportId);
+  const defaultCourier = report?.application_id ?? applications.filter(isSocialRegistration).find(item => item.status === "activated")?.id ?? applications.filter(isSocialRegistration)[0]?.id;
+  if (!defaultCourier) return;
+  activeFleetReportId = report?.id ?? "";
+  fleetReportApplication.innerHTML = fleetCourierOptions(defaultCourier);
+  fleetReportPlatform.value = report?.platform ?? "wolt";
+  fleetReportStart.value = report?.period_start ?? "";
+  fleetReportEnd.value = report?.period_end ?? "";
+  fleetReportGross.value = report?.gross_amount ?? "";
+  fleetReportCommission.value = report?.commission_amount ?? "";
+  fleetReportNet.value = report?.net_amount ?? "";
+  fleetReportStatus.value = report?.status ?? "draft";
+  fleetReportNote.value = report?.internal_note ?? "";
+  fleetReportFeedback.textContent = "";
+  fleetReportDialog.showModal();
+}
+
+async function saveFleetCourierProfile(event) {
+  event.preventDefault();
+  const submit = fleetCourierForm.querySelector("button[type='submit']");
+  submit.disabled = true;
+  fleetCourierFeedback.textContent = "Se salvează…";
+  const payload = { application_id: fleetCourierApplication.value, operational_status: fleetCourierStatus.value, internal_note: fleetCourierNote.value.trim() || null, updated_by: currentAdminUserId };
+  const { error } = await supabase.from("fleet_courier_profiles").upsert(payload, { onConflict: "application_id" });
+  submit.disabled = false;
+  if (error) { console.error(error); fleetCourierFeedback.textContent = "Profilul nu a putut fi salvat."; return; }
+  fleetCourierFeedback.textContent = "Profil salvat.";
+  await loadFleetOperations();
+  fleetCourierDialog.close();
+}
+
+async function saveFleetReport(event) {
+  event.preventDefault();
+  const submit = fleetReportForm.querySelector("button[type='submit']");
+  submit.disabled = true;
+  fleetReportFeedback.textContent = "Se salvează…";
+  const payload = { application_id: fleetReportApplication.value, platform: fleetReportPlatform.value, period_start: fleetReportStart.value, period_end: fleetReportEnd.value, gross_amount: Number(fleetReportGross.value), commission_amount: Number(fleetReportCommission.value), net_amount: Number(fleetReportNet.value), status: fleetReportStatus.value, internal_note: fleetReportNote.value.trim() || null, updated_by: currentAdminUserId };
+  const query = activeFleetReportId
+    ? supabase.from("fleet_reports").update(payload).eq("id", activeFleetReportId)
+    : supabase.from("fleet_reports").insert({ ...payload, created_by: currentAdminUserId });
+  const { error } = await query;
+  submit.disabled = false;
+  if (error) { console.error(error); fleetReportFeedback.textContent = "Raportul nu a putut fi salvat."; return; }
+  await loadFleetOperations();
+  fleetReportDialog.close();
+}
+
+async function setFleetInvoiceReady(reportId) {
+  const report = fleetReports.find(item => item.id === reportId);
+  if (!report) return;
+  const invoiceStatus = report.invoice_status === "not_ready" ? "ready" : report.invoice_status === "ready" ? "queued" : report.invoice_status;
+  const { error } = await supabase.from("fleet_reports").update({ invoice_status: invoiceStatus, updated_by: currentAdminUserId }).eq("id", reportId);
+  if (error) { console.error(error); return; }
+  await loadFleetOperations();
+}
+
+async function saveFleetSettings(event) {
+  event.preventDefault();
+  const submit = fleetSettingsForm.querySelector("button[type='submit']");
+  submit.disabled = true;
+  fleetSettingsFeedback.textContent = "Se salvează…";
+  const rows = [
+    { key: "default_commission_percent", value: Number(fleetDefaultCommission.value || 0), updated_by: currentAdminUserId },
+    { key: "report_due_weekday", value: fleetReportDueDay.value, updated_by: currentAdminUserId },
+    { key: "auto_invoice_enabled", value: fleetAutoInvoice.checked, updated_by: currentAdminUserId },
+  ];
+  const { error } = await supabase.from("fleet_settings").upsert(rows, { onConflict: "key" });
+  submit.disabled = false;
+  if (error) { console.error(error); fleetSettingsFeedback.textContent = "Regulile nu au putut fi salvate."; return; }
+  fleetSettingsFeedback.classList.add("success");
+  fleetSettingsFeedback.textContent = "Regulile de procesare au fost salvate.";
+  await loadFleetOperations();
 }
 
 function ticketViewById(viewId) {
@@ -944,7 +1121,7 @@ async function openAccessProfile(user, requestedRole = "") {
   }
   currentAdminUserId = user.id;
   showDashboard();
-  await Promise.all([loadApplications(), loadTickets(), loadAvailability(), loadSubfleets()]);
+  await Promise.all([loadApplications(), loadTickets(), loadAvailability(), loadSubfleets(), loadFleetOperations()]);
   await reconcileStaleSubfleetClaims();
   await Promise.all([loadApplications(), loadSubfleets(), loadSubfleetAlerts(), loadDuplicateAlerts(), loadAdminMessages()]);
   subscribeToAvailabilityUpdates();
@@ -2347,10 +2524,15 @@ ticketDisplayModeSwitch.addEventListener("click", () => setTicketDisplayMode(act
 fleetControlRefresh.addEventListener("click", async () => {
   fleetControlRefresh.disabled = true;
   fleetControlRefresh.textContent = "Se actualizează…";
-  await Promise.all([loadApplications(), loadTickets(), loadSubfleets()]);
+  await Promise.all([loadApplications(), loadTickets(), loadSubfleets(), loadFleetOperations()]);
   fleetControlRefresh.disabled = false;
   fleetControlRefresh.textContent = "Actualizează datele";
 });
+fleetAddCourierProfile.addEventListener("click", () => openFleetCourierDialog());
+fleetAddReport.addEventListener("click", () => openFleetReportDialog());
+fleetCourierForm.addEventListener("submit", saveFleetCourierProfile);
+fleetReportForm.addEventListener("submit", saveFleetReport);
+fleetSettingsForm.addEventListener("submit", saveFleetSettings);
 document.querySelectorAll("[data-fleet-action]").forEach(button => button.addEventListener("click", () => openFleetWorkspace(button.dataset.fleetAction)));
 adminSectionTabs.forEach(tab => tab.addEventListener("click", () => {
   setActiveAdminSection(tab.dataset.adminSection);
