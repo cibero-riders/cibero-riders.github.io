@@ -3,12 +3,15 @@
 html { scroll-behavior:smooth; }
 body { min-width:320px; margin:0; color:var(--benefit-cream); background:radial-gradient(ellipse at 50% -10%,#552267 0,transparent 42%),radial-gradient(ellipse at 12% 40%,#73326a20 0,transparent 36%),var(--benefit-ink); }
 main { width:min(1120px,calc(100% - 40px)); margin:auto; padding:68px 0 104px; }
-.benefits-hero { max-width:790px; margin:0 auto 42px; text-align:center; }
+.benefits-hero { max-width:790px; margin:0 auto 26px; text-align:center; }
 .eyebrow { display:flex; align-items:center; justify-content:center; gap:10px; margin:0 0 15px; color:var(--benefit-gold); font-size:11px; font-weight:800; letter-spacing:2.1px; text-transform:uppercase; }
 .eyebrow span { font-size:13px; }
 .benefits-hero h1 { margin:0; color:var(--benefit-cream); font:800 clamp(42px,6.1vw,74px)/1.05 "Cinzel",serif; letter-spacing:-3px; }
 .benefits-hero h1 em { color:#dfa2e7; font-style:normal; }
-.benefits-hero>p:last-child { max-width:650px; margin:18px auto 0; color:var(--benefit-muted); font-size:17px; line-height:1.65; }
+.benefits-point-down { display:grid; justify-items:center; gap:5px; width:max-content; margin:18px auto 0; color:var(--benefit-gold); }
+.benefits-point-down i { display:block; width:1px; height:22px; background:linear-gradient(180deg, transparent, currentColor); }
+.benefits-point-down b { display:grid; place-items:center; width:30px; height:30px; border:1px solid rgba(233, 183, 85, .5); border-radius:50%; background:rgba(233, 183, 85, .1); box-shadow:0 8px 18px rgba(0, 0, 0, .16); font:700 19px/1 Arial, sans-serif; }
+@media(max-width:640px) { .benefits-point-down { margin-top:15px; } .benefits-point-down i { height:18px; } }
 .benefits-shell { padding:14px; border:1px solid var(--benefit-line); border-radius:23px; background:linear-gradient(145deg,#341541e8,#160a20eb); box-shadow:0 28px 70px #06010b8a,inset 0 1px 0 #fff0b412; }
 .benefit-tabs { display:grid; grid-template-columns:repeat(4,1fr); gap:9px; padding:3px; }
 .benefit-tab { display:flex; align-items:center; gap:12px; min-height:82px; padding:12px; border:1px solid #bd9a6960; border-radius:14px; background:#1c0d24; color:#d6c7d9; text-align:left; cursor:pointer; transition:transform .2s ease,border-color .2s ease,background .2s ease,box-shadow .2s ease; }
