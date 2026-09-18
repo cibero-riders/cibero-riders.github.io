@@ -29,5 +29,9 @@ html[data-theme="light"] .enrollment { border-color: #7fae8c; background: linear
 html[data-theme="light"] .raffle-prize { border-color: #c59a3b; background: #fff8e5; }
 html[data-theme="light"] .raffle-prize > p, html[data-theme="light"] .raffle-prize i { color: #5b5160; }
 html[data-theme="light"] .raffle-prize b { border-color: #b78524; background: #f4dc9c; color: #3d2a09; }
+html[data-theme="light"] .raffle-winners { border-color: #c59a3b; background: linear-gradient(135deg, #fff4d4, #f0d79b); }
+html[data-theme="light"] .raffle-winners > p { color: #503710; }
+html[data-theme="light"] .raffle-winners li { border-color: #c59a3b88; background: #fffaf0; color: #3d2a09; }
+html[data-theme="light"] .raffle-winners li b { border-color: #b78524; color: #7c4b0d; }
 html[data-theme="light"] .chance { border-left-color: #b87c16; background: #fff3cf; color: #503710; }
 html[data-theme="light"] .closing { color: #6f4709; }
