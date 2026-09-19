@@ -32,6 +32,24 @@ tabs.forEach((tab, index) => {
 const requestedTab = location.hash.replace('#', '');
 activateTab(['veteran', 'tombola'].includes(requestedTab) ? requestedTab : 'veteran', false);
 
+const focusRaffleWinners = () => {
+  if (location.hash !== '#tombola') return;
+
+  const raffleHeader = document.querySelector('.raffle-header');
+  const raffleWinners = document.querySelector('.raffle-winners');
+  if (!raffleHeader || !raffleWinners) return;
+
+  const headerOffset = 96;
+  const targetTop = Math.max(0, raffleHeader.getBoundingClientRect().top + window.scrollY - headerOffset);
+  window.scrollTo({ top: targetTop, behavior: 'auto' });
+  raffleWinners.classList.remove('is-highlighted');
+  void raffleWinners.offsetWidth;
+  raffleWinners.classList.add('is-highlighted');
+  window.setTimeout(() => raffleWinners.classList.remove('is-highlighted'), 3200);
+};
+
+window.addEventListener('load', () => window.requestAnimationFrame(focusRaffleWinners), { once: true });
+
 const translations = {
   ro: {
     pageTitle: 'Campanii | CibeRO',
