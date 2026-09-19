@@ -21,8 +21,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="campanii.css?v=4" />
-  <link rel="stylesheet" href="campanii-theme-overrides.css?v=1" />
+  <link rel="stylesheet" href="campanii.css?v=5" />
+  <link rel="stylesheet" href="campanii-theme-overrides.css?v=2" />
   <link rel="stylesheet" href="campanii-nav.css?v=1" />
   <link rel="stylesheet" href="../site-navigation.css?v=16" />
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
@@ -80,6 +80,9 @@
                 <span class="period-value" data-i18n="veteranPeriod">07 Septembrie, 00:00 — 07 Noiembrie, 23:59 · 2 luni</span>
               </div>
             </div>
+            <button class="leaderboard-trigger" type="button" aria-haspopup="dialog" aria-controls="veteran-leaderboard">
+              Vezi clasamentul actual <span aria-hidden="true">→</span>
+            </button>
           </header>
 
           <div class="info-card goal">
@@ -147,8 +150,38 @@
     </section>
   </main>
 
+  <dialog id="veteran-leaderboard" class="leaderboard-dialog" aria-labelledby="leaderboard-title">
+    <form method="dialog" class="leaderboard-dialog-actions">
+      <button class="leaderboard-close" type="submit" aria-label="Închide clasamentul">×</button>
+    </form>
+    <header class="leaderboard-dialog-header">
+      <p>Campania Veteran</p>
+      <h2 id="leaderboard-title">Clasamentul actual</h2>
+      <span>Actualizat pentru clasamentul curent</span>
+    </header>
+
+    <ol class="leaderboard-top" aria-label="Primele șase poziții">
+      <li class="leaderboard-entry first"><span aria-hidden="true">🥇</span><div><b>1 · ElSayed Negm</b><p>🎁 Premiu surpriză în valoare de 1.500 lei sau contravaloarea în bani</p></div></li>
+      <li class="leaderboard-entry second"><span aria-hidden="true">🥈</span><div><b>2 · CURECHERIU ALEXANDRU</b><p>🎁 Premiu surpriză în valoare de 1.000 lei sau contravaloarea în bani</p></div></li>
+      <li class="leaderboard-entry third"><span aria-hidden="true">🥉</span><div><b>3 · Mohammad Nishan Bin Azam</b><p>🎁 Premiu surpriză în valoare de 500 lei sau contravaloarea în bani</p></div></li>
+      <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>4 · Banu Claudiu-Ionut</b><p>⛽ Un plin din partea flotei sau contravaloarea în bani</p></div></li>
+      <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>5 · Nwankwo Abuchi Collins</b><p>💸 Comision 0 timp de 2 săptămâni</p></div></li>
+      <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>6 · Akor Kenneth</b><p>💸 Comision 0 timp de o săptămână</p></div></li>
+    </ol>
+
+    <section class="leaderboard-following" aria-labelledby="leaderboard-following-title">
+      <h3 id="leaderboard-following-title">În urcare</h3>
+      <ol start="7" class="leaderboard-rest">
+        <li>MACOVEI N. ALEXANDR</li><li>ALI HAIDER</li><li>JAHIDUL Islam Apu</li><li>Molla-Shamim</li>
+        <li>Miah Mohammad Lebu</li><li>Cosmin-Gabriel Boian</li><li>Kingsley Chimezie</li><li>Sabbir Hosen</li>
+        <li>Denis-Fabian Stoleru</li><li>SHAHZAD AMIR</li><li>Adrian Ionescu</li><li>AMAN ADEEL</li>
+        <li>Md Saiful Islam</li><li>Akubudike Ernest Munachiso</li>
+      </ol>
+    </section>
+  </dialog>
+
   <footer><img src="../assets/cibero-text-logo.png" alt="CibeRO" /><p data-i18n="footerText">Împreună, livrăm mai mult.</p><div class="footer-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" /></a></div></footer>
-  <script src="campanii.js"></script>
+  <script src="campanii.js?v=2"></script>
   <script src="../main-page.js?v=7"></script>
   <script src="../site-theme.js?v=2"></script>
 </body>

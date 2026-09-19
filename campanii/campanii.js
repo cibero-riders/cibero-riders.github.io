@@ -172,3 +172,14 @@ try {
 } catch {}
 if (!translations[initialLanguage]) initialLanguage = 'ro';
 setLanguage(initialLanguage);
+
+const leaderboardDialog = document.getElementById('veteran-leaderboard');
+const leaderboardTrigger = document.querySelector('.leaderboard-trigger');
+
+if (leaderboardDialog && leaderboardTrigger) {
+  leaderboardTrigger.addEventListener('click', () => leaderboardDialog.showModal());
+
+  leaderboardDialog.addEventListener('click', event => {
+    if (event.target === leaderboardDialog) leaderboardDialog.close();
+  });
+}
