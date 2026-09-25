@@ -323,9 +323,10 @@ function filterCitiesOnMap() {
 
   if (citySearchClear) citySearchClear.hidden = !query;
   if (citySearchStatus) {
+    citySearchStatus.hidden = !query;
     citySearchStatus.textContent = query
       ? `${visibleCount} ${visibleCount === 1 ? "oraș găsit" : "orașe găsite"}`
-      : `${citiesForMap.length} de orașe afișate`;
+      : "";
   }
   mapTooltip?.classList.remove("visible");
 
