@@ -162,6 +162,8 @@ body {
 .map-summary { min-width: 142px; padding: 11px 15px; display: flex; align-items: baseline; gap: 8px; border: 1px solid #d6b55259; border-radius: 10px; background: #130919d9; box-shadow: 0 10px 25px #0006; }
 .map-summary strong { color: #ffe590; font: 700 25px Cinzel, serif; }
 .map-summary span { color: #d2c2d5; font-size: 13px; }
+.map-summary-block { max-width: 300px; }
+.map-summary-block p { margin: 8px 0 0; color: #cbb9d0; font-size: 12px; line-height: 1.45; }
 .city-search { width: min(430px, 100%); display: grid; gap: 7px; }
 .city-search > span:first-child { color: #ffe492; font: 700 13px Cinzel, serif; letter-spacing: .25px; }
 .city-search-field { position: relative; display: flex; align-items: center; }
