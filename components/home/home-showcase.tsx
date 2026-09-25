@@ -3,7 +3,7 @@ const benefits = [
   ["benefit-payments.svg", "Rapoarte și plăți săptămânale"],
   ["benefit-campaigns.svg", "Campanii și beneficii exclusive"],
   ["benefit-support.svg", "Suport dedicat"],
-  ["benefit-cities.svg", "40+ orașe"],
+  ["benefit-cities.svg", "50+ orașe"],
   ["benefit-community.svg", "800+ membri parteneri"],
   ["benefit-group.svg", "Grup pentru comunitate"],
   ["benefit-announcements.svg", "Canal de anunțuri oficial"],

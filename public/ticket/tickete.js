@@ -204,7 +204,7 @@ const typeSets = {
 };
 
 const vehicles = ["Bicicletă", "Scuter / Moped", "Motocicletă", "Mașină", "Pe jos"];
-const cities = ["Alba Iulia", "Alexandria", "Arad", "Bacău", "Baia Mare", "Bistrița", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Călărași", "Cluj-Napoca", "Constanța", "Craiova", "Dej", "Deva", "Făgăraș", "Focșani", "Galați", "Giurgiu", "Iași", "Mediaș", "Miercurea-Ciuc", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sinaia", "Slatina", "Slobozia", "Suceava", "Târgoviște", "Târgu Jiu", "Târgu Mureș", "Timișoara", "Tulcea", "Turda", "Vaslui", "Zalău"];
+const cities = ["Alba Iulia", "Arad", "Bacău", "Baia Mare", "Bârlad", "Bistrița", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Călărași", "Cluj-Napoca", "Constanța", "Craiova", "Deva", "Drobeta-Turnu Severin", "Focșani", "Galați", "Giurgiu", "Hunedoara", "Iași", "Lugoj", "Mediaș", "Miercurea-Ciuc", "Onești", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Roman", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sighișoara", "Slatina", "Slobozia", "Suceava", "Târgoviște", "Târgu Jiu", "Târgu Mureș", "Tecuci", "Timișoara", "Tulcea", "Turda", "Valea Prahovei", "Vaslui", "Zalău"];
 const inactivityPlatforms = ["Bolt Food", "Glovo", "Wolt"];
 
 const stage = document.querySelector("#ticket-stage");

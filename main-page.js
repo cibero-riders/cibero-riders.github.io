@@ -122,15 +122,18 @@ document.querySelectorAll(".video-frame[data-youtube-id]").forEach(frame => {
 
 const activeCities = [
   ["Alba Iulia", "AI"], ["Arad", "AR"], ["Bacău", "BC"], ["Baia Mare", "BM"],
-  ["Botoșani", "BT"], ["Brăila", "BR"], ["Brașov", "BV"], ["București", "B"],
-  ["Buzău", "BZ"], ["Cluj-Napoca", "CJ"], ["Constanța", "CT"], ["Craiova", "CV"],
-  ["Deva", "DV"], ["Drobeta-Turnu Severin", "DT"], ["Focșani", "FC"], ["Galați", "GL"],
-  ["Hunedoara", "HD"], ["Iași", "IS"], ["Mediaș", "MD"], ["Miercurea-Ciuc", "MC"],
-  ["Onești", "ON"], ["Oradea", "OR"], ["Piatra Neamț", "PN"], ["Pitești", "PT"],
-  ["Ploiești", "PL"], ["Râmnicu Vâlcea", "RV"], ["Reșița", "RS"], ["Roman", "RM"],
-  ["Satu Mare", "SM"], ["Sfântu Gheorghe", "SG"], ["Sibiu", "SB"], ["Sighișoara", "SH"],
-  ["Slatina", "SL"], ["Suceava", "SV"], ["Târgoviște", "TG"], ["Târgu Mureș", "MS"],
-  ["Tecuci", "TC"], ["Timișoara", "TM"], ["Tulcea", "TL"], ["Vaslui", "VS"], ["Zalău", "ZL"]
+  ["Bârlad", "BL"], ["Bistrița", "BN"], ["Botoșani", "BT"], ["Brăila", "BR"],
+  ["Brașov", "BV"], ["București", "B"], ["Buzău", "BZ"], ["Călărași", "CL"],
+  ["Cluj-Napoca", "CJ"], ["Constanța", "CT"], ["Craiova", "CV"], ["Deva", "DV"],
+  ["Drobeta-Turnu Severin", "DT"], ["Focșani", "FC"], ["Galați", "GL"], ["Giurgiu", "GR"],
+  ["Hunedoara", "HD"], ["Iași", "IS"], ["Lugoj", "LG"], ["Mediaș", "MD"],
+  ["Miercurea-Ciuc", "MC"], ["Onești", "ON"], ["Oradea", "OR"], ["Piatra Neamț", "PN"],
+  ["Pitești", "PT"], ["Ploiești", "PL"], ["Râmnicu Vâlcea", "RV"], ["Reșița", "RS"],
+  ["Roman", "RM"], ["Satu Mare", "SM"], ["Sfântu Gheorghe", "SG"], ["Sibiu", "SB"],
+  ["Sighișoara", "SH"], ["Slatina", "SL"], ["Slobozia", "SZ"], ["Suceava", "SV"],
+  ["Târgoviște", "TG"], ["Târgu Jiu", "TJ"], ["Târgu Mureș", "MS"], ["Tecuci", "TC"],
+  ["Timișoara", "TM"], ["Tulcea", "TL"], ["Turda", "TD"], ["Valea Prahovei", "VP"],
+  ["Vaslui", "VS"], ["Zalău", "ZL"]
 ];
 
 const normalizeCity = value => value
@@ -142,6 +145,9 @@ const normalizeCity = value => value
 
 const activeCityByKey = new Map(activeCities.map(([name, code]) => [normalizeCity(name), { name, code }]));
 const mapData = window.CIBERO_MAP_DATA || { boundary: [], cities: [] };
+const mapCityOverrides = [
+  { name: "Valea Prahovei", code: "VP", county: "PH", lng: 25.56, lat: 45.29 }
+];
 const counties = window.CIBERO_COUNTIES || [];
 const mapSvg = document.querySelector("#romania-map");
 const mapFrame = document.querySelector(".map-frame");
@@ -157,7 +163,8 @@ const citiesForMap = mapData.cities
     const active = activeCityByKey.get(normalizeCity(rawName));
     return active ? { ...active, county, lng, lat } : null;
   })
-  .filter(Boolean);
+  .filter(Boolean)
+  .concat(mapCityOverrides);
 
 if (mapActiveCount) mapActiveCount.textContent = String(citiesForMap.length);
 

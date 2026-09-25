@@ -251,7 +251,7 @@ const locallyOpenedTicketIds = storedIdSet(openedTicketStorageKey);
 const locallyOpenedApplicationIds = storedIdSet(openedApplicationStorageKey);
 
 const availabilityCities = [
-  "Alba Iulia", "Arad", "Bacău", "Baia Mare", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Cluj-Napoca", "Constanța", "Craiova", "Deva", "Drobeta-Turnu Severin", "Focșani", "Galați", "Hunedoara", "Iași", "Mediaș", "Miercurea-Ciuc", "Onești", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Roman", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sighișoara", "Slatina", "Suceava", "Târgoviște", "Târgu Mureș", "Tecuci", "Timișoara", "Tulcea", "Vaslui", "Zalău"
+  "Alba Iulia", "Arad", "Bacău", "Baia Mare", "Bârlad", "Bistrița", "Botoșani", "Brăila", "Brașov", "București", "Buzău", "Călărași", "Cluj-Napoca", "Constanța", "Craiova", "Deva", "Drobeta-Turnu Severin", "Focșani", "Galați", "Giurgiu", "Hunedoara", "Iași", "Lugoj", "Mediaș", "Miercurea-Ciuc", "Onești", "Oradea", "Piatra Neamț", "Pitești", "Ploiești", "Râmnicu Vâlcea", "Reșița", "Roman", "Satu Mare", "Sfântu Gheorghe", "Sibiu", "Sighișoara", "Slatina", "Slobozia", "Suceava", "Târgoviște", "Târgu Jiu", "Târgu Mureș", "Tecuci", "Timișoara", "Tulcea", "Turda", "Valea Prahovei", "Vaslui", "Zalău"
 ];
 const availabilityCityCollator = new Intl.Collator("ro-RO", { sensitivity: "base" });
 
