@@ -193,9 +193,29 @@ setLanguage(initialLanguage);
 
 const leaderboardDialog = document.getElementById('veteran-leaderboard');
 const leaderboardTrigger = document.querySelector('.leaderboard-trigger');
+const leaderboardHistoryToggle = document.querySelector('.leaderboard-history-toggle');
+const leaderboardCurrentView = document.querySelector('.leaderboard-current-view');
+const leaderboardHistoryView = document.querySelector('.leaderboard-history-view');
+const leaderboardTitle = document.getElementById('leaderboard-title');
+
+function setLeaderboardView(showHistory) {
+  if (!leaderboardCurrentView || !leaderboardHistoryView || !leaderboardHistoryToggle || !leaderboardTitle) return;
+  leaderboardCurrentView.hidden = showHistory;
+  leaderboardHistoryView.hidden = !showHistory;
+  leaderboardHistoryToggle.setAttribute('aria-pressed', String(showHistory));
+  leaderboardHistoryToggle.textContent = showHistory ? 'Înapoi la clasamentul actual' : 'Rezultatele pe săptămâna anterioară';
+  leaderboardTitle.textContent = showHistory ? 'Rezultatele săptămânii anterioare' : 'Clasamentul actual';
+}
 
 if (leaderboardDialog && leaderboardTrigger) {
-  leaderboardTrigger.addEventListener('click', () => leaderboardDialog.showModal());
+  leaderboardTrigger.addEventListener('click', () => {
+    setLeaderboardView(false);
+    leaderboardDialog.showModal();
+  });
+
+  leaderboardHistoryToggle?.addEventListener('click', () => {
+    setLeaderboardView(Boolean(leaderboardHistoryView?.hidden));
+  });
 
   leaderboardDialog.addEventListener('click', event => {
     if (event.target === leaderboardDialog) leaderboardDialog.close();

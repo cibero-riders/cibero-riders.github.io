@@ -21,7 +21,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="campanii.css?v=8" />
+  <link rel="stylesheet" href="campanii.css?v=9" />
   <link rel="stylesheet" href="campanii-theme-overrides.css?v=4" />
   <link rel="stylesheet" href="campanii-nav.css?v=1" />
   <link rel="stylesheet" href="../site-navigation.css?v=17" />
@@ -156,35 +156,56 @@
     </form>
     <header class="leaderboard-dialog-header">
       <p>Campania Veteran</p>
-      <h2 id="leaderboard-title">Clasamentul actual</h2>
-      <time class="leaderboard-updated" datetime="2026-09-14T23:59">Ultima actualizare: 14 septembrie, 23:59</time>
+      <div class="leaderboard-title-row"><h2 id="leaderboard-title">Clasamentul actual</h2><time class="leaderboard-updated" datetime="2026-09-26">Ultima actualizare: 26 septembrie</time></div>
+      <button class="leaderboard-history-toggle" type="button" aria-pressed="false">Rezultatele pe săptămâna anterioară</button>
     </header>
 
-    <ol class="leaderboard-top" aria-label="Primele șase poziții">
-      <li class="leaderboard-entry first"><span aria-hidden="true">🥇</span><div><b>1 · ElSayed Negm</b><p>🎁 Premiu surpriză în valoare de 1.500 lei sau contravaloarea în bani</p></div></li>
-      <li class="leaderboard-entry second"><span aria-hidden="true">🥈</span><div><b>2 · CURECHERIU ALEXANDRU</b><p>🎁 Premiu surpriză în valoare de 1.000 lei sau contravaloarea în bani</p></div></li>
-      <li class="leaderboard-entry third"><span aria-hidden="true">🥉</span><div><b>3 · Mohammad Nishan Bin Azam</b><p>🎁 Premiu surpriză în valoare de 500 lei sau contravaloarea în bani</p></div></li>
-      <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>4 · Banu Claudiu-Ionut</b><p>⛽ Un plin din partea flotei sau contravaloarea în bani</p></div></li>
-      <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>5 · Nwankwo Abuchi Collins</b><p>💸 Comision 0 timp de 2 săptămâni</p></div></li>
-      <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>6 · Akor Kenneth</b><p>💸 Comision 0 timp de o săptămână</p></div></li>
-    </ol>
-
-    <section class="leaderboard-following" aria-label="Pozițiile 7–20">
-      <ol start="7" class="leaderboard-rest">
-        <li>MACOVEI N. ALEXANDR</li><li>ALI HAIDER</li><li>JAHIDUL Islam Apu</li><li>Molla-Shamim</li>
-        <li>Miah Mohammad Lebu</li><li>Cosmin-Gabriel Boian</li><li>Kingsley Chimezie</li><li>Sabbir Hosen</li>
-        <li>Denis-Fabian Stoleru</li><li>SHAHZAD AMIR</li><li>Adrian Ionescu</li><li>AMAN ADEEL</li>
-        <li>Md Saiful Islam</li><li>Akubudike Ernest Munachiso</li>
+    <div class="leaderboard-current-view">
+      <ol class="leaderboard-top" aria-label="Primele șase poziții">
+        <li class="leaderboard-entry first"><span aria-hidden="true">🥇</span><div><b>1 · ElSayed Negm</b><p>🎁 Premiu surpriză în valoare de 1.500 lei sau contravaloarea în bani</p></div></li>
+        <li class="leaderboard-entry second"><span aria-hidden="true">🥈</span><div><b>2 · ALI HAIDER</b><p>🎁 Premiu surpriză în valoare de 1.000 lei sau contravaloarea în bani</p></div></li>
+        <li class="leaderboard-entry third"><span aria-hidden="true">🥉</span><div><b>3 · Akor Kenneth</b><p>🎁 Premiu surpriză în valoare de 500 lei sau contravaloarea în bani</p></div></li>
+        <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>4 · Mohammad Nishan Bin Azam</b><p>⛽ Un plin din partea flotei sau contravaloarea în bani</p></div></li>
+        <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>5 · AMAN ADEEL</b><p>💸 Comision 0 timp de 2 săptămâni</p></div></li>
+        <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>6 · Banu Claudiu-Ionut</b><p>💸 Comision 0 timp de o săptămână</p></div></li>
       </ol>
-      <div class="leaderboard-notes">
-        <p><span class="leaderboard-note-icon" aria-hidden="true">i</span>Cei aflați în afara primelor 6 locuri, pot ocupa locurile din top în următoarele săptămâni. Fiecare săptămână poate schimba ordinea.</p>
-        <p><span class="leaderboard-note-icon" aria-hidden="true">i</span>Campania continuă până pe 07 Noiembrie, ora 23:59, moment în care se va trage linia și se vor stabili câștigătorii.</p>
-      </div>
+
+      <section class="leaderboard-following" aria-label="Pozițiile 7–15">
+        <ol start="7" class="leaderboard-rest">
+          <li>Dragos-Catalin-Andrei Miu</li><li>CURECHERIU ALEXANDRU</li><li>JAHIDUL Islam Apu</li><li>Sabbir Hosen</li>
+          <li>Kingsley Chimezie</li><li>Batepola Janka Gamini</li><li>Miah Mohammad Lebu</li><li>Jeelan Muhammad</li><li>Md Saiful Islam</li>
+        </ol>
+        <div class="leaderboard-notes">
+          <p><span class="leaderboard-note-icon" aria-hidden="true">i</span>Cei aflați în afara primelor 6 locuri, pot ocupa locurile din top în următoarele săptămâni. Fiecare săptămână poate schimba ordinea.</p>
+          <p><span class="leaderboard-note-icon" aria-hidden="true">i</span>Campania continuă până pe 07 Noiembrie, ora 23:59, moment în care se va trage linia și se vor stabili câștigătorii.</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="leaderboard-history-view" aria-label="Comparație cu săptămâna anterioară" hidden>
+      <p class="leaderboard-history-intro">Clasamentul de mai jos arată schimbarea fiecărui loc față de săptămâna anterioară.</p>
+      <ol class="leaderboard-history-list">
+        <li><b>1</b><p><span>Înainte:</span> ElSayed Negm</p><p><span>Actual:</span> ElSayed Negm</p></li>
+        <li><b>2</b><p><span>Înainte:</span> CURECHERIU ALEXANDRU</p><p><span>Actual:</span> ALI HAIDER</p></li>
+        <li><b>3</b><p><span>Înainte:</span> Mohammad Nishan Bin Azam</p><p><span>Actual:</span> Akor Kenneth</p></li>
+        <li><b>4</b><p><span>Înainte:</span> Banu Claudiu-Ionut</p><p><span>Actual:</span> Mohammad Nishan Bin Azam</p></li>
+        <li><b>5</b><p><span>Înainte:</span> Nwankwo Abuchi Collins</p><p><span>Actual:</span> AMAN ADEEL</p></li>
+        <li><b>6</b><p><span>Înainte:</span> Akor Kenneth</p><p><span>Actual:</span> Banu Claudiu-Ionut</p></li>
+        <li><b>7</b><p><span>Înainte:</span> MACOVEI N. ALEXANDR</p><p><span>Actual:</span> Dragos-Catalin-Andrei Miu</p></li>
+        <li><b>8</b><p><span>Înainte:</span> ALI HAIDER</p><p><span>Actual:</span> CURECHERIU ALEXANDRU</p></li>
+        <li><b>9</b><p><span>Înainte:</span> JAHIDUL Islam Apu</p><p><span>Actual:</span> JAHIDUL Islam Apu</p></li>
+        <li><b>10</b><p><span>Înainte:</span> Molla-Shamim</p><p><span>Actual:</span> Sabbir Hosen</p></li>
+        <li><b>11</b><p><span>Înainte:</span> Miah Mohammad Lebu</p><p><span>Actual:</span> Kingsley Chimezie</p></li>
+        <li><b>12</b><p><span>Înainte:</span> Cosmin-Gabriel Boian</p><p><span>Actual:</span> Batepola Janka Gamini</p></li>
+        <li><b>13</b><p><span>Înainte:</span> Kingsley Chimezie</p><p><span>Actual:</span> Miah Mohammad Lebu</p></li>
+        <li><b>14</b><p><span>Înainte:</span> Sabbir Hosen</p><p><span>Actual:</span> Jeelan Muhammad</p></li>
+        <li><b>15</b><p><span>Înainte:</span> Denis-Fabian Stoleru</p><p><span>Actual:</span> Md Saiful Islam</p></li>
+      </ol>
     </section>
   </dialog>
 
   <footer><img src="../assets/cibero-text-logo.png" alt="CibeRO" /><p data-i18n="footerText">Împreună, livrăm mai mult.</p><div class="footer-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" /></a></div></footer>
-  <script src="campanii.js?v=3"></script>
+  <script src="campanii.js?v=4"></script>
   <script src="../main-page.js?v=7"></script>
   <script src="../site-theme.js?v=2"></script>
 </body>
