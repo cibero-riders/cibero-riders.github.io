@@ -102,9 +102,7 @@ html[data-theme="night"] .global-header .brand-wordmark img {
 .global-header nav a[aria-current="page"]::after { right: 0; }
 
 .global-header nav .nav-account {
-  display: grid;
-  grid-template-columns: auto;
-  grid-template-rows: auto auto;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   margin-left: 8px;
@@ -115,14 +113,12 @@ html[data-theme="night"] .global-header .brand-wordmark img {
   background: linear-gradient(135deg, #9f6819, #f8db80 55%, #b67b22);
   box-shadow: inset 0 1px 0 #fff4c782, 0 7px 20px #d69b3033;
   color: #211225;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: -.35px;
   text-align: center;
   transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
 }
-
-.global-header .nav-account-main { font-size: 19px; font-weight: 900; letter-spacing: -.45px; }
-.global-header .nav-account-note-row { display: inline-flex; align-items: center; justify-content: center; gap: .55rem; }
-.global-header .nav-account-note { font-size: 10.5px; font-weight: 800; letter-spacing: .02em; line-height: 1; opacity: .78; }
-.global-header .nav-account-arrow { font-size: 18px; font-weight: 900; line-height: .7; }
 
 .global-header nav .nav-account::after { display: none; }
 
