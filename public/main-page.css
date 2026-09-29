@@ -129,6 +129,11 @@ body {
 }
 
 .site-footer { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 26px 0 32px; display: block; border-top: 1px solid #d7b95342; color: #aa99ae; text-align: center; font-size: 12px; }
+.footer-company-details { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 22px; margin: 0 auto 20px; color: #d4c3d7; font-size: 13px; }
+.footer-company-detail { display: inline-flex; align-items: center; gap: 7px; color: inherit; text-decoration: none; }
+.footer-company-detail svg { width: 16px; height: 16px; flex: 0 0 auto; fill: none; stroke: #e2bd56; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
+.footer-company-detail[href]:hover, .footer-company-detail[href]:focus-visible { color: #fff0bd; text-decoration: underline; text-decoration-color: #e2bd56; text-underline-offset: 3px; }
+.footer-company-detail[href]:focus-visible { outline: 2px solid #e2bd56; outline-offset: 4px; }
 
 .cities-section {
   width: min(1220px, calc(100% - 48px));
@@ -327,6 +332,7 @@ body {
 .showcase-video-title { margin-bottom: 17px; }
 .showcase-video-title strong { color: #e5ba51; font-weight: 700; }
 .showcase-video .video-frame { box-shadow: inset 0 0 0 1px #fff2b714, 0 24px 60px #030104a8, 0 0 34px #b5762924; }
+.mobile-registration-cta { display: none; }
 
 .showcase-benefits { width: min(100%, 610px); min-width: 0; display: flex; flex-direction: column; justify-self: center; align-self: stretch; }
 .showcase-eyebrow {
@@ -532,6 +538,9 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
   }
   .showcase-media { width: 100%; display: flex; align-items: center; justify-content: center; }
   .showcase-video { width: min(340px, 88vw); margin: 0; }
+  .mobile-registration-cta { width: 100%; margin-top: 16px; padding: 13px 18px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 1px solid #ffe69a; border-radius: 8px; background: linear-gradient(135deg, #9f6819, #f8db80 55%, #b67b22); box-shadow: inset 0 1px 0 #fff4c782, 0 8px 22px #d69b3045; color: #211225; font-size: 16px; font-weight: 900; text-decoration: none; }
+  .mobile-registration-cta:focus-visible { outline: 2px solid #fff0aa; outline-offset: 4px; }
+  .mobile-registration-cta span { font-size: 20px; line-height: 1; }
   .showcase-section-title { grid-template-columns: 22px auto 22px; gap: 8px; font-size: 18px; }
   .showcase-video-title { margin-bottom: 14px; }
   .showcase-benefits { grid-column: auto; }
@@ -542,6 +551,8 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
   .showcase-benefit:hover { transform: none; }
   .showcase-benefit-icon { width: 30px; height: 30px; }
   .showcase-benefit h2 { font-size: 13px; line-height: 1.27; }
+  .footer-company-details { display: grid; justify-content: start; gap: 12px; margin-bottom: 22px; text-align: left; }
+  .footer-company-detail { justify-content: flex-start; }
   .offer-extension { grid-column: auto; margin-top: 12px; padding: 30px 10px 12px; border-radius: 15px; }
   .offer-bridge { top: -29px; height: 40px; }
   .offer-heading { margin-bottom: 16px; }
