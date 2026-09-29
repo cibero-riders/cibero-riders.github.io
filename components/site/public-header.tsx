@@ -14,7 +14,7 @@ export function PublicHeader() {
       <div className="header-socials" aria-label="Urmărește CibeRO">
         {socialLinks.map(([href, label, image]) => (
           <a key={label} href={href} target="_blank" rel="noopener noreferrer" aria-label={`CibeRO pe ${label}`}>
-            <img src={`/assets/${image}`} alt="" />
+            <img src={`/assets/${image}`} alt="" width={38} height={38} />
           </a>
         ))}
       </div>
