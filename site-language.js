@@ -68,6 +68,7 @@
     'Poți intra și ieși flexibil atunci când cererea este ridicată în orașul tău.': 'Flexible check-in and check-out when demand is high in your city.',
     'Locul 1': '1st place', 'Locul 2': '2nd place', 'Locul 3': '3rd place',
     'Poate varia în funcție de oraș.': 'May vary by city.',
+    'Rating-ul semnifică întreaga experiență cu criteriul, în funcție de platformă.': 'The rating reflects the overall experience with each criterion, depending on the platform.',
     '3 din 5': '3 out of 5', '5 din 5': '5 out of 5',
   });
   const attributeOriginals = new WeakMap();
