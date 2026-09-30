@@ -289,6 +289,11 @@ html[data-theme="light"] .site-header.global-header nav .nav-account {
   .global-header nav a[aria-current="page"]::after { width: 34px; }
 }
 
+/* Gold page links echo the registration action without reducing theme contrast. */
+html[data-theme] .site-header.global-header nav > a:not(.nav-account) { color: #f5d57a; }
+html[data-theme="light"] .site-header.global-header nav > a:not(.nav-account) { color: #765014; }
+html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { color: #f2cc70; }
+
 /* Desktop reference: left identity, centered pages, right primary action and controls. */
 @media (min-width: 761px) {
   .site-header.global-header {
