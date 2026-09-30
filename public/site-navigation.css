@@ -229,3 +229,128 @@ html[data-theme="night"] .global-header nav .nav-account:focus-visible {
   .global-header nav a:focus-visible::after,
   .global-header nav a[aria-current="page"]::after { width: 34px; }
 }
+
+/* Desktop reference: left identity, centered pages, right primary action and controls. */
+@media (min-width: 761px) {
+  .site-header.global-header {
+    --header-social-size: 30px;
+    --header-social-gap: 8px;
+    --header-logo-left: 196px;
+    --header-logo-width: 170px;
+    --header-nav-size: 11px;
+    --header-nav-gap: 20px;
+    --header-action-width: 144px;
+    --header-action-gap: 34px;
+    --header-theme-width: 88px;
+    --header-theme-button: 26px;
+    --header-language-width: 64px;
+    --header-language-space: 82px;
+    --header-right: 20px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: 0;
+    height: 64px;
+    padding: 0 calc(20px + 5vw) 0 20px;
+  }
+  .site-header.global-header:not(:has(> .public-language-switch)) { --header-language-space: 0px; }
+  .site-header.global-header .header-socials {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    display: flex;
+    gap: var(--header-social-gap);
+    margin: 0;
+    transform: translateY(-50%);
+  }
+  .site-header.global-header .header-socials :is(a,img) { width: var(--header-social-size); height: var(--header-social-size); }
+  .site-header.global-header .brand-wordmark {
+    position: absolute;
+    top: 0;
+    left: var(--header-logo-left);
+    width: var(--header-logo-width);
+    height: 63px;
+  }
+  .site-header.global-header nav {
+    position: static;
+    grid-column: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--header-nav-gap);
+    margin: 0;
+    white-space: nowrap;
+  }
+  .site-header.global-header nav > a:not(.nav-account) { margin: 0; font: 600 var(--header-nav-size)/1.2 "DM Sans", sans-serif; }
+  .site-header.global-header nav .nav-account {
+    position: absolute;
+    top: 50%;
+    right: calc(var(--header-right) + var(--header-language-space) + var(--header-theme-width) + var(--header-action-gap));
+    min-width: var(--header-action-width);
+    min-height: 38px;
+    margin: 0;
+    padding: 0 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    transform: translateY(-50%);
+  }
+  .site-header.global-header nav .nav-account:hover,
+  .site-header.global-header nav .nav-account:focus-visible { transform: translateY(calc(-50% - 2px)); }
+  .site-header.global-header nav > .public-theme-switch {
+    position: absolute;
+    top: 50%;
+    right: calc(var(--header-right) + var(--header-language-space));
+    grid-template-columns: repeat(3, var(--header-theme-button));
+    gap: 2px;
+    width: var(--header-theme-width);
+    min-height: 30px;
+    margin: 0;
+    padding: 2px;
+    transform: translateY(-50%);
+  }
+  .site-header.global-header .public-theme-switch button { width: var(--header-theme-button); min-height: 24px; }
+  .site-header.global-header .public-theme-switch span { font-size: 14px; }
+  .site-header.global-header > .public-language-switch {
+    position: absolute;
+    top: 50%;
+    right: var(--header-right);
+    gap: 2px;
+    width: var(--header-language-width);
+    min-height: 28px;
+    margin: 0;
+    padding: 2px;
+    transform: translateY(-50%);
+  }
+  .site-header.global-header > .public-language-switch button { min-width: 28px; min-height: 22px; padding: 4px 5px; font-size: 10px; }
+}
+@media (min-width: 761px) and (max-width: 1199px) {
+  .site-header.global-header {
+    --header-social-size: 24px;
+    --header-social-gap: 6px;
+    --header-logo-left: 148px;
+    --header-logo-width: 140px;
+    --header-nav-gap: 14px;
+    --header-action-width: 132px;
+    --header-action-gap: 20px;
+    --header-right: 16px;
+  }
+}
+@media (min-width: 761px) and (max-width: 999px) {
+  .site-header.global-header {
+    --header-social-gap: 4px;
+    --header-logo-left: 128px;
+    --header-logo-width: 110px;
+    --header-nav-size: 9.5px;
+    --header-nav-gap: 10px;
+    --header-action-width: 104px;
+    --header-action-gap: 12px;
+    --header-theme-width: 78px;
+    --header-theme-button: 23px;
+    --header-language-width: 60px;
+    --header-language-space: 70px;
+    --header-right: 12px;
+  }
+  .site-header.global-header .header-socials { left: 12px; }
+  .site-header.global-header nav .nav-account { padding-inline: 8px; font-size: 12px; }
+  .site-header.global-header nav .nav-account::after { margin-left: 4px; font-size: 16px; }
+  .site-header.global-header > .public-language-switch button { min-width: 26px; }
+}
