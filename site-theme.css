@@ -41,6 +41,11 @@ html[data-theme="light"] { color-scheme: light; --ink:#fbf8f1; --cream:#292720; 
 html[data-theme="light"] body { background: radial-gradient(circle at 50% 0, #fff2c9 0, #fbf8f1 42%, #f3f5f8 100%); color:#20182a; }
 html[data-theme="light"] :is(.global-header,.registration-header,.availability-header) { border-color:#c7963e59; background:#fffdfaeb; }
 html[data-theme="light"] :is(.global-header nav a,.global-header .link-button,.availability-header>span) { color:#382b3b; }
+html[data-theme="light"] .legal-document { border-color:#c49a4c73; background:linear-gradient(145deg,#fffdf8,#f5eee4); color:#302638; box-shadow:inset 0 1px 0 #fff,0 22px 54px #7d5d2420; }
+html[data-theme="light"] .legal-document section { border-top-color:#c49a4c66; }
+html[data-theme="light"] .legal-kicker { color:#8b5d13; }
+html[data-theme="light"] .legal-document :is(h1,h2) { color:#35233d; }
+html[data-theme="light"] .legal-document :is(.legal-updated,p,li) { color:#584e5d; }
 html[data-theme="light"] :is(.home-showcase,.city-banner,.benefit-grid article,.journey,.account-card,.campaign-shell,.campaign-panel,.ticket-shell,.ticket-stage,.registration-form,.profile-option>span,.platform-card,.slot-row,.account-gate-card,.flow-shell,.rule-card,.application-confirmation-dialog,.modal,.offer-extension,.offer-panel) { border-color:#c49a4c6b; background:#ffffffea; color:#241b2c; box-shadow:0 12px 34px #7d5d2420; }
 html[data-theme="light"] .offer-extension { box-shadow:inset 0 1px 0 #fff; }
 html[data-theme="light"] .home-showcase { min-height:0; padding-bottom:0; }
@@ -176,6 +181,11 @@ html[data-theme="night"] { color-scheme: dark; --ink:#10110f; --cream:#eeeae2; -
 html[data-theme="night"] body { background:radial-gradient(circle at 50% 0,#3a3228 0,#181916 42%,#0d0e0c 100%); color:#eeeae2; }
 html[data-theme="night"] :is(.global-header,.registration-header,.availability-header) { border-color:#87674355; background:#11120ff2; }
 html[data-theme="night"] :is(.global-header nav a,.global-header .link-button,.availability-header>span) { color:#d9d6d0; }
+html[data-theme="night"] .legal-document { border-color:#80674761; background:linear-gradient(145deg,#252621,#151613); color:#eeeae2; box-shadow:inset 0 1px 0 #d8bd910d,0 22px 54px #0008; }
+html[data-theme="night"] .legal-document section { border-top-color:#80674759; }
+html[data-theme="night"] .legal-kicker { color:#d3af76; }
+html[data-theme="night"] .legal-document :is(h1,h2) { color:#e7d6b8; }
+html[data-theme="night"] .legal-document :is(.legal-updated,p,li) { color:#c9c3ba; }
 html[data-theme="night"] :is(.home-showcase,.city-banner,.benefit-grid article,.journey,.account-card,.campaign-shell,.campaign-panel,.ticket-shell,.ticket-stage,.registration-form,.profile-option>span,.platform-card,.slot-row,.account-gate-card,.flow-shell,.rule-card,.application-confirmation-dialog,.modal,.offer-extension,.offer-panel) { border-color:#8d6d4859; background:linear-gradient(145deg,#252621ed,#151613ed); color:#eeeae2; box-shadow:0 14px 38px #0008; }
 html[data-theme="night"] .offer-extension { box-shadow:inset 0 1px 0 #d8bd910d; }
 html[data-theme="night"] .home-showcase { min-height:0; padding-bottom:0; }
@@ -299,6 +309,12 @@ html[data-theme="night"] :is(.upload-preview,.upload-preview-empty,.upload-previ
 html[data-theme="night"] .hero h1 em { color:#c7a776; }
 
 @media (max-width: 760px) {
+  html[data-theme="light"] .global-header nav { border-color:#b98b466b; background:#fffdf8; box-shadow:0 18px 40px #6d4d1633; }
+  html[data-theme="light"] .global-header nav > a:not(.nav-account) { color:#382b3b; }
+  html[data-theme="midday"] .global-header nav { background:#211027; }
+  html[data-theme="midday"] .global-header nav > a:not(.nav-account) { color:#f1e3e6; }
+  html[data-theme="night"] .global-header nav { border-color:#80674777; background:#171815; box-shadow:0 18px 40px #0009; }
+  html[data-theme="night"] .global-header nav > a:not(.nav-account) { color:#e7e3dc; }
   .global-header nav > .public-theme-switch { order: 1; align-self: flex-end; margin: 7px 0 0; grid-template-columns: repeat(3, 28px); }
   .global-header .public-theme-switch button { width: 28px; }
   .global-header .menu-toggle { order: 2; margin-left: 0; }

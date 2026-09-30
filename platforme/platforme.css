@@ -24,11 +24,26 @@
 .score { display: inline-flex; min-width: 50px; justify-content: center; padding: 6px 10px; border: 1px solid #dfb95461; border-radius: 999px; color: #ffe49b; background: #2d1537; font-weight: 800; }
 .platforms-note { margin: 18px auto 0; color: #aa99ae; font-size: 13px; text-align: center; }
 html[data-theme="light"] .platforms-intro h1 { color: #302236; }
+html[data-theme="light"] :is(.platforms-kicker,.platforms-intro h1 em,.comparison-hint) { color: #765014; }
 html[data-theme="light"] .platforms-intro > p:last-child, html[data-theme="light"] .platform-comparison td { color: #685d70; }
 html[data-theme="light"] .comparison-scroll { border-color: #c49a4c6b; background: #ffffffea; box-shadow: 0 18px 42px #7d5d2420; }
 html[data-theme="light"] .platform-comparison thead th { background: #f7f0e4; color: #302236; }
 html[data-theme="light"] .platform-comparison tbody th { color: #674715; background: #fffaf0; }
 html[data-theme="light"] .platform-comparison th, html[data-theme="light"] .platform-comparison td { border-color: #c49a4c42; }
 html[data-theme="light"] .platform-comparison td strong { color: #302236; }
+html[data-theme="light"] .platform-comparison a { color: #694113; }
+html[data-theme="light"] .platform-comparison a:hover, html[data-theme="light"] .platform-comparison a:focus-visible { color: #43275a; }
+html[data-theme="light"] .platform-name.bolt { color: #096f77; }
+html[data-theme="light"] .platform-name.glovo { color: #77520b; }
+html[data-theme="light"] .platform-name.wolt { color: #08718a; }
+html[data-theme="light"] .platforms-note { color: #60566a; }
 html[data-theme="light"] .score { border-color: #c49a4c70; color: #674715; background: #fff6dc; }
+html[data-theme="night"] .comparison-scroll { border-color:#80674761; background:linear-gradient(145deg,#252621,#151613); box-shadow:0 18px 42px #0008; }
+html[data-theme="night"] .platform-comparison thead th { background:#252621; color:#e7d6b8; }
+html[data-theme="night"] .platform-comparison tbody th { background:#1b1c18; color:#d9bf96; }
+html[data-theme="night"] .platform-comparison :is(th,td) { border-color:#80674745; }
+html[data-theme="night"] .platform-comparison td { color:#c9c3ba; }
+html[data-theme="night"] .platform-comparison td strong { color:#eeeae2; }
+html[data-theme="night"] .score { border-color:#80674770; background:#302d27; color:#e7d6b8; }
+html[data-theme="night"] .platforms-note { color:#b8b4ac; }
 @media (max-width: 760px) { .platforms-page { width: calc(100% - 32px); padding: 38px 0 68px; }.platforms-intro { margin-bottom: 25px; }.platforms-intro h1 { font-size: 35px; letter-spacing: -1.4px; }.platforms-intro > p:last-child { font-size: 15px; }.comparison-hint { display: block; margin: 0 0 11px; }.comparison-scroll { border-radius: 15px; }.platform-comparison { min-width: 920px; }.platform-comparison th, .platform-comparison td { padding: 16px; }.platform-comparison thead th:first-child, .platform-comparison tbody th { width: 180px; }.platform-comparison td { font-size: 13px; } }
