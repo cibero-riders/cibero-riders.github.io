@@ -156,6 +156,7 @@ body {
 .site-footer .footer-legal-links { width: auto; display: inline-flex; justify-content: center; flex-wrap: wrap; gap: 7px 0; margin: 0 0 20px; vertical-align: middle; }
 .footer-legal-links a { padding: 0 12px; font-size: 13px; }
 .footer-legal-links a + a { border-left: 1px solid #d7b95352; }
+.site-footer > span:last-child { display: block; }
 
 .cities-section {
   width: min(1220px, calc(100% - 48px));
@@ -532,6 +533,8 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
   line-height: 1.6;
 }
 .home-faq details p + p { margin-top: -10px; padding-top: 0; border-top: 0; }
+.home-faq details a { color: #e7c968; font-weight: 700; text-underline-offset: 3px; }
+.home-faq details a:hover, .home-faq details a:focus-visible { color: #fff0bd; }
 
 @media (max-width: 960px) {
   .home-showcase {

@@ -87,7 +87,7 @@ export function HomeShowcase() {
             </button>
             <noscript><a href="https://youtube.com/shorts/Fwhi7cUeE4E">Vezi prezentarea CibeRO pe YouTube</a></noscript>
           </div>
-          <a className="mobile-registration-cta" href="https://courier-registration-c89w.bolt.host/">
+          <a className="mobile-registration-cta" href="https://cibero-manager-tool.bolt.host/inscriere">
             Înregistrează-te acum <span aria-hidden="true">→</span>
           </a>
         </div>
