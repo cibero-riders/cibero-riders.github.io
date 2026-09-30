@@ -12,6 +12,7 @@
     'CibeRO · GHID PLATFORME': 'CibeRO · PLATFORM GUIDE', 'Alege platforma care ți se potrivește': 'Choose the platform that suits you',
     'Compară aplicația, taxele, cash-ul și flexibilitatea înainte să alegi. Informațiile pot diferi în funcție de oraș.': 'Compare the app, fees, cash handling and flexibility before choosing. Details can vary by city.',
     'Compară lucrurile care contează în activitatea de zi cu zi și alege platforma potrivită pentru felul în care vrei să livrezi.': 'Compare what matters in everyday work and choose the platform that fits how you want to deliver.',
+    'Află care platformă ți se potrivește cel mai mult:': 'Find out which platform suits you best:',
     'Derulează lateral pentru comparația completă.': 'Scroll sideways for the full comparison.', 'Criteriu': 'Criterion',
     'Aplicație mobilă': 'Mobile app', 'Taxă la deschiderea unui cont nou': 'New account opening fee',
     'Criterii cu cash (banii numerar)': 'Cash handling', 'Plăți per comandă': 'Pay per order', 'Plată per comandă': 'Payment per order',
@@ -69,7 +70,7 @@
     'Poți intra și ieși flexibil atunci când cererea este ridicată în orașul tău.': 'Flexible check-in and check-out when demand is high in your city.',
     'Locul 1': '1st place', 'Locul 2': '2nd place', 'Locul 3': '3rd place',
     'Poate varia în funcție de oraș.': 'May vary by city.',
-    'Rating-ul semnifică întreaga experiență cu criteriul, în funcție de platformă.': 'The rating reflects the overall experience with each criterion, depending on the platform.',
+    'Rating-ul semnifică întreaga experiență cu criteriul, în funcție de platformă.': 'The rating reflects the full experience per criterion and platform.',
     '3 din 5': '3 out of 5', '5 din 5': '5 out of 5',
   });
   const attributeOriginals = new WeakMap();
