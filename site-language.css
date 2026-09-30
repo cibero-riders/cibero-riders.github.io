@@ -19,13 +19,11 @@
 }
 .public-language-switch button.active { color: #160a1e; background: var(--gold, #f4c94f); }
 @media (min-width: 761px) {
-  .global-header nav {
-    flex: 1 1 auto;
-    margin-left: clamp(30px, 4vw, 68px);
+  .global-header > .public-language-switch {
+    order: 2;
+    align-self: center;
+    margin: 0 0 0 auto;
   }
-  .global-header nav .nav-account { margin-left: auto; }
-  .global-header nav > .public-theme-switch { margin-left: -14px; }
-  .global-header > .public-language-switch { margin-left: -18px; }
 }
 @media (max-width: 760px) {
   .global-header > .public-language-switch { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 4; }

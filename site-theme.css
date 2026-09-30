@@ -30,6 +30,10 @@
 .public-theme-switch button:focus-visible { outline: 2px solid #f2cc6d; outline-offset: 2px; }
 .public-theme-switch span { font-size: 17px; line-height: 1; }
 .global-header nav > .public-theme-switch { margin-left: 8px; }
+@media (min-width: 761px) {
+  .global-header nav > .public-theme-switch { order: 3; align-self:center; margin-left:0; }
+  .global-header:not(:has(.public-language-switch)) nav > .public-theme-switch { margin-left:auto; }
+}
 .site-title { position: relative; }
 .site-title > .public-theme-switch { position: absolute; top: 0; right: 0; z-index: 2; }
 

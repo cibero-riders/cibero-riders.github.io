@@ -134,6 +134,36 @@ html[data-theme="night"] .global-header .brand-wordmark img {
   box-shadow: inset 0 0 0 2px #3a2030, inset 0 1px 0 #fff4c7a6, 0 8px 23px #d69b3042;
 }
 
+@media (min-width: 761px) {
+  .global-header { gap: 24px; }
+  .global-header nav { display: contents; }
+  .global-header nav > a:not(.nav-account) { order: 1; }
+  .site-header.global-header nav .nav-account {
+    order: 4;
+    min-width: 174px;
+    margin: 0;
+    padding: 6px 10px;
+    border-color: #d9ad4b8c;
+    background: linear-gradient(135deg, #4a234f, #241029);
+    box-shadow: inset 0 1px 0 #fff0b21f;
+    color: #f5d57a;
+    font: 800 11px/1.1 "DM Sans", sans-serif;
+    letter-spacing: 0;
+  }
+  .site-header.global-header nav .nav-account::after {
+    position: static;
+    display: inline;
+    width: auto;
+    height: auto;
+    margin-left: 6px;
+    background: none;
+    color: inherit;
+    content: "→";
+    font-size: 15px;
+    vertical-align: -1px;
+  }
+}
+
 html[data-theme="night"] .global-header nav .nav-account {
   border-color: #f5d692;
   background: linear-gradient(135deg, #89651f, #f2cc70 52%, #a47a31);
