@@ -151,13 +151,12 @@ const translations = {
   }
 };
 
-const languageButtons = [...document.querySelectorAll('[data-language]')];
 const languageSwitch = document.querySelector('.language-switch');
 const metaDescription = document.querySelector('meta[name="description"]');
 
+// The shared site selector owns the language preference, header and footer.
 const setLanguage = language => {
   const dictionary = translations[language] || translations.ro;
-  document.documentElement.lang = language;
   document.title = dictionary.pageTitle;
   metaDescription.setAttribute('content', dictionary.metaDescription);
   languageSwitch.setAttribute('aria-label', dictionary.languageLabel);
@@ -168,29 +167,12 @@ const setLanguage = language => {
   document.querySelectorAll('[data-i18n-aria]').forEach(element => {
     element.setAttribute('aria-label', dictionary[element.dataset.i18nAria]);
   });
-
-  languageButtons.forEach(button => {
-    const active = button.dataset.language === language;
-    button.classList.toggle('active', active);
-    button.setAttribute('aria-pressed', String(active));
-  });
-
-  try {
-    localStorage.setItem('cibero-campaign-language', language);
-    localStorage.setItem('cibero-language', language);
-  } catch {}
 };
 
-languageButtons.forEach(button => {
-  button.addEventListener('click', () => setLanguage(button.dataset.language));
+document.addEventListener('cibero:language-change', event => {
+  setLanguage(event.detail.language);
 });
-
-let initialLanguage = 'ro';
-try {
-  initialLanguage = localStorage.getItem('cibero-language') || localStorage.getItem('cibero-campaign-language') || 'ro';
-} catch {}
-if (!translations[initialLanguage]) initialLanguage = 'ro';
-setLanguage(initialLanguage);
+setLanguage(document.documentElement.lang);
 
 const leaderboardDialog = document.getElementById('veteran-leaderboard');
 const leaderboardTrigger = document.querySelector('.leaderboard-trigger');
