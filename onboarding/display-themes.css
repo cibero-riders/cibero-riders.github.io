@@ -35,15 +35,18 @@ html[data-theme="night"] .onboarding-page .site-title .header-art {
   opacity: .94;
 }
 
-.onboarding-page .site-title > .public-theme-switch {
-  position: relative;
-  top: auto;
-  right: auto;
-  order: -1;
-  align-self: flex-end;
-  transform: none;
-  margin-bottom: 4px;
-}
+/* Keep the logo centered while both corner controls share its top edge. */
+.onboarding-page .site-title { display: grid; grid-template-columns: minmax(0, 1fr); }
+.onboarding-page .site-title .header-art { grid-area: 1 / 1; margin: 0 auto; }
+.onboarding-page .site-title > .public-theme-switch { position: absolute; top: 0; right: 0; transform: none; margin: 0; }
+.onboarding-home-link { position: absolute; top: 0; left: 0; z-index: 2; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 38px; padding: 8px 12px; border: 1px solid #c89b4366; border-radius: 999px; background: #13091abf; color: #f1ce73; font-size: 13px; font-weight: 700; line-height: 1.2; letter-spacing: 0; text-shadow: none; text-decoration: none; transition: background .18s ease, border-color .18s ease; }
+.onboarding-home-link svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.onboarding-home-link:hover { background: #3b2410; border-color: #e1b74f; }
+.onboarding-home-link:focus-visible { outline: 2px solid #e1b74f; outline-offset: 3px; }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-home-link { border-color: var(--onboarding-border); background: var(--onboarding-soft); color: var(--onboarding-accent); }
+html:is([data-theme="light"],[data-theme="night"]) .onboarding-home-link:hover { background: var(--onboarding-active); }
+@media (max-width: 560px) { .onboarding-home-link { width: 38px; padding: 8px; }.onboarding-home-link span { display: none; } }
+@media (max-width: 360px) { .onboarding-page .site-title { padding-top: 12px; } }
 html:is([data-theme="light"],[data-theme="night"]) .onboarding-page {
   background: radial-gradient(circle at 50% 0, var(--onboarding-active), transparent 35rem), var(--onboarding-bg);
   color: var(--onboarding-text);
