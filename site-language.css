@@ -30,5 +30,5 @@
 }
 @media (max-width: 760px) {
   .global-header > .public-language-switch { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 4; }
-  .public-language-switch button { padding: 5px 7px; }
+  .global-header > .public-language-switch button { min-width: 34px; padding: 5px 7px; }
 }
