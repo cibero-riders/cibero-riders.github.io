@@ -16,7 +16,7 @@ export function PublicFooter() {
         ))}
       </div>
       <div className="footer-company-details" aria-label="Datele firmei CibeRO">
-        <span>CibeRO S.R.L. <i aria-hidden="true">·</i> CUI RO53182698 <i aria-hidden="true">·</i> Constanța, România</span>
+        <span><b className="footer-company-name">CibeRO S.R.L.</b> <i aria-hidden="true">·</i> CUI RO53182698 <i aria-hidden="true">·</i> Constanța, România</span>
       </div>
       <nav className="footer-legal-links" aria-label="Informații juridice">
         <a href="/termeni/">Termeni și Condiții</a>
@@ -24,7 +24,7 @@ export function PublicFooter() {
         <a href="/cookie-uri/">Politica de Cookie-uri</a>
         <a href="mailto:cibero.riders@gmail.com">Contact</a>
       </nav>
-      <span>© Powered by Cibero - 2026 | All rights reserved</span>
+      <span className="footer-copyright">© Powered by Cibero - 2026 | All rights reserved</span>
     </footer>
   );
 }
