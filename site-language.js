@@ -42,7 +42,7 @@
   const originals = new WeakMap();
   const attributeOriginals = new WeakMap();
   Object.assign(translations, {
-    'CibeRO - Prezentare': 'CibeRO - Overview', 'Înregistrează-te acum': 'Sign up now', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
+    'CibeRO - Prezentare': 'CibeRO - Introduction', '- Prezentare': '- Introduction', 'o treaptă în dezvoltare': 'Enable English Captions ✅', 'Înregistrează-te acum': 'Sign up now', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
     'Activare în 0–48 ore după înregistrare': 'Activation within 0–48 hours after registration', 'Rapoarte și plăți săptămânale': 'Weekly reports and payments',
     'Campanii și beneficii exclusive': 'Exclusive campaigns and benefits', 'Suport dedicat': 'Dedicated support', '50+ orașe': '50+ cities',
     '800+ membri parteneri': '800+ partner members', 'Grup pentru comunitate': 'Community group', 'Canal de anunțuri oficial': 'Official announcements channel',

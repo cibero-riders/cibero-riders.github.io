@@ -63,6 +63,7 @@ body {
 .video-play { position: absolute; left: 50%; top: 50%; width: 62px; height: 62px; display: grid; place-items: center; border: 1px solid #ffe18d; border-radius: 50%; background: linear-gradient(145deg, #f2c44a, #aa6714); box-shadow: 0 11px 30px #000a, 0 0 0 7px #190b22a8; transform: translate(-50%, -50%); transition: transform .22s ease, filter .22s ease; }
 .video-play i { width: 0; height: 0; margin-left: 4px; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 14px solid #24101c; }
 .video-action { position: absolute; left: 20px; right: 20px; bottom: 25px; color: #fff4d2; font: 700 11px Cinzel, serif; letter-spacing: 1.25px; text-transform: uppercase; text-shadow: 0 2px 10px #000; }
+html[lang="en"] .showcase-video .video-action { font-family: "DM Sans", sans-serif; letter-spacing: .3px; text-transform: none; }
 .video-poster:hover img, .video-poster:focus-visible img { transform: scale(1.035); filter: brightness(1.08); }
 .video-poster:hover .video-play, .video-poster:focus-visible .video-play { transform: translate(-50%, -50%) scale(1.08); filter: brightness(1.08); }
 .video-poster:focus-visible { outline: 2px solid #ffe18d; outline-offset: -5px; }
