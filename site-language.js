@@ -58,6 +58,7 @@
     'Balanța se depune integral până duminică, ora 23:59.': 'Deposit the full balance by Sunday, 23:59.',
     'Nu recomandăm depășirea unei balanțe negative de 500 RON.': 'We do not recommend exceeding a negative balance of 500 RON.',
     'Depunere direct cu cardul în Bolt Courier.': 'Deposit directly by card in Bolt Courier.',
+    'Depunere direct cu cardul în': 'Deposit directly by card in',
     'La 500 RON negativ nu mai poți primi comenzi.': 'At a negative balance of 500 RON, you can no longer receive orders.',
     'Depunere la orice': 'Deposit at any',
     'Primești cash când clientul alege plata numerar; apare în detaliile comenzii.': 'You receive cash when a customer chooses cash payment; it appears in the order details.',
