@@ -23,6 +23,10 @@ const questions = [
     question: "Cum pot deveni sub-flotă la CibeRO?",
     content: <p>Mergi la <a href="https://cibero-manager-tool.bolt.host/inscriere">Înregistrare</a> și selectează S.R.L., apoi lasă o notă la cerere în care menționezi intenția. Echipa CibeRO te va contacta în curând.</p>,
   },
+  {
+    question: "Avem activitate în orașul tău?",
+    content: <p>Cel mai probabil, da. Activăm în peste 50 de orașe și avem o rețea suficient de remote încât să putem gestiona și de la distanță. Dă click pe <a href="/orase/">Orașe</a> pentru a verifica orașul tău.</p>,
+  },
 ] as const;
 
 export function HomeFaq() {
