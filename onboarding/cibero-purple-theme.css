@@ -159,17 +159,13 @@ body::after {
   color: #e5b94e;
 }
 
-.button,
-.telegram-guides .button.secondary,
-.telegram-community-button {
+.button {
   border-color: rgba(255, 225, 143, .84) !important;
   background: linear-gradient(135deg, #a8671c 0%, #dfaa3e 34%, #ffe392 61%, #b57320 100%) !important;
   box-shadow: 0 11px 27px rgba(160, 99, 24, .38), inset 0 1px 0 rgba(255, 251, 220, .78) !important;
 }
 
-.button:hover:not(:disabled),
-.telegram-guides .button.secondary:hover:not(:disabled),
-.telegram-community-button:hover:not(:disabled) {
+.button:hover:not(:disabled) {
   box-shadow: 0 14px 33px rgba(213, 153, 43, .48), inset 0 1px 0 rgba(255, 254, 232, .88) !important;
 }
 
@@ -339,15 +335,8 @@ body::after {
   color: #f0dfbc !important;
 }
 
-.telegram-guides,
-.guide-followup {
-  border-color: rgba(221, 181, 88, .3);
-  background: linear-gradient(145deg, rgba(61, 27, 69, .78), rgba(29, 11, 39, .86));
-}
-
 .guide-label,
-.guide-followup p,
-.telegram-guides .guide-label {
+.guide-followup p {
   color: #eadcea;
 }
 
