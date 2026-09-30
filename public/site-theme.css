@@ -1,5 +1,8 @@
 :root { color-scheme: dark; }
 
+/* One readable typeface across public pages, including dynamically added copy. */
+body, body * { font-family: "DM Sans", Arial, sans-serif !important; }
+
 .public-theme-switch {
   display: inline-grid;
   grid-template-columns: repeat(3, 32px);

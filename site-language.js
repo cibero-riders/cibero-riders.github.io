@@ -40,6 +40,36 @@
     'Disponibilitatea comenzilor poate varia și în funcție de oraș, interval și cerere.': 'Order availability may also vary by city, time slot and demand.'
   };
   const originals = new WeakMap();
+  Object.assign(translations, {
+    'Aplicație simplă, rapidă și bine optimizată.': 'A simple, fast and well-optimized app.',
+    'GPS integrat decent: o poți folosi fără Maps/Waze dacă îți cunoști orașul.': 'Decent built-in GPS: you can use it without Maps/Waze if you know your city.',
+    'Asistență direct din aplicația de curier.': 'Support directly in the courier app.',
+    'Tips-urile intră direct în aplicație.': 'Tips arrive directly in the app.',
+    'Încasările se actualizează în câteva secunde după finalizarea comenzilor.': 'Earnings update within seconds of completing an order.',
+    'Aplicație bine optimizată și rapidă.': 'A well-optimized, fast app.',
+    'Cel mai bun GPS integrat.': 'The best built-in GPS.',
+    'Cel mai bun sistem de rapoarte și statistici.': 'The best reporting and statistics system.',
+    'Asistența este mai greu de contactat.': 'Support is harder to reach.',
+    'Wolt Partner rulează mai lent decât Bolt Courier și Glovo Rider.': 'Wolt Partner runs more slowly than Bolt Courier and Glovo Rider.',
+    'Comenzile se actualizează în statistici la 1–50 de minute după finalizare.': 'Completed orders update in statistics 1–50 minutes later.',
+    'Recomandăm GPS extern: Google Maps sau Waze.': 'We recommend external GPS: Google Maps or Waze.',
+    'Asistență rapidă direct din aplicație.': 'Quick support directly in the app.',
+    'Uneori ai comenzi cash, cu bani de achitat la preluare sau de primit la predare.': 'Some cash orders require payment at pickup or collecting money at delivery.',
+    'Balanța se depune integral până duminică, ora 23:59.': 'Deposit the full balance by Sunday, 23:59.',
+    'Nu recomandăm depășirea unei balanțe negative de 500 RON.': 'We do not recommend exceeding a negative balance of 500 RON.',
+    'Depunere direct cu cardul în Bolt Courier.': 'Deposit directly by card in Bolt Courier.',
+    'La 500 RON negativ nu mai poți primi comenzi.': 'At a negative balance of 500 RON, you can no longer receive orders.',
+    'Depunere la orice': 'Deposit at any',
+    'Primești cash când clientul alege plata numerar; apare în detaliile comenzii.': 'You receive cash when a customer chooses cash payment; it appears in the order details.',
+    'Depunere integrală în fiecare zi de reset specifică Wolt.': 'Deposit the full balance on every Wolt-specific reset day.',
+    'La 500 RON în balanță nu mai poți intra online până nu o acoperi integral.': 'At 500 RON in balance, you cannot go online until it is fully covered.',
+    'Depunere prin': 'Deposit through',
+    'Orele se rezervă dinainte.': 'Hours are booked in advance.',
+    'Poți intra și ieși flexibil atunci când cererea este ridicată în orașul tău.': 'Flexible check-in and check-out when demand is high in your city.',
+    'Locul 1': '1st place', 'Locul 2': '2nd place', 'Locul 3': '3rd place',
+    'Poate varia în funcție de oraș.': 'May vary by city.',
+    '3 din 5': '3 out of 5', '5 din 5': '5 out of 5',
+  });
   const attributeOriginals = new WeakMap();
   Object.assign(translations, {
     'CibeRO - Prezentare': 'CibeRO - Introduction', '- Prezentare': '- Introduction', 'o treaptă în dezvoltare': 'Enable English Captions ✅', 'Înregistrează-te': 'Sign up', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
