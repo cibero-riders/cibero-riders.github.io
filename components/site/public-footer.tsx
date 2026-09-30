@@ -17,7 +17,6 @@ export function PublicFooter() {
       </div>
       <div className="footer-company-details" aria-label="Datele firmei CibeRO">
         <span>CibeRO S.R.L. <i aria-hidden="true">·</i> CUI RO53182698 <i aria-hidden="true">·</i> Constanța, România</span>
-        <a href="mailto:cibero.riders@gmail.com">cibero.riders@gmail.com</a>
       </div>
       <nav className="footer-legal-links" aria-label="Informații juridice">
         <a href="/termeni/">Termeni și Condiții</a>
