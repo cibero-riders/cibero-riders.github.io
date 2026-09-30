@@ -1,0 +1,64 @@
+/* Campaigns uses the same calm, structured visual language as the homepage. */
+body {
+  background:
+    radial-gradient(circle at 17% 14%, #9a5e2424, transparent 28%),
+    radial-gradient(circle at 82% 8%, #793c8521, transparent 27%),
+    linear-gradient(145deg, #110815, #200d29 56%, #0d0711);
+}
+
+main { width: min(1050px, calc(100% - 48px)); padding: 56px 0 96px; }
+.language-switch { margin-bottom: 30px; box-shadow: inset 0 1px 0 #fff2bd10; }
+.hero { max-width: 760px; margin: 0 auto 42px; }
+.hero h1 { color: #fff3cb; font: 700 clamp(38px, 5vw, 60px)/1.08 Cinzel, serif; letter-spacing: -2px; }
+.hero h1 em { color: #e2bd56; }
+.hero > p:last-child { max-width: 610px; color: #d4c4d7; }
+
+.campaign-shell { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.tabs { gap: 10px; padding: 0; }
+.tab { min-height: 76px; padding: 14px 18px; border-color: #d7b95352; border-radius: 10px; background: #1d0d25bd; box-shadow: inset 0 1px 0 #fff4c20d; }
+.tab:hover { border-color: #e2bd56; background: #2b1534; transform: translateY(-1px); }
+.tab.active { border-color: #e2bd56; background: linear-gradient(135deg, #4a234f, #241029); color: #fff3cb; box-shadow: inset 0 1px 0 #fff4c238; }
+.tab-icon { width: 40px; height: 40px; border-color: #d7b9536b; background: #2d1537; font-size: 19px; }
+.tab small { color: #c7b6ca; }
+.tab.active small { color: #ebd486; }
+.tab strong { font-size: 18px; }
+.panels { margin-top: 16px; }
+.campaign-panel { padding: clamp(22px, 4vw, 42px); border-color: #dfb9545c; border-radius: 20px; background: radial-gradient(circle at 50% 0, #7540781f, transparent 42%), linear-gradient(145deg, #25112f, #14091c); box-shadow: inset 0 1px 0 #fff4c20d, 0 22px 54px #02010452; }
+.panel-header { gap: 16px; padding-bottom: 23px; border-bottom-color: #dfb95442; }
+.campaign-seal { width: 62px; height: 62px; border-color: #e2bd56; background: #2d1537; box-shadow: none; font-size: 26px; }
+.panel-header p { color: #e2bd56; }
+.panel-header h2 { color: #fff3cb; font-family: Cinzel, serif; letter-spacing: -1.2px; }
+.period-value { color: #d4c4d7; }
+.info-card, .example-card, .raffle-prize, .goal, .strategy, .enrollment { border-color: #dfb95452; background: #1d0d25bd; }
+.info-card h3, .example-card h3 { color: #ffe49b; }
+.info-card p, .example-card p { color: #d4c4d7; }
+.prizes { margin-top: 28px; }
+.section-title h3 { color: #fff3cb; font: 700 22px/1.25 Cinzel, serif; }
+.prize-list { gap: 9px; }
+.prize-list li, .veteran-prizes .first, .veteran-prizes .second, .veteran-prizes .third, .veteran-prizes li:nth-child(n) { border-color: #dfb95452; background: #1d0d25bd; box-shadow: none; }
+.prize-list li:hover { border-color: #e2bd56; }
+.prize-list b, .veteran-prizes li:nth-child(n) b { color: #ffe49b; }
+.prize-list p, .veteran-prizes li:nth-child(n) p { color: #d4c4d7; }
+.raffle-prize > p, .raffle-prize i { color: #d4c4d7; }
+.raffle-prize b { border-color: #dfb9546b; background: #2d1537; color: #ffe49b; }
+.result-note { border-color: #dfb95452; background: #21132a; color: #e7dbe9; }
+.chance { border-left-color: #e2bd56; background: #21132a; color: #d4c4d7; }
+.closing { color: #e2bd56; font-size: 16px; }
+footer.site-footer { width: min(1240px, calc(100% - 48px)); margin: 0 auto; padding: 26px 0 32px; display: block; border-top: 1px solid #d7b95342; color: #aa99ae; text-align: center; font-size: 12px; }
+.site-footer .footer-company-details { display: inline-flex; align-items: center; margin: 0 16px 20px 0; padding-right: 18px; border-right: 1px solid #d7b95352; color: #d4c3d7; font-size: 14px; line-height: 1.5; vertical-align: middle; }
+.footer-company-details i { padding-inline: 3px; color: #e2bd56; font-style: normal; }
+.site-footer .footer-legal-links { width: auto; display: inline-flex; justify-content: center; flex-wrap: wrap; gap: 7px 0; margin: 0 0 20px; vertical-align: middle; }
+.footer-legal-links a { padding: 0 12px; color: #e7c968; font-size: 13px; text-decoration: none; }
+.footer-legal-links a + a { border-left: 1px solid #d7b95352; }
+.footer-legal-links a:hover, .footer-legal-links a:focus-visible { color: #fff0bd; text-decoration: underline; text-underline-offset: 3px; }
+.site-footer > span:last-child { display: block; }
+html[data-theme="light"] body { background: radial-gradient(circle at 50% 0, #fff2c9 0, #fbf8f1 42%, #f3f5f8 100%); }
+html[data-theme="light"] .hero h1, html[data-theme="light"] .panel-header h2, html[data-theme="light"] .section-title h3 { color: #302236; }
+html[data-theme="light"] .hero h1 em, html[data-theme="light"] .panel-header p, html[data-theme="light"] .info-card h3, html[data-theme="light"] .example-card h3, html[data-theme="light"] .prize-list b, html[data-theme="light"] .veteran-prizes li:nth-child(n) b { color: #95600f; }
+html[data-theme="light"] .hero > p:last-child, html[data-theme="light"] .period-value, html[data-theme="light"] .info-card p, html[data-theme="light"] .example-card p, html[data-theme="light"] .prize-list p, html[data-theme="light"] .veteran-prizes li:nth-child(n) p { color: #685d70; }
+html[data-theme="light"] .tab, html[data-theme="light"] .campaign-panel, html[data-theme="light"] .info-card, html[data-theme="light"] .example-card, html[data-theme="light"] .raffle-prize { border-color: #c49a4c6b; background: #ffffffea; }
+html[data-theme="light"] .tab.active { border-color: #b98528; background: linear-gradient(145deg, #fff4c8, #e7bd58); color: #382506; }
+html[data-theme="light"] .tab-icon { border-color: #c49a4c70; background: #f7f1e9; }
+html[data-theme="light"] .result-note, html[data-theme="light"] .chance { border-color: #c49a4c6b; background: #fff8e7; color: #695f70; }
+html[data-theme="light"] .closing { color: #95600f; }
+@media (max-width: 760px) { main { width: calc(100% - 32px); padding: 34px 0 68px; } .language-switch { margin-bottom: 23px; } .hero { margin-bottom: 28px; } .hero h1 { font-size: 36px; letter-spacing: -1.4px; } .hero > p:last-child { font-size: 15px; } .tabs { grid-template-columns: 1fr; gap: 8px; } .tab { min-height: 68px; padding: 12px 14px; } .campaign-panel { padding: 20px 14px; border-radius: 15px; } .panel-header { gap: 13px; } .campaign-seal { width: 52px; height: 52px; font-size: 22px; } .site-footer .footer-company-details { display: grid; justify-content: center; margin: 0 auto 17px; padding: 0; border-right: 0; text-align: center; } .site-footer .footer-legal-links { display: flex; width: 100%; justify-content: center; margin-bottom: 24px; } .footer-legal-links a { padding: 0 9px; } .footer-legal-links a:first-child { padding-left: 0; } }
