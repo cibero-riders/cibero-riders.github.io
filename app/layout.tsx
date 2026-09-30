@@ -13,8 +13,8 @@ export const metadata: Metadata = {
   description,
   alternates: { canonical: "/" },
   icons: {
-    icon: [{ url: "/assets/cibero-favicon.png?v=5", type: "image/png" }],
-    apple: [{ url: "/assets/cibero-favicon.png?v=5" }],
+    icon: [{ url: "/assets/cibero-favicon.png?v=6", type: "image/png" }],
+    apple: [{ url: "/assets/cibero-favicon.png?v=6" }],
   },
   openGraph: {
     type: "website",
