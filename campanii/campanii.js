@@ -177,6 +177,7 @@ const setLanguage = language => {
 
   try {
     localStorage.setItem('cibero-campaign-language', language);
+    localStorage.setItem('cibero-language', language);
   } catch {}
 };
 
@@ -186,7 +187,7 @@ languageButtons.forEach(button => {
 
 let initialLanguage = 'ro';
 try {
-  initialLanguage = localStorage.getItem('cibero-campaign-language') || 'ro';
+  initialLanguage = localStorage.getItem('cibero-language') || localStorage.getItem('cibero-campaign-language') || 'ro';
 } catch {}
 if (!translations[initialLanguage]) initialLanguage = 'ro';
 setLanguage(initialLanguage);

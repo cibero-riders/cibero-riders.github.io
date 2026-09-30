@@ -1,0 +1,24 @@
+.public-language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  margin-left: 12px;
+  padding: 3px;
+  border: 1px solid color-mix(in srgb, var(--gold, #f4c94f) 42%, transparent);
+  border-radius: 999px;
+  background: rgba(12, 4, 20, .56);
+}
+.public-language-switch button {
+  border: 0;
+  border-radius: 999px;
+  padding: 5px 8px;
+  color: var(--text, #f8f0e1);
+  background: transparent;
+  font: 700 11px/1 "DM Sans", sans-serif;
+  cursor: pointer;
+}
+.public-language-switch button.active { color: #160a1e; background: var(--gold, #f4c94f); }
+@media (max-width: 760px) {
+  .global-header > .public-language-switch { position: absolute; right: 54px; top: 50%; transform: translateY(-50%); margin: 0; z-index: 4; }
+  .public-language-switch button { padding: 5px 7px; }
+}
