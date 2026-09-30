@@ -46,7 +46,7 @@
     'Activare în 0–48 ore după înregistrare': 'Activation within 0–48 hours after registration', 'Rapoarte și plăți săptămânale': 'Weekly reports and payments',
     'Campanii și beneficii exclusive': 'Exclusive campaigns and benefits', 'Suport dedicat': 'Dedicated support', '50+ orașe': '50+ cities',
     '800+ membri parteneri': '800+ partner members', 'Grup pentru comunitate': 'Community group', 'Canal de anunțuri oficial': 'Official announcements channel',
-    'Beneficii în detaliu': 'Benefits in detail', 'Îți oferim:': 'What we offer:', 'Beneficiile flotei CibeRO': 'CibeRO fleet benefits',
+    'Beneficii în detaliu': 'Benefits in detail', 'Ce primești de la noi': 'What we offer', 'Beneficiile flotei CibeRO': 'CibeRO fleet benefits',
     'Flexibilitate': 'Flexibility', 'Autonomie': 'Autonomy', 'Câștiguri competitive': 'Competitive earnings', 'Plăți săptămânale': 'Weekly payments', 'Siguranță': 'Security', 'Sistemul flotei': 'Fleet system',
     'Tu îți faci programul': 'You set your own schedule', 'Dar ține minte că productivitatea se realizează prin disciplină și consistență.': 'Remember that productivity comes through discipline and consistency.',
     'Ești propriul șef — tu decizi nivelul de muncă și cum o faci': 'You are your own boss — you decide how much and how you work',

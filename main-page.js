@@ -71,8 +71,14 @@ function selectOffer(tab, moveFocus = false) {
     panel.hidden = !active;
     panel.classList.toggle("active", active);
   });
-  tab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
-  if (moveFocus) tab.focus();
+  const tabsScroller = tab.closest(".offer-tabs");
+  if (tabsScroller && tabsScroller.scrollWidth > tabsScroller.clientWidth + 1) {
+    const scrollerRect = tabsScroller.getBoundingClientRect();
+    const tabRect = tab.getBoundingClientRect();
+    const tabCenter = tabRect.left - scrollerRect.left + tabsScroller.scrollLeft + tabRect.width / 2;
+    tabsScroller.scrollTo({ left: tabCenter - tabsScroller.clientWidth / 2, behavior: "auto" });
+  }
+  if (moveFocus) tab.focus({ preventScroll: true });
 }
 
 offerTabs.forEach((tab, index) => {
