@@ -548,6 +548,11 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
 }
 
 @media (max-width: 760px) {
+  .atrium-benefits .benefit-entry,
+  .atrium-benefits .benefit-entry:hover,
+  .atrium-benefits .benefit-entry:focus-visible,
+  .atrium-benefits .benefit-entry.is-open { transform: none; }
+
   .home-showcase {
     width: calc(100% - 32px);
     min-height: 0;

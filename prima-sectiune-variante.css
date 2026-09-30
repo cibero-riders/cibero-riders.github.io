@@ -253,6 +253,12 @@ h1 em { color: var(--lilac); font-style: normal; font-weight: 500; }
 }
 
 @media (max-width: 680px) {
+  /* A selected touch card must stay aligned with the rest of the page. */
+  .atrium-benefits .benefit-entry,
+  .atrium-benefits .benefit-entry:hover,
+  .atrium-benefits .benefit-entry:focus-visible,
+  .atrium-benefits .benefit-entry.is-open { transform: none; }
+
   .preview-bar { position: sticky; min-height: 0; padding: 8px 10px; display: block; }
   .preview-bar > div { display: none; }
   .preview-bar nav { width: 100%; }
