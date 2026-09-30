@@ -146,7 +146,7 @@ body {
 .footer-company-details a, .footer-legal-links a { color: #e7c968; text-decoration: none; }
 .footer-company-details a:hover, .footer-company-details a:focus-visible, .footer-legal-links a:hover, .footer-legal-links a:focus-visible { color: #fff0bd; text-decoration: underline; text-underline-offset: 3px; }
 .footer-company-details a:focus-visible, .footer-legal-links a:focus-visible { outline: 2px solid #e2bd56; outline-offset: 4px; }
-.footer-legal-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 7px 0; margin: 0 auto 22px; }
+.site-footer .footer-legal-links { width: 100%; display: flex; justify-content: center; flex-wrap: wrap; gap: 7px 0; margin: 0 auto 22px; }
 .footer-legal-links a { padding: 0 11px; font-size: 12px; }
 .footer-legal-links a + a { border-left: 1px solid #d7b95352; }
 
@@ -572,7 +572,7 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
   .showcase-benefit h2 { font-size: 13px; line-height: 1.27; }
   .footer-company-details { justify-content: start; gap: 8px; margin-bottom: 17px; text-align: left; }
   .footer-company-details i { padding-inline: 1px; }
-  .footer-legal-links { justify-content: start; margin-bottom: 24px; }
+  .site-footer .footer-legal-links { justify-content: center; margin-bottom: 24px; }
   .footer-legal-links a { padding: 0 9px; }
   .footer-legal-links a:first-child { padding-left: 0; }
   .offer-extension { grid-column: auto; margin-top: 12px; padding: 30px 10px 12px; border-radius: 15px; }
