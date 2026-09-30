@@ -46,4 +46,13 @@ html[data-theme="night"] .platform-comparison td { color:#c9c3ba; }
 html[data-theme="night"] .platform-comparison td strong { color:#eeeae2; }
 html[data-theme="night"] .score { border-color:#80674770; background:#302d27; color:#e7d6b8; }
 html[data-theme="night"] .platforms-note { color:#b8b4ac; }
+/* Platform colors stay consistent across Day, Midday and Night modes. */
+html .platform-comparison tr > :nth-child(2):is(th,td) { background: #42c785; color: #102b1e; border-color: #1d8955; }
+html .platform-comparison tr > :nth-child(3):is(th,td) { background: #ffc244; color: #382800; border-color: #c48a14; }
+html .platform-comparison tr > :nth-child(4):is(th,td) { background: #5bc7e8; color: #08313d; border-color: #268fae; }
+html .platform-comparison tr > th:nth-child(n+2) .platform-name { color: inherit; }
+html .platform-comparison tr > td:nth-child(n+2) :is(strong,a) { color: inherit; }
+html .platform-comparison tr > td:nth-child(n+2) a:hover,
+html .platform-comparison tr > td:nth-child(n+2) a:focus-visible { color: #000; }
+html .platform-comparison tr > td:nth-child(n+2) .score { color: inherit; background: #ffffff80; border-color: #00000040; }
 @media (max-width: 760px) { .platforms-page { width: calc(100% - 32px); padding: 38px 0 68px; }.platforms-intro { margin-bottom: 25px; }.platforms-intro h1 { font-size: 35px; letter-spacing: -1.4px; }.platforms-intro > p:last-child { font-size: 15px; }.comparison-hint { display: block; margin: 0 0 11px; }.comparison-scroll { border-radius: 15px; }.platform-comparison { min-width: 920px; }.platform-comparison th, .platform-comparison td { padding: 16px; }.platform-comparison thead th:first-child, .platform-comparison tbody th { width: 180px; }.platform-comparison td { font-size: 13px; } }
