@@ -294,7 +294,7 @@ html[data-theme] .site-header.global-header nav > a:not(.nav-account) { color: #
 html[data-theme="light"] .site-header.global-header nav > a:not(.nav-account) { color: #765014; }
 html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { color: #f2cc70; }
 
-/* Desktop: socials, logo and language on the left; page links centered; right controls unchanged. */
+/* Desktop: socials and logo on the left, centered pages, registration then theme and language on the right. */
 @media (min-width: 761px) {
   .site-header.global-header {
     --header-social-size: 42px;
@@ -308,6 +308,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-theme-width: 112px;
     --header-theme-button: 34px;
     --header-language-width: 80px;
+    --header-language-space: calc(var(--header-language-width) + var(--header-language-gap));
     --header-left: 16px;
     --header-language-gap: 18px;
     --header-right: 20px;
@@ -318,6 +319,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     /* Equal outer tracks keep only the page links at the center of the full header. */
     padding: 0 var(--header-right);
   }
+  .site-header.global-header:not(:has(> .public-language-switch)) { --header-language-space: 0px; }
   .site-header.global-header .header-socials {
     position: absolute;
     top: 50%;
@@ -349,7 +351,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header nav .nav-account {
     position: absolute;
     top: 50%;
-    right: calc(var(--header-right) + var(--header-theme-width) + var(--header-action-gap));
+    right: calc(var(--header-right) + var(--header-language-space) + var(--header-theme-width) + var(--header-action-gap));
     min-width: var(--header-action-width);
     min-height: 50px;
     margin: 0;
@@ -363,7 +365,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header nav > .public-theme-switch {
     position: absolute;
     top: 50%;
-    right: var(--header-right);
+    right: calc(var(--header-right) + var(--header-language-space));
     grid-template-columns: repeat(3, var(--header-theme-button));
     gap: 2px;
     width: var(--header-theme-width);
@@ -377,8 +379,8 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header > .public-language-switch {
     position: absolute;
     top: 50%;
-    left: calc(var(--header-left) + 4 * var(--header-social-size) + 3 * var(--header-social-gap) + var(--header-logo-gap) + var(--header-logo-width) + var(--header-language-gap));
-    right: auto;
+    left: auto;
+    right: var(--header-right);
     gap: 2px;
     width: var(--header-language-width);
     min-height: 40px;
@@ -439,7 +441,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header > .public-language-switch button { min-width: 26px; font-size: 11px; }
 }
 
-/* Compact the left group before it reaches the centered pages; preserve right-control positions. */
+/* Keep both side groups clear of the centered pages at compact desktop widths. */
 @media (min-width: 761px) and (max-width: 1499px) {
   .site-header.global-header {
     --header-social-size: 34px;
@@ -464,6 +466,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-social-size: 26px;
     --header-logo-width: 81px;
     --header-logo-gap: 10px;
+    --header-action-gap: 8px;
     --header-language-width: 60px;
     --header-language-gap: 10px;
   }
@@ -475,6 +478,10 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-social-gap: 3px;
     --header-logo-width: 65px;
     --header-logo-gap: 8px;
+    --header-action-width: 94px;
+    --header-language-width: 54px;
     --header-language-gap: 8px;
   }
+  .site-header.global-header nav .nav-account { font-size: 11px; }
+  .site-header.global-header > .public-language-switch button { min-width: 23px; padding-inline: 4px; }
 }
