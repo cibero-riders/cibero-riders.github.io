@@ -294,7 +294,7 @@ html[data-theme] .site-header.global-header nav > a:not(.nav-account) { color: #
 html[data-theme="light"] .site-header.global-header nav > a:not(.nav-account) { color: #765014; }
 html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { color: #f2cc70; }
 
-/* Desktop: socials on the left, logo beside centered pages, action and controls on the right. */
+/* Desktop: socials and language on the left, centered logo and pages, action and theme on the right. */
 @media (min-width: 761px) {
   .site-header.global-header {
     --header-social-size: 42px;
@@ -308,20 +308,20 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-theme-width: 112px;
     --header-theme-button: 34px;
     --header-language-width: 80px;
-    --header-language-space: 98px;
+    --header-left: 16px;
+    --header-language-gap: 18px;
     --header-right: 20px;
     display: grid;
     grid-template-columns: minmax(0, 1fr) var(--header-logo-width) auto minmax(0, 1fr);
     gap: 0;
     height: 76px;
-    /* Compensate for the logo so the page links keep their existing horizontal position. */
-    padding: 0 calc(20px + 5vw + var(--header-logo-width) + var(--header-logo-gap)) 0 20px;
+    /* Equal outer tracks center the logo and page links together across the full header. */
+    padding: 0 var(--header-right);
   }
-  .site-header.global-header:not(:has(> .public-language-switch)) { --header-language-space: 0px; }
   .site-header.global-header .header-socials {
     position: absolute;
     top: 50%;
-    left: 16px;
+    left: var(--header-left);
     display: flex;
     gap: var(--header-social-gap);
     margin: 0;
@@ -348,7 +348,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header nav .nav-account {
     position: absolute;
     top: 50%;
-    right: calc(var(--header-right) + var(--header-language-space) + var(--header-theme-width) + var(--header-action-gap));
+    right: calc(var(--header-right) + var(--header-theme-width) + var(--header-action-gap));
     min-width: var(--header-action-width);
     min-height: 50px;
     margin: 0;
@@ -362,7 +362,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header nav > .public-theme-switch {
     position: absolute;
     top: 50%;
-    right: calc(var(--header-right) + var(--header-language-space));
+    right: var(--header-right);
     grid-template-columns: repeat(3, var(--header-theme-button));
     gap: 2px;
     width: var(--header-theme-width);
@@ -376,7 +376,8 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header > .public-language-switch {
     position: absolute;
     top: 50%;
-    right: var(--header-right);
+    left: calc(var(--header-left) + 4 * var(--header-social-size) + 3 * var(--header-social-gap) + var(--header-language-gap));
+    right: auto;
     gap: 2px;
     width: var(--header-language-width);
     min-height: 40px;
@@ -412,7 +413,6 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-theme-width: 100px;
     --header-theme-button: 30px;
     --header-language-width: 72px;
-    --header-language-space: 86px;
   }
   .site-header.global-header nav .nav-account { padding-inline: 8px; font-size: 14px; }
   .site-header.global-header > .public-language-switch button { min-width: 32px; }
@@ -429,10 +429,9 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-theme-width: 78px;
     --header-theme-button: 23px;
     --header-language-width: 60px;
-    --header-language-space: 70px;
+    --header-left: 12px;
     --header-right: 12px;
   }
-  .site-header.global-header .header-socials { left: 12px; }
   .site-header.global-header nav .nav-account { padding-inline: 2px; font-size: 12px; }
   .site-header.global-header nav .nav-account::after { margin-left: 4px; font-size: 16px; }
   .site-header.global-header .public-theme-switch span { font-size: 17px; }
