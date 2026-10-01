@@ -53,9 +53,55 @@
     applyTheme(storedTheme());
   }
 
+  // Move the existing controls on mobile, preserving their links, state and event listeners.
+  function installMobileNavigation() {
+    const header = document.querySelector(".site-header.global-header");
+    const navigation = header?.querySelector("nav");
+    const account = navigation?.querySelector(".nav-account");
+    if (!header || !navigation || !account || header.dataset.mobileNavigationInstalled) return;
+    header.dataset.mobileNavigationInstalled = "true";
+    const language = header.querySelector(":scope > .public-language-switch");
+    const theme = navigation.querySelector(":scope > .public-theme-switch");
+    const accountSlot = document.createComment("Desktop registration position");
+    const languageSlot = document.createComment("Desktop language position");
+    const themeSlot = document.createComment("Desktop theme position");
+    account.before(accountSlot);
+    language?.before(languageSlot);
+    theme?.before(themeSlot);
+    const controls = document.createElement("div");
+    controls.className = "mobile-menu-controls";
+    const mobile = window.matchMedia("(max-width: 760px)");
+
+    function arrangeNavigation() {
+      navigation.classList.remove("open");
+      header.querySelector(".menu-toggle")?.setAttribute("aria-expanded", "false");
+      if (mobile.matches) {
+        header.insertBefore(account, navigation);
+        account.classList.add("mobile-header-account");
+        if (language) controls.append(language);
+        if (theme) controls.append(theme);
+        navigation.append(controls);
+      } else {
+        accountSlot.after(account);
+        account.classList.remove("mobile-header-account");
+        if (language) languageSlot.after(language);
+        if (theme) themeSlot.after(theme);
+        controls.remove();
+      }
+    }
+
+    arrangeNavigation();
+    mobile.addEventListener("change", arrangeNavigation);
+  }
+
+  function installHeaderControls() {
+    installSwitch();
+    installMobileNavigation();
+  }
+
   applyTheme(storedTheme());
-  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", installSwitch, { once: true });
-  else installSwitch();
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", installHeaderControls, { once: true });
+  else installHeaderControls();
   window.addEventListener("storage", (event) => {
     if (event.key === STORAGE_KEY) applyTheme(storedTheme());
   });
