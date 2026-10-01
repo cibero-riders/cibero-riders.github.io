@@ -294,7 +294,7 @@ html[data-theme] .site-header.global-header nav > a:not(.nav-account) { color: #
 html[data-theme="light"] .site-header.global-header nav > a:not(.nav-account) { color: #765014; }
 html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { color: #f2cc70; }
 
-/* Desktop: socials and language on the left, centered logo and pages, action and theme on the right. */
+/* Desktop: socials, logo and language on the left; page links centered; right controls unchanged. */
 @media (min-width: 761px) {
   .site-header.global-header {
     --header-social-size: 42px;
@@ -312,10 +312,10 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
     --header-language-gap: 18px;
     --header-right: 20px;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--header-logo-width) auto minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     gap: 0;
     height: 76px;
-    /* Equal outer tracks center the logo and page links together across the full header. */
+    /* Equal outer tracks keep only the page links at the center of the full header. */
     padding: 0 var(--header-right);
   }
   .site-header.global-header .header-socials {
@@ -329,19 +329,20 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   }
   .site-header.global-header .header-socials :is(a,img) { width: var(--header-social-size); height: var(--header-social-size); }
   .site-header.global-header .brand-wordmark {
-    position: static;
-    grid-column: 2;
+    position: absolute;
+    top: 0;
+    left: calc(var(--header-left) + 4 * var(--header-social-size) + 3 * var(--header-social-gap) + var(--header-logo-gap));
     width: var(--header-logo-width);
     height: 75px;
   }
   .site-header.global-header nav {
     position: static;
-    grid-column: 3;
+    grid-column: 2;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--header-nav-gap);
-    margin: 0 0 0 var(--header-logo-gap);
+    margin: 0;
     white-space: nowrap;
   }
   .site-header.global-header nav > a:not(.nav-account) { margin: 0; padding-block: 11.4px; font: 600 var(--header-nav-size)/1.2 "DM Sans", sans-serif; }
@@ -376,7 +377,7 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header > .public-language-switch {
     position: absolute;
     top: 50%;
-    left: calc(var(--header-left) + 4 * var(--header-social-size) + 3 * var(--header-social-gap) + var(--header-language-gap));
+    left: calc(var(--header-left) + 4 * var(--header-social-size) + 3 * var(--header-social-gap) + var(--header-logo-gap) + var(--header-logo-width) + var(--header-language-gap));
     right: auto;
     gap: 2px;
     width: var(--header-language-width);
@@ -436,4 +437,44 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header nav .nav-account::after { margin-left: 4px; font-size: 16px; }
   .site-header.global-header .public-theme-switch span { font-size: 17px; }
   .site-header.global-header > .public-language-switch button { min-width: 26px; font-size: 11px; }
+}
+
+/* Compact the left group before it reaches the centered pages; preserve right-control positions. */
+@media (min-width: 761px) and (max-width: 1499px) {
+  .site-header.global-header {
+    --header-social-size: 34px;
+    --header-social-gap: 6px;
+    --header-logo-width: 154.8px;
+    --header-logo-gap: 24px;
+  }
+}
+@media (min-width: 761px) and (max-width: 1299px) {
+  .site-header.global-header {
+    --header-social-size: 30px;
+    --header-social-gap: 4px;
+    --header-logo-width: 122.4px;
+    --header-logo-gap: 14px;
+    --header-language-width: 72px;
+    --header-language-gap: 12px;
+  }
+  .site-header.global-header > .public-language-switch button { min-width: 32px; }
+}
+@media (min-width: 761px) and (max-width: 1099px) {
+  .site-header.global-header {
+    --header-social-size: 26px;
+    --header-logo-width: 81px;
+    --header-logo-gap: 10px;
+    --header-language-width: 60px;
+    --header-language-gap: 10px;
+  }
+  .site-header.global-header > .public-language-switch button { min-width: 26px; font-size: 11px; }
+}
+@media (min-width: 761px) and (max-width: 850px) {
+  .site-header.global-header {
+    --header-social-size: 22px;
+    --header-social-gap: 3px;
+    --header-logo-width: 65px;
+    --header-logo-gap: 8px;
+    --header-language-gap: 8px;
+  }
 }
