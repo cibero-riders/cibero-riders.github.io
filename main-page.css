@@ -537,6 +537,87 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
 .home-faq details a { color: #e7c968; font-weight: 700; text-underline-offset: 3px; }
 .home-faq details a:hover, .home-faq details a:focus-visible { color: #fff0bd; }
 
+/* Fleet story and registration call to action, shown immediately after the FAQ. */
+.home-faq { margin-bottom: 48px; }
+.home-about {
+  width: min(1050px, calc(100% - 64px));
+  margin: 0 auto 104px;
+  padding: 38px clamp(20px, 4vw, 58px) 44px;
+  border: 1px solid #d7b34d78;
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 50% 0, #c18a2921, transparent 48%),
+    linear-gradient(145deg, #25112f, #150a1d);
+  box-shadow: inset 0 1px 0 #fff4c20d, 0 26px 58px #0201045a;
+  text-align: center;
+}
+.home-about header { margin-bottom: 23px; text-align: center; }
+.home-about header .showcase-kicker { margin-bottom: 10px; }
+.home-about h2 {
+  margin: 0;
+  color: #fff3cb;
+  font-size: clamp(29px, 3.1vw, 39px);
+  font-weight: 800;
+  letter-spacing: -.045em;
+}
+.home-about-copy { width: min(860px, 100%); margin: 0 auto; }
+.home-about-copy p {
+  margin: 0;
+  color: #dccce0;
+  font-size: clamp(15px, 1.25vw, 17px);
+  line-height: 1.72;
+}
+.home-about-copy p + p { margin-top: 15px; }
+.home-about-copy .home-about-question {
+  margin-top: 21px;
+  color: #ffe49b;
+  font-size: clamp(18px, 1.65vw, 22px);
+  font-weight: 750;
+  line-height: 1.4;
+}
+.home-about-cta {
+  display: inline-flex;
+  min-height: 50px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 27px;
+  padding: 12px 21px;
+  border: 1px solid #ffe69a;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #9f6819, #f8db80 55%, #b67b22);
+  box-shadow: inset 0 1px 0 #fff4c782, 0 8px 22px #d69b3045;
+  color: #211225;
+  font-size: 16px;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s ease;
+}
+.home-about-cta span { font-size: 20px; line-height: 1; }
+.home-about-cta:hover,
+.home-about-cta:focus-visible {
+  transform: translateY(-2px);
+  filter: brightness(1.06);
+  box-shadow: inset 0 1px 0 #fff4c7a6, 0 10px 25px #d69b304d;
+}
+.home-about-cta:focus-visible { outline: 2px solid #f2cc70; outline-offset: 4px; }
+
+@media (max-width: 760px) {
+  .home-faq { margin-bottom: 28px; }
+  .home-about {
+    width: calc(100% - 32px);
+    margin-bottom: 70px;
+    padding: 31px 16px 27px;
+    border-radius: 15px;
+  }
+  .home-about header { margin-bottom: 18px; }
+  .home-about h2 { font-size: 28px; }
+  .home-about-copy p { font-size: 14px; line-height: 1.68; }
+  .home-about-copy p + p { margin-top: 13px; }
+  .home-about-copy .home-about-question { margin-top: 18px; font-size: 18px; }
+  .home-about-cta { min-height: 48px; margin-top: 22px; padding: 11px 18px; font-size: 15px; }
+}
+
 @media (max-width: 960px) {
   .home-showcase {
     grid-template-columns: 1fr;
@@ -613,3 +694,23 @@ html[data-theme="night"] .activity-video-link { color: #d5c8af; }
   .home-faq details p { margin: -1px 14px 16px; font-size: 14px; }
   .home-faq details p + p { margin-top: -8px; padding-top: 0; border-top: 0; }
 }
+@media (max-width: 760px) {
+  .home-faq { margin-bottom: 28px; }
+}
++/* Theme-specific contrast for the homepage "About us" section. */
+html[data-theme="light"] .home-about {
+  border-color: #c49a4c73;
+  background: radial-gradient(ellipse at 50% 0, #f0cf762b, transparent 48%), linear-gradient(145deg, #fffdf8, #f5efe5);
+  box-shadow: inset 0 1px 0 #fff, 0 22px 48px #7d5d241b;
+}
+html[data-theme="light"] .home-about h2 { color: #38233c; }
+html[data-theme="light"] .home-about-copy p { color: #615766; }
+html[data-theme="light"] .home-about-copy .home-about-question { color: #765014; }
+html[data-theme="night"] .home-about {
+  border-color: #80674761;
+  background: radial-gradient(ellipse at 50% 0, #8067471e, transparent 48%), linear-gradient(145deg, #252621, #151613);
+  box-shadow: inset 0 1px 0 #d8bd910d, 0 22px 48px #0008;
+}
+html[data-theme="night"] .home-about h2 { color: #eee6d7; }
+html[data-theme="night"] .home-about-copy p { color: #c9c3ba; }
+html[data-theme="night"] .home-about-copy .home-about-question { color: #e6cc85; }
