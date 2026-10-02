@@ -70,6 +70,19 @@ html[data-theme="night"] .testmode-page {
   color: var(--test-gold);
   font-style: normal;
 }
+.testmode-page .showcase-heading-arrow {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  color: var(--test-gold);
+  filter: drop-shadow(0 2px 5px rgba(226, 172, 52, .28));
+}
+.testmode-page .showcase-heading-arrow path {
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .testmode-page .test-presentation .video-frame {
   height: 100%;
   min-height: 0;
@@ -191,6 +204,11 @@ html[data-theme="night"] .testmode-page {
 
   .testmode-page .test-heading {
     min-height: 35px;
+  }
+
+  .testmode-page .showcase-heading-arrow {
+    width: 26px;
+    height: 26px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
