@@ -1,6 +1,6 @@
 export function HomeAbout() {
   return (
-    <section className="home-about" aria-labelledby="home-about-title">
+    <section id="despre-noi" className="home-about" aria-labelledby="home-about-title">
       <header>
         <p className="showcase-kicker"><span />Cine suntem<span /></p>
         <h2 id="home-about-title">Despre noi</h2>

@@ -21,6 +21,7 @@ export function PublicHeader() {
       <button className="menu-toggle" type="button" aria-label="Deschide meniul" aria-controls="main-nav" aria-expanded="false">☰</button>
       <nav id="main-nav" aria-label="Navigație principală">
         <a aria-current="page" href="/">Prezentare</a>
+        <a href="/#despre-noi">Despre noi</a>
         <a href="/orase/">Orașe</a>
         <a href="/campanii/">Campanii</a>
         <a className="nav-account" href="/deschide-cont.html">Deschide Cont</a>

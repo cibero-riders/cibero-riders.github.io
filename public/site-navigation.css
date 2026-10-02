@@ -516,3 +516,4 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header .brand-wordmark { width: clamp(80px, calc(100vw - 220px), 140px); }
   .site-header.global-header > .mobile-header-account { padding-inline: 10px; font-size: 13px; }
 }
+.home-about { scroll-margin-top: 100px; }
