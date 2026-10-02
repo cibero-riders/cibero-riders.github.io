@@ -170,6 +170,29 @@ html[data-theme="night"] .testmode-page {
   .testmode-page .test-benefit .showcase-benefit-detail p + p { padding-top: 0; }
   .testmode-page .home-activity-video { width: calc(100% - 32px); margin-top: 42px; }
 }
+
+/* Keep the unified showcase titles on the same visual scale as About and FAQ. */
+.testmode-page .test-heading,
+.testmode-page .home-activity-video .showcase-section-title {
+  font-size: clamp(29px, 3.1vw, 39px);
+  font-weight: 800;
+  letter-spacing: -0.045em;
+}
+
+.testmode-page .test-heading {
+  min-height: 49px;
+}
+
+@media (max-width: 760px) {
+  .testmode-page .test-heading,
+  .testmode-page .home-activity-video .showcase-section-title {
+    font-size: 28px;
+  }
+
+  .testmode-page .test-heading {
+    min-height: 35px;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .testmode-page .test-benefit-icon { transition: none; }
 }
