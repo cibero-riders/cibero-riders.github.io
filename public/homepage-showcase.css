@@ -196,6 +196,15 @@ html[data-theme="night"] .testmode-page {
   min-height: 49px;
 }
 
+.testmode-page .home-activity-video .showcase-section-title {
+  grid-template-columns: 30px minmax(0, auto) 30px;
+}
+
+.testmode-page .home-activity-video .showcase-section-title::before,
+.testmode-page .home-activity-video .showcase-section-title::after {
+  content: none;
+}
+
 @media (max-width: 760px) {
   .testmode-page .test-heading,
   .testmode-page .home-activity-video .showcase-section-title {
@@ -204,6 +213,10 @@ html[data-theme="night"] .testmode-page {
 
   .testmode-page .test-heading {
     min-height: 35px;
+  }
+
+  .testmode-page .home-activity-video .showcase-section-title {
+    grid-template-columns: 26px minmax(0, auto) 26px;
   }
 
   .testmode-page .showcase-heading-arrow {
