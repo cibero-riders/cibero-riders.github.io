@@ -5,7 +5,7 @@ import "./globals.css";
 
 const title = "CibeRO | Flotă parteneră";
 const description = "CibeRO — flotă parteneră pentru curieri Bolt Food, Wolt și Glovo.";
-const socialImage = "https://cibero-riders.github.io/assets/cibero-social-preview.png?v=1";
+const socialImage = "https://cibero.delivery/assets/cibero-social-logo-20261002.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://cibero-riders.github.io"),
@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     title,
     description: "Flotă parteneră pentru curieri Bolt Food, Wolt și Glovo.",
     url: "/",
-    images: [{ url: socialImage, width: 1200, height: 630, type: "image/png" }],
+    images: [{ url: socialImage, width: 1254, height: 1254, type: "image/png", alt: "Logo CibeRO — Bolt Food, Glovo și Wolt" }],
   },
   twitter: {
     card: "summary_large_image",
