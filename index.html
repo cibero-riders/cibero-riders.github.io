@@ -36,8 +36,9 @@
   <link rel="stylesheet" href="site-theme.css?v=12" />
   <link rel="stylesheet" href="site-language.css?v=3" />
   <link rel="stylesheet" href="site-footer.css?v=1" />
+  <link rel="stylesheet" href="testmode/testmode.css?v=3" />
 </head>
-<body>
+<body class="testmode-page">
   <header class="site-header global-header">
     <a class="brand brand-wordmark" href="./" aria-label="CibeRO, pagina principală">
       <img src="assets/cibero-header-wordmark.png" alt="CibeRO" />
@@ -59,13 +60,11 @@
     <div class="language-switch public-language-switch" role="group" aria-label="Alege limba"><button class="active" type="button" data-language="ro" aria-pressed="true">RO</button><button type="button" data-language="en" aria-pressed="false">EN</button></div>
   </header>
 
-  <main id="acasa">
-    <section class="home-showcase" aria-labelledby="showcase-title">
-      <div class="showcase-glow" aria-hidden="true"></div>
+<main id="acasa">
+    <section class="test-showcase" aria-labelledby="showcase-title">
 
-      <div class="showcase-media">
-        <div class="showcase-video">
-          <h2 class="showcase-section-title showcase-video-title"><span><strong>CibeRO</strong> - Prezentare</span></h2>
+      <div class="test-presentation">
+          <h2 class="test-heading"><span><strong>CibeRO</strong> - Prezentare</span></h2>
           <div class="video-frame" data-youtube-id="GtTUzil6IV0">
             <button class="video-poster" type="button" aria-label="Redă videoclipul de prezentare CibeRO">
               <img src="https://i.ytimg.com/vi/GtTUzil6IV0/maxresdefault.jpg" data-thumbnail-fallback="https://i.ytimg.com/vi/GtTUzil6IV0/hqdefault.jpg" alt="Coperta videoclipului de prezentare CibeRO" />
@@ -77,67 +76,65 @@
           </div>
           <a class="mobile-registration-cta" href="https://cibero-manager-tool.bolt.host/inscriere">Înregistrează-te <span aria-hidden="true">→</span></a>
         </div>
-      </div>
 
-      <div class="showcase-benefits">
-        <h1 id="showcase-title" class="showcase-section-title"><span>Tot ce ai nevoie <em>ca să livrezi</em></span></h1>
-        <div class="showcase-benefit-grid">
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-0"><span class="showcase-benefit-icon"><img src="assets/benefit-activation.svg" alt="" /></span><span>Activare în 0–48 ore după înregistrare</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-0" aria-hidden="true" inert><p>După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.</p></div>
+      <div class="test-benefits">
+        <h1 id="showcase-title" class="test-heading">Tot ce ai nevoie <em>ca să livrezi</em></h1>
+        <div class="test-benefit-grid">
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-0"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><span>Flexibilitate</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-0" aria-hidden="true" inert><p><strong>Tu îți faci programul</strong></p><p>Dar ține minte că productivitatea se realizează prin disciplină și consistență.</p></div>
           </article>
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-1"><span class="showcase-benefit-icon"><img src="assets/benefit-payments.svg" alt="" /></span><span>Rapoarte și plăți săptămânale</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-1" aria-hidden="true" inert><p>Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate. <em>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</em></p></div>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-1"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="m16 8-3 5-5 3 3-5 5-3Z"/><circle cx="12" cy="12" r="9"/></svg></span><span>Autonomie</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-1" aria-hidden="true" inert><p><strong>Ești propriul șef — tu decizi nivelul de muncă și cum o faci</strong></p><p>Dar sperăm să ții cont de conduita de bun simț și cooperare a platformelor și flotei 🙏</p></div>
           </article>
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-2"><span class="showcase-benefit-icon"><img src="assets/benefit-campaigns.svg" alt="" /></span><span>Campanii și beneficii exclusive</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-2" aria-hidden="true" inert><p>Poți vedea campaniile noastre active <a href="/campanii/">AICI</a>. Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim, <a href="/beneficii/">AICI</a>.</p></div>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-2"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="m3 16 6-6 4 4 8-10M15 4h6v6M4 21h16"/></svg></span><span>Câștiguri competitive</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-2" aria-hidden="true" inert><p><strong>3.000–6.000 lei/lună venit net</strong></p><p>Noi îți oferim sfaturi, bonusuri și campanii pentru a-ți maximiza profitul — tu decizi unde pui pragul 💪</p></div>
           </article>
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-3"><span class="showcase-benefit-icon"><img src="assets/benefit-support.svg" alt="" /></span><span>Suport dedicat</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-3" aria-hidden="true" inert><p>Avem grupul flotei pe WhatsApp, unde oamenii se ajută între ei. De asemenea, avem și helperi care pot răspunde la întrebări și îndruma corect. Prin sistemul nostru de ticketing, puteți comunica ușor și rapid orice situație.</p></div>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-3"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3 8 3v6c0 5-8 9-8 9S4 17 4 12V6l8-3Z"/><path d="m8 12 3 3 5-6"/></svg></span><span>Siguranță</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-3" aria-hidden="true" inert><p><strong>Un mediu sigur și stabil</strong></p><p>Datele și activitatea ta din cadrul flotei sunt în siguranță cu noi — adică, ești în siguranță cu noi ✌️</p></div>
           </article>
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-4"><span class="showcase-benefit-icon"><img src="assets/benefit-cities.svg" alt="" /></span><span>50+ orașe</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-4" aria-hidden="true" inert><p>CibeRO colaborează cu parteneri în 50 de orașe. Poți vedea orașele active <a href="/orase/">AICI</a>.</p></div>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-4"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="m13 2-9 12h7l-1 8 10-12h-7l0-8Z"/></svg></span><span>Activare în 0–48 ore după înregistrare</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-4" aria-hidden="true" inert><p>După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.</p></div>
           </article>
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-5"><span class="showcase-benefit-icon"><img src="assets/benefit-community.svg" alt="" /></span><span>800+ membri parteneri</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-5" aria-hidden="true" inert><p>O comunitate numeroasă vă poate spune mai multe despre noi.</p></div>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-5"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-4 2-4-2-3 2V3ZM8 7h8M8 11h8M8 15h4"/></svg></span><span>Rapoarte și plăți săptămânale</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-5" aria-hidden="true" inert><p>Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate. <em>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</em></p></div>
           </article>
-          <article class="showcase-benefit" data-showcase-benefit>
-            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-6"><span class="showcase-benefit-icon"><img src="assets/benefit-group.svg" alt="" /></span><span>Grup pentru comunitate</span></button></h2>
-            <div class="showcase-benefit-detail" id="benefit-details-6" aria-hidden="true" inert><p>Avem grup dedicat flotei pentru discuții generale, întrebări, probleme, cât și anunțuri și update-uri. Acces imediat după înregistrare. ✌️</p></div>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-6"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18v4H3zM5 12v9h14v-9M12 8v13"/><path d="M12 8H8a3 3 0 1 1 3-3l1 3Zm0 0h4a3 3 0 1 0-3-3l-1 3Z"/></svg></span><span>Campanii și beneficii exclusive</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-6" aria-hidden="true" inert><p>Poți vedea campaniile noastre active <a href="/campanii/">AICI</a>. Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim, <a href="/beneficii/">AICI</a>.</p></div>
+          </article>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-7"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="m5.6 5.6 3.6 3.6m5.6 5.6 3.6 3.6m0-12.8-3.6 3.6m-5.6 5.6-3.6 3.6"/></svg></span><span>Suport dedicat</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-7" aria-hidden="true" inert><p>Avem grupul flotei pe WhatsApp, unde oamenii se ajută între ei. De asemenea, avem și helperi care pot răspunde la întrebări și îndruma corect. Prin sistemul nostru de ticketing, puteți comunica ușor și rapid orice situație.</p></div>
+          </article>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-8"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12S4 16 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg></span><span>50+ orașe</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-8" aria-hidden="true" inert><p>CibeRO colaborează cu parteneri în 50 de orașe. Poți vedea orașele active <a href="/orase/">AICI</a>.</p></div>
+          </article>
+          <article class="showcase-benefit test-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="test-benefit-9"><span class="test-benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.55" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3 20v-2a6 6 0 0 1 12 0v2M17 5a3 3 0 0 1 0 6M21 20v-2a6 6 0 0 0-4-5"/></svg></span><span>800+ membri parteneri</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2>
+            <div class="showcase-benefit-detail" id="test-benefit-9" aria-hidden="true" inert><p>O comunitate numeroasă care îți poate spune mai multe despre noi. Acces în grup imediat după înregistrare.</p></div>
           </article>
         </div>
       </div>
+    </section>
 
-      <section class="offer-extension" aria-labelledby="offer-extension-title">
-        <div class="offer-bridge" aria-hidden="true"><span></span></div>
-        <header class="offer-heading">
-          <p>Beneficii în detaliu</p>
-          <h2 id="offer-extension-title">Ce primești de la noi</h2>
-        </header>
-        <div class="offer-tabs" role="tablist" aria-label="Beneficiile flotei CibeRO">
-          <button id="offer-tab-flexibility" class="offer-tab active" type="button" role="tab" aria-selected="true" aria-controls="offer-panel-flexibility" data-offer-tab="flexibility"><span>◷</span><strong>Flexibilitate</strong></button>
-          <button id="offer-tab-autonomy" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-autonomy" data-offer-tab="autonomy" tabindex="-1"><span>◈</span><strong>Autonomie</strong></button>
-          <button id="offer-tab-earnings" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-earnings" data-offer-tab="earnings" tabindex="-1"><span>◉</span><strong>Câștiguri competitive</strong></button>
-          <button id="offer-tab-payments" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-payments" data-offer-tab="payments" tabindex="-1"><span>▤</span><strong>Plăți săptămânale</strong></button>
-          <button id="offer-tab-support" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-support" data-offer-tab="support" tabindex="-1"><span>◌</span><strong>Suport dedicat</strong></button>
-          <button id="offer-tab-safety" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-safety" data-offer-tab="safety" tabindex="-1"><span>◇</span><strong>Siguranță</strong></button>
-          <button id="offer-tab-system" class="offer-tab" type="button" role="tab" aria-selected="false" aria-controls="offer-panel-system" data-offer-tab="system" tabindex="-1"><span>✦</span><strong>Sistemul flotei</strong></button>
-        </div>
-        <div class="offer-panels">
-          <article id="offer-panel-flexibility" class="offer-panel active" role="tabpanel" aria-labelledby="offer-tab-flexibility" data-offer-panel="flexibility"><span>◷</span><div><h3>Flexibilitate</h3><strong>Tu îți faci programul</strong><p>Dar ține minte că productivitatea se realizează prin disciplină și consistență.</p></div></article>
-          <article id="offer-panel-autonomy" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-autonomy" data-offer-panel="autonomy" hidden><span>◈</span><div><h3>Autonomie</h3><strong>Ești propriul șef — tu decizi nivelul de muncă și cum o faci</strong><p>Dar sperăm să ții cont de conduita de bun simț și cooperare a platformelor și flotei 🙏</p></div></article>
-          <article id="offer-panel-earnings" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-earnings" data-offer-panel="earnings" hidden><span>◉</span><div><h3>Câștiguri competitive</h3><strong>3.000–6.000 lei/lună venit net</strong><p>Noi îți oferim sfaturi, bonusuri și campanii pentru a-ți maximiza profitul — tu decizi unde pui pragul 💪</p></div></article>
-          <article id="offer-panel-payments" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-payments" data-offer-panel="payments" hidden><span>▤</span><div><h3>Plăți și rapoarte săptămânale stabile</h3><strong>Încasările tale sunt în siguranță cu noi</strong><p>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</p></div></article>
-          <article id="offer-panel-support" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-support" data-offer-panel="support" hidden><span>◌</span><div><h3>Suport dedicat</h3><strong>Staff-ul și comunitatea îți sunt alături</strong><p>Oricând ai probleme, nu ești singur — comunitatea, staff-ul flotei, cât și asistența de la platforme îți sunt alături.</p></div></article>
-          <article id="offer-panel-safety" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-safety" data-offer-panel="safety" hidden><span>◇</span><div><h3>Siguranță</h3><strong>Un mediu sigur și stabil</strong><p>Datele și activitatea ta din cadrul flotei sunt în siguranță cu noi — adică, ești în siguranță cu noi ✌️</p></div></article>
-          <article id="offer-panel-system" class="offer-panel" role="tabpanel" aria-labelledby="offer-tab-system" data-offer-panel="system" hidden><span>✦</span><div><h3>Sistemul flotei</h3><strong>Platforme unice, tehnologie intuitivă</strong><p>Avem aplicație mobilă, grup de comunitate, canal de anunțuri, sistem de ticketing și multe altele.</p></div></article>
-        </div>
-      </section>
+    <section id="despre-noi" class="home-about" aria-labelledby="home-about-title">
+      <header>
+        <p class="showcase-kicker"><span></span>Cine suntem<span></span></p>
+        <h2 id="home-about-title">Despre noi</h2>
+      </header>
+      <div class="home-about-copy">
+        <p>CibeRO - flotă parteneră cu toate cele 3 platforme delivery din țară, Bolt Food, Glovo și Wolt. Colaborăm cu persoane care vor să facă curierat la oricare din platforme, cu posibilitatea de activare la toate 3 platformele. De asemenea, colaborăm cu sub-flote deja existente sau în dezvoltare (și tu poți avea una).</p>
+        <p data-i18n data-testmode-i18n="about-values">Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori ai resurselor lor.</p>
+        <p class="home-about-question">Tu ce alegi să faci din această oportunitate?</p>
+      </div>
+      <a class="home-about-cta" href="https://cibero-manager-tool.bolt.host/inscriere"><span data-i18n data-testmode-i18n="first-step">fă primul pas</span><span aria-hidden="true">→</span></a>
     </section>
 
     <section class="home-activity-video" aria-labelledby="activity-video-title">
@@ -187,22 +184,11 @@
         </details>
         <details>
           <summary>Avem activitate în orașul tău?<span aria-hidden="true"></span></summary>
-          <p>Cel mai probabil, da. Activăm în peste 50 de orașe și avem o rețea suficient de remote încât să putem gestiona și de la distanță. Dă click pe <a href="orase/">Orașe</a> pentru a verifica orașul tău.</p>
+          <p>Cel mai probabil, da. Activăm în peste 50 de orașe și avem o rețea suficient de remote încât să putem gestiona și de la distanță. Dă click pe <a href="/orase/">Orașe</a> pentru a verifica orașul tău.</p>
         </details>
       </div>
     </section>
-    <section id="despre-noi" class="home-about" aria-labelledby="home-about-title">
-      <header>
-        <p class="showcase-kicker"><span></span>Cine suntem<span></span></p>
-        <h2 id="home-about-title">Despre noi</h2>
-      </header>
-      <div class="home-about-copy">
-        <p>CibeRO - flotă parteneră cu toate cele 3 platforme delivery din țară, Bolt Food, Glovo și Wolt. Colaborăm cu persoane care vor să facă curierat la oricare din platforme, cu posibilitatea de activare la toate 3 platformele. De asemenea, colaborăm cu sub-flote deja existente sau în dezvoltare (și tu poți avea una).</p>
-        <p>Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori a resurselor lor. Așa că, asta e ce oferim.</p>
-        <p class="home-about-question">Tu ce alegi să faci din această oportunitate?</p>
-      </div>
-      <a class="home-about-cta" href="https://cibero-manager-tool.bolt.host/inscriere">Fă primul pas<span aria-hidden="true">→</span></a>
-    </section>
+
   </main>
   <footer class="site-footer">
     <div class="footer-socials" aria-label="Urmărește CibeRO">
@@ -225,5 +211,6 @@
   <script src="main-page.js?v=12"></script>
   <script src="site-theme.js?v=3"></script>
   <script src="site-language.js?v=7"></script>
+  <script src="testmode/testmode-language.js?v=1"></script>
 </body>
 </html>
