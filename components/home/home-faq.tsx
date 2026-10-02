@@ -9,7 +9,7 @@ const questions = [
   },
   {
     question: "La ce platforme pot avea cont?",
-    content: <p>Vei începe cu Bolt Food pentru a te acomoda cât mai ușor, după care poți cere activare la Glovo sau/și Wolt, după câteva săptămâni de activitate.</p>,
+    content: <p>Vei începe cu Bolt Food pentru a te acomoda cât mai ușor, după care poți cere activare și la Glovo sau/și Wolt, după câteva săptămâni de activitate.</p>,
   },
   {
     question: "Cum are loc comunicarea?",
