@@ -7,6 +7,7 @@ const legacyDirectoryRoutes = [
   "locuri",
   "onboarding",
   "orase",
+  "testmode",
   "ticket",
   "tickete",
 ];
