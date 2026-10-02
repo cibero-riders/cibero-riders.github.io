@@ -44,6 +44,18 @@
     'Orele se rezervă dinainte, cu posibilitatea de intrare și ieșire flexibilă atunci când cererea este ridicată în orașul tău.': 'Hours are booked in advance, with flexible check-in and check-out when demand is high in your city.',
     'Disponibilitatea comenzilor poate varia și în funcție de oraș, interval și cerere.': 'Order availability may also vary by city, time slot and demand.'
   };
+  Object.assign(translations, {
+    "După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.": "After completing onboarding and registering with our fleet, it takes 0–48 hours before you can actually start delivering.",
+    "Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate.": "Reports and self-invoices are sent to your registered email and the mobile app before payments are made.",
+    "Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌": "You receive a weekly report and payment directly to your IBAN; fair payment down to the last cent for your work 👌",
+    "Poți vedea campaniile noastre active": "See our active campaigns",
+    ". Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim,": ". You can also explore some of the benefits we offer",
+    "AICI": "HERE",
+    "Avem grupul flotei pe WhatsApp, unde oamenii se ajută între ei. De asemenea, avem și helperi care pot răspunde la întrebări și îndruma corect. Prin sistemul nostru de ticketing, puteți comunica ușor și rapid orice situație.": "Our fleet has a WhatsApp group where people help each other. We also have helpers who can answer questions and guide you. Our ticketing system makes it easy to report any situation quickly.",
+    "CibeRO colaborează cu parteneri în 50 de orașe. Poți vedea orașele active": "CibeRO works with partners in 50 cities. See the active cities",
+    "O comunitate numeroasă vă poate spune mai multe despre noi.": "A large community can tell you more about us.",
+    "Avem grup dedicat flotei pentru discuții generale, întrebări, probleme, cât și anunțuri și update-uri. Acces imediat după înregistrare. ✌️": "We have a dedicated fleet group for general discussions, questions, issues, announcements and updates. Access is available immediately after registration. ✌️"
+  });
   const originals = new WeakMap();
   Object.assign(translations, {
     'Aplicație simplă, rapidă și bine optimizată.': 'A simple, fast and well-optimized app.',

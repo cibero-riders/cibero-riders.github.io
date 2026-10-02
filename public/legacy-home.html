@@ -27,7 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <link rel="stylesheet" href="main-page.css?v=25" />
+  <link rel="stylesheet" href="main-page.css?v=40" />
   <link rel="stylesheet" href="site-navigation.css?v=31" />
   <link rel="stylesheet" href="smooth-typography.css?v=1" />
   <link rel="stylesheet" href="site-theme.css?v=12" />
@@ -76,14 +76,34 @@
       <div class="showcase-benefits">
         <h1 id="showcase-title" class="showcase-section-title"><span>Tot ce ai nevoie <em>ca să livrezi</em></span></h1>
         <div class="showcase-benefit-grid">
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-activation.svg" alt="" /></span><h2>Activare în 0–48 ore după înregistrare</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-payments.svg" alt="" /></span><h2>Rapoarte și plăți săptămânale</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-campaigns.svg" alt="" /></span><h2>Campanii și beneficii exclusive</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-support.svg" alt="" /></span><h2>Suport dedicat</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-cities.svg" alt="" /></span><h2>50+ orașe</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-community.svg" alt="" /></span><h2>800+ membri parteneri</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-group.svg" alt="" /></span><h2>Grup pentru comunitate</h2></article>
-          <article class="showcase-benefit"><span class="showcase-benefit-icon"><img src="assets/benefit-announcements.svg" alt="" /></span><h2>Canal de anunțuri oficial</h2></article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-0"><span class="showcase-benefit-icon"><img src="assets/benefit-activation.svg" alt="" /></span><span>Activare în 0–48 ore după înregistrare</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-0" aria-hidden="true" inert><p>După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.</p></div>
+          </article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-1"><span class="showcase-benefit-icon"><img src="assets/benefit-payments.svg" alt="" /></span><span>Rapoarte și plăți săptămânale</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-1" aria-hidden="true" inert><p>Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate. <em>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</em></p></div>
+          </article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-2"><span class="showcase-benefit-icon"><img src="assets/benefit-campaigns.svg" alt="" /></span><span>Campanii și beneficii exclusive</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-2" aria-hidden="true" inert><p>Poți vedea campaniile noastre active <a href="/campanii/">AICI</a>. Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim, <a href="/beneficii/">AICI</a>.</p></div>
+          </article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-3"><span class="showcase-benefit-icon"><img src="assets/benefit-support.svg" alt="" /></span><span>Suport dedicat</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-3" aria-hidden="true" inert><p>Avem grupul flotei pe WhatsApp, unde oamenii se ajută între ei. De asemenea, avem și helperi care pot răspunde la întrebări și îndruma corect. Prin sistemul nostru de ticketing, puteți comunica ușor și rapid orice situație.</p></div>
+          </article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-4"><span class="showcase-benefit-icon"><img src="assets/benefit-cities.svg" alt="" /></span><span>50+ orașe</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-4" aria-hidden="true" inert><p>CibeRO colaborează cu parteneri în 50 de orașe. Poți vedea orașele active <a href="/orase/">AICI</a>.</p></div>
+          </article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-5"><span class="showcase-benefit-icon"><img src="assets/benefit-community.svg" alt="" /></span><span>800+ membri parteneri</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-5" aria-hidden="true" inert><p>O comunitate numeroasă vă poate spune mai multe despre noi.</p></div>
+          </article>
+          <article class="showcase-benefit" data-showcase-benefit>
+            <h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="benefit-details-6"><span class="showcase-benefit-icon"><img src="assets/benefit-group.svg" alt="" /></span><span>Grup pentru comunitate</span></button></h2>
+            <div class="showcase-benefit-detail" id="benefit-details-6" aria-hidden="true" inert><p>Avem grup dedicat flotei pentru discuții generale, întrebări, probleme, cât și anunțuri și update-uri. Acces imediat după înregistrare. ✌️</p></div>
+          </article>
         </div>
       </div>
 
@@ -198,7 +218,7 @@
     </nav>
     <span class="footer-copyright">© Powered by Cibero - 2026 | All rights reserved</span>
   </footer>
-  <script src="main-page.js?v=10"></script>
+  <script src="main-page.js?v=12"></script>
   <script src="site-theme.js?v=3"></script>
 </body>
 </html>

@@ -1,12 +1,11 @@
 const benefits = [
-  ["benefit-activation.svg", "Activare în 0–48 ore după înregistrare"],
-  ["benefit-payments.svg", "Rapoarte și plăți săptămânale"],
-  ["benefit-campaigns.svg", "Campanii și beneficii exclusive"],
-  ["benefit-support.svg", "Suport dedicat"],
-  ["benefit-cities.svg", "50+ orașe"],
-  ["benefit-community.svg", "800+ membri parteneri"],
-  ["benefit-group.svg", "Grup pentru comunitate"],
-  ["benefit-announcements.svg", "Canal de anunțuri oficial"],
+  ["benefit-activation.svg", "Activare în 0–48 ore după înregistrare", <>După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.</>],
+  ["benefit-payments.svg", "Rapoarte și plăți săptămânale", <>Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate. <em>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</em></>],
+  ["benefit-campaigns.svg", "Campanii și beneficii exclusive", <>Poți vedea campaniile noastre active <a href="/campanii/">AICI</a>. Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim, <a href="/beneficii/">AICI</a>.</>],
+  ["benefit-support.svg", "Suport dedicat", <>Avem grupul flotei pe WhatsApp, unde oamenii se ajută între ei. De asemenea, avem și helperi care pot răspunde la întrebări și îndruma corect. Prin sistemul nostru de ticketing, puteți comunica ușor și rapid orice situație.</>],
+  ["benefit-cities.svg", "50+ orașe", <>CibeRO colaborează cu parteneri în 50 de orașe. Poți vedea orașele active <a href="/orase/">AICI</a>.</>],
+  ["benefit-community.svg", "800+ membri parteneri", <>O comunitate numeroasă vă poate spune mai multe despre noi.</>],
+  ["benefit-group.svg", "Grup pentru comunitate", <>Avem grup dedicat flotei pentru discuții generale, întrebări, probleme, cât și anunțuri și update-uri. Acces imediat după înregistrare. ✌️</>],
 ] as const;
 
 const offers = [
@@ -98,10 +97,10 @@ export function HomeShowcase() {
           <span>Tot ce ai nevoie <em>ca să livrezi</em></span>
         </h1>
         <div className="showcase-benefit-grid">
-          {benefits.map(([icon, label]) => (
-            <article className="showcase-benefit" key={label}>
-              <span className="showcase-benefit-icon"><img src={`/assets/${icon}`} alt="" /></span>
-              <h2>{label}</h2>
+          {benefits.map(([icon, label, detail], index) => (
+            <article className="showcase-benefit" data-showcase-benefit key={label}>
+              <h2><button className="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls={`benefit-details-${index}`}><span className="showcase-benefit-icon"><img src={`/assets/${icon}`} alt="" /></span><span>{label}</span></button></h2>
+              <div className="showcase-benefit-detail" id={`benefit-details-${index}`} aria-hidden="true" inert><p>{detail}</p></div>
             </article>
           ))}
         </div>

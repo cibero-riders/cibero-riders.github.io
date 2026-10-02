@@ -355,3 +355,34 @@ citySearchClear?.addEventListener("click", () => {
   filterCitiesOnMap();
   citySearchInput.focus();
 });
+// Hover reveals the second face; touch and keyboard users toggle it explicitly.
+document.querySelectorAll("[data-showcase-benefit]").forEach(card => {
+  const button = card.querySelector(".showcase-benefit-toggle");
+  const detail = card.querySelector(".showcase-benefit-detail");
+  const hover = window.matchMedia("(hover: hover) and (pointer: fine)");
+  const setOpen = open => {
+    card.classList.toggle("is-open", open);
+    button.setAttribute("aria-expanded", String(open));
+    detail.setAttribute("aria-hidden", String(!open));
+    detail.inert = !open;
+  };
+  card.addEventListener("pointerenter", () => { if (hover.matches) setOpen(true); });
+  card.addEventListener("pointerleave", () => {
+    if (hover.matches && !detail.contains(document.activeElement)) setOpen(false);
+  });
+  card.addEventListener("click", event => {
+    if (event.target.closest("a")) return;
+    if (!hover.matches || event.detail === 0) setOpen(!card.classList.contains("is-open"));
+    else setOpen(true);
+  });
+  card.addEventListener("keydown", event => {
+    if (event.key === "Escape") {
+      setOpen(false);
+      button.focus({ preventScroll: true });
+    }
+  });
+  card.addEventListener("focusout", event => {
+    if (event.relatedTarget && !card.contains(event.relatedTarget) && (!hover.matches || !card.matches(":hover"))) setOpen(false);
+  });
+  hover.addEventListener("change", () => setOpen(false));
+});
