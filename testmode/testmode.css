@@ -174,3 +174,72 @@ html[data-theme="night"] .testmode-page {
 @media (prefers-reduced-motion: reduce) {
   .testmode-page .test-benefit-icon { transition: none; }
 }
+/* Fade the two faces without changing desktop grid dimensions. */
+.testmode-page .test-benefit.showcase-benefit > h2,
+.testmode-page .test-benefit .showcase-benefit-detail {
+  transform: none;
+  transition: opacity .65s ease;
+}
+.testmode-page .test-benefit:hover .test-benefit-icon { transform: none; }
+.testmode-page .test-benefit.showcase-benefit.is-open > h2 { pointer-events: none; }
+@media (min-width: 961px) {
+  .testmode-page .test-benefit.showcase-benefit {
+    overflow: visible;
+    z-index: 1;
+    transition: border-color .65s ease, box-shadow .65s ease, z-index 0s .65s;
+  }
+  .testmode-page .test-benefit.showcase-benefit.is-open {
+    z-index: 4;
+    transition: border-color .65s ease, box-shadow .65s ease, z-index 0s;
+  }
+  .testmode-page .test-benefit.showcase-benefit.is-open > h2 {
+    max-height: 150px;
+    pointer-events: none;
+  }
+  .testmode-page .test-benefit .showcase-benefit-detail,
+  .testmode-page .test-benefit.showcase-benefit.is-open .showcase-benefit-detail {
+    position: absolute;
+    inset: -1px -1px auto;
+    min-height: calc(100% + 2px);
+    max-height: none;
+    border: 1px solid var(--test-gold);
+    border-radius: inherit;
+    background: var(--test-surface);
+    box-shadow: 0 12px 32px var(--test-shadow);
+  }
+  .testmode-page .test-benefit .showcase-benefit-detail { pointer-events: none; }
+  .testmode-page .test-benefit.showcase-benefit.is-open .showcase-benefit-detail { pointer-events: auto; }
+  /* Use the row's available width for readable details without moving either column. */
+  .testmode-page .test-benefit:not(:last-child) .showcase-benefit-detail {
+    right: auto;
+    width: calc(200% + 16px);
+  }
+  .testmode-page .test-benefit.showcase-benefit:nth-child(even) .showcase-benefit-detail { left: calc(-100% - 15px); }
+  .testmode-page .test-benefit .showcase-benefit-detail p { padding: 14px 19px; }
+  .testmode-page .test-benefit .showcase-benefit-detail p:has(> strong) { padding-bottom: 4px; }
+  .testmode-page .test-benefit .showcase-benefit-detail p + p { padding-top: 0; }
+  .testmode-page .test-benefit .showcase-benefit-detail em { display: inline; margin-top: 0; }
+}
+.testmode-page .home-about { margin-top: 58px; margin-bottom: 0; }
+.testmode-page .home-faq { margin-bottom: 72px; }
+html[data-theme] .testmode-page .home-about-cta {
+  border-color: #d9ad4b8c;
+  background: linear-gradient(135deg, #4a234f, #241029);
+  color: #f5d57a;
+  box-shadow: inset 0 1px 0 #fff0b21f;
+  font: 800 17px/1.1 "DM Sans", sans-serif;
+  letter-spacing: 0;
+}
+html[data-theme] .testmode-page .home-about-cta:hover,
+html[data-theme] .testmode-page .home-about-cta:focus-visible {
+  box-shadow: inset 0 1px 0 #fff0b22b, 0 7px 20px #08030b35;
+}
+html[data-theme] .testmode-page .home-about-cta [data-testmode-i18n] { font: inherit; }
+@media (max-width: 600px) {
+  .testmode-page .home-about { margin-top: 42px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .testmode-page .test-benefit.showcase-benefit,
+  .testmode-page .test-benefit.showcase-benefit > h2,
+  .testmode-page .test-benefit .showcase-benefit-detail { transition: none; }
+}
