@@ -48,6 +48,7 @@
     "După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.": "After completing onboarding and registering with our fleet, it takes 0–48 hours before you can actually start delivering.",
     "Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate.": "Reports and self-invoices are sent to your registered email and the mobile app before payments are made.",
     "Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌": "You receive a weekly report and payment directly to your IBAN; fair payment down to the last cent for your work 👌",
+    "Primești raport săptămânal și plata până la ultimul cent, direct pe IBAN;": "You receive a weekly report and payment down to the last cent, directly to your IBAN;",
     "Poți vedea campaniile noastre active": "See our active campaigns",
     ". Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim,": ". You can also explore some of the benefits we offer",
     "AICI": "HERE",

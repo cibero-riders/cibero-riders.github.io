@@ -1,6 +1,6 @@
 const benefits = [
   ["benefit-activation.svg", "Activare în 0–48 ore după înregistrare", <>După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.</>],
-  ["benefit-payments.svg", "Rapoarte și plăți săptămânale", <>Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate. <em>Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌</em></>],
+  ["benefit-payments.svg", "Rapoarte și plăți săptămânale", <>Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate. <em>Primești raport săptămânal și plata până la ultimul cent, direct pe IBAN;</em></>],
   ["benefit-campaigns.svg", "Campanii și beneficii exclusive", <>Poți vedea campaniile noastre active <a href="/campanii/">AICI</a>. Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim, <a href="/beneficii/">AICI</a>.</>],
   ["benefit-support.svg", "Suport dedicat", <>Avem grupul flotei pe WhatsApp, unde oamenii se ajută între ei. De asemenea, avem și helperi care pot răspunde la întrebări și îndruma corect. Prin sistemul nostru de ticketing, puteți comunica ușor și rapid orice situație.</>],
   ["benefit-cities.svg", "50+ orașe", <>CibeRO colaborează cu parteneri în 50 de orașe. Poți vedea orașele active <a href="/orase/">AICI</a>.</>],
