@@ -17,7 +17,7 @@ const questions = [
   },
   {
     question: "Ce comision se reține din veniturile mele?",
-    content: <><p><strong>1. Administrare completă:</strong> dacă vrei să ne ocupăm noi de hârtii, contabilitate, impozit la stat etc., din încasările tale 10% se duc la stat, 7% reține flota, iar 1,5% este taxa pentru aplicațiile platformelor Bolt Food, Glovo și Wolt.</p><p><strong>2. PFA:</strong> dacă ai un PFA sau vrei să-ți deschizi unul, noi te putem ajuta. Comisionul perceput de flotă este de 12,5% în acest caz.</p><p><strong>3. S.R.L. (contract de muncă):</strong> se rețin 12,5% din venituri și 420 lei/săptămână pentru cartea de muncă. Dacă vrei să devii sub-flotă la noi, comisioanele vor scădea.</p></>,
+    content: <><p>Ca flotă, oferim comision variabil în funcție de tipul de colaborare. Dările la stat pot fi administrate independent, sau de către noi.</p><p>După ce completezi înregistrarea, un membru al echipei te va contacta să-ți ofere mai multe detalii despre variantele de colaborare.</p></>,
   },
   {
     question: "Cum pot deveni sub-flotă la CibeRO?",
