@@ -6,7 +6,7 @@
   const originalDescription = document.querySelector('meta[name="description"]')?.getAttribute('content');
   const translations = {
     'Prezentare': 'Overview', 'Orașe': 'Cities', 'Campanii': 'Campaigns', 'Înregistrare': 'Sign up',
-    'Bolt Food, Glovo sau Wolt?': 'Bolt Food, Glovo, or Wolt?', 'Termeni și Condiții': 'Terms and Conditions',
+    'Bolt Food, Glovo sau Wolt?': 'Bolt Food, Glovo, or Wolt?', 'sau': 'or', 'Termeni și Condiții': 'Terms and Conditions',
     'Confidențialitate & GDPR': 'Privacy & GDPR', 'Politica de Cookie-uri': 'Cookie Policy', 'Contact': 'Contact',
     'Constanța, România': 'Constanța, Romania', 'Alege limba': 'Choose language', 'Deschide meniul': 'Open menu',
     'CibeRO · GHID PLATFORME': 'CibeRO · PLATFORM GUIDE', 'Alege platforma care ți se potrivește': 'Choose the platform that suits you',
