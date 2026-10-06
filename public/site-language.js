@@ -48,7 +48,7 @@
     "După ce parcurgi procesul de onboarding și ești înregistrat la flota noastră, durează între 0–48 de ore până când îți poți începe realmente activitatea.": "After completing onboarding and registering with our fleet, it takes 0–48 hours before you can actually start delivering.",
     "Rapoartele și autofacturile sunt trimise pe e-mail-ul înregistrat, cât și pe aplicația mobilă, înainte ca plățile să fie efectuate.": "Reports and self-invoices are sent to your registered email and the mobile app before payments are made.",
     "Primești raport săptămânal și plata direct pe IBAN; plată corectă până la ultimul cent, pentru munca ta 👌": "You receive a weekly report and payment directly to your IBAN; fair payment down to the last cent for your work 👌",
-    "Primești raport săptămânal și plata până la ultimul cent, direct pe IBAN;": "You receive a weekly report and payment down to the last cent, directly to your IBAN;",
+    "Primești raport săptămânal și plata până la ultimul cent, direct pe IBAN.": "You receive a weekly report and payment down to the last cent, directly to your IBAN.",
     "Poți vedea campaniile noastre active": "See our active campaigns",
     ". Pe lângă ele, poți vedea câteva din beneficiile pe care le oferim,": ". You can also explore some of the benefits we offer",
     "AICI": "HERE",
@@ -92,10 +92,10 @@
   });
   const attributeOriginals = new WeakMap();
   Object.assign(translations, {
-    'CibeRO - Prezentare': 'CibeRO - Introduction', '- Prezentare': '- Introduction', 'o treaptă în dezvoltare': 'Enable English Captions ✅', 'Înregistrează-te': 'Sign up', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
+    'CibeRO - Prezentare': 'CibeRO - Introduction', '- Prezentare': '- Introduction', 'Introducere': 'Introduction', 'Cu noi ai parte de': 'With us, you get', 'o treaptă în dezvoltare': 'A step towards growth', 'Înregistrează-te': 'Sign up', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
     'Activare în 0–48 ore după înregistrare': 'Activation within 0–48 hours after registration', 'Rapoarte și plăți săptămânale': 'Weekly reports and payments',
     'Campanii și beneficii exclusive': 'Exclusive campaigns and benefits', 'Suport dedicat': 'Dedicated support', '50+ orașe': '50+ cities',
-    '800+ membri parteneri': '800+ partner members', 'Grup pentru comunitate': 'Community group', 'Canal de anunțuri oficial': 'Official announcements channel',
+    '800+ membri parteneri': '800+ partner members', 'O comunitate numeroasă care îți poate spune mai multe despre noi. Acces în grup imediat după înregistrare.': 'A large community that can tell you more about us. You can join the group right after registration.', 'Grup pentru comunitate': 'Community group', 'Canal de anunțuri oficial': 'Official announcements channel',
     'Beneficii în detaliu': 'Benefits in detail', 'Ce primești de la noi': 'What we offer', 'Beneficiile flotei CibeRO': 'CibeRO fleet benefits',
     'Flexibilitate': 'Flexibility', 'Autonomie': 'Autonomy', 'Câștiguri competitive': 'Competitive earnings', 'Plăți săptămânale': 'Weekly payments', 'Siguranță': 'Security', 'Sistemul flotei': 'Fleet system',
     'Tu îți faci programul': 'You set your own schedule', 'Dar ține minte că productivitatea se realizează prin disciplină și consistență.': 'Remember that productivity comes through discipline and consistency.',
@@ -107,7 +107,7 @@
     'Staff-ul și comunitatea îți sunt alături': 'The team and community are here for you', 'Oricând ai probleme, nu ești singur — comunitatea, staff-ul flotei, cât și asistența de la platforme îți sunt alături.': 'Whenever you have a problem, you are not alone — the community, fleet team and platform support are here for you.',
     'Un mediu sigur și stabil': 'A safe and stable environment', 'Datele și activitatea ta din cadrul flotei sunt în siguranță cu noi — adică, ești în siguranță cu noi ✌️': 'Your data and activity within the fleet are safe with us — in other words, you are safe with us. ✌️',
     'Platforme unice, tehnologie intuitivă': 'Unique platforms, intuitive technology', 'Avem aplicație mobilă, grup de comunitate, canal de anunțuri, sistem de ticketing și multe altele.': 'We have a mobile app, community group, announcements channel, ticketing system and much more.',
-    'Video: Cum arată activitatea reală': 'Video: What real delivery work looks like', 'Vezi activitatea reală': 'See real delivery work', 'Deschide videoclipul pe YouTube ↗': 'Open the video on YouTube ↗',
+    'Video: Cum arată activitatea reală': 'Video: What real delivery work looks like', 'Vezi activitatea reală': 'See real delivery work', 'Vezi prezentarea CibeRO pe YouTube': 'Watch the CibeRO introduction on YouTube', 'Vezi videoclipul pe YouTube': 'Watch the video on YouTube', 'Deschide videoclipul pe YouTube ↗': 'Open the video on YouTube ↗',
     'Informații utile': 'Useful information', 'Întrebări frecvente': 'Frequently asked questions', 'Ce îmi trebuie pentru a livra?': 'What do I need to deliver?',
     'Odată ce contul tău e activ, ai nevoie de un vehicul, telefon cu Android/iOS și de o geantă termoizolantă.': 'Once your account is active, you need a vehicle, an Android/iOS phone and an insulated delivery bag.',
     'Când primesc plățile?': 'When do I receive payments?', 'Rapoartele cu încasările și plățile în contul IBAN înregistrat sunt trimise săptămânal.': 'Earnings reports and payments to your registered IBAN are sent weekly.',

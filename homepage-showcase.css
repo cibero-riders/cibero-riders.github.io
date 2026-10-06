@@ -340,3 +340,10 @@ html[data-theme="night"] .testmode-page .home-about-cta:focus-visible {
   .testmode-page .test-benefit.showcase-benefit > h2,
   .testmode-page .test-benefit .showcase-benefit-detail { transition: none; }
 }
+/* Keep every mobile card in its original two-column slot while its detail opens. */
+@media (max-width: 960px) {
+  .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit,
+  .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit:is(.is-open, :last-child) {
+    grid-column: auto;
+  }
+}
