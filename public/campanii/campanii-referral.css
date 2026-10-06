@@ -63,7 +63,7 @@ html[data-theme="night"] .referral-details { border-color: #80674770; background
 .campaign-winners.raffle-winners { margin: 24px 0 0; padding: 22px; border: 1px solid #dfb95465; border-radius: 13px; background: linear-gradient(135deg, #352139, #1d0d25); }
 .campaign-winners .section-title { margin-bottom: 6px; }
 .campaign-winners .section-title h3 { font-size: 21px; }
-.campaign-winners ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; margin: 16px 0 0; padding: 0; list-style: none; }
+.campaign-winners ul { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; margin: 16px 0 0; padding: 0; list-style: none; }
 .campaign-winners li { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 14px; border: 1px solid #dfb95465; border-radius: 10px; background: #1d0d25; color: #fff0d4; font-weight: 700; overflow-wrap: anywhere; }
 .campaign-winners li b { display: grid; place-items: center; flex: none; width: 27px; height: 27px; border: 1px solid #e7bf5f; border-radius: 50%; color: #f5d36f; font-size: 12px; }
 .campaign-winners .raffle-winners-prize { margin: 15px 0 0; color: #ead7b5; }
@@ -97,11 +97,41 @@ html[data-theme="night"] .raffle-prize-options b { border-color: #a9875b; backgr
 html[data-theme="night"] .raffle-prize > .raffle-discount-note { background: #e6bc7530; color: #eee5d6; }
 
 @media (max-width: 760px) {
-  .campaign-overview, .campaign-winners ol { grid-template-columns: 1fr; }
+  .campaign-overview, .campaign-winners ul { grid-template-columns: 1fr; }
   .campaign-overview--raffle .enrollment { grid-column: auto; }
   .campaign-overview :is(.info-card, .example-card) { min-height: 0; padding: 18px; }
   .campaign-awards.veteran-prizes li:nth-child(n) { min-height: 0; padding: 17px; }
   .campaign-winners.raffle-winners { padding: 18px; }
   .raffle-prize > .raffle-prize-options { grid-template-columns: 1fr; gap: 9px; }
   .raffle-prize-options b { min-height: 0; }
+}
+
+/* Raffle follows the same reward and steps rhythm as Referral. */
+.raffle-prize-heading { display: flex; align-items: center; gap: 10px; }
+.raffle-heading-arrow { color: #e8c267; font-size: 27px; font-weight: 700; line-height: 1; }
+.raffle-rewards { position: relative; }
+.raffle-or { position: absolute; z-index: 1; top: 50%; left: 50%; display: grid; place-items: center; width: 38px; height: 38px; border: 1px solid #dcb95d; border-radius: 50%; background: #29172d; color: #ffe49b; font-size: 12px; font-weight: 800; transform: translate(-50%, -50%); }
+.raffle-rewards .referral-reward { min-height: 150px; align-items: stretch; }
+.raffle-reward-cash { background: linear-gradient(125deg, #47331d, #2b1930 75%); }
+.raffle-reward-commission { background: linear-gradient(125deg, #35243a, #231627 75%); }
+.raffle-rewards .raffle-reward-icon { display: grid; place-items: center; flex: none; width: 43px; height: 43px; border: 1px solid #f4d47480; border-radius: 12px; background: #e6bd6530; color: #ffe49b; font-size: 24px; font-weight: 800; }
+.raffle-rewards .referral-reward > div { display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.raffle-rewards .referral-reward strong { font-size: clamp(22px, 2.7vw, 30px); line-height: 1.2; }
+.raffle-rewards .raffle-reward-commission > div { justify-content: space-between; gap: 18px; }
+.raffle-reward-info { display: flex; align-items: flex-start; gap: 7px; color: #eadde8; font-size: 12px; font-weight: 600; line-height: 1.4; }
+.raffle-reward-info > span:first-child { flex: none; color: #f2cf70; font-size: 16px; line-height: 1; }
+html[data-theme="light"] .raffle-reward-cash { border-color: #d5ad62; background: linear-gradient(125deg, #fff0c8, #fff9ef); }
+html[data-theme="light"] .raffle-reward-commission { border-color: #bca3c1; background: linear-gradient(125deg, #f4e9f5, #fff9f0); }
+html[data-theme="light"] .raffle-rewards .raffle-reward-icon { border-color: #b48a3f; background: #f8e3ad; color: #68440b; }
+html[data-theme="light"] .raffle-reward-info { color: #514657; }
+html[data-theme="light"] .raffle-or { background: #fff9ec; color: #68440b; }
+html[data-theme="light"] .raffle-reward-info > span:first-child { color: #7b530e; }
+html[data-theme="night"] .raffle-reward-cash { border-color: #806e50; background: linear-gradient(125deg, #3a3326, #22221e); }
+html[data-theme="night"] .raffle-reward-commission { border-color: #806e50; background: linear-gradient(125deg, #353027, #22211e); }
+html[data-theme="night"] .raffle-reward-info { color: #e9e2d7; }
+html[data-theme="night"] .raffle-or { background: #20211e; }
+@media (max-width: 760px) {
+  .raffle-rewards .referral-reward { min-height: 125px; }
+  .raffle-or { position: relative; top: auto; left: auto; justify-self: center; margin: -18px 0; transform: none; }
+  .raffle-prize-heading h3 { font-size: clamp(18px, 5vw, 22px); }
 }
