@@ -33,7 +33,7 @@
   <link rel="stylesheet" href="../smooth-typography.css?v=1" />
   <link rel="stylesheet" href="../site-theme.css?v=12" />
   <link rel="stylesheet" href="campaigns-natural.css?v=1" />
-  <link rel="stylesheet" href="campanii-referral.css?v=3" />
+  <link rel="stylesheet" href="campanii-referral.css?v=4" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=1" />
 </head>
@@ -98,15 +98,6 @@
             </button>
           </header>
 
-          <div class="campaign-overview">
-          <div class="info-card goal">
-            <span>🎯</span><div><h3 data-i18n="goalTitle">Scop</h3><p data-i18n="veteranGoal">Cele mai mari venituri realizate în intervalul <strong>07 Septembrie 00:00 – 07 Noiembrie 23:59</strong>.</p></div>
-          </div>
-          <div class="info-card strategy">
-            <span>🤞</span><div><h3 data-i18n="allPlatformsTitle">Folosește toate platformele</h3><p data-i18n="allPlatformsBody">Se iau în calcul veniturile de pe toate cele 3 platforme, așa că puteți fi ingenioși.</p></div>
-          </div>
-          </div>
-
           <section class="prizes">
             <div class="section-title"><span>🎁</span><h3 data-i18n="prizesTitle">Premii</h3></div>
             <ol class="prize-list veteran-prizes campaign-awards">
@@ -119,8 +110,16 @@
             </ol>
           </section>
 
-          <div class="result-note"><span>ℹ️</span><p data-i18n="veteranResults">Rezultatele vor fi afișate la scurt timp după încheierea campaniei.</p></div>
-          <p class="closing" data-i18n="veteranClosing">🔥 Spor și hype pe traseu! Cei mai implicați vor fi recompensați! 🙏</p>
+          <section class="referral-details veteran-how" aria-labelledby="veteran-how-title">
+            <h3 id="veteran-how-title" data-i18n="veteranHowTitle">Cum funcționează</h3>
+            <ol>
+              <li data-i18n="veteranStep1">Toți curierii care au activitate în perioada de desfășurare a campaniei Veteran (7 Septembrie - 7 Noiembrie) sunt înscriși automat în campanie.</li>
+              <li data-i18n="veteranStep2">Curierii cu cele mai mari venituri realizate la livrări în intervalul campaniei ocupă locurile în clasament.</li>
+              <li data-i18n="veteranStep3">Statisticile sunt actualizate săptămânal pentru a ține evidența clasamentului.</li>
+              <li data-i18n="veteranStep4">Rezultatele finale vor fi afișate la scurt timp după încheierea campaniei.</li>
+            </ol>
+            <p class="veteran-platform-note"><span aria-hidden="true">ⓘ</span><span data-i18n="allPlatformsBody">Se iau în calcul veniturile de pe toate cele 3 platforme, așa că puteți fi ingenioși.</span></p>
+          </section>
         </article>
 
         <article id="tombola" class="campaign-panel" role="tabpanel" aria-labelledby="tab-tombola" data-panel="tombola" hidden>
@@ -260,7 +259,7 @@
     <span class="footer-copyright">© Powered by Cibero - 2026 | All rights reserved</span>
   </footer>
   <script src="../site-language.js?v=7"></script>
-  <script src="campanii.js?v=10"></script>
+  <script src="campanii.js?v=11"></script>
   <script src="../main-page.js?v=7"></script>
   <script src="../site-theme.js?v=3"></script>
 </body>

@@ -19,6 +19,8 @@
 .referral-details li { padding-left: 4px; color: #e4d8e6; line-height: 1.55; }
 .referral-details li::marker { color: #e2bd56; font-weight: 800; }
 .referral-details li strong { color: #fff1c9; }
+.veteran-platform-note { display: flex; justify-content: center; align-items: flex-start; gap: 7px; margin: 18px 0 0; padding-top: 15px; border-top: 1px solid #dfb95438; color: #e4d8e6; font-size: 13px; line-height: 1.45; text-align: center; }
+.veteran-platform-note > span:first-child { flex: none; color: #e2bd56; font-size: 17px; line-height: 1; }
 .referral-cta { display: flex; justify-content: center; align-items: center; gap: 12px; width: min(100%, 430px); min-height: 62px; margin: 28px auto 0; padding: 15px 25px; border: 1px solid #ffdc7c; border-radius: 12px; background: linear-gradient(135deg, #f7d981, #d99c36); box-shadow: 0 12px 25px #05010869, inset 0 1px 0 #fff6d6; color: #291909; font-size: 20px; font-weight: 800; text-align: center; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
 .referral-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 30px #05010880, inset 0 1px 0 #fff6d6; }
 .referral-cta:focus-visible { outline: 3px solid #fff1b6; outline-offset: 4px; }
@@ -31,11 +33,13 @@ html[data-theme="light"] .referral-reward p { color: #453a48; }
 html[data-theme="light"] .referral-reward strong { color: #6d4409; }
 html[data-theme="light"] .referral-details { border-color: #c49a4c6b; background: #fffdfa; }
 html[data-theme="light"] .referral-details h3, html[data-theme="light"] .referral-details li strong { color: #493114; }
+html[data-theme="light"] .veteran-platform-note { border-top-color: #c49a4c6b; color: #554b5a; }
 html[data-theme="light"] .referral-cta { color: #291909; }
 
 html[data-theme="night"] .referral-reward-you { border-color: #806e50; background: linear-gradient(125deg, #283328, #20221e); }
 html[data-theme="night"] .referral-reward-friend { border-color: #806e50; background: linear-gradient(125deg, #3b3025, #24221e); }
 html[data-theme="night"] .referral-details { border-color: #80674770; background: #20211d; }
+html[data-theme="night"] .veteran-platform-note { border-top-color: #80674770; color: #e3ddd2; }
 
 @media (max-width: 760px) {
   .tabs { grid-template-columns: 1fr; }
