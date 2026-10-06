@@ -92,7 +92,7 @@
   });
   const attributeOriginals = new WeakMap();
   Object.assign(translations, {
-    'CibeRO - Prezentare': 'CibeRO - Introduction', '- Prezentare': '- Introduction', 'Introducere': 'Introduction', 'Cu noi ai parte de': 'With us, you get', 'o treaptă în dezvoltare': 'A step towards growth', 'Înregistrează-te': 'Sign up', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
+    'CibeRO - Prezentare': 'CibeRO - Introduction', '- Prezentare': '- Introduction', 'Introducere': 'Intro', 'Cu noi ai parte de': 'What you get from us', 'o treaptă în dezvoltare': 'One step in your development', 'Înregistrează-te': 'Sign up', 'Tot ce ai nevoie': 'Everything you need', 'ca să livrezi': 'to deliver',
     'Activare în 0–48 ore după înregistrare': 'Activation within 0–48 hours after registration', 'Rapoarte și plăți săptămânale': 'Weekly reports and payments',
     'Campanii și beneficii exclusive': 'Exclusive campaigns and benefits', 'Suport dedicat': 'Dedicated support', '50+ orașe': '50+ cities',
     '800+ membri parteneri': '800+ partner members', 'O comunitate numeroasă care îți poate spune mai multe despre noi. Acces în grup imediat după înregistrare.': 'A large community that can tell you more about us. You can join the group right after registration.', 'Grup pentru comunitate': 'Community group', 'Canal de anunțuri oficial': 'Official announcements channel',
