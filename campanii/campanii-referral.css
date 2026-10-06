@@ -45,3 +45,63 @@ html[data-theme="night"] .referral-details { border-color: #80674770; background
   .referral-details li { font-size: 14px; }
   .referral-cta { width: 100%; }
 }
+
+/* The Veteran and Raffle panels use the same card rhythm as Referral. */
+.campaign-overview { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; margin-top: 24px; }
+.campaign-overview :is(.info-card, .example-card) { min-width: 0; min-height: 132px; margin: 0; padding: 22px; border: 1px solid #dfb95465; border-radius: 13px; background: linear-gradient(135deg, #2b1732, #1d0d25); box-shadow: inset 0 1px 0 #fff4c212; }
+.campaign-overview :is(.info-card, .example-card) h3 { color: #ffe49b; }
+.campaign-overview :is(.info-card, .example-card) p { color: #e4d8e6; }
+.campaign-overview--raffle .enrollment { grid-column: 1 / -1; min-height: 0; }
+.campaign-awards.veteran-prizes { gap: 13px; }
+.campaign-awards.veteran-prizes li:nth-child(n) { min-height: 110px; padding: 20px; border: 1px solid #dfb95465; border-radius: 13px; background: linear-gradient(130deg, #332037, #1d0d25); box-shadow: inset 0 1px 0 #fff4c212; }
+.campaign-awards.veteran-prizes li:first-child { border-color: #ebca6e; background: linear-gradient(130deg, #63411e, #2c1930 72%); }
+.campaign-awards.veteran-prizes li:nth-child(2) { border-color: #bac0c5; background: linear-gradient(130deg, #414149, #201622 72%); }
+.campaign-awards.veteran-prizes li:nth-child(3) { border-color: #ba856b; background: linear-gradient(130deg, #57382f, #251525 72%); }
+.campaign-awards.veteran-prizes li > span { flex: none; font-size: 27px; }
+.campaign-awards.veteran-prizes li b { color: #ffe49b; font-size: 18px; }
+.campaign-awards.veteran-prizes li p { color: #e7dae7; }
+.campaign-winners.raffle-winners { margin: 24px 0 0; padding: 22px; border: 1px solid #dfb95465; border-radius: 13px; background: linear-gradient(135deg, #352139, #1d0d25); }
+.campaign-winners .section-title { margin-bottom: 6px; }
+.campaign-winners .section-title h3 { font-size: 21px; }
+.campaign-winners ol { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 11px; margin: 16px 0 0; padding: 0; list-style: none; }
+.campaign-winners li { display: flex; align-items: center; gap: 10px; min-width: 0; padding: 14px; border: 1px solid #dfb95465; border-radius: 10px; background: #1d0d25; color: #fff0d4; font-weight: 700; overflow-wrap: anywhere; }
+.campaign-winners li b { display: grid; place-items: center; flex: none; width: 27px; height: 27px; border: 1px solid #e7bf5f; border-radius: 50%; color: #f5d36f; font-size: 12px; }
+.campaign-winners .raffle-winners-prize { margin: 15px 0 0; color: #ead7b5; }
+.campaign-winners .raffle-winners-prize span { margin-right: 6px; color: #f4d270; font-size: 11px; font-weight: 800; letter-spacing: .7px; text-transform: uppercase; }
+.campaign-winners .raffle-winners-prize strong { color: #fff0d4; }
+.raffle-prize { padding: 22px; border-radius: 13px; }
+.raffle-prize > p:first-child { margin: 0 0 16px; color: #eadce8; font-weight: 700; }
+.raffle-prize > .raffle-prize-options { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); align-items: center; gap: 12px; }
+.raffle-prize-options b { display: grid; place-items: center; min-height: 85px; padding: 16px; border: 1px solid #e7bf5f8c; border-radius: 11px; background: linear-gradient(135deg, #3e2b1c, #2d1733); color: #ffe49b; font-size: 19px; line-height: 1.3; }
+.raffle-prize-options i { font-size: 13px; font-weight: 700; }
+.raffle-prize > .raffle-discount-note { margin: 16px 0 0; padding: 13px 15px; border-left: 3px solid #e2bd56; border-radius: 0 8px 8px 0; background: #ffffff0b; color: #e4d8e6; font-size: 14px; line-height: 1.55; text-align: left; }
+
+html[data-theme="light"] .campaign-overview :is(.info-card, .example-card), html[data-theme="light"] .campaign-winners.raffle-winners, html[data-theme="light"] .raffle-prize { border-color: #c49a4c80; background: linear-gradient(135deg, #fffdf9, #f6efe5); }
+html[data-theme="light"] .campaign-overview :is(.info-card, .example-card) h3, html[data-theme="light"] .campaign-winners .section-title h3 { color: #493114; }
+html[data-theme="light"] .campaign-overview :is(.info-card, .example-card) p, html[data-theme="light"] .campaign-winners .raffle-winners-prize, html[data-theme="light"] .raffle-prize > p:first-child { color: #554b5a; }
+html[data-theme="light"] .campaign-awards.veteran-prizes li:nth-child(n) { border-color: #c49a4c80; background: linear-gradient(135deg, #fffaf0, #f0e2ca); }
+html[data-theme="light"] .campaign-awards.veteran-prizes li:first-child { background: linear-gradient(135deg, #ffe9a7, #e7be66); }
+html[data-theme="light"] .campaign-awards.veteran-prizes li:nth-child(2) { background: linear-gradient(135deg, #f7f8fa, #d6d9de); }
+html[data-theme="light"] .campaign-awards.veteran-prizes li:nth-child(3) { background: linear-gradient(135deg, #f9e0cb, #ddb38f); }
+html[data-theme="light"] .campaign-awards.veteran-prizes li:nth-child(n) :is(b, p) { color: #3f3142; }
+html[data-theme="light"] .campaign-winners li { border-color: #c49a4c80; background: #fffaf0; color: #392909; }
+html[data-theme="light"] .campaign-winners li b { color: #81530d; }
+html[data-theme="light"] .campaign-winners .raffle-winners-prize :is(span, strong) { color: #503710; }
+html[data-theme="light"] .raffle-prize-options b { border-color: #c49a4c80; background: linear-gradient(135deg, #ffefbd, #f2d999); color: #402b0c; }
+html[data-theme="light"] .raffle-prize > .raffle-discount-note { background: #fff3cf; color: #503710; }
+
+html[data-theme="night"] .campaign-overview :is(.info-card, .example-card), html[data-theme="night"] .campaign-winners.raffle-winners, html[data-theme="night"] .raffle-prize { border-color: #80674770; background: linear-gradient(135deg, #2b2b26, #1b1c19); }
+html[data-theme="night"] .campaign-awards.veteran-prizes li:nth-child(n) { border-color: #80674770; background: linear-gradient(135deg, #35332c, #20211e); }
+html[data-theme="night"] .campaign-winners li { border-color: #80674770; background: #20211e; color: #eeeae2; }
+html[data-theme="night"] .raffle-prize-options b { border-color: #a9875b; background: linear-gradient(135deg, #41372b, #292620); color: #f0e4cf; }
+html[data-theme="night"] .raffle-prize > .raffle-discount-note { background: #e6bc7530; color: #eee5d6; }
+
+@media (max-width: 760px) {
+  .campaign-overview, .campaign-winners ol { grid-template-columns: 1fr; }
+  .campaign-overview--raffle .enrollment { grid-column: auto; }
+  .campaign-overview :is(.info-card, .example-card) { min-height: 0; padding: 18px; }
+  .campaign-awards.veteran-prizes li:nth-child(n) { min-height: 0; padding: 17px; }
+  .campaign-winners.raffle-winners { padding: 18px; }
+  .raffle-prize > .raffle-prize-options { grid-template-columns: 1fr; gap: 9px; }
+  .raffle-prize-options b { min-height: 0; }
+}
