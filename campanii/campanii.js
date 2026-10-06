@@ -30,7 +30,7 @@ tabs.forEach((tab, index) => {
 });
 
 const requestedTab = location.hash.replace('#', '');
-activateTab(['veteran', 'tombola'].includes(requestedTab) ? requestedTab : 'veteran', false);
+activateTab(['veteran', 'tombola', 'recomandare'].includes(requestedTab) ? requestedTab : 'veteran', false);
 
 const focusRaffleWinners = () => {
   if (location.hash !== '#tombola') return;
@@ -58,7 +58,7 @@ const translations = {
     campaignShellLabel: 'Campanii CibeRO',
     tabListLabel: 'Selectează campania',
     heroTitle: 'Campaniile <em>CibeRO</em>',
-    heroSubtitle: 'Două moduri de a câștiga. Alege campania și descoperă regulile, perioada și premiile.',
+    heroSubtitle: 'Trei moduri de a câștiga. Alege campania și descoperă regulile și premiile.',
     extendedCampaign: 'CAMPANIE EXTINSĂ',
     weeklyCampaign: 'CAMPANIE SĂPTĂMÂNALĂ',
     raffleTitle: 'Tombolă',
@@ -98,6 +98,22 @@ const translations = {
     raffleResults: 'Rezultatele vor fi afișate la începutul săptămânii următoare celei în care are loc campania.',
     raffleChance: '😉 Toți au o șansă la câștig, însă cei care colectează mai multe bilete au mai multe șanse.',
     raffleClosing: 'Spor și succes! 🙏',
+    referralCampaign: 'CAMPANIE REFERRAL',
+    referralTitle: 'Recomandare',
+    referralTagline: 'Recomandă un prieten și câștigați amândoi!',
+    referralIntro: 'Ai un prieten care vrea să livreze cu Wolt, Bolt Food sau Glovo? Înscrie-l în campania CibeRO și primiți bonus amândoi.',
+    referralBonusesTitle: 'Bonusuri pentru amândoi',
+    referralYou: 'Tu, cel care recomandă',
+    referralFriend: 'Curierul recomandat',
+    referralStepsTitle: 'Cum participi',
+    referralStep1: 'Înregistrează recomandarea <strong>înainte ca noul curier să fie activat</strong>.',
+    referralStep2: 'La înscriere, introdu <strong>codul tău de curier</strong> din aplicația Wolt, Bolt Food sau Glovo. Dacă nu îl cunoști, scrie managerului de grup.',
+    referralStep3: 'Persoana recomandată trebuie să fie <strong>curier nou activat prin CibeRO</strong>.',
+    referralConditionsTitle: 'Condiții pentru bonus',
+    referralCondition1: 'Tu trebuie să realizezi venituri de <strong>minimum 1.500 lei</strong> în perioada campaniei.',
+    referralCondition2: 'Curierul recomandat trebuie să realizeze venituri de <strong>minimum 1.500 lei în maximum 20 de zile</strong> de la activare.',
+    referralCondition3: 'Bonusurile se acordă <strong>doar dacă amândoi îndepliniți condițiile</strong>.',
+    referralCta: 'Recomandă <span aria-hidden="true">→</span>',
     footerText: 'Împreună, livrăm mai mult.'
   },
   en: {
@@ -107,7 +123,7 @@ const translations = {
     campaignShellLabel: 'CibeRO campaigns',
     tabListLabel: 'Choose a campaign',
     heroTitle: '<em>CibeRO</em> Campaigns',
-    heroSubtitle: 'Two ways to win. Choose a campaign and discover its rules, schedule and prizes.',
+    heroSubtitle: 'Three ways to earn. Choose a campaign and discover its rules and prizes.',
     extendedCampaign: 'EXTENDED CAMPAIGN',
     weeklyCampaign: 'WEEKLY CAMPAIGN',
     raffleTitle: 'Raffle',
@@ -147,6 +163,22 @@ const translations = {
     raffleResults: 'The results will be announced at the beginning of the week following the campaign week.',
     raffleChance: '😉 Everyone has a chance to win, but couriers who collect more tickets have more chances.',
     raffleClosing: 'Good luck! 🙏',
+    referralCampaign: 'REFERRAL CAMPAIGN',
+    referralTitle: 'Referral',
+    referralTagline: 'Refer a friend and you both earn a bonus!',
+    referralIntro: 'Know someone who wants to deliver with Wolt, Bolt Food or Glovo? Register them in the CibeRO campaign and you both receive a bonus.',
+    referralBonusesTitle: 'Bonuses for both of you',
+    referralYou: 'You, the referring courier',
+    referralFriend: 'The referred courier',
+    referralStepsTitle: 'How to take part',
+    referralStep1: 'Register the referral <strong>before the new courier is activated</strong>.',
+    referralStep2: 'When registering, enter <strong>your courier code</strong> from the Wolt, Bolt Food or Glovo app. If you do not know it, message your group manager.',
+    referralStep3: 'The person you refer must be <strong>a new courier activated through CibeRO</strong>.',
+    referralConditionsTitle: 'Bonus requirements',
+    referralCondition1: 'You must earn <strong>at least 1,500 lei</strong> during the campaign period.',
+    referralCondition2: 'The referred courier must earn <strong>at least 1,500 lei within 20 days</strong> of activation.',
+    referralCondition3: 'Bonuses are awarded <strong>only if both of you meet the requirements</strong>.',
+    referralCta: 'Refer a friend <span aria-hidden="true">→</span>',
     footerText: 'Together, we deliver more.'
   }
 };

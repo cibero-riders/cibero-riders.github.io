@@ -27,6 +27,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="campanii.css?v=2" />
+  <link rel="stylesheet" href="campanii-referral.css?v=1" />
   <link rel="stylesheet" href="campanii-theme-overrides.css?v=1" />
   <link rel="stylesheet" href="campanii-nav.css?v=1" />
   <link rel="stylesheet" href="../site-navigation.css?v=31" />
@@ -62,7 +63,7 @@
 
     <section class="hero">
       <h1 data-i18n="heroTitle">Campaniile <em>CibeRO</em></h1>
-      <p data-i18n="heroSubtitle">Două moduri de a câștiga. Alege campania și descoperă regulile, perioada și premiile.</p>
+      <p data-i18n="heroSubtitle">Trei moduri de a câștiga. Alege campania și descoperă regulile și premiile.</p>
     </section>
 
     <section class="campaign-shell" aria-label="Campanii CibeRO" data-i18n-aria="campaignShellLabel">
@@ -74,6 +75,10 @@
         <button id="tab-tombola" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-tombola" data-tab="tombola" tabindex="-1">
           <span class="tab-icon">🎟️</span>
           <span><small data-i18n="weeklyCampaign">Campanie săptămânală</small><strong data-i18n="raffleTitle">Tombolă</strong></span>
+        </button>
+        <button id="tab-recomandare" class="tab" type="button" role="tab" aria-selected="false" aria-controls="panel-recomandare" data-tab="recomandare" tabindex="-1">
+          <span class="tab-icon" aria-hidden="true">🤝</span>
+          <span><small data-i18n="referralCampaign">CAMPANIE REFERRAL</small><strong data-i18n="referralTitle">Recomandare</strong></span>
         </button>
       </div>
 
@@ -158,6 +163,41 @@
           <p class="chance" data-i18n="raffleChance">😉 Toți au o șansă la câștig, însă cei care colectează mai multe bilete au mai multe șanse.</p>
           <p class="closing" data-i18n="raffleClosing">Spor și succes! 🙏</p>
         </article>
+        <article id="panel-recomandare" class="campaign-panel referral-panel" role="tabpanel" aria-labelledby="tab-recomandare" data-panel="recomandare" hidden>
+          <header class="panel-header">
+            <div class="campaign-seal" aria-hidden="true">🤝</div>
+            <div>
+              <p data-i18n="referralCampaign">CAMPANIE REFERRAL</p>
+              <h2 data-i18n="referralTitle">Recomandare</h2>
+              <span class="referral-tagline" data-i18n="referralTagline">Recomandă un prieten și câștigați amândoi!</span>
+            </div>
+          </header>
+          <p class="referral-intro" data-i18n="referralIntro">Ai un prieten care vrea să livreze cu Wolt, Bolt Food sau Glovo? Înscrie-l în campania CibeRO și primiți bonus amândoi.</p>
+          <section class="prizes" aria-labelledby="referral-prizes-title">
+            <div class="section-title"><span aria-hidden="true">🎁</span><h3 id="referral-prizes-title" data-i18n="referralBonusesTitle">Bonusuri pentru amândoi</h3></div>
+            <div class="referral-rewards">
+              <div class="referral-reward referral-reward-you"><span aria-hidden="true">🟢</span><div><p data-i18n="referralYou">Tu, cel care recomandă</p><strong>100 LEI</strong></div></div>
+              <div class="referral-reward referral-reward-friend"><span aria-hidden="true">🟠</span><div><p data-i18n="referralFriend">Curierul recomandat</p><strong>50 LEI</strong></div></div>
+            </div>
+          </section>
+          <section class="referral-details" aria-labelledby="referral-steps-title">
+            <h3 id="referral-steps-title" data-i18n="referralStepsTitle">Cum participi</h3>
+            <ol>
+              <li data-i18n="referralStep1">Înregistrează recomandarea <strong>înainte ca noul curier să fie activat</strong>.</li>
+              <li data-i18n="referralStep2">La înscriere, introdu <strong>codul tău de curier</strong> din aplicația Wolt, Bolt Food sau Glovo. Dacă nu îl cunoști, scrie managerului de grup.</li>
+              <li data-i18n="referralStep3">Persoana recomandată trebuie să fie <strong>curier nou activat prin CibeRO</strong>.</li>
+            </ol>
+          </section>
+          <section class="referral-details referral-conditions" aria-labelledby="referral-conditions-title">
+            <h3 id="referral-conditions-title" data-i18n="referralConditionsTitle">Condiții pentru bonus</h3>
+            <ul>
+              <li data-i18n="referralCondition1">Tu trebuie să realizezi venituri de <strong>minimum 1.500 lei</strong> în perioada campaniei.</li>
+              <li data-i18n="referralCondition2">Curierul recomandat trebuie să realizeze venituri de <strong>minimum 1.500 lei în maximum 20 de zile</strong> de la activare.</li>
+              <li data-i18n="referralCondition3">Bonusurile se acordă <strong>doar dacă amândoi îndepliniți condițiile</strong>.</li>
+            </ul>
+          </section>
+          <a class="referral-cta" href="https://controlfleet.ro/r/recomanda-cibero" data-i18n="referralCta">Recomandă <span aria-hidden="true">→</span></a>
+        </article>
       </div>
     </section>
   </main>
@@ -169,7 +209,7 @@
     <span class="footer-copyright">© Powered by Cibero - 2026 | All rights reserved</span>
   </footer>
   <script src="../site-language.js?v=7"></script>
-  <script src="campanii.js?v=7"></script>
+  <script src="campanii.js?v=8"></script>
   <script src="../main-page.js?v=7"></script>
   <script src="../site-theme.js?v=3"></script>
 </body>

@@ -1,0 +1,47 @@
+/* Third campaign tab and referral content, shared by the static and Next.js copies. */
+.tabs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.tab { min-width: 0; }
+.tab > span:last-child { min-width: 0; }
+.tab strong { overflow-wrap: anywhere; }
+
+.referral-tagline { display: block; margin-top: 8px; color: #f4db9b; font-size: clamp(16px, 2.5vw, 21px); font-weight: 700; line-height: 1.35; }
+.referral-intro { max-width: 740px; margin: 24px 0 0; color: #e4d8e6; font-size: 17px; line-height: 1.65; }
+.referral-rewards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.referral-reward { display: flex; align-items: center; gap: 15px; min-height: 112px; padding: 20px; border: 1px solid #dcb95d75; border-radius: 13px; box-shadow: inset 0 1px 0 #fff4c22a; }
+.referral-reward > span { font-size: 25px; }
+.referral-reward p { margin: 0 0 5px; color: #efe5ed; font-weight: 700; }
+.referral-reward strong { color: #fff0bb; font-size: clamp(24px, 3vw, 33px); line-height: 1; }
+.referral-reward-you { background: linear-gradient(125deg, #214738, #1b2529 70%); }
+.referral-reward-friend { background: linear-gradient(125deg, #56351d, #2a1b29 70%); }
+.referral-details { margin-top: 20px; padding: 21px 23px; border: 1px solid #dfb95452; border-radius: 12px; background: #1d0d25bd; }
+.referral-details h3 { margin: 0 0 14px; color: #ffe49b; font-size: 21px; }
+.referral-details ol, .referral-details ul { display: grid; gap: 12px; margin: 0; padding-left: 23px; }
+.referral-details li { padding-left: 4px; color: #e4d8e6; line-height: 1.55; }
+.referral-details li::marker { color: #e2bd56; font-weight: 800; }
+.referral-details li strong { color: #fff1c9; }
+.referral-cta { display: flex; justify-content: center; align-items: center; gap: 12px; width: min(100%, 430px); min-height: 62px; margin: 28px auto 0; padding: 15px 25px; border: 1px solid #ffdc7c; border-radius: 12px; background: linear-gradient(135deg, #f7d981, #d99c36); box-shadow: 0 12px 25px #05010869, inset 0 1px 0 #fff6d6; color: #291909; font-size: 20px; font-weight: 800; text-align: center; text-decoration: none; transition: transform .2s ease, box-shadow .2s ease; }
+.referral-cta:hover { transform: translateY(-2px); box-shadow: 0 16px 30px #05010880, inset 0 1px 0 #fff6d6; }
+.referral-cta:focus-visible { outline: 3px solid #fff1b6; outline-offset: 4px; }
+
+html[data-theme="light"] .referral-tagline { color: #81530d; }
+html[data-theme="light"] .referral-intro, html[data-theme="light"] .referral-details li { color: #554b5a; }
+html[data-theme="light"] .referral-reward-you { border-color: #92bba1; background: linear-gradient(125deg, #e6f4e8, #f8fbf3); }
+html[data-theme="light"] .referral-reward-friend { border-color: #d9af80; background: linear-gradient(125deg, #fff0d8, #fff9ee); }
+html[data-theme="light"] .referral-reward p { color: #453a48; }
+html[data-theme="light"] .referral-reward strong { color: #6d4409; }
+html[data-theme="light"] .referral-details { border-color: #c49a4c6b; background: #fffdfa; }
+html[data-theme="light"] .referral-details h3, html[data-theme="light"] .referral-details li strong { color: #493114; }
+html[data-theme="light"] .referral-cta { color: #291909; }
+
+html[data-theme="night"] .referral-reward-you { border-color: #806e50; background: linear-gradient(125deg, #283328, #20221e); }
+html[data-theme="night"] .referral-reward-friend { border-color: #806e50; background: linear-gradient(125deg, #3b3025, #24221e); }
+html[data-theme="night"] .referral-details { border-color: #80674770; background: #20211d; }
+
+@media (max-width: 760px) {
+  .tabs { grid-template-columns: 1fr; }
+  .referral-rewards { grid-template-columns: 1fr; }
+  .referral-intro { font-size: 15px; }
+  .referral-details { padding: 18px; }
+  .referral-details li { font-size: 14px; }
+  .referral-cta { width: 100%; }
+}
