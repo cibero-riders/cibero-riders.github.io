@@ -23,7 +23,8 @@
   <link rel="stylesheet" href="../site-theme.css?v=12" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=1" />
-  <link rel="stylesheet" href="hub.css?v=1" />
+  <link rel="stylesheet" href="hub.css?v=2" />
+  <link rel="stylesheet" href="hub-essential.css?v=1" />
 </head>
 <body class="hub-body">
   <header class="site-header global-header">
@@ -49,15 +50,20 @@
         <p class="hub-lead" data-hub-i18n="heroLead">Informații clare, acces rapid la suport și instrumentele flotei — construite pentru momentele în care ai nevoie de ele.</p>
         <div class="hub-hero-actions">
           <a class="hub-button hub-button-primary" href="../ticket/"><span data-hub-i18n="ticketButton">Deschide un ticket</span><span aria-hidden="true">↗</span></a>
-          <a class="hub-button hub-button-secondary" href="#instrumente"><span data-hub-i18n="exploreButton">Vezi instrumentele</span><span aria-hidden="true">↓</span></a>
+          <a class="hub-button hub-button-secondary" href="#informatii-esentiale"><span data-hub-i18n="exploreButton">Vezi informațiile esențiale</span><span aria-hidden="true">↓</span></a>
         </div>
       </div>
       <aside class="hub-status-card" aria-labelledby="payment-title">
         <div class="hub-status-top"><span><i aria-hidden="true"></i><span data-hub-i18n="liveInfo">INFORMAȚIE ACTUALIZATĂ AUTOMAT</span></span><span aria-hidden="true">◷</span></div>
-        <p class="hub-status-label" data-hub-i18n="nextPayment">Următoarea fereastră de plată</p>
+        <p class="hub-status-label" data-hub-i18n="nextPayment">Următoarea plată</p>
+        <div class="hub-payment-tabs" role="group" aria-label="Selectează platforma" data-hub-i18n-aria="paymentSelector">
+          <button class="active" type="button" data-payment-platform="bolt" aria-pressed="true">Bolt</button>
+          <button type="button" data-payment-platform="glovo" aria-pressed="false">Glovo</button>
+          <button type="button" data-payment-platform="wolt" aria-pressed="false">Wolt</button>
+        </div>
         <h2 id="payment-title" data-payment-window>—</h2>
         <div class="hub-period"><span data-hub-i18n="workPeriod">Perioada de activitate</span><strong data-payment-period>—</strong></div>
-        <p class="hub-status-note" data-hub-i18n="paymentNote">Plățile pentru săptămâna precedentă sunt efectuate, de regulă, joi sau vineri. Data exactă poate varia.</p>
+        <p class="hub-status-note" data-payment-note>—</p>
       </aside>
     </section>
 
@@ -72,18 +78,60 @@
       </div>
     </section>
 
-    <section class="hub-section hub-knowledge" aria-labelledby="knowledge-title">
-      <header class="hub-section-head"><div><p class="hub-kicker" data-hub-i18n="knowledgeKicker">BIBLIOTECĂ RAPIDĂ</p><h2 id="knowledge-title" data-hub-i18n="knowledgeTitle">Reguli utile, după platformă.</h2></div><p data-hub-i18n="knowledgeIntro">Selectează platforma pentru a vedea informațiile relevante despre cash și balanță.</p></header>
-      <div class="hub-platform-tabs" role="tablist" aria-label="Selectează platforma" data-hub-i18n-aria="platformSelector">
-        <button class="active" type="button" role="tab" aria-selected="true" data-platform="all" data-hub-i18n="allPlatforms">Toate</button>
-        <button type="button" role="tab" aria-selected="false" data-platform="bolt">Bolt Food</button>
-        <button type="button" role="tab" aria-selected="false" data-platform="glovo">Glovo</button>
-        <button type="button" role="tab" aria-selected="false" data-platform="wolt">Wolt</button>
-      </div>
-      <div class="hub-rule-grid">
-        <article class="hub-rule hub-rule-bolt" data-rule-platform="bolt"><div class="hub-rule-brand"><img src="../assets/ticket-bolt-round.png" alt="" /><span>Bolt Food</span></div><h3 data-hub-i18n="boltTitle">Balanță și depunere</h3><ul><li data-hub-i18n="boltRule1">Depune integral balanța până duminică, ora 23:59.</li><li data-hub-i18n="boltRule2">Nu recomandăm depășirea unei balanțe negative de 500 RON.</li><li data-hub-i18n="boltRule3">Depunerea se face direct cu cardul în Bolt Courier.</li></ul></article>
-        <article class="hub-rule hub-rule-glovo" data-rule-platform="glovo"><div class="hub-rule-brand"><img src="../assets/glovo-round.png" alt="" /><span>Glovo</span></div><h3 data-hub-i18n="glovoTitle">Cash și balanță</h3><ul><li data-hub-i18n="glovoRule1">Depune integral balanța până duminică, ora 23:59.</li><li data-hub-i18n="glovoRule2">La 500 RON negativ nu mai poți primi comenzi.</li><li data-hub-i18n="glovoRule3">Depunerea se face la orice stație SelfPay.</li></ul></article>
-        <article class="hub-rule hub-rule-wolt" data-rule-platform="wolt"><div class="hub-rule-brand"><img src="../assets/wolt-round.png" alt="" /><span>Wolt</span></div><h3 data-hub-i18n="woltTitle">Cash și ziua de reset</h3><ul><li data-hub-i18n="woltRule1">Depune integral balanța în fiecare zi de reset specifică Wolt.</li><li data-hub-i18n="woltRule2">La 500 RON în balanță nu mai poți intra online până nu o acoperi.</li><li data-hub-i18n="woltRule3">Depunerea se face prin Aircash.</li></ul></article>
+    <section id="informatii-esentiale" class="hub-section hub-essential" aria-labelledby="essential-title">
+      <header class="hub-section-head"><div><p class="hub-kicker" data-hub-i18n="essentialKicker">DIN HUB-UL CIBERO</p><h2 id="essential-title" data-hub-i18n="essentialTitle">Informații Esențiale.</h2></div><p data-hub-i18n="essentialIntro">Tot ce consultai în meniul Telegram, reorganizat într-o bibliotecă mai clară și mai ușor de folosit.</p></header>
+      <p class="hub-essential-note"><span aria-hidden="true">ⓘ</span><span data-hub-i18n="essentialNote">Petrece câteva minute acum ca să te informezi — vei economisi mai mult timp pe urmă.</span></p>
+
+      <div class="hub-essential-list">
+        <details class="hub-resource" open>
+          <summary><span class="hub-resource-number">01</span><span><strong data-hub-i18n="calendarTitle">Calendarul de plată</strong><small data-hub-i18n="calendarSummary">Date dinamice, postere și ghidul explicat.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content">
+            <div class="hub-dynamic-payments" aria-live="polite">
+              <article class="hub-payment-card hub-payment-bolt" data-payment-card="bolt"><span>Bolt Food</span><strong data-card-payment="bolt">—</strong><small data-card-period="bolt">—</small></article>
+              <article class="hub-payment-card hub-payment-glovo" data-payment-card="glovo"><span>Glovo</span><strong data-card-payment="glovo">—</strong><small data-card-period="glovo">—</small></article>
+              <article class="hub-payment-card hub-payment-wolt" data-payment-card="wolt"><span>Wolt</span><strong data-card-payment="wolt">—</strong><small data-card-period="wolt">—</small></article>
+            </div>
+            <p class="hub-inline-info"><span aria-hidden="true">◷</span><span data-hub-i18n="paymentCutoff">Plățile sunt efectuate vinerea, până la ora 17:00. Perioadele afișate se actualizează automat după această oră.</span></p>
+            <div class="hub-poster-grid">
+              <a href="assets/calendar-bolt-ro.png" data-poster-link="bolt" target="_blank" rel="noopener"><img src="assets/calendar-bolt-ro.png" data-poster-image="bolt" alt="Calendarul de plată Bolt Food" data-poster-alt-ro="Calendarul de plată Bolt Food" data-poster-alt-en="Bolt Food payment calendar" /><span>Bolt Food <b aria-hidden="true">↗</b></span></a>
+              <a href="assets/calendar-glovo-ro.png" data-poster-link="glovo" target="_blank" rel="noopener"><img src="assets/calendar-glovo-ro.png" data-poster-image="glovo" alt="Calendarul de plată Glovo" data-poster-alt-ro="Calendarul de plată Glovo" data-poster-alt-en="Glovo payment calendar" /><span>Glovo <b aria-hidden="true">↗</b></span></a>
+              <a href="assets/calendar-wolt-ro.png" data-poster-link="wolt" target="_blank" rel="noopener"><img src="assets/calendar-wolt-ro.png" data-poster-image="wolt" alt="Calendarul de plată Wolt" data-poster-alt-ro="Calendarul de plată Wolt" data-poster-alt-en="Wolt payment calendar" /><span>Wolt <b aria-hidden="true">↗</b></span></a>
+            </div>
+            <a class="hub-text-link" href="https://youtu.be/iBThwch_Tn0" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="explainedCalendar">Urmărește calendarul explicat, pentru toate cele 3 platforme</span><b aria-hidden="true">↗</b></a>
+          </div>
+        </details>
+
+        <details class="hub-resource">
+          <summary><span class="hub-resource-number">02</span><span><strong data-hub-i18n="videosTitle">Ghiduri video</strong><small data-hub-i18n="videosSummary">Pași practici pentru Bolt Food și Wolt.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content"><div class="hub-link-grid">
+            <a href="https://www.youtube.com/playlist?list=PLQFx_vtbR0SioPtXeXO2j8aAPaUb3TOYU" target="_blank" rel="noopener noreferrer"><span><strong data-hub-i18n="boltPlaylist">Bolt — playlist ghid complet</strong><small>YouTube playlist</small></span><b aria-hidden="true">↗</b></a>
+            <a href="https://youtube.com/shorts/lAKetKIfiyM?feature=share" target="_blank" rel="noopener noreferrer"><span><strong data-hub-i18n="boltDepositVideo">Bolt — depunerea balanței</strong><small>YouTube Shorts</small></span><b aria-hidden="true">↗</b></a>
+            <a href="https://youtube.com/shorts/p_dF5jPabLc?feature=share" target="_blank" rel="noopener noreferrer"><span><strong data-hub-i18n="woltDepositVideo">Wolt — depunerea balanței</strong><small>YouTube Shorts</small></span><b aria-hidden="true">↗</b></a>
+            <a href="https://youtube.com/shorts/q6nz32cyO84?feature=share" target="_blank" rel="noopener noreferrer"><span><strong data-hub-i18n="woltIdVideo">Wolt — cum afli ID-ul de curier</strong><small>YouTube Shorts</small></span><b aria-hidden="true">↗</b></a>
+          </div></div>
+        </details>
+
+        <details class="hub-resource">
+          <summary><span class="hub-resource-number">03</span><span><strong data-hub-i18n="cashTitle">Cash, balanță, depunere și reset</strong><small data-hub-i18n="cashSummary">Regulile esențiale, separat pentru fiecare platformă.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content">
+            <div class="hub-platform-tabs" role="tablist" aria-label="Selectează platforma" data-hub-i18n-aria="platformSelector"><button class="active" type="button" role="tab" aria-selected="true" data-platform="bolt">Bolt Food</button><button type="button" role="tab" aria-selected="false" data-platform="glovo">Glovo</button><button type="button" role="tab" aria-selected="false" data-platform="wolt">Wolt</button></div>
+            <div class="hub-rule-grid">
+              <article class="hub-rule hub-rule-bolt" data-rule-platform="bolt"><div class="hub-rule-brand"><img src="../assets/ticket-bolt-round.png" alt="" /><span>Bolt Food</span></div><h3 data-hub-i18n="boltTitle">Balanță și depunere</h3><ul><li data-hub-i18n="boltRule1">Resetul are loc duminică, la 23:59. Recomandarea flotei este ca balanța să fie 0.</li><li data-hub-i18n="boltRule2">Suma rămasă poate fi retrasă din următorul raport și poate influența temporar prioritatea la comenzi.</li><li data-hub-i18n="boltRule3">Depune direct cu cardul în Bolt Courier; evită transferul bancar în weekend.</li></ul><a href="https://youtube.com/shorts/5d296X-pYqk?feature=share" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="depositGuide">Vezi ghidul de depunere</span> ↗</a></article>
+              <article class="hub-rule hub-rule-glovo" data-rule-platform="glovo" hidden><div class="hub-rule-brand"><img src="../assets/glovo-round.png" alt="" /><span>Glovo</span></div><h3 data-hub-i18n="glovoTitle">Cash și balanță</h3><ul><li data-hub-i18n="glovoRule1">Resetul principal are loc duminică, la 23:59. Menține balanța 0 și luni, până la finalul zilei.</li><li data-hub-i18n="glovoRule2">La 600 RON în balanța cash, comenzile cash sunt blocate.</li><li data-hub-i18n="glovoRule3">Depunerea se face la stațiile SelfPay, cu actualizare instantă.</li></ul><a href="https://www.selfpay.ro/localizare/" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="selfpayLocations">Găsește o stație SelfPay</span> ↗</a></article>
+              <article class="hub-rule hub-rule-wolt" data-rule-platform="wolt" hidden><div class="hub-rule-brand"><img src="../assets/wolt-round.png" alt="" /><span>Wolt</span></div><h3 data-hub-i18n="woltTitle">Cash și ziua de reset</h3><ul><li data-hub-i18n="woltRule1">Resetul are loc în zilele 7, 15, 22 și în ultima zi a lunii, la 23:59.</li><li data-hub-i18n="woltRule2">La o restanță de 500 RON sau mai mult, comenzile sunt blocate până la acoperirea integrală.</li><li data-hub-i18n="woltRule3">Depune prin Aircash; contul trebuie creat cu datele asociate contului Wolt.</li><li data-hub-i18n="woltRule4">Nu depune în zilele 1, 8, 16 și 23, pentru a evita o posibilă reținere dublă.</li></ul><a href="https://aircash.eu/ro-RO" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="openAircash">Deschide Aircash</span> ↗</a></article>
+            </div>
+          </div>
+        </details>
+
+        <details class="hub-resource">
+          <summary><span class="hub-resource-number">04</span><span><strong data-hub-i18n="faqTitle">FAQ oficial al platformelor</strong><small data-hub-i18n="faqSummary">Răspunsuri publicate direct de Bolt, Glovo și Wolt.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content"><p class="hub-caveat" data-hub-i18n="faqCaveat">Unele secțiuni oficiale pot rămâne în urmă. Pentru procedurile flotei, folosește informațiile actualizate din acest Hub.</p><div class="hub-link-grid hub-link-grid-three"><a href="https://bolt.eu/ro-md/support/categories/360001224880/" target="_blank" rel="noopener noreferrer"><strong>FAQ Bolt</strong><b aria-hidden="true">↗</b></a><a href="https://riderhub.glovoapp.com/ro/wiki/" target="_blank" rel="noopener noreferrer"><strong>FAQ Glovo</strong><b aria-hidden="true">↗</b></a><a href="https://explore.wolt.com/ro/rou/couriers" target="_blank" rel="noopener noreferrer"><strong>FAQ Wolt</strong><b aria-hidden="true">↗</b></a></div></div>
+        </details>
+
+        <details class="hub-resource">
+          <summary><span class="hub-resource-number">05</span><span><strong data-hub-i18n="gearTitle">Genți și echipament oficial</strong><small data-hub-i18n="gearSummary">Magazinele oficiale ale celor trei platforme.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content"><div class="hub-link-grid hub-link-grid-three"><a href="https://ro.boltfoodgear.com/en/products/bags" target="_blank" rel="noopener noreferrer"><strong>Bolt Food Gear</strong><b aria-hidden="true">↗</b></a><a href="https://glovostore.com/RO/ro/categorie/material-pentru-curierii" target="_blank" rel="noopener noreferrer"><strong>Glovo Store</strong><b aria-hidden="true">↗</b></a><a href="https://wolt-store.com/rou/shop/" target="_blank" rel="noopener noreferrer"><strong>Wolt Store</strong><b aria-hidden="true">↗</b></a></div></div>
+        </details>
       </div>
     </section>
 
@@ -103,6 +151,6 @@
   <script src="../main-page.js?v=10"></script>
   <script src="../site-theme.js?v=3"></script>
   <script src="../site-language.js?v=14"></script>
-  <script src="hub.js?v=1"></script>
+  <script src="hub.js?v=2"></script>
 </body>
 </html>
