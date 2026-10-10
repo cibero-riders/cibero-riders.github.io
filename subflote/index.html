@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="../site-theme.css?v=12" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=1" />
-  <link rel="stylesheet" href="subflote.css?v=1" />
+  <link rel="stylesheet" href="subflote.css?v=2" />
 </head>
 <body class="subfleet-body">
   <header class="site-header global-header">
@@ -68,6 +68,12 @@
       </aside>
     </section>
 
+    <div class="sf-platform-strip">
+      <p data-i18n="platformStrip">Platformele cu care lucrăm</p>
+      <div class="sf-platform-names"><span>Bolt Food</span><span>Glovo</span><span>Wolt</span></div>
+      <p data-i18n="platformAvailability">În funcție de oraș și disponibilitate</p>
+    </div>
+
     <section id="parteneriat" class="sf-section sf-partners" aria-labelledby="sf-partners-title">
       <div class="sf-section-head"><span class="sf-section-number">01 /</span><div><p class="sf-overline" data-i18n="partnersOverline">CUI I SE POTRIVEȘTE</p><h2 id="sf-partners-title" data-i18n="partnersTitle">Două drumuri către același parteneriat.</h2></div></div>
       <div class="sf-partner-grid">
@@ -76,7 +82,7 @@
       </div>
     </section>
 
-    <section id="beneficii" class="sf-section" aria-labelledby="sf-benefits-title">
+    <section id="beneficii" class="sf-section sf-benefits" aria-labelledby="sf-benefits-title">
       <div class="sf-section-head"><span class="sf-section-number">02 /</span><div><p class="sf-overline" data-i18n="benefitsOverline">MAI PUȚINĂ FRICȚIUNE</p><h2 id="sf-benefits-title" data-i18n="benefitsTitle">Ce rezolvăm pentru parteneri.</h2><p class="sf-section-intro" data-i18n="benefitsIntro">Nu îți oferim doar acces la un instrument. Conectăm operațiunile care altfel ți-ar consuma timpul.</p></div></div>
       <div class="sf-benefit-grid">
         <article class="sf-benefit-card"><span class="sf-benefit-icon" aria-hidden="true">01</span><p class="sf-problem" data-i18n="problem1">Activările și conturile consumă timp</p><h3 data-i18n="solution1Title">Ai sprijin în pașii critici</h3><p data-i18n="solution1Body">Suport pentru activări, reactivări și problemele care apar pe conturile curierilor.</p></article>
@@ -102,11 +108,11 @@
 
     <section id="manager" class="sf-section sf-manager" aria-labelledby="sf-manager-title">
       <div class="sf-manager-copy"><span class="sf-section-number">04 /</span><p class="sf-overline" data-i18n="managerOverline">CIBERO MANAGER</p><h2 id="sf-manager-title" data-i18n="managerTitle">Un centru de lucru care crește odată cu partenerii.</h2><p data-i18n="managerBody">CIBERO Manager este platforma operațională în dezvoltare pentru gestiunea curierilor și a sub-flotelor. Consolidăm acolo tot mai multe procese, fără să prezentăm funcțiile viitoare ca deja disponibile.</p><a class="sf-inline-link" href="#pregatim"><span data-i18n="managerLink">Vezi ce pregătim</span><span aria-hidden="true">↗</span></a></div>
-      <div class="sf-demo" role="note" aria-labelledby="sf-demo-title"><div class="sf-demo-head"><span class="sf-demo-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>CIBERO Manager</span><span class="sf-demo-status" data-i18n="demoStatus">ÎN PREGĂTIRE</span></div><div class="sf-demo-body"><span class="sf-demo-symbol" aria-hidden="true">◈</span><h3 id="sf-demo-title" data-i18n="demoTitle">Demo în pregătire</h3><p data-i18n="demoBody">Vom adăuga aici capturi reale sau un video din CIBERO Manager. Imaginea de referință pentru Courier Tools nu reprezintă această platformă.</p></div></div>
+      <div class="sf-demo" role="note" aria-labelledby="sf-demo-title"><div class="sf-demo-head"><span class="sf-demo-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>CIBERO Manager</span><span class="sf-demo-status" data-i18n="demoStatus">ÎN PREGĂTIRE</span></div><div class="sf-demo-body"><span class="sf-demo-symbol" aria-hidden="true">◈</span><h3 id="sf-demo-title" data-i18n="demoTitle">Demo în pregătire</h3><p data-i18n="demoBody">Pregătim o prezentare a CIBERO Manager, cu imagini reale și exemple din fluxurile de lucru ale partenerilor.</p></div></div>
     </section>
 
     <section id="pregatim" class="sf-section sf-roadmap" aria-labelledby="sf-roadmap-title">
-      <div class="sf-section-head"><span class="sf-section-number">05 /</span><div><p class="sf-overline sf-overline-future" data-i18n="roadmapOverline">ÎN DEZVOLTARE · NU SUNT ÎNCĂ PROMISIUNI DE PRODUS</p><h2 id="sf-roadmap-title" data-i18n="roadmapTitle">Ce pregătim.</h2><p class="sf-section-intro" data-i18n="roadmapIntro">Aceste funcții sunt pe direcția de dezvoltare a ecosistemului și vor fi comunicate separat când devin disponibile.</p></div></div>
+      <div class="sf-section-head"><span class="sf-section-number">05 /</span><div><p class="sf-overline sf-overline-future" data-i18n="roadmapOverline">ÎN DEZVOLTARE</p><h2 id="sf-roadmap-title" data-i18n="roadmapTitle">Ce pregătim.</h2><p class="sf-section-intro" data-i18n="roadmapIntro">Aceste funcții sunt pe direcția de dezvoltare a ecosistemului și vor fi comunicate separat când devin disponibile.</p></div></div>
       <div class="sf-roadmap-grid">
         <article><span aria-hidden="true">01</span><h3 data-i18n="future1Title">Mai mult control pentru sub-flote</h3><p data-i18n="future1Body">Integrarea și sincronizarea automată a curierilor, control extins asupra echipei și un istoric clar pentru fiecare curier.</p></article>
         <article><span aria-hidden="true">02</span><h3 data-i18n="future2Title">Activity Sync și alerte</h3><p data-i18n="future2Body">O vedere asupra celor care lucrează, nu au comenzi sau devin inactivi, plus alerte și follow-up pentru sub-flote.</p></article>
@@ -139,6 +145,6 @@
   <script src="../main-page.js?v=10"></script>
   <script src="../site-theme.js?v=3"></script>
   <script src="../site-language.js?v=13"></script>
-  <script src="subflote.js?v=1"></script>
+  <script src="subflote.js?v=2"></script>
 </body>
 </html>
