@@ -165,7 +165,7 @@
     if (lang === 'ro') { document.title = originalTitle; if (description && originalDescription) description.setAttribute('content', originalDescription); }
     document.querySelectorAll('body *').forEach((element) => {
       // Page-specific dictionaries own these nodes, including their nested markup.
-      if (['SCRIPT', 'STYLE'].includes(element.tagName) || element.closest('.public-language-switch, [data-i18n]') || element.hasAttribute('data-i18n-aria')) return;
+      if (['SCRIPT', 'STYLE'].includes(element.tagName) || element.closest('.public-language-switch, [data-i18n], [data-hub-i18n]') || element.hasAttribute('data-i18n-aria')) return;
       Array.from(element.childNodes).filter((node) => node.nodeType === Node.TEXT_NODE).forEach((node) => {
         if (!originals.has(node)) originals.set(node, node.nodeValue);
         node.nodeValue = swap(originals.get(node), lang);
