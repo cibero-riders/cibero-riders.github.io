@@ -69,9 +69,12 @@
 .hub-pay-row:last-child{padding-bottom:20px}
 .hub-pay-brand{margin-bottom:13px}.hub-pay-brand img{width:42px;height:42px;box-shadow:0 7px 16px #0003}.hub-pay-brand h3{font-size:22px;line-height:1.15}
 .hub-pay-date{max-width:390px;margin-bottom:17px;color:var(--hb-text);font-size:clamp(24px,2.25vw,30px);line-height:1.22}
-.hub-pay-period{gap:7px;padding:14px 16px;border:1px solid color-mix(in srgb,var(--platform),transparent 70%);border-radius:15px;background:#00000012}
-.hub-pay-period>span{font-size:14px;line-height:1.25;font-weight:800}
-.hub-pay-period>strong{font-size:18px;line-height:1.35}
+.hub-pay-period{position:relative;isolation:isolate;overflow:hidden;gap:7px;padding:15px 17px;border:1px solid color-mix(in srgb,var(--platform),white 22%);border-radius:17px;background:linear-gradient(125deg,color-mix(in srgb,var(--platform),transparent 72%),color-mix(in srgb,var(--hb-panel),var(--platform) 13%) 48%,color-mix(in srgb,var(--platform),transparent 82%));box-shadow:0 0 24px color-mix(in srgb,var(--platform),transparent 78%),inset 0 1px 0 color-mix(in srgb,var(--platform),white 58%),inset 0 -10px 24px #00000010;transition:border-color .3s,box-shadow .3s,transform .45s cubic-bezier(.2,1.35,.3,1)}
+.hub-pay-period:before{position:absolute;z-index:-1;inset:-65% auto -65% -45%;width:32%;background:linear-gradient(90deg,transparent,#ffffff6e,transparent);filter:blur(2px);transform:skewX(-18deg);animation:hub-period-shine 5.2s ease-in-out infinite;content:""}
+.hub-pay-row:hover .hub-pay-period{border-color:color-mix(in srgb,var(--platform),white 30%);box-shadow:0 0 34px color-mix(in srgb,var(--platform),transparent 62%),inset 0 1px 0 #ffffffa1,inset 0 -10px 24px #00000012;transform:translateY(-1px)}
+.hub-pay-period>span{position:relative;color:color-mix(in srgb,var(--platform),var(--hb-text) 24%);font-size:14px;line-height:1.25;font-weight:900;letter-spacing:.045em;text-transform:uppercase;text-shadow:0 0 16px color-mix(in srgb,var(--platform),transparent 44%)}
+.hub-pay-period>strong{position:relative;color:var(--hb-text);font-size:18px;line-height:1.35;text-shadow:0 1px 0 #ffffff20,0 0 18px color-mix(in srgb,var(--platform),transparent 62%)}
+@keyframes hub-period-shine{0%,55%{left:-45%;opacity:0}62%{opacity:.75}78%{left:125%;opacity:.1}100%{left:125%;opacity:0}}
 .hub-pay-reset{margin-top:11px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--platform),transparent 75%);border-radius:15px;background:color-mix(in srgb,var(--platform),transparent 88%);color:var(--hb-text);font-size:14px;line-height:1.5}
 .hub-menu{padding:58px 0 20px}.hub-menu>h2{margin-bottom:22px;font-size:clamp(32px,4vw,48px);letter-spacing:-.045em}
 .hub-menu .hub-action-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
@@ -82,4 +85,4 @@
 .hub-action-whatsapp{border-color:#49d79388!important;background:linear-gradient(135deg,#1ea96830,var(--hb-panel))!important}
 @media(max-width:1000px){.hub-dashboard{grid-template-columns:1fr}.hub-menu .hub-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.hub-hero{padding:28px 0 18px}.hub-dashboard{gap:16px}.hub-dashboard .hub-essential,.hub-payments{padding:16px;border-radius:23px}.hub-payments{order:-1}.hub-pay-row{padding:17px;border-radius:20px}.hub-pay-row:last-child{padding-bottom:17px}.hub-menu{padding-top:44px}.hub-menu .hub-action-grid{grid-template-columns:1fr}.hub-menu .hub-action{min-height:82px;padding:15px;border-radius:19px}.hub-pay-date{max-width:none;font-size:25px}.hub-pay-period>span{font-size:14px}.hub-pay-period>strong{font-size:17px}.hub-pay-reset{font-size:14px}}
-@media(prefers-reduced-motion:reduce){.hub-resource,.hub-resource-number,.hub-pay-row,.hub-pay-row:after,.hub-menu .hub-action,.hub-menu .hub-action-icon{transition:none}.hub-pay-row,.hub-pay-row:hover{transform:none}}
+@media(prefers-reduced-motion:reduce){.hub-resource,.hub-resource-number,.hub-pay-row,.hub-pay-row:after,.hub-pay-period,.hub-menu .hub-action,.hub-menu .hub-action-icon{transition:none}.hub-pay-row,.hub-pay-row:hover,.hub-pay-row:hover .hub-pay-period{transform:none}.hub-pay-period:before{animation:none;display:none}}
