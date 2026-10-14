@@ -67,10 +67,12 @@
 .hub-pay-row:hover:after{opacity:.26;transform:scale(1.18)}
 .hub-payment-bolt{--platform:#2fd58d}.hub-payment-glovo{--platform:#ffc244}.hub-payment-wolt{--platform:#21c7e8}
 .hub-pay-row:last-child{padding-bottom:20px}
-.hub-pay-brand{margin-bottom:11px}.hub-pay-brand img{width:38px;height:38px;box-shadow:0 7px 16px #0003}.hub-pay-brand h3{font-size:19px}
-.hub-pay-date{max-width:340px;margin-bottom:15px;color:var(--hb-text);font-size:clamp(20px,2vw,26px);line-height:1.2}
-.hub-pay-period{padding:12px 14px;border:1px solid color-mix(in srgb,var(--platform),transparent 70%);border-radius:15px;background:#00000012}
-.hub-pay-reset{margin-top:10px;border:1px solid color-mix(in srgb,var(--platform),transparent 75%);border-radius:15px;background:color-mix(in srgb,var(--platform),transparent 88%);color:var(--hb-text)}
+.hub-pay-brand{margin-bottom:13px}.hub-pay-brand img{width:42px;height:42px;box-shadow:0 7px 16px #0003}.hub-pay-brand h3{font-size:22px;line-height:1.15}
+.hub-pay-date{max-width:390px;margin-bottom:17px;color:var(--hb-text);font-size:clamp(24px,2.25vw,30px);line-height:1.22}
+.hub-pay-period{gap:7px;padding:14px 16px;border:1px solid color-mix(in srgb,var(--platform),transparent 70%);border-radius:15px;background:#00000012}
+.hub-pay-period>span{font-size:14px;line-height:1.25;font-weight:800}
+.hub-pay-period>strong{font-size:18px;line-height:1.35}
+.hub-pay-reset{margin-top:11px;padding:12px 14px;border:1px solid color-mix(in srgb,var(--platform),transparent 75%);border-radius:15px;background:color-mix(in srgb,var(--platform),transparent 88%);color:var(--hb-text);font-size:14px;line-height:1.5}
 .hub-menu{padding:58px 0 20px}.hub-menu>h2{margin-bottom:22px;font-size:clamp(32px,4vw,48px);letter-spacing:-.045em}
 .hub-menu .hub-action-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
 .hub-menu .hub-action{grid-template-columns:48px minmax(0,1fr) auto;min-height:94px;border-radius:22px;background:linear-gradient(145deg,var(--hb-panel-2),var(--hb-panel));box-shadow:0 12px 24px #0002;transition:transform .55s cubic-bezier(.2,1.45,.3,1),border-color .3s,box-shadow .3s}
@@ -79,5 +81,5 @@
 .hub-menu .hub-action:hover .hub-action-icon{transform:rotate(-7deg) scale(1.12)}
 .hub-action-whatsapp{border-color:#49d79388!important;background:linear-gradient(135deg,#1ea96830,var(--hb-panel))!important}
 @media(max-width:1000px){.hub-dashboard{grid-template-columns:1fr}.hub-menu .hub-action-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:600px){.hub-hero{padding:28px 0 18px}.hub-dashboard{gap:16px}.hub-dashboard .hub-essential,.hub-payments{padding:16px;border-radius:23px}.hub-payments{order:-1}.hub-pay-row{padding:17px;border-radius:20px}.hub-pay-row:last-child{padding-bottom:17px}.hub-menu{padding-top:44px}.hub-menu .hub-action-grid{grid-template-columns:1fr}.hub-menu .hub-action{min-height:82px;padding:15px;border-radius:19px}.hub-pay-date{max-width:none}}
+@media(max-width:600px){.hub-hero{padding:28px 0 18px}.hub-dashboard{gap:16px}.hub-dashboard .hub-essential,.hub-payments{padding:16px;border-radius:23px}.hub-payments{order:-1}.hub-pay-row{padding:17px;border-radius:20px}.hub-pay-row:last-child{padding-bottom:17px}.hub-menu{padding-top:44px}.hub-menu .hub-action-grid{grid-template-columns:1fr}.hub-menu .hub-action{min-height:82px;padding:15px;border-radius:19px}.hub-pay-date{max-width:none;font-size:25px}.hub-pay-period>span{font-size:14px}.hub-pay-period>strong{font-size:17px}.hub-pay-reset{font-size:14px}}
 @media(prefers-reduced-motion:reduce){.hub-resource,.hub-resource-number,.hub-pay-row,.hub-pay-row:after,.hub-menu .hub-action,.hub-menu .hub-action-icon{transition:none}.hub-pay-row,.hub-pay-row:hover{transform:none}}
