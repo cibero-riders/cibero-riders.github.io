@@ -7,7 +7,10 @@
   };
   Object.assign(translations,{
     workPeriod:'Work period',
-    essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.'
+    essentialTitle:'Essential Information',
+    essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.',
+    fleetPlatform:'Fleet platform',
+    paymentMenu:'Next payment'
   });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
@@ -29,7 +32,7 @@
   function paymentFridayForWolt(end){const weekday=end.getUTCDay();if([4,5,6].includes(weekday))return addDays(end,12-weekday);let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
   function woltPaymentSchedule(now){const today=dateFromParts(now.year,now.month,now.day);const current=woltFiscalPeriod(today);const previous=woltFiscalPeriod(addDays(current.start,-1));const previousPayment=paymentFridayForWolt(previous.end);const p=getParts(previousPayment);const beforePreviousCutoff=Date.UTC(now.year,now.month-1,now.day,now.hour,now.minute)<Date.UTC(p.year,p.month-1,p.day,17,0);if(beforePreviousCutoff)return{...previous,payment:previousPayment,reset:previous.end};return{...current,payment:paymentFridayForWolt(current.end),reset:current.end};}
   function scheduleFor(platform){const now=bucharestNow();return platform==='wolt'?woltPaymentSchedule(now):weeklyPaymentSchedule(now);}
-  function scheduleText(platform){const schedule=scheduleFor(platform);return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:language==='en'?`Payment by 17:00. Deposit the full balance by ${formatWeekdayDate(schedule.reset)}, 23:59.`:`Plata până la 17:00. Depune integral balanța până ${formatWeekdayDate(schedule.reset)}, ora 23:59.`};}
+  function scheduleText(platform){const schedule=scheduleFor(platform);return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:language==='en'?`Deposit the full balance by ${formatWeekdayDate(schedule.reset)}, 23:59.`:`Depune balanța integral până ${formatWeekdayDate(schedule.reset)}, ora 23:59.`};}
   function renderPayments(){['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;});}
   function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
   function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
@@ -41,6 +44,18 @@
       if(!hoverQuery.matches)return;
       resources.forEach(other=>{if(other!==resource&&!other.contains(document.activeElement))other.open=false;});
       resource.open=true;
+    });
+  });
+  document.querySelectorAll('.hub-pay-row').forEach(card=>{
+    card.addEventListener('pointermove',event=>{
+      if(!hoverQuery.matches)return;
+      const rect=card.getBoundingClientRect();
+      card.style.setProperty('--pay-x',`${((event.clientX-rect.left)/rect.width-.5)*6}deg`);
+      card.style.setProperty('--pay-y',`${((event.clientY-rect.top)/rect.height-.5)*-6}deg`);
+    });
+    card.addEventListener('pointerleave',()=>{
+      card.style.removeProperty('--pay-x');
+      card.style.removeProperty('--pay-y');
     });
   });
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderPayments();});
