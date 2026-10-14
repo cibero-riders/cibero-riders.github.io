@@ -42,9 +42,21 @@
   resources.forEach(resource=>{
     resource.addEventListener('pointerenter',()=>{
       if(!hoverQuery.matches)return;
-      resources.forEach(other=>{if(other!==resource&&!other.contains(document.activeElement))other.open=false;});
+      resources.forEach(other=>{if(other!==resource&&!other.contains(document.activeElement)){other.open=false;delete other.dataset.hoverOpen;}});
+      if(!resource.open){resource.dataset.hoverOpen='true';resource.open=true;}
+    });
+    resource.addEventListener('pointerleave',()=>{
+      if(!hoverQuery.matches||resource.dataset.hoverOpen!=='true')return;
+      resource.open=false;
+      delete resource.dataset.hoverOpen;
+    });
+    resource.querySelector('summary')?.addEventListener('click',event=>{
+      if(resource.dataset.hoverOpen!=='true')return;
+      event.preventDefault();
+      delete resource.dataset.hoverOpen;
       resource.open=true;
     });
+    resource.addEventListener('toggle',()=>{if(!resource.open)delete resource.dataset.hoverOpen;});
   });
   document.querySelectorAll('.hub-pay-row').forEach(card=>{
     card.addEventListener('pointermove',event=>{
