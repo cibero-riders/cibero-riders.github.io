@@ -6,15 +6,53 @@
     communityKicker:'STAY CONNECTED',communityTitle:'The CibeRO community is on WhatsApp.',communityBody:'General discussions and help between couriers are in the community group. Important news is published separately in the announcements channel.',communityButton:'Community group',announcementsButton:'Announcements channel',nextKicker:'COMING TO THE HUB',nextTitle:'A personal account for every member.',nextIntro:'This area will be connected after we define authentication and migrate data from the Telegram system.',profileTitle:'Verified profile',profileBody:'Phone, city, platforms and seniority, protected by authentication.',requestsTitle:'Requests and status',requestsBody:'Data updates, approvals and history in one flow.',remindersTitle:'Personal reminders',remindersBody:'Preferences for payments, reset dates and WhatsApp notifications.',versionNote:'This is the first informational version of the Hub. It does not yet collect or display personal data.'
   };
   Object.assign(translations,{
-    workPeriod:'Work period',
-    essentialTitle:'Essential Information',
+    hubTitle:'CIBERO Hub - essential information for couriers',
+    paymentDate:'Payment date',
+    paymentPeriod:'Payment period',
+    essentialTitle:'Tools and information for couriers',
     essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.',
     fleetPlatform:'Fleet platform',
     paymentMenu:'Next payment',
-    referralTitle:'Referral'
+    referralTitle:'Referral',
+    supportCardBody:'Requests, changes and help.',
+    campaignsCardBody:'Active CibeRO campaigns.',
+    benefitsCardBody:'Your partnership benefits.',
+    referralCardBody:'Refer a friend and both of you earn.',
+    reimbursementTitle:'5% Reimbursement',
+    reimbursementSummary:'The full procedure, eligibility and receipt submission.',
+    reimbursementIntro:'💰 The fleet offers 5% reimbursement for all services and purchases made for delivery work.',
+    reimbursementCui:'🧾 The company tax ID is: <strong><code>RO53182698</code></strong>',
+    reimbursementPrompt:'✅ For accurate information, use the options below.',
+    reimbursementHowTitle:'How reimbursement works',
+    reimbursementHow1:'ℹ️ Whenever you purchase products or services related to delivery work, ask the merchant to add the company tax ID to the receipt/invoice.',
+    reimbursementHow2:'🧾 The company tax ID is: <strong><code>RO53182698</code></strong>',
+    reimbursementHow3:'ℹ️ The reimbursement cycle is monthly. From the beginning to the end of a month, collect all receipts. At the beginning of the following month, submit the receipts from the previous month.',
+    reimbursementHow4:'👀 Example: collect receipts from the beginning of August through the end of August. The receipts are submitted at the beginning of September.',
+    reimbursementHow5:'ℹ️ The procedure differs by city. You can find city-specific information in the “Procedure by city” section from the previous menu.',
+    reimbursementCityTitle:'Procedure by city',
+    reimbursementCityPrompt:'For which city do you need reimbursement information?',
+    reimbursementIasi1:'1️⃣ At the end of the month, place all eligible receipts in an envelope and write your full name on it.',
+    reimbursementIasi2:'2️⃣ Go to <code>Strada Tudor Vladimirescu 2a, 700259 Iași</code> and leave the envelope in the mailbox <strong><u>marked 2A.</u></strong>',
+    reimbursementIasi3:'⚠️ The receipt envelope may be left earlier, but <strong><u>no later</u></strong> than the 2nd day of the following month.',
+    reimbursementConstanta1:'1️⃣ At the end of the month, place all eligible receipts in an envelope and write your full name on it.',
+    reimbursementConstanta2:'2️⃣ Deliver the envelope to the office at: <strong><code>Strada Farului 31, 900607, Constanța</code></strong>',
+    reimbursementConstanta3:'⚠️ The receipt envelope may be submitted earlier, but <strong><u>no later</u></strong> than the 7th day of the month.',
+    reimbursementRestTitle:'Rest of the country',
+    reimbursementRest1:'1️⃣ Scan all receipts into a single PDF file. You can use the Genius Scan app for scanning.',
+    reimbursementRest2:'2️⃣ Download the Genius app, scan all receipts, save everything as a single PDF and send it using <a href="https://eatsdelivery.bolt.host/modify" target="_blank" rel="noopener noreferrer">this form</a> - Reimbursements.',
+    reimbursementPaymentTitle:'When do I receive the reimbursement money',
+    reimbursementPayment1:'✅ If you followed all steps and submitted the receipts correctly, you will receive the money around the middle of the following month, on the fleet payment day (Friday).',
+    reimbursementPayment2:'👀 Example: You submit the receipts collected in August at the beginning of September. You will receive the money for those receipts around the middle of September.',
+    reimbursementCoveredTitle:'What the fleet reimburses',
+    reimbursementCovered1:'👉 everything related to the vehicle used - repairs, spare parts, fuel, instalments, rental, <em>useful</em> accessories, etc.',
+    reimbursementCovered2:'👉 everything related to official equipment (Bolt/Glovo/Wolt) used for delivery work - bag, jacket, accessories, protective equipment, etc.',
+    reimbursementNotCoveredTitle:'What the fleet does NOT reimburse',
+    reimbursementNotCovered1:'👉 Any products/services purchased for personal use and not directly related to delivery work - regular clothes, meals, coffee, snacks, fines/personal taxes, phone, etc.'
   });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
+  const htmlNodes=[...document.querySelectorAll('[data-hub-i18n-html]')];
+  const htmlOriginals=new Map(htmlNodes.map(node=>[node,node.innerHTML]));
   const ariaNodes=[...document.querySelectorAll('[data-hub-i18n-aria]')];
   const ariaOriginals=new Map(ariaNodes.map(node=>[node,node.getAttribute('aria-label')]));
   const description=document.querySelector('meta[name="description"]');
@@ -33,10 +71,11 @@
   function paymentFridayForWolt(end){const weekday=end.getUTCDay();if([4,5,6].includes(weekday))return addDays(end,12-weekday);let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
   function woltPaymentSchedule(now){const today=dateFromParts(now.year,now.month,now.day);const current=woltFiscalPeriod(today);const previous=woltFiscalPeriod(addDays(current.start,-1));const previousPayment=paymentFridayForWolt(previous.end);const p=getParts(previousPayment);const beforePreviousCutoff=Date.UTC(now.year,now.month-1,now.day,now.hour,now.minute)<Date.UTC(p.year,p.month-1,p.day,17,0);if(beforePreviousCutoff)return{...previous,payment:previousPayment,reset:previous.end};return{...current,payment:paymentFridayForWolt(current.end),reset:current.end};}
   function scheduleFor(platform){const now=bucharestNow();return platform==='wolt'?woltPaymentSchedule(now):weeklyPaymentSchedule(now);}
-  function scheduleText(platform){const schedule=scheduleFor(platform);return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:language==='en'?`Deposit the full balance by ${formatWeekdayDate(schedule.reset)}, 23:59.`:`Depune balanța integral până ${formatWeekdayDate(schedule.reset)}, ora 23:59.`};}
+  const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
+  function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:language==='en'?`Next RESET: ${resetDate}, 23:59. The full balance must be deposited by that date and time.`:`Următorul RESET: ${resetDate}, ora 23:59. Depunerea integrală a balanței e necesară până la acea dată-oră.`};}
   function renderPayments(){['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;});}
   function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
-  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
+  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const resources=[...document.querySelectorAll('.hub-resource')];
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
