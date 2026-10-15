@@ -6,7 +6,7 @@
     communityKicker:'STAY CONNECTED',communityTitle:'The CibeRO community is on WhatsApp.',communityBody:'General discussions and help between couriers are in the community group. Important news is published separately in the announcements channel.',communityButton:'Community group',announcementsButton:'Announcements channel',nextKicker:'COMING TO THE HUB',nextTitle:'A personal account for every member.',nextIntro:'This area will be connected after we define authentication and migrate data from the Telegram system.',profileTitle:'Verified profile',profileBody:'Phone, city, platforms and seniority, protected by authentication.',requestsTitle:'Requests and status',requestsBody:'Data updates, approvals and history in one flow.',remindersTitle:'Personal reminders',remindersBody:'Preferences for payments, reset dates and WhatsApp notifications.',versionNote:'This is the first informational version of the Hub. It does not yet collect or display personal data.'
   };
   Object.assign(translations,{
-    hubTitle:'CIBERO Hub - essential information for couriers',
+    hubTitle:'CIBERO Hub - information, tools and resources for active couriers.',
     hubKicker:'CIBERO · COURIER TOOLS',
     paymentDate:'Payment date',
     paymentPeriod:'Payment period',
@@ -40,14 +40,14 @@
     reimbursementHow2:'🧾 The company tax ID is: <strong><code>RO53182698</code></strong>',
     reimbursementHow3:'ℹ️ The reimbursement cycle is monthly. From the beginning to the end of a month, collect all receipts. At the beginning of the following month, submit the receipts from the previous month.',
     reimbursementHow4:'👀 Example: collect receipts from the beginning of August through the end of August. The receipts are submitted at the beginning of September.',
-    reimbursementHow5:'ℹ️ The procedure differs by city. You can find city-specific information in the “Procedure by city” section from the previous menu.',
+    reimbursementHow5:'ℹ️ The procedure differs by city. You can find city-specific information in the “Procedure by city” section below.',
     reimbursementCityTitle:'Procedure by city',
     reimbursementCityPrompt:'For which city do you need reimbursement information?',
     reimbursementIasi1:'1️⃣ At the end of the month, place all eligible receipts in an envelope and write your full name on it.',
-    reimbursementIasi2:'2️⃣ Go to <code>Strada Tudor Vladimirescu 2a, 700259 Iași</code> and leave the envelope in the mailbox <strong><u>marked 2A.</u></strong>',
+    reimbursementIasi2:'2️⃣ Go to <strong><a href="https://maps.app.goo.gl/YsLnCGx84XkjUiam8" target="_blank" rel="noopener noreferrer"><code>Strada Tudor Vladimirescu 2a, 700259 Iași</code></a></strong> and leave the envelope in the mailbox <strong><u>marked 2A.</u></strong>',
     reimbursementIasi3:'⚠️ The receipt envelope may be left earlier, but <strong><u>no later</u></strong> than the 2nd day of the following month.',
     reimbursementConstanta1:'1️⃣ At the end of the month, place all eligible receipts in an envelope and write your full name on it.',
-    reimbursementConstanta2:'2️⃣ Deliver the envelope to the office at: <strong><code>Strada Farului 31, 900607, Constanța</code></strong>',
+    reimbursementConstanta2:'2️⃣ Deliver the envelope to the office at: <strong><a href="https://maps.app.goo.gl/JG4tLVszZ9cjBivE7" target="_blank" rel="noopener noreferrer"><code>Strada Farului 31, 900607, Constanța</code></a></strong>',
     reimbursementConstanta3:'⚠️ The receipt envelope may be submitted earlier, but <strong><u>no later</u></strong> than the 7th day of the month.',
     reimbursementRestTitle:'Rest of the country',
     reimbursementRest1:'1️⃣ Scan all receipts into a single PDF file. You can use the Genius Scan app for scanning.',
