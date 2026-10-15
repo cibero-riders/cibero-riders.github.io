@@ -10,7 +10,8 @@
     essentialTitle:'Essential Information',
     essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.',
     fleetPlatform:'Fleet platform',
-    paymentMenu:'Next payment'
+    paymentMenu:'Next payment',
+    referralTitle:'Referral'
   });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
