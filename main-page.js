@@ -367,6 +367,16 @@ document.querySelectorAll("[data-showcase-benefit]").forEach(card => {
   const detail = card.querySelector(".showcase-benefit-detail");
   const hover = window.matchMedia("(hover: hover) and (pointer: fine)");
   const setOpen = open => {
+    if (open) {
+      document.querySelectorAll("[data-showcase-benefit].is-open").forEach(openCard => {
+        if (openCard === card) return;
+        openCard.classList.remove("is-open");
+        openCard.querySelector(".showcase-benefit-toggle")?.setAttribute("aria-expanded", "false");
+        const openDetail = openCard.querySelector(".showcase-benefit-detail");
+        openDetail?.setAttribute("aria-hidden", "true");
+        if (openDetail) openDetail.inert = true;
+      });
+    }
     card.classList.toggle("is-open", open);
     button.setAttribute("aria-expanded", String(open));
     detail.setAttribute("aria-hidden", String(!open));
