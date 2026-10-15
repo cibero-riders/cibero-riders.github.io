@@ -77,27 +77,7 @@
   function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
   function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
-  const resources=[...document.querySelectorAll('.hub-resource')];
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
-  resources.forEach(resource=>{
-    resource.addEventListener('pointerenter',()=>{
-      if(!hoverQuery.matches)return;
-      resources.forEach(other=>{if(other!==resource&&!other.contains(document.activeElement)){other.open=false;delete other.dataset.hoverOpen;}});
-      if(!resource.open){resource.dataset.hoverOpen='true';resource.open=true;}
-    });
-    resource.addEventListener('pointerleave',()=>{
-      if(!hoverQuery.matches||resource.dataset.hoverOpen!=='true')return;
-      resource.open=false;
-      delete resource.dataset.hoverOpen;
-    });
-    resource.querySelector('summary')?.addEventListener('click',event=>{
-      if(resource.dataset.hoverOpen!=='true')return;
-      event.preventDefault();
-      delete resource.dataset.hoverOpen;
-      resource.open=true;
-    });
-    resource.addEventListener('toggle',()=>{if(!resource.open)delete resource.dataset.hoverOpen;});
-  });
   document.querySelectorAll('.hub-pay-row').forEach(card=>{
     card.addEventListener('pointermove',event=>{
       if(!hoverQuery.matches)return;
