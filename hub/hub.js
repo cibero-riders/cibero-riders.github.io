@@ -8,7 +8,6 @@
   Object.assign(translations,{
     hubTitle:'CIBERO Hub - essential information for couriers',
     hubKicker:'CIBERO · COURIER TOOLS',
-    hubLead:'Choose the tool you need. Important information, guides and actions are organised in one place.',
     paymentDate:'Payment date',
     paymentPeriod:'Payment period',
     paymentsCategory:'Payments',
