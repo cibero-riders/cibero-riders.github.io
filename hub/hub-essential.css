@@ -112,3 +112,46 @@
 @media(max-width:720px){.hub-essential-actions,.hub-city-list{grid-template-columns:1fr}.hub-essential-actions .hub-action{min-height:78px}.hub-reimbursement-item>div{padding-inline:12px}.hub-pay-detail .hub-pay-date{font-size:21px}}
 @media(max-width:430px){.hub-hero h1{font-size:34px}.hub-essential-actions .hub-action{grid-template-columns:40px minmax(0,1fr) auto;padding:11px}.hub-resource-number{width:38px;height:46px;grid-template-rows:24px 9px}.hub-resource-number svg{width:21px;height:21px}.hub-dashboard .hub-resource>summary{grid-template-columns:38px minmax(0,1fr) auto}.hub-pay-detail{grid-template-columns:38px minmax(0,1fr);padding:12px}.hub-pay-detail-icon{width:38px;height:38px}.hub-pay-detail-icon svg{width:21px;height:21px}}
 @media(prefers-reduced-motion:reduce){.hub-essential-actions .hub-action{transition:none}.hub-essential-actions .hub-action:hover{transform:none}.hub-reimbursement-item>summary i,.hub-city-list summary i{transition:none}}
+
+/* Full-width, categorized Hub */
+.hub-dashboard{display:block;margin-bottom:48px}
+.hub-dashboard .hub-essential{width:100%;padding:clamp(22px,3vw,38px)}
+.hub-essential-list{gap:12px}
+.hub-category-title{display:flex;align-items:center;gap:16px;margin:42px 0 10px;color:var(--hb-text);font-size:clamp(25px,3vw,35px);line-height:1.15;letter-spacing:-.035em}
+.hub-category-title:first-child{margin-top:0}
+.hub-category-title:after{height:1px;flex:1;background:linear-gradient(90deg,var(--hb-line),transparent);content:""}
+.hub-dashboard .hub-resource>summary{min-height:90px;padding:17px 20px}
+.hub-dashboard .hub-resource summary strong{font-size:18px}
+.hub-dashboard .hub-poster-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hub-dashboard .hub-poster-grid a{display:block;min-height:185px}
+.hub-dashboard .hub-poster-grid img{height:155px}
+.hub-dashboard .hub-link-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.hub-dashboard .hub-link-grid-three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.hub-view-tabs{display:flex;gap:8px;margin:16px 0 8px;padding-bottom:3px}
+.hub-view-tabs button{min-height:42px;padding:8px 22px;border:1px solid var(--hb-line);border-radius:999px;background:transparent;color:var(--hb-muted);font:800 13px "DM Sans",sans-serif;cursor:pointer}
+.hub-view-tabs button.active{border-color:var(--hb-gold);background:var(--hb-gold);color:#231426}
+[data-calendar-panel][hidden]{display:none}
+.hub-resource-payment{border-color:color-mix(in srgb,var(--hb-gold),transparent 25%)}
+.hub-payment-content{padding-top:18px}
+.hub-payment-selector{margin-top:0!important;margin-bottom:18px}
+.hub-payment-content .hub-pay-stack{display:block}
+.hub-payment-content .hub-pay-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:28px;border-radius:26px}
+.hub-payment-content .hub-pay-row[hidden]{display:none}
+.hub-payment-content .hub-pay-brand{grid-column:1/-1;margin-bottom:4px}
+.hub-payment-content .hub-pay-brand img{width:50px;height:50px}
+.hub-payment-content .hub-pay-brand h3{font-size:27px}
+.hub-payment-content .hub-pay-detail{min-height:132px;padding:20px;grid-template-columns:52px minmax(0,1fr);gap:16px}
+.hub-payment-content .hub-pay-detail+.hub-pay-detail{margin-top:0}
+.hub-payment-content .hub-pay-detail-icon{width:52px;height:52px;border-radius:16px}
+.hub-payment-content .hub-pay-detail-icon svg{width:28px;height:28px}
+.hub-payment-content .hub-pay-detail-label{font-size:13px}
+.hub-payment-content .hub-pay-detail .hub-pay-date{margin-top:8px;font-size:clamp(27px,3vw,38px);line-height:1.12}
+.hub-payment-content .hub-pay-period>div>strong{margin-top:8px;font-size:clamp(25px,2.5vw,34px);line-height:1.16}
+.hub-payment-content .hub-pay-reset>strong{font-size:clamp(18px,1.75vw,24px);line-height:1.4}
+.hub-essential-actions{margin:0 0 2px}
+.hub-essential-actions .hub-action{min-height:96px;padding:17px}
+.hub-essential-actions .hub-action strong{font-size:16px}
+.hub-essential-actions .hub-action small{font-size:12px}
+.hub-essential-list>.hub-whatsapp-actions{margin-top:28px;padding-top:30px}
+@media(max-width:900px){.hub-payment-content .hub-pay-row{grid-template-columns:1fr}.hub-payment-content .hub-pay-detail{min-height:112px}.hub-dashboard .hub-poster-grid,.hub-dashboard .hub-link-grid,.hub-dashboard .hub-link-grid-three{grid-template-columns:1fr}.hub-dashboard .hub-poster-grid a{display:grid;grid-template-columns:120px 1fr;align-items:center;min-height:0}.hub-dashboard .hub-poster-grid img{height:110px}}
+@media(max-width:600px){.hub-category-title{margin-top:34px;font-size:25px}.hub-dashboard .hub-essential{padding:16px}.hub-payment-content .hub-pay-row{padding:17px}.hub-payment-content .hub-pay-brand img{width:44px;height:44px}.hub-payment-content .hub-pay-brand h3{font-size:23px}.hub-payment-content .hub-pay-detail{min-height:108px;padding:16px;grid-template-columns:44px minmax(0,1fr)}.hub-payment-content .hub-pay-detail-icon{width:44px;height:44px}.hub-payment-content .hub-pay-detail .hub-pay-date{font-size:29px}.hub-payment-content .hub-pay-period>div>strong{font-size:27px}.hub-payment-content .hub-pay-reset>strong{font-size:18px}.hub-view-tabs button,.hub-payment-selector button{flex:1;padding-inline:10px}.hub-dashboard .hub-poster-grid a{grid-template-columns:90px 1fr}.hub-dashboard .hub-poster-grid img{height:90px}}
