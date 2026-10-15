@@ -369,8 +369,8 @@ html[data-theme="night"] .testmode-page .home-about-cta:focus-visible {
   .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit:is(.is-open, :last-child) {
     grid-column: auto;
   }
-  .testmode-page .test-benefit-grid > .test-benefit-opportunity,
-  .testmode-page .test-benefit-grid > .test-benefit-opportunity:is(.is-open, :last-child) {
+  .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit.test-benefit-opportunity,
+  .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit.test-benefit-opportunity:is(.is-open, :last-child) {
     grid-column: 1 / -1;
   }
 }
