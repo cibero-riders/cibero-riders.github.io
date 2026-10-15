@@ -135,23 +135,26 @@
 .hub-payment-content{padding-top:18px}
 .hub-payment-selector{margin-top:0!important;margin-bottom:18px}
 .hub-payment-content .hub-pay-stack{display:block}
-.hub-payment-content .hub-pay-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding:28px;border-radius:26px}
+.hub-payment-content .hub-pay-row{display:grid;grid-template-columns:1fr;gap:12px;padding:28px;border-radius:26px}
 .hub-payment-content .hub-pay-row[hidden]{display:none}
 .hub-payment-content .hub-pay-brand{grid-column:1/-1;margin-bottom:4px}
 .hub-payment-content .hub-pay-brand img{width:50px;height:50px}
 .hub-payment-content .hub-pay-brand h3{font-size:27px}
-.hub-payment-content .hub-pay-detail{min-height:132px;padding:20px;grid-template-columns:52px minmax(0,1fr);gap:16px}
+.hub-payment-content .hub-pay-detail{min-height:96px;padding:18px 22px;grid-template-columns:52px minmax(0,1fr);gap:18px}
 .hub-payment-content .hub-pay-detail+.hub-pay-detail{margin-top:0}
 .hub-payment-content .hub-pay-detail-icon{width:52px;height:52px;border-radius:16px}
 .hub-payment-content .hub-pay-detail-icon svg{width:28px;height:28px}
-.hub-payment-content .hub-pay-detail-label{font-size:13px}
-.hub-payment-content .hub-pay-detail .hub-pay-date{margin-top:8px;font-size:clamp(27px,3vw,38px);line-height:1.12}
-.hub-payment-content .hub-pay-period>div>strong{margin-top:8px;font-size:clamp(25px,2.5vw,34px);line-height:1.16}
-.hub-payment-content .hub-pay-reset>strong{font-size:clamp(18px,1.75vw,24px);line-height:1.4}
+.hub-pay-sentence{margin:0;color:var(--hb-text);font-size:clamp(18px,1.65vw,23px);font-weight:700;line-height:1.4}
+.hub-pay-sentence>span:first-child{color:var(--hb-text)}
+.hub-pay-sentence>strong{display:inline;color:color-mix(in srgb,var(--platform),var(--hb-text) 12%);font-size:clamp(25px,2.7vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.15;text-shadow:0 0 20px color-mix(in srgb,var(--platform),transparent 68%)}
+.hub-payment-content .hub-pay-detail .hub-pay-date{display:inline;max-width:none;margin:0;font-size:clamp(27px,3vw,40px);line-height:1.12}
+.hub-payment-content .hub-pay-period>p>strong{font-size:clamp(25px,2.7vw,37px);line-height:1.15}
+.hub-payment-content .hub-pay-reset>p>strong{font-size:clamp(26px,2.85vw,39px);line-height:1.15}
+.hub-pay-reset-label{font-weight:900}
 .hub-essential-actions{margin:0 0 2px}
 .hub-essential-actions .hub-action{min-height:96px;padding:17px}
 .hub-essential-actions .hub-action strong{font-size:16px}
 .hub-essential-actions .hub-action small{font-size:12px}
 .hub-essential-list>.hub-whatsapp-actions{margin-top:28px;padding-top:30px}
 @media(max-width:900px){.hub-payment-content .hub-pay-row{grid-template-columns:1fr}.hub-payment-content .hub-pay-detail{min-height:112px}.hub-dashboard .hub-poster-grid,.hub-dashboard .hub-link-grid,.hub-dashboard .hub-link-grid-three{grid-template-columns:1fr}.hub-dashboard .hub-poster-grid a{display:grid;grid-template-columns:120px 1fr;align-items:center;min-height:0}.hub-dashboard .hub-poster-grid img{height:110px}}
-@media(max-width:600px){.hub-category-title{margin-top:34px;font-size:25px}.hub-dashboard .hub-essential{padding:16px}.hub-payment-content .hub-pay-row{padding:17px}.hub-payment-content .hub-pay-brand img{width:44px;height:44px}.hub-payment-content .hub-pay-brand h3{font-size:23px}.hub-payment-content .hub-pay-detail{min-height:108px;padding:16px;grid-template-columns:44px minmax(0,1fr)}.hub-payment-content .hub-pay-detail-icon{width:44px;height:44px}.hub-payment-content .hub-pay-detail .hub-pay-date{font-size:29px}.hub-payment-content .hub-pay-period>div>strong{font-size:27px}.hub-payment-content .hub-pay-reset>strong{font-size:18px}.hub-view-tabs button,.hub-payment-selector button{flex:1;padding-inline:10px}.hub-dashboard .hub-poster-grid a{grid-template-columns:90px 1fr}.hub-dashboard .hub-poster-grid img{height:90px}}
+@media(max-width:600px){.hub-category-title{margin-top:34px;font-size:25px}.hub-dashboard .hub-essential{padding:16px}.hub-payment-content .hub-pay-row{padding:17px}.hub-payment-content .hub-pay-brand img{width:44px;height:44px}.hub-payment-content .hub-pay-brand h3{font-size:23px}.hub-payment-content .hub-pay-detail{min-height:0;padding:15px;grid-template-columns:44px minmax(0,1fr)}.hub-payment-content .hub-pay-detail-icon{width:44px;height:44px}.hub-pay-sentence{font-size:16px;line-height:1.45}.hub-payment-content .hub-pay-detail .hub-pay-date,.hub-payment-content .hub-pay-period>p>strong,.hub-payment-content .hub-pay-reset>p>strong{font-size:26px}.hub-view-tabs button,.hub-payment-selector button{flex:1;padding-inline:10px}.hub-dashboard .hub-poster-grid a{grid-template-columns:90px 1fr}.hub-dashboard .hub-poster-grid img{height:90px}}
