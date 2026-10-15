@@ -70,6 +70,20 @@ html[data-theme="night"] .testmode-page {
   color: var(--test-gold);
   font-style: normal;
 }
+.testmode-page .test-heading-question > span {
+  color: var(--test-text);
+  background: linear-gradient(92deg, var(--test-text) 10%, var(--test-gold) 42%, #d49adf 58%, var(--test-text) 90%);
+  background-size: 220% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 4px 15px color-mix(in srgb, var(--test-gold), transparent 72%));
+  animation: showcase-question-glow 8s ease-in-out infinite;
+}
+@keyframes showcase-question-glow {
+  0%, 100% { background-position: 0% 50%; filter: drop-shadow(0 4px 14px color-mix(in srgb, var(--test-gold), transparent 76%)); }
+  50% { background-position: 100% 50%; filter: drop-shadow(0 5px 19px color-mix(in srgb, #c985d8, transparent 66%)); }
+}
 .testmode-page .showcase-heading-arrow {
   width: 30px;
   height: 30px;
@@ -96,7 +110,15 @@ html[data-theme="night"] .testmode-page {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-rows: repeat(5, minmax(132px, auto));
+  grid-auto-rows: minmax(132px, auto);
   gap: 10px;
+}
+.testmode-page .test-benefit-grid > .test-benefit.test-benefit-opportunity {
+  grid-column: 1 / -1;
+  background: radial-gradient(circle at 12% 50%, color-mix(in srgb, var(--test-gold), transparent 84%), transparent 34%), var(--test-surface);
+}
+.testmode-page .test-benefit-opportunity .test-benefit-icon {
+  box-shadow: inset 0 1px 0 #fff7df24, 0 0 22px color-mix(in srgb, var(--test-gold), transparent 72%);
 }
 .testmode-page .test-benefit.showcase-benefit {
   position: relative;
@@ -226,6 +248,7 @@ html[data-theme="night"] .testmode-page {
 }
 @media (prefers-reduced-motion: reduce) {
   .testmode-page .test-benefit-icon { transition: none; }
+  .testmode-page .test-heading-question > span { animation: none; }
 }
 /* Fade the two faces without changing desktop grid dimensions. */
 .testmode-page .test-benefit.showcase-benefit > h2,
@@ -345,5 +368,9 @@ html[data-theme="night"] .testmode-page .home-about-cta:focus-visible {
   .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit,
   .testmode-page .test-benefit-grid > .test-benefit.showcase-benefit:is(.is-open, :last-child) {
     grid-column: auto;
+  }
+  .testmode-page .test-benefit-grid > .test-benefit-opportunity,
+  .testmode-page .test-benefit-grid > .test-benefit-opportunity:is(.is-open, :last-child) {
+    grid-column: 1 / -1;
   }
 }
