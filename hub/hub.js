@@ -18,6 +18,8 @@
     paymentResetLabel:'RESET: Deposit the full balance by',
     calendarFormatSelector:'Choose the calendar format',
     posterOption:'Poster',
+    openCalendarYoutube:'Open the video on YouTube',
+    calendarVideoTitle:'Payment calendar explained for Bolt Food, Glovo and Wolt',
     essentialTitle:'Tools and information for couriers',
     essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.',
     fleetPlatform:'Fleet platform',
@@ -64,6 +66,8 @@
   const htmlOriginals=new Map(htmlNodes.map(node=>[node,node.innerHTML]));
   const ariaNodes=[...document.querySelectorAll('[data-hub-i18n-aria]')];
   const ariaOriginals=new Map(ariaNodes.map(node=>[node,node.getAttribute('aria-label')]));
+  const titleNodes=[...document.querySelectorAll('[data-hub-i18n-title]')];
+  const titleOriginals=new Map(titleNodes.map(node=>[node,node.getAttribute('title')]));
   const description=document.querySelector('meta[name="description"]');
   const originalDescription=description?.content;
   let language=document.documentElement.lang==='en'?'en':'ro';
@@ -84,7 +88,7 @@
   function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:resetDate+(language==='en'?', 23:59':', ora 23:59')};}
   function renderPayments(){['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;});}
   function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
-  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
+  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
   document.querySelectorAll('.hub-pay-row').forEach(card=>{

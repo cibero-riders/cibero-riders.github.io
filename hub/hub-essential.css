@@ -131,6 +131,7 @@
 .hub-view-tabs button{min-height:42px;padding:8px 22px;border:1px solid var(--hb-line);border-radius:999px;background:transparent;color:var(--hb-muted);font:800 13px "DM Sans",sans-serif;cursor:pointer}
 .hub-view-tabs button.active{border-color:var(--hb-gold);background:var(--hb-gold);color:#231426}
 [data-calendar-panel][hidden]{display:none}
+.hub-calendar-video{margin-top:16px}.hub-video-embed{position:relative;overflow:hidden;aspect-ratio:16/9;border:1px solid color-mix(in srgb,var(--hb-gold),transparent 35%);border-radius:20px;background:#09050e;box-shadow:0 18px 38px #0003,inset 0 1px #ffffff18}.hub-video-embed iframe{display:block;width:100%;height:100%;border:0}.hub-calendar-video-external{display:flex;align-items:center;justify-content:center;gap:9px;width:max-content;max-width:100%;margin:13px auto 0;padding:10px 15px;border:1px solid var(--hb-line);border-radius:999px;background:var(--hb-soft);color:var(--hb-text)!important;font-size:12px;font-weight:800;text-decoration:none;transition:border-color .2s,transform .2s}.hub-calendar-video-external:hover{border-color:var(--hb-gold);transform:translateY(-2px)}.hub-calendar-video-external b{color:var(--hb-gold);font-size:15px}
 .hub-resource-payment{border-color:color-mix(in srgb,var(--hb-gold),transparent 25%)}
 .hub-payment-content{padding-top:18px}
 .hub-payment-selector{margin-top:0!important;margin-bottom:18px}
