@@ -11,8 +11,15 @@
     paymentDate:'Payment date',
     paymentPeriod:'Payment period',
     paymentsCategory:'Payments',
+    appsCategory:'Mobile apps for couriers',
+    appsSelector:'Select the courier platform',
+    officialCourierApp:'Official courier app',
+    fleetAppLabel:'The fleet mobile platform',
+    appStoreLabel:'Download on the App Store',
+    googlePlayLabel:'Get it on Google Play',
     guidesCategory:'Guides and essential information',
     toolsCategory:'Tools, resources and support',
+    whatsappCategory:'Communication - WhatsApp',
     nextPaymentSummary:'Payment date, covered period and next reset.',
     nextPaymentLabel:'Next payment:',
     paymentPeriodLabel:'For earnings collected during',
@@ -107,6 +114,7 @@
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)renderPayments();});
   setInterval(renderPayments,30000);
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.paymentPlatform;document.querySelectorAll('[data-payment-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-payment-card]').forEach(card=>card.hidden=card.dataset.paymentCard!==platform);}));
+  document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
   document.querySelectorAll('[data-calendar-tab]').forEach(button=>button.addEventListener('click',()=>{const view=button.dataset.calendarTab;document.querySelectorAll('[data-calendar-tab]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-calendar-panel]').forEach(panel=>panel.hidden=panel.dataset.calendarPanel!==view);}));
   setLanguage(document.documentElement.lang);
