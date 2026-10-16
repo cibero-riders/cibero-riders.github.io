@@ -69,7 +69,29 @@
     reimbursementCovered1:'👉 everything related to the vehicle used - repairs, spare parts, fuel, instalments, rental, <em>useful</em> accessories, etc.',
     reimbursementCovered2:'👉 everything related to official equipment (Bolt/Glovo/Wolt) used for delivery work - bag, jacket, accessories, protective equipment, etc.',
     reimbursementNotCoveredTitle:'What the fleet does NOT reimburse',
-    reimbursementNotCovered1:'👉 Any products/services purchased for personal use and not directly related to delivery work - regular clothes, meals, coffee, snacks, fines/personal taxes, phone, etc.'
+    reimbursementNotCovered1:'👉 Any products/services purchased for personal use and not directly related to delivery work - regular clothes, meals, coffee, snacks, fines/personal taxes, phone, etc.',
+    cashRulesTitle:'Cash rules',
+    resetRecommendationsTitle:'Reset and recommendations',
+    resetDepositTitle:'Reset and deposit',
+    boltCashIntro:'Always make sure you have the cash amount in your wallet when you go out for deliveries, so you can pay at pickup when needed without issues.',
+    boltCashRule1:'Do not change the balance amount in the app. If necessary, first contact in-app support and ask them to make the change, to prevent difficulties or later issues caused by changing the balance yourself.',
+    boltCashRule2:'On Bolt, depositing is not mandatory during the week, since you receive orders that require payment at pickup. You can restore your balance at this pace.',
+    boltCashRule3:'If your balance goes beyond -250 lei, do not worry. Orders where you would receive cash from the customer will no longer be assigned until your balance drops below the threshold. You will easily restore the balance through the next orders where you pay at pickup.',
+    boltCashRule4:'During the week, you can keep the money in circulation. Every <strong>Sunday</strong> at <strong>23:59</strong>, depositing the full balance is mandatory.',
+    boltCashRule5:'If you make plans and will not deliver for a few days, cover the full balance so that you do not leave an outstanding amount for an extended period. <strong>Platforms do not like this.</strong>',
+    boltCashRule6:'<em>Cash tips received from customers stay in your pocket.</em>',
+    glovoCashRule:'<strong>If your cash balance reaches RON 600, cash orders will be blocked.</strong> Deposit frequently to keep your balance at an optimal level.',
+    glovoResetRule1:'The main reset takes place every <strong>Sunday at 23:59</strong>. Keep your balance at 0.',
+    glovoResetRule2:'Glovo also runs a second reset on Monday. We recommend keeping the balance at 0 both on <strong>Sunday at 23:59</strong> and <strong>Monday at 23:59</strong>, to avoid the money being withheld twice.',
+    glovoDepositRule:'Deposits can be made at any SelfPay station, and the balance updates instantly.',
+    woltCashRule:'If you reach an outstanding amount of <strong>500 lei</strong> in the balance or more, orders will be blocked and you will not be able to go online until you cover the amount <strong>IN FULL</strong>.',
+    woltResetRule1:'The fiscal periods are: <strong>01–07, 08–15, 16–22 and 23–the last day of the month</strong> (28/29/30/31).',
+    woltResetRule2:'The reset takes place on the <strong>7th, 15th, 22nd and last day of the month</strong>. Depositing the full balance is mandatory by <strong>23:59</strong>.',
+    woltDepositRule1:'Depositing through Aircash updates your balance instantly. Create the account with the same email address and phone number used for your Wolt account.',
+    woltDepositRule2:'Do not use <strong>Abon</strong> for deposits.',
+    woltDepositRule3:'You can deposit by card directly in Aircash or with cash at PayPoint, Un-doi Centru de plăți, Kaseria, StartPay and Inmedio.',
+    woltDepositGuide:'Watch the deposit video guide',
+    aircashLocations:'See Aircash locations'
   });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
