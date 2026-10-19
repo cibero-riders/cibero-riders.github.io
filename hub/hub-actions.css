@@ -1,0 +1,119 @@
+/* Action links share the filled treatment used by the cash-deposit guides. */
+.hub-body {
+  --hub-button-fill: linear-gradient(135deg, #fff0bd, #f4cc6b 58%, #dea537);
+  --hub-button-border: #f7d989;
+  --hub-button-ink: #2b1d12;
+  --hub-button-shadow: inset 0 1px #fff9df, 0 8px 20px #0003;
+}
+
+html[data-theme="light"] .hub-body {
+  --hub-button-fill: linear-gradient(135deg, #fffefa, #f8dfa0 58%, #e8b956);
+  --hub-button-border: #d9a43e;
+  --hub-button-ink: #271a10;
+  --hub-button-shadow: inset 0 1px #fff, 0 8px 20px #7c552e30;
+}
+
+.hub-dashboard :is(.hub-link-grid a, .hub-store-button, .hub-calendar-video-external, .hub-essential-actions .hub-action, .hub-text-link) {
+  border-color: var(--hub-button-border);
+  background: var(--hub-button-fill);
+  box-shadow: var(--hub-button-shadow);
+  color: var(--hub-button-ink) !important;
+  text-decoration: none;
+  transition: transform .2s, box-shadow .2s, filter .2s;
+}
+
+.hub-dashboard :is(.hub-link-grid a, .hub-store-button, .hub-calendar-video-external, .hub-essential-actions .hub-action, .hub-text-link):hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 1px #fff9df, 0 12px 25px #0004;
+  filter: brightness(1.06);
+}
+
+.hub-dashboard :is(.hub-link-grid a, .hub-store-button, .hub-calendar-video-external, .hub-essential-actions .hub-action, .hub-text-link):active {
+  transform: translateY(0);
+}
+
+.hub-dashboard :is(.hub-link-grid strong, .hub-link-grid small, .hub-link-grid b, .hub-text-link b, .hub-store-button > strong, .hub-store-button > b, .hub-calendar-video-external b, .hub-essential-actions .hub-action strong, .hub-essential-actions .hub-action small, .hub-essential-actions .hub-action > b) {
+  color: var(--hub-button-ink) !important;
+}
+
+.hub-dashboard .hub-store-icon,
+.hub-dashboard .hub-essential-actions .hub-action-icon {
+  border-color: #70451865;
+  background: #fff9df73;
+  color: var(--hub-button-ink);
+}
+
+.hub-dashboard .hub-store-icon svg {
+  fill: var(--hub-button-ink);
+}
+
+.hub-dashboard .hub-essential-actions .hub-action > b {
+  border-color: #70451865;
+}
+
+.hub-dashboard .hub-poster-grid a {
+  border-color: var(--hub-button-border);
+  background: var(--hub-button-fill);
+  box-shadow: var(--hub-button-shadow);
+  transition: transform .2s, box-shadow .2s, filter .2s;
+}
+
+.hub-dashboard .hub-poster-grid a:hover {
+  transform: translateY(-3px);
+  box-shadow: inset 0 1px #fff9df, 0 12px 25px #0004;
+  filter: brightness(1.06);
+}
+
+.hub-dashboard .hub-poster-grid :is(span, b) {
+  color: var(--hub-button-ink);
+}
+
+/* These links sit inside instructions, so keep them inline but unmistakably clickable. */
+.hub-dashboard .hub-reimbursement a {
+  display: inline-block;
+  padding: 2px 7px;
+  border: 1px solid var(--hub-button-border);
+  border-radius: 7px;
+  background: var(--hub-button-fill);
+  color: var(--hub-button-ink);
+  font-weight: 800;
+  line-height: 1.4;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+.hub-dashboard .hub-reimbursement a code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+}
+
+.hub-dashboard .hub-whatsapp-card {
+  border-color: #71e9a2;
+  background: linear-gradient(135deg, #b9f9cd, #62d995 65%, #29b76d);
+  box-shadow: inset 0 1px #f0ffef, 0 9px 22px #0003;
+  color: #103322 !important;
+}
+
+.hub-dashboard .hub-whatsapp-card:hover {
+  border-color: #b9f9cd;
+  box-shadow: inset 0 1px #f0ffef, 0 15px 28px #0004;
+}
+
+.hub-dashboard .hub-whatsapp-card > b {
+  color: #103322;
+}
+
+.hub-dashboard .hub-whatsapp-card strong {
+  color: #103322 !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-dashboard :is(.hub-link-grid a, .hub-store-button, .hub-calendar-video-external, .hub-essential-actions .hub-action, .hub-text-link, .hub-poster-grid a) {
+    transition: none;
+  }
+
+  .hub-dashboard :is(.hub-link-grid a, .hub-store-button, .hub-calendar-video-external, .hub-essential-actions .hub-action, .hub-text-link, .hub-poster-grid a):hover {
+    transform: none;
+  }
+}
