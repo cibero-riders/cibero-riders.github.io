@@ -116,11 +116,8 @@
   function weeklyPaymentSchedule(now){
     const today=dateFromParts(now.year,now.month,now.day);
     const monday=addDays(today,-((now.weekday+6)%7));
-    const friday=addDays(monday,4);
-    const reset=addDays(today,(7-now.weekday)%7);
-    const beforeCutoff=today<friday||(today.getTime()===friday.getTime()&&now.hour<17);
-    if(beforeCutoff)return{start:addDays(monday,-7),end:addDays(monday,-1),payment:friday,reset};
-    return{start:monday,end:addDays(monday,6),payment:addDays(monday,11),reset};
+    const sunday=addDays(monday,6);
+    return{start:monday,end:sunday,payment:addDays(monday,11),reset:sunday};
   }
   function woltFiscalPeriod(date){const{year,month,day}=getParts(date);if(day<=7)return{start:dateFromParts(year,month,1),end:dateFromParts(year,month,7)};if(day<=15)return{start:dateFromParts(year,month,8),end:dateFromParts(year,month,15)};if(day<=22)return{start:dateFromParts(year,month,16),end:dateFromParts(year,month,22)};return{start:dateFromParts(year,month,23),end:dateFromParts(year,month,daysInMonth(year,month))};}
   function paymentFridayForWolt(end){const weekday=end.getUTCDay();if([4,5,6].includes(weekday))return addDays(end,12-weekday);let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
