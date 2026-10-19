@@ -22,7 +22,8 @@
     downloadControlFleetAndroid:'Download ControlFleet from Google Play',
     guidesCategory:'Guides and essential information',
     toolsCategory:'Tools, resources and support',
-    whatsappCategory:'Communication - WhatsApp',
+    whatsappCategory:'Announcements and Communication - WhatsApp',
+    quickCalendar:'Calendar',quickVideos:'Video',quickReimbursement:'Reimbursement',
     nextPaymentSummary:'Payment date, covered period and next reset.',
     nextPaymentLabel:'Next payment:',
     paymentPeriodLabel:'For earnings collected during',
@@ -213,6 +214,12 @@
     if(category.open)setRoute(category.id);
     else if(category.contains(document.getElementById(currentRoute().split('/')[0])))setRoute('',true);
   },0)));
+  document.querySelectorAll('[data-hub-quick]').forEach(button=>button.addEventListener('click',event=>{
+    event.preventDefault();
+    event.stopPropagation();
+    setRoute(button.dataset.hubQuick);
+    openDeepLink();
+  }));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`aplicatii-mobile/${platformSlugs[button.dataset.appPlatform]}`)));
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`urmatoarea-plata/${platformSlugs[button.dataset.paymentPlatform]}`)));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`reguli-cash-si-reset/${platformSlugs[button.dataset.cashPlatform]}`)));
