@@ -2,21 +2,29 @@
   grid-column: 1 / -1;
   min-width: 0;
   overflow: hidden;
-  border: 1px solid color-mix(in srgb, var(--hb-gold), transparent 48%);
-  border-radius: 22px;
-  background: linear-gradient(140deg, var(--hb-panel-2), var(--hb-panel));
+  border: 1px solid color-mix(in srgb, var(--hb-gold), transparent 38%);
+  border-radius: 20px;
+  background: linear-gradient(115deg, color-mix(in srgb, var(--hb-panel-2), var(--hb-gold) 7%), var(--hb-panel));
   box-shadow: 0 13px 28px #0002, inset 0 1px #ffffff12;
+  transition: transform .24s ease, border-color .24s ease, box-shadow .24s ease;
 }
 
 .hub-category-accordion > summary {
-  display: flex;
+  display: grid;
+  grid-template-columns: 38px minmax(0, 1fr) 38px;
   align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 105px;
-  padding: 22px 27px;
+  gap: 18px;
+  min-height: 92px;
+  padding: 18px 25px;
   cursor: pointer;
   list-style: none;
+  transition: background .24s ease;
+}
+
+.hub-category-accordion > summary::before {
+  grid-column: 1;
+  width: 38px;
+  content: "";
 }
 
 .hub-category-accordion > summary::-webkit-details-marker {
@@ -24,16 +32,31 @@
 }
 
 .hub-category-accordion > summary:hover {
-  background: color-mix(in srgb, var(--hb-gold), transparent 91%);
+  background: color-mix(in srgb, var(--hb-gold), transparent 85%);
+}
+
+.hub-category-accordion > summary:focus-visible {
+  outline: 3px solid var(--hb-gold);
+  outline-offset: -5px;
+}
+
+.hub-category-accordion > summary:active {
+  background: color-mix(in srgb, var(--hb-gold), transparent 77%);
 }
 
 .hub-category-accordion .hub-category-title {
   display: block;
-  flex: 1;
+  grid-column: 2;
   margin: 0;
   color: var(--hb-text);
   font-size: clamp(23px, 2.7vw, 33px);
-  text-align: left;
+  text-align: center;
+  transition: color .24s ease;
+}
+
+.hub-category-accordion > summary:hover .hub-category-title,
+.hub-category-accordion[open] .hub-category-title {
+  color: var(--hb-gold);
 }
 
 .hub-category-accordion .hub-category-title::before,
@@ -43,7 +66,7 @@
 
 .hub-category-accordion > summary > i {
   display: grid;
-  flex: none;
+  grid-column: 3;
   width: 38px;
   height: 38px;
   place-items: center;
@@ -54,7 +77,21 @@
   font-size: 24px;
   font-style: normal;
   line-height: 1;
-  transition: transform .2s;
+  transition: transform .24s ease, background .24s ease, color .24s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .hub-category-accordion:not([open]):hover {
+    transform: translateY(-3px);
+    border-color: var(--hb-gold);
+    box-shadow: 0 19px 35px #0003, 0 0 22px color-mix(in srgb, var(--hb-gold), transparent 82%);
+  }
+
+  .hub-category-accordion:not([open]):hover > summary > i {
+    transform: rotate(90deg) scale(1.08);
+    background: var(--hb-gold);
+    color: var(--hb-panel);
+  }
 }
 
 .hub-category-accordion[open] > summary {
@@ -63,6 +100,16 @@
 
 .hub-category-accordion[open] > summary > i {
   transform: rotate(45deg);
+}
+
+.hub-dashboard .hub-resource-number {
+  grid-template-rows: 1fr;
+  place-items: center;
+}
+
+.hub-dashboard .hub-resource-number svg {
+  width: 30px;
+  height: 30px;
 }
 
 .hub-category-content {
@@ -98,7 +145,18 @@
 @media (max-width: 760px) {
   .hub-category-accordion > summary {
     min-height: 86px;
-    padding: 18px;
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    gap: 9px;
+    padding: 16px;
+  }
+
+  .hub-category-accordion > summary::before,
+  .hub-category-accordion > summary > i {
+    width: 34px;
+  }
+
+  .hub-category-accordion > summary > i {
+    height: 34px;
   }
 
   .hub-category-accordion .hub-category-title {
@@ -110,10 +168,22 @@
     gap: 12px;
     padding: 14px;
   }
+
+  .hub-dashboard .hub-resource-number svg {
+    width: 25px;
+    height: 25px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hub-category-accordion,
+  .hub-category-accordion > summary,
+  .hub-category-accordion .hub-category-title,
   .hub-category-accordion > summary > i {
     transition: none;
+  }
+
+  .hub-category-accordion:not([open]):hover {
+    transform: none;
   }
 }
