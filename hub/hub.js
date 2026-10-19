@@ -143,7 +143,7 @@
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
   document.querySelectorAll('[data-calendar-tab]').forEach(button=>button.addEventListener('click',()=>{const view=button.dataset.calendarTab;document.querySelectorAll('[data-calendar-tab]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-calendar-panel]').forEach(panel=>panel.hidden=panel.dataset.calendarPanel!==view);}));
   const hubSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','urmatoarea-plata','calendarul-de-plata','ghiduri-si-informatii','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
-  const nonDisclosureSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','ghiduri-si-informatii','instrumente-si-suport','comunicare-whatsapp']);
+  const nonDisclosureSections=new Set(['informatii-esentiale','instrumente-si-suport']);
   const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
   const reimbursementSlugs=['cum-functioneaza','orase','cand-primesc-banii','ce-deconteaza','ce-nu-deconteaza'];
   const citySlugs=['iasi','constanta','restul-tarii'];
@@ -156,7 +156,7 @@
   }
   function setRoute(route,replace=false){
     if(applyingDeepLink||currentRoute()===route)return;
-    history[replace?'replaceState':'pushState'](null,'',`${location.pathname}${location.search}#${route}`);
+    history[replace?'replaceState':'pushState'](null,'',`${location.pathname}${location.search}${route?`#${route}`:''}`);
   }
   function selectPlatform(attribute,slug){
     const platform=slug==='boltfood'||slug==='bolt-food'?'bolt':slug;
@@ -174,6 +174,8 @@
     let target=document.getElementById(section);
     if(section==='aplicatii-mobile'&&parts[1])selectPlatform('data-app-platform',parts[1]);
     if(!nonDisclosureSections.has(section))target.open=true;
+    const category=target.closest('.hub-category-accordion');
+    if(category)category.open=true;
     if(section==='urmatoarea-plata'&&parts[1])selectPlatform('data-payment-platform',parts[1]);
     if(section==='reguli-cash-si-reset'&&parts[1])selectPlatform('data-cash-platform',parts[1]);
     if(section==='calendarul-de-plata'){
@@ -206,6 +208,11 @@
       else if(currentRoute()===route||currentRoute().startsWith(`${route}/`))setRoute(item.classList.contains('hub-resource')?'informatii-esentiale':item.closest('.hub-city-list')?'decontare/orase':'decontare',true);
     },0));
   });
+  document.querySelectorAll('.hub-category-accordion > summary').forEach(summary=>summary.addEventListener('click',()=>setTimeout(()=>{
+    const category=summary.parentElement;
+    if(category.open)setRoute(category.id);
+    else if(category.contains(document.getElementById(currentRoute().split('/')[0])))setRoute('',true);
+  },0)));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`aplicatii-mobile/${platformSlugs[button.dataset.appPlatform]}`)));
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`urmatoarea-plata/${platformSlugs[button.dataset.paymentPlatform]}`)));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`reguli-cash-si-reset/${platformSlugs[button.dataset.cashPlatform]}`)));
