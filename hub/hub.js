@@ -142,5 +142,76 @@
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
   document.querySelectorAll('[data-calendar-tab]').forEach(button=>button.addEventListener('click',()=>{const view=button.dataset.calendarTab;document.querySelectorAll('[data-calendar-tab]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-calendar-panel]').forEach(panel=>panel.hidden=panel.dataset.calendarPanel!==view);}));
+  const hubSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','urmatoarea-plata','calendarul-de-plata','ghiduri-si-informatii','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
+  const nonDisclosureSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','ghiduri-si-informatii','instrumente-si-suport','comunicare-whatsapp']);
+  const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
+  const reimbursementSlugs=['cum-functioneaza','orase','cand-primesc-banii','ce-deconteaza','ce-nu-deconteaza'];
+  const citySlugs=['iasi','constanta','restul-tarii'];
+  const reimbursementItems=[...document.querySelectorAll('.hub-reimbursement-list > details')];
+  const cityItems=[...document.querySelectorAll('.hub-city-list > details')];
+  let applyingDeepLink=false;
+  function currentRoute(){
+    try{return decodeURIComponent(location.hash.slice(1)).replace(/\/#/g,'/').replace(/\/+$/,'');}
+    catch{return '';}
+  }
+  function setRoute(route,replace=false){
+    if(applyingDeepLink||currentRoute()===route)return;
+    history[replace?'replaceState':'pushState'](null,'',`${location.pathname}${location.search}#${route}`);
+  }
+  function selectPlatform(attribute,slug){
+    const platform=slug==='boltfood'||slug==='bolt-food'?'bolt':slug;
+    if(!Object.hasOwn(platformSlugs,platform))return false;
+    const button=document.querySelector(`[${attribute}="${platform}"]`);
+    if(!button)return false;
+    button.click();
+    return true;
+  }
+  function openDeepLink(){
+    const parts=currentRoute().split('/').filter(Boolean);
+    const section=parts[0];
+    if(!hubSections.has(section))return;
+    applyingDeepLink=true;
+    let target=document.getElementById(section);
+    if(section==='aplicatii-mobile'&&parts[1])selectPlatform('data-app-platform',parts[1]);
+    if(!nonDisclosureSections.has(section))target.open=true;
+    if(section==='urmatoarea-plata'&&parts[1])selectPlatform('data-payment-platform',parts[1]);
+    if(section==='reguli-cash-si-reset'&&parts[1])selectPlatform('data-cash-platform',parts[1]);
+    if(section==='calendarul-de-plata'){
+      const view=parts[1]==='video'?'video':'poster';
+      document.querySelector(`[data-calendar-tab="${view}"]`).click();
+      if(view==='poster'&&parts[2]){
+        const poster=parts[2]==='boltfood'?'bolt':parts[2];
+        target=document.querySelector(`[data-poster-link="${poster}"]`)||target;
+      }
+    }
+    if(section==='decontare'&&parts[1]){
+      const index=reimbursementSlugs.indexOf(parts[1]);
+      if(index!==-1){
+        const item=reimbursementItems[index];
+        item.open=true;
+        target=item;
+        if(parts[1]==='orase'&&parts[2]){
+          const cityIndex=citySlugs.indexOf(parts[2]);
+          if(cityIndex!==-1){cityItems[cityIndex].open=true;target=cityItems[cityIndex];}
+        }
+      }
+    }
+    applyingDeepLink=false;
+    requestAnimationFrame(()=>target.scrollIntoView({block:'start',behavior:'instant'}));
+  }
+  document.querySelectorAll('.hub-resource, .hub-reimbursement-item, .hub-city-list > details').forEach(item=>{
+    item.querySelector(':scope > summary').addEventListener('click',()=>setTimeout(()=>{
+      const route=item.classList.contains('hub-resource')?item.id:item.closest('.hub-city-list')?`decontare/orase/${citySlugs[cityItems.indexOf(item)]}`:`decontare/${reimbursementSlugs[reimbursementItems.indexOf(item)]}`;
+      if(item.open)setRoute(route);
+      else if(currentRoute()===route||currentRoute().startsWith(`${route}/`))setRoute(item.classList.contains('hub-resource')?'informatii-esentiale':item.closest('.hub-city-list')?'decontare/orase':'decontare',true);
+    },0));
+  });
+  document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`aplicatii-mobile/${platformSlugs[button.dataset.appPlatform]}`)));
+  document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`urmatoarea-plata/${platformSlugs[button.dataset.paymentPlatform]}`)));
+  document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`reguli-cash-si-reset/${platformSlugs[button.dataset.cashPlatform]}`)));
+  document.querySelectorAll('[data-calendar-tab]').forEach(button=>button.addEventListener('click',()=>setRoute(`calendarul-de-plata/${button.dataset.calendarTab}`)));
+  window.addEventListener('hashchange',openDeepLink);
+  window.addEventListener('popstate',openDeepLink);
+  if(location.hash){openDeepLink();window.addEventListener('load',openDeepLink,{once:true});}
   setLanguage(document.documentElement.lang);
 })();

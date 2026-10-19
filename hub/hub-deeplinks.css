@@ -1,0 +1,9 @@
+#aplicatii-mobile,
+.hub-category-title,
+.hub-whatsapp-title,
+.hub-resource,
+.hub-reimbursement-item,
+.hub-city-list > details,
+[data-poster-link] {
+  scroll-margin-top: 100px;
+}
