@@ -113,10 +113,27 @@
   const formatDate=date=>new Intl.DateTimeFormat(language==='en'?'en-GB':'ro-RO',{day:'numeric',month:'long',timeZone:'UTC'}).format(date);
   const formatWeekdayDate=date=>new Intl.DateTimeFormat(language==='en'?'en-GB':'ro-RO',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(date);
   function bucharestNow(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const value=type=>parts.find(part=>part.type===type)?.value;const weekdays={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};return{year:Number(value('year')),month:Number(value('month')),day:Number(value('day')),hour:Number(value('hour')),minute:Number(value('minute')),weekday:weekdays[value('weekday')]};}
-  function weeklyPaymentSchedule(now){const today=dateFromParts(now.year,now.month,now.day);const monday=addDays(today,-((now.weekday+6)%7));const friday=addDays(monday,4);const beforeCutoff=today<friday||(today.getTime()===friday.getTime()&&now.hour<17);if(beforeCutoff)return{start:addDays(monday,-7),end:addDays(monday,-1),payment:friday,reset:addDays(monday,-1)};return{start:monday,end:addDays(monday,6),payment:addDays(monday,11),reset:addDays(monday,6)};}
+  function weeklyPaymentSchedule(now){
+    const today=dateFromParts(now.year,now.month,now.day);
+    const monday=addDays(today,-((now.weekday+6)%7));
+    const friday=addDays(monday,4);
+    const reset=addDays(today,(7-now.weekday)%7);
+    const beforeCutoff=today<friday||(today.getTime()===friday.getTime()&&now.hour<17);
+    if(beforeCutoff)return{start:addDays(monday,-7),end:addDays(monday,-1),payment:friday,reset};
+    return{start:monday,end:addDays(monday,6),payment:addDays(monday,11),reset};
+  }
   function woltFiscalPeriod(date){const{year,month,day}=getParts(date);if(day<=7)return{start:dateFromParts(year,month,1),end:dateFromParts(year,month,7)};if(day<=15)return{start:dateFromParts(year,month,8),end:dateFromParts(year,month,15)};if(day<=22)return{start:dateFromParts(year,month,16),end:dateFromParts(year,month,22)};return{start:dateFromParts(year,month,23),end:dateFromParts(year,month,daysInMonth(year,month))};}
   function paymentFridayForWolt(end){const weekday=end.getUTCDay();if([4,5,6].includes(weekday))return addDays(end,12-weekday);let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
-  function woltPaymentSchedule(now){const today=dateFromParts(now.year,now.month,now.day);const current=woltFiscalPeriod(today);const previous=woltFiscalPeriod(addDays(current.start,-1));const previousPayment=paymentFridayForWolt(previous.end);const p=getParts(previousPayment);const beforePreviousCutoff=Date.UTC(now.year,now.month-1,now.day,now.hour,now.minute)<Date.UTC(p.year,p.month-1,p.day,17,0);if(beforePreviousCutoff)return{...previous,payment:previousPayment,reset:previous.end};return{...current,payment:paymentFridayForWolt(current.end),reset:current.end};}
+  function woltPaymentSchedule(now){
+    const today=dateFromParts(now.year,now.month,now.day);
+    const current=woltFiscalPeriod(today);
+    const previous=woltFiscalPeriod(addDays(current.start,-1));
+    const previousPayment=paymentFridayForWolt(previous.end);
+    const p=getParts(previousPayment);
+    const beforePreviousCutoff=Date.UTC(now.year,now.month-1,now.day,now.hour,now.minute)<Date.UTC(p.year,p.month-1,p.day,17,0);
+    if(beforePreviousCutoff)return{...previous,payment:previousPayment,reset:current.end};
+    return{...current,payment:paymentFridayForWolt(current.end),reset:current.end};
+  }
   function scheduleFor(platform){const now=bucharestNow();return platform==='wolt'?woltPaymentSchedule(now):weeklyPaymentSchedule(now);}
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
   function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:resetDate+(language==='en'?', 23:59':', ora 23:59')};}
