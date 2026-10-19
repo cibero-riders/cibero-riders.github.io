@@ -37,9 +37,14 @@
 .hub-dashboard .hub-rule-section li strong{color:var(--hb-text)}
 .hub-dashboard .hub-rule-section li em{color:var(--hb-text)}
 .hub-rule-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:14px}
-.hub-rule-actions a{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:58px;padding:13px 16px;border:1px solid var(--hb-line);border-radius:13px;background:var(--hb-panel-2);color:var(--hb-text);font-size:13px;font-weight:800;text-decoration:none;transition:border-color .2s,transform .2s,background .2s}
-.hub-rule-actions a:hover{transform:translateY(-2px);border-color:var(--hb-gold);background:var(--hb-soft)}
-.hub-rule-actions b{flex:0 0 auto;color:var(--hb-gold);font-size:18px}
+.hub-rule-actions a{display:flex;align-items:center;justify-content:space-between;gap:14px;min-height:64px;padding:15px 18px;border:1px solid #f7d989;border-radius:13px;background:linear-gradient(135deg,#fff0bd,#f4cc6b 58%,#dea537);box-shadow:inset 0 1px #fff9df,0 8px 20px #0003;color:#2b1d12;font-size:14px;font-weight:800;line-height:1.35;text-decoration:none;transition:transform .2s,box-shadow .2s,filter .2s}
+.hub-rule-actions a:hover{transform:translateY(-3px);box-shadow:inset 0 1px #fff9df,0 12px 25px #0004;filter:brightness(1.06)}
+.hub-rule-actions a:active{transform:translateY(0)}
+.hub-rule-actions a:focus-visible{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 0 6px #82530c}
+.hub-rule-actions b{flex:0 0 auto;color:#34210b;font-size:20px}
+html[data-theme="light"] .hub-rule-actions a{border-color:#d9a43e;background:linear-gradient(135deg,#fffefa,#f8dfa0 58%,#e8b956);box-shadow:inset 0 1px #fff,0 8px 20px #7c552e30;color:#271a10}
+html[data-theme="light"] .hub-rule-actions a:focus-visible{outline-color:#4b285c}
+@media(prefers-reduced-motion:reduce){.hub-rule-actions a{transition:none}.hub-rule-actions a:hover{transform:none}}
 .hub-rule-actions:has(a:only-child){grid-template-columns:minmax(220px,360px)}
 .hub-rule-bolt .hub-rule-section h3:before{background:#2dce8a;box-shadow:0 0 0 5px #2dce8a1f}
 .hub-rule-glovo .hub-rule-section h3:before{background:#efbd2d;box-shadow:0 0 0 5px #efbd2d24}
