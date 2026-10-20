@@ -197,6 +197,7 @@ html[data-theme="light"] .hub-rule-actions a:focus-visible{outline-color:#4b285c
 .hub-hero-copy:before{display:none}
 .hub-command-kicker{margin:0 0 13px;color:var(--hb-gold);font-size:11px;font-weight:900;letter-spacing:.2em;text-align:center;text-transform:uppercase}
 .hub-hero h1{max-width:none;margin:0;color:var(--hb-text);font-size:clamp(36px,5vw,62px);font-weight:800;line-height:1.08;letter-spacing:-.045em;text-align:center;text-wrap:balance}
+.hub-hero .hub-hero-subtitle{margin:15px 0 0;color:var(--hb-gold);font-size:clamp(14px,1.65vw,18px);font-weight:700;line-height:1.5;text-align:center;text-wrap:balance}
 .hub-dashboard .hub-essential{padding:clamp(22px,3vw,36px);border-radius:28px;background:linear-gradient(145deg,color-mix(in srgb,var(--hb-panel),var(--hb-gold) 2%),var(--hb-panel));box-shadow:0 24px 62px #0003,inset 0 1px color-mix(in srgb,var(--hb-gold),transparent 72%)}
 .hub-essential-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
 .hub-category-title{grid-column:1/-1;justify-content:center;gap:18px;margin:42px 0 6px;color:var(--hb-text);font-size:clamp(25px,3vw,38px);font-weight:900;line-height:1.14;letter-spacing:-.035em;text-align:center;text-transform:none}

@@ -1,4 +1,5 @@
 (() => {
+  const isSubfleet=document.body.dataset.hubVariant==='subfleet';
   const translations = {
     currentPayment:'Current payment period',byFive:'by 17:00',paymentTimezone:'Fleet calendar · Romania time',
     heroKicker:'CIBERO · COURIER HUB',heroTitle:'Everything you need for courier work, in one place.',heroLead:'Clear information, quick access to support and fleet tools — ready when you need them.',ticketButton:'Open a ticket',exploreButton:'See essential information',liveInfo:'AUTOMATICALLY UPDATED',nextPayment:'Next payment',workPeriod:'Earnings period',paymentSelector:'Select platform',toolsKicker:'QUICK ACCESS',toolsTitle:'How can we help?',toolsIntro:'The most-used information and actions, without searching through old conversations.',supportTitle:'Support and requests',supportBody:'Payments, accounts, documents, reimbursements and other situations.',campaignsTitle:'Campaigns',campaignsBody:'See active campaigns and their conditions.',benefitsTitle:'Benefits',benefitsBody:'Reimbursement, consultancy and sole trader collaboration.',platformsTitle:'Platform guide',platformsBody:'Compare Bolt Food, Glovo and Wolt.',onboardingTitle:'Onboarding',onboardingBody:'Everything you need before activation.',
@@ -6,7 +7,8 @@
     communityKicker:'STAY CONNECTED',communityTitle:'The CibeRO community is on WhatsApp.',communityBody:'General discussions and help between couriers are in the community group. Important news is published separately in the announcements channel.',communityButton:'Community group',announcementsButton:'Announcements channel',nextKicker:'COMING TO THE HUB',nextTitle:'A personal account for every member.',nextIntro:'This area will be connected after we define authentication and migrate data from the Telegram system.',profileTitle:'Verified profile',profileBody:'Phone, city, platforms and seniority, protected by authentication.',requestsTitle:'Requests and status',requestsBody:'Data updates, approvals and history in one flow.',remindersTitle:'Personal reminders',remindersBody:'Preferences for payments, reset dates and WhatsApp notifications.',versionNote:'This is the first informational version of the Hub. It does not yet collect or display personal data.'
   };
   Object.assign(translations,{
-    hubTitle:'CIBERO Hub - information, tools and resources for active couriers.',
+    hubTitle:'CIBERO Fleet Hub',
+    hubSubtitle:'Information and resources for CibeRO couriers.',
     hubKicker:'CIBERO · COURIER TOOLS',
     paymentDate:'Payment date',
     paymentPeriod:'Payment period',
@@ -95,6 +97,22 @@
     woltDepositGuide:'Watch the deposit video guide',
     aircashLocations:'See Aircash locations'
   });
+  if(isSubfleet)Object.assign(translations,{
+    hubTitle:'CIBERO Sub-Fleets Hub',
+    hubSubtitle:'Information and resources for partner couriers.',
+    subfleetReimbursementSummary:'General guidance; ask your sub-fleet administrator for the details.',
+    subfleetReimbursementIntro:'💰 If your sub-fleet offers 5% reimbursement, its administrator will confirm eligible expenses and the applicable terms.',
+    subfleetReimbursementCui:'🧾 Ask your fleet administrator which company tax ID to use for reimbursement. The CibeRO tax ID in the footer identifies the site operator and does not automatically apply to your sub-fleet.',
+    subfleetReimbursementContact:'📲 Ask your administrator, through your usual communication channel, how to submit receipts and when reimbursement is paid.',
+    subfleetReimbursementHow1:'ℹ️ Before making a purchase, check with your administrator whether it qualifies and which details must appear on the receipt or invoice.',
+    subfleetReimbursementHow2:'🧾 Use only the company tax ID provided by your sub-fleet administrator and keep the supporting documents.',
+    subfleetReimbursementHow3:'📅 Your sub-fleet sets the deadline, submission method and payment date. Do not use CibeRO fleet addresses, forms or deadlines without confirmation.',
+    subfleetReimbursementCoveredTitle:'Examples of potentially eligible expenses',
+    subfleetReimbursementCovered1:'👉 Expenses for a vehicle used for deliveries — maintenance, repairs, parts, fuel or rental — if accepted by your sub-fleet.',
+    subfleetReimbursementCovered2:'👉 Delivery and protective equipment used for work, if approved by your administrator.',
+    subfleetReimbursementNotCoveredTitle:'Expenses generally not eligible',
+    subfleetReimbursementNotCovered1:'👉 Personal purchases unrelated to deliveries, such as meals, ordinary clothes or fines. Confirm the exact list with your administrator.'
+  });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
   const htmlNodes=[...document.querySelectorAll('[data-hub-i18n-html]')];
@@ -141,9 +159,9 @@
   function scheduleFor(platform){const now=bucharestNow();return platform==='wolt'?woltPaymentSchedule(now):weeklyPaymentSchedule(now);}
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
   function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period,note:resetDate+(language==='en'?', 23:59':', ora 23:59'),delayed:Boolean(schedule.delayed)};}
-  function renderPayments(){['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
+  function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
   function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
-  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
+  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?(language==='en'?'CIBERO Sub-Fleets Hub':'Hub-ul Sub-Flotelor CibeRO'):(language==='en'?'CIBERO Fleet Hub':'Hub-ul Flotei CibeRO');if(description)description.content=language==='en'?(isSubfleet?'CIBERO Sub-Fleets Hub — general information and resources for partner couriers.':'CIBERO Fleet Hub — information and resources for CibeRO couriers.'):originalDescription;updatePosters();renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
   document.querySelectorAll('.hub-pay-row').forEach(card=>{
@@ -194,6 +212,7 @@
     if(!hubSections.has(section))return;
     applyingDeepLink=true;
     let target=document.getElementById(section);
+    if(!target){applyingDeepLink=false;return;}
     if(section==='aplicatii-mobile'&&parts[1])selectPlatform('data-app-platform',parts[1]);
     if(!nonDisclosureSections.has(section))target.open=true;
     const category=target.closest('.hub-category-accordion');
@@ -209,9 +228,8 @@
       }
     }
     if(section==='decontare'&&parts[1]){
-      const index=reimbursementSlugs.indexOf(parts[1]);
-      if(index!==-1){
-        const item=reimbursementItems[index];
+      const item=reimbursementItems.find((candidate,index)=>(candidate.dataset.reimbursementSlug||reimbursementSlugs[index])===parts[1]);
+      if(item){
         item.open=true;
         target=item;
         if(parts[1]==='orase'&&parts[2]){
@@ -225,7 +243,7 @@
   }
   document.querySelectorAll('.hub-resource, .hub-reimbursement-item, .hub-city-list > details').forEach(item=>{
     item.querySelector(':scope > summary').addEventListener('click',()=>setTimeout(()=>{
-      const route=item.classList.contains('hub-resource')?item.id:item.closest('.hub-city-list')?`decontare/orase/${citySlugs[cityItems.indexOf(item)]}`:`decontare/${reimbursementSlugs[reimbursementItems.indexOf(item)]}`;
+      const route=item.classList.contains('hub-resource')?item.id:item.closest('.hub-city-list')?`decontare/orase/${citySlugs[cityItems.indexOf(item)]}`:`decontare/${item.dataset.reimbursementSlug||reimbursementSlugs[reimbursementItems.indexOf(item)]}`;
       if(item.open)setRoute(route);
       else if(currentRoute()===route||currentRoute().startsWith(`${route}/`))setRoute(item.classList.contains('hub-resource')?'informatii-esentiale':item.closest('.hub-city-list')?'decontare/orase':'decontare',true);
     },0));
