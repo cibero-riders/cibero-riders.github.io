@@ -1,0 +1,45 @@
+.hub-subfleet-support {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin-top: 18px;
+  padding-top: 32px;
+  border-top: 1px solid var(--hb-line);
+  scroll-margin-top: 110px;
+}
+
+.hub-subfleet-support h2 {
+  margin: 0 0 23px;
+  color: var(--hb-gold);
+  font-size: clamp(26px, 3vw, 36px);
+  font-weight: 900;
+  line-height: 1.15;
+  letter-spacing: -.035em;
+  text-align: center;
+}
+
+.hub-subfleet-support-actions {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.hub-subfleet-support-actions button.hub-action {
+  width: 100%;
+  font-family: "DM Sans", sans-serif;
+  text-align: left;
+}
+
+.hub-subfleet-support-actions button.hub-action:disabled {
+  opacity: .76;
+  cursor: not-allowed;
+}
+
+.hub-subfleet-support-actions button.hub-action:disabled:hover {
+  transform: none;
+  box-shadow: var(--hub-button-shadow);
+  filter: none;
+}
+
+@media (max-width: 760px) {
+  .hub-subfleet-support-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
