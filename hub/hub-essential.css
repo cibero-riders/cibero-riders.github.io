@@ -29,7 +29,7 @@
 .hub-dashboard .hub-rule-brand img{width:46px;height:46px}
 .hub-rule-sections{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 .hub-rule-section{min-width:0;padding:20px;border:1px solid var(--hb-line);border-radius:16px;background:color-mix(in srgb,var(--hb-panel-2) 82%,transparent)}
-.hub-rule-section h3{display:flex;align-items:center;gap:10px;margin-bottom:13px;font-size:18px}
+.hub-rule-section h3{display:flex;align-items:center;gap:10px;margin-bottom:13px;font-size:21px;line-height:1.2}
 .hub-rule-section h3:before{display:block;width:9px;height:9px;flex:0 0 auto;border-radius:50%;background:var(--hb-gold);box-shadow:0 0 0 5px color-mix(in srgb,var(--hb-gold) 14%,transparent);content:""}
 .hub-rule-section p{margin:0 0 15px;color:var(--hb-muted);font-size:14px;line-height:1.65}
 .hub-dashboard .hub-rule-section ul{gap:12px;margin:0}
