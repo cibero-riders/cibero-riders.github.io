@@ -482,3 +482,92 @@
   .hub-calendar-button:hover,
   .hub-video-category:hover { transform: none; }
 }
+
+/* One visual language for the main hub categories and partner actions. */
+.hub-category-accordion {
+  --category-accent: #d28cff;
+  --category-gold: #f2cd70;
+  --category-soft: #c071e324;
+  border-color: #d59af08a;
+  background:
+    radial-gradient(circle at 12% 116%, #a84ed04a, transparent 48%),
+    radial-gradient(circle at 91% 12%, #f2cd702d, transparent 38%),
+    linear-gradient(132deg, #452060, #6f3480 54%, #9b6b4b 100%);
+  box-shadow: 0 16px 34px #19062442, inset 0 1px #ffffff22;
+}
+
+.hub-category-accordion::after {
+  background: linear-gradient(90deg, transparent, #fff2c278, transparent);
+}
+
+.hub-category-accordion .hub-category-title {
+  color: #fff8e9;
+  font-size: clamp(22px, 2.65vw, 30px);
+  font-weight: 900;
+  letter-spacing: .025em;
+  text-transform: none;
+  text-shadow: 0 2px 14px #2a093b99, 0 0 24px #f2cd7040;
+}
+
+.hub-category-accordion > summary:hover .hub-category-title,
+.hub-category-accordion[open] .hub-category-title {
+  color: #fff8e9;
+}
+
+.hub-category-accordion > summary,
+.hub-category-accordion > summary:hover {
+  background: linear-gradient(90deg, #ffffff12, transparent 62%);
+}
+
+.hub-category-accordion > summary > i,
+.hub-category-symbol {
+  border-color: #f2cd70a6;
+  background: linear-gradient(135deg, #9d4ec8, #f2cd7073);
+  color: #fff8e9;
+  box-shadow: inset 0 1px #ffffff3b, 0 8px 18px #26062d42;
+}
+
+.hub-category-apps,
+.hub-category-payments,
+.hub-category-cash,
+.hub-category-reimbursement,
+.hub-category-faq,
+.hub-category-gear {
+  --category-accent: #d28cff;
+}
+
+.hub-dashboard .hub-essential-actions .hub-action,
+.hub-subfleet-support-actions .hub-action {
+  border-color: #edca7899;
+  background:
+    radial-gradient(circle at 10% 110%, #ba61dc70, transparent 48%),
+    radial-gradient(circle at 92% 8%, #f2cd7055, transparent 34%),
+    linear-gradient(132deg, #51266b, #7b3f8a 55%, #a5774e);
+  box-shadow: 0 14px 28px #21072d45, inset 0 1px #ffffff2b;
+  color: #fff8e9 !important;
+}
+
+.hub-dashboard .hub-essential-actions .hub-action:hover,
+.hub-subfleet-support-actions .hub-action:hover {
+  border-color: #ffe09a;
+  box-shadow: 0 20px 36px #21072d5e, 0 0 28px #f2cd7042, inset 0 1px #ffffff45;
+  filter: brightness(1.08);
+}
+
+.hub-dashboard .hub-essential-actions .hub-action :is(strong, small, b),
+.hub-subfleet-support-actions .hub-action :is(strong, small, b) {
+  color: #fff8e9 !important;
+}
+
+.hub-dashboard .hub-essential-actions .hub-action-icon {
+  border-color: #f2cd70a6;
+  background: #fff7df24;
+  color: #fff8e9;
+}
+
+@media (max-width: 760px) {
+  .hub-category-accordion .hub-category-title {
+    font-size: clamp(19px, 5.7vw, 25px);
+    letter-spacing: .015em;
+  }
+}
