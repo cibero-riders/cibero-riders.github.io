@@ -18,8 +18,8 @@ assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=6/);
 assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=32/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=11/);
-assert.match(fleet, /hub-categories\.css\?v=11/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=12/);
+assert.match(fleet, /hub-categories\.css\?v=12/);
 for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /hub-quick-actions|hub-quick-button|data-hub-quick|has-quick-actions/);
   for (const id of ['aplicatii-mobile', 'plati', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
@@ -29,12 +29,17 @@ for (const html of [fleet, subfleet]) {
   assert.match(html, /<section id="urmatoarea-plata" class="hub-payment-panel">/);
   assert.match(html, /class="hub-calendar-button" href="https:\/\/youtu\.be\/iBThwch_Tn0"/);
   assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
+  assert.match(html, /src="\.\.\/assets\/social-youtube\.svg"/);
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
 assert.match(categoryStyles, /text-transform: uppercase/);
 assert.match(categoryStyles, /--hub-category-fill: linear-gradient\(132deg, #230a38/);
 assert.match(categoryStyles, /html\[data-theme="light"\] body\.hub-body/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body/);
+assert.match(categoryStyles, /html\[data-theme="midday"\] body\.hub-body \{[\s\S]*?--hb-bg: #12091b/);
+assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body \{[\s\S]*?--hb-bg: #0d0e0c/);
+assert.match(fleet, /src="\.\.\/assets\/social-whatsapp\.svg"/);
+assert.match(fs.readFileSync(path.join(root, 'assets', 'social-whatsapp.svg'), 'utf8'), /viewBox="0 0 24 24"/);
 assert.match(categoryStyles, /\.hub-video-category \{[\s\S]*?background: var\(--hub-button-fill\)/);
 assert.doesNotMatch(script, /data-hub-quick/);
 const header = subfleet.split('<header class="subfleet-header"')[1].split('</header>')[0];
