@@ -8,12 +8,16 @@ const subfleet = fs.readFileSync(path.join(root, 'subfleethub', 'index.html'), '
 const script = fs.readFileSync(path.join(root, 'hub', 'hub.js'), 'utf8');
 const categoryStyles = fs.readFileSync(path.join(root, 'hub', 'hub-categories.css'), 'utf8');
 const themeScript = fs.readFileSync(path.join(root, 'site-theme.js'), 'utf8');
+const subfleetNavigation = fs.readFileSync(path.join(root, 'subfleethub', 'subfleet-navigation.js'), 'utf8');
+const subfleetStyles = fs.readFileSync(path.join(root, 'subfleethub', 'subfleet.css'), 'utf8');
 
 assert.match(fleet, /Hub-ul Flotei CibeRO/);
 assert.match(fleet, /data-hub-i18n="hubSubtitle"/);
 assert.match(subfleet, /<h1 id="hub-title" data-hub-i18n="hubTitle">Courier Hub<\/h1>/);
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
+assert.match(subfleet, /subfleet-navigation\.js\?v=2/);
+assert.match(subfleet, /subfleet\.css\?v=5/);
 assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=29/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=5/);
 assert.match(fleet, /hub-categories\.css\?v=5/);
@@ -50,10 +54,17 @@ assert.match(subfleet, /data-app-platform="controlfleet"/);
 assert.match(subfleet, /data-app-panel="controlfleet"/);
 assert.match(subfleet, /https:\/\/play\.google\.com\/store\/apps\/details\?id=ro\.controlfleet\.employee/);
 assert.match(subfleet, /id="suport-si-solicitari"/);
+assert.ok(subfleet.indexOf('id="suport-si-solicitari"') < subfleet.indexOf('id="instrumente-si-suport"'), 'Support actions appear above the four menu categories');
 assert.match(subfleet, /class="hub-action-grid hub-essential-actions hub-subfleet-support-actions"/);
 assert.match(subfleet, /<button class="hub-action" type="button" disabled>[\s\S]*?Deschide un ticket[\s\S]*?În curând[\s\S]*?<\/button>/);
-assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle"/);
+assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle" target="_blank" rel="noopener noreferrer"/);
 assert.match(script, /subfleetTicketComingSoon:'Coming soon'/);
+assert.match(subfleetNavigation, /location\.hash = route/);
+assert.match(subfleetNavigation, /window\.addEventListener\('hashchange', sync\)/);
+assert.match(subfleetNavigation, /document\.addEventListener\('cibero:language-change', refreshLabels\)/);
+assert.match(subfleetNavigation, /menuReturn\.addEventListener\('click'/);
+assert.match(subfleetStyles, /grid-template-columns: minmax\(235px, 290px\) minmax\(0, 1fr\)/);
+assert.match(subfleetStyles, /@media \(max-width: 900px\)/);
 
 assert.equal((subfleet.match(/RO53182698/g) || []).length, 0, 'The standalone sub-fleet interface has no site-operator footer');
 assert.match(subfleet, /Întreabă administratorul flotei tale care este CUI-ul pentru decontare/);
