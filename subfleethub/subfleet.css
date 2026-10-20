@@ -1,3 +1,41 @@
+body.hub-body[data-hub-variant="subfleet"] {
+  min-width: 0;
+}
+
+.subfleet-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  min-height: 72px;
+  padding: 12px max(24px, calc((100% - 1180px) / 2));
+  border-bottom: 1px solid var(--hb-line);
+  background: var(--hb-bg);
+}
+
+.subfleet-header .public-theme-switch,
+.subfleet-header .public-language-switch {
+  margin: 0;
+}
+
+.subfleet-footer {
+  padding: 0 20px 35px;
+  color: var(--hb-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+@media (max-width: 760px) {
+  .subfleet-header {
+    min-height: 66px;
+    padding-inline: 16px;
+  }
+}
+
 .hub-subfleet-support {
   grid-column: 1 / -1;
   min-width: 0;

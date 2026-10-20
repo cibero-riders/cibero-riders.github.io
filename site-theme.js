@@ -40,7 +40,7 @@
 
   function installSwitch() {
     if (document.querySelector(".public-theme-switch")) return;
-    const header = document.querySelector(".global-header, .registration-header, .availability-header, .site-title");
+    const header = document.querySelector(".global-header, .registration-header, .availability-header, .site-title, .subfleet-header");
     if (!header) return;
     const control = buildSwitch();
     const navigation = header.matches(".global-header") ? header.querySelector("nav") : null;

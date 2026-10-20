@@ -6,6 +6,7 @@ const root = path.join(__dirname, '..');
 const fleet = fs.readFileSync(path.join(root, 'hub', 'index.html'), 'utf8');
 const subfleet = fs.readFileSync(path.join(root, 'subfleethub', 'index.html'), 'utf8');
 const script = fs.readFileSync(path.join(root, 'hub', 'hub.js'), 'utf8');
+const themeScript = fs.readFileSync(path.join(root, 'site-theme.js'), 'utf8');
 
 assert.match(fleet, /Hub-ul Flotei CibeRO/);
 assert.match(fleet, /data-hub-i18n="hubSubtitle"/);
@@ -13,6 +14,13 @@ assert.match(subfleet, /HUB Sub-flote Cibero/);
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=27/);
+const header = subfleet.split('<header class="subfleet-header"')[1].split('</header>')[0];
+assert.match(header, /public-language-switch/);
+assert.doesNotMatch(header, /brand|social|main-nav|menu-toggle|nav-account|<nav|href=/);
+assert.match(themeScript, /\.subfleet-header/);
+assert.match(subfleet, /\.\.\/site-theme\.js\?v=4/);
+assert.doesNotMatch(subfleet, /site-navigation\.css|site-footer\.css|main-page\.js/);
+assert.match(subfleet, /<footer class="subfleet-footer">© Powered by Cibero - 2026 \| All rights reserved<\/footer>/);
 
 for (const id of ['aplicatii-mobile', 'plati', 'urmatoarea-plata', 'calendarul-de-plata', 'ghiduri-video', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
   assert.match(subfleet, new RegExp(`id="${id}"`));
@@ -34,7 +42,7 @@ assert.match(subfleet, /<button class="hub-action" type="button" disabled>[\s\S]
 assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle"/);
 assert.match(script, /subfleetTicketComingSoon:'Coming soon'/);
 
-assert.equal((subfleet.match(/RO53182698/g) || []).length, 1, 'The site operator CUI belongs in the legal footer only');
+assert.equal((subfleet.match(/RO53182698/g) || []).length, 0, 'The standalone sub-fleet interface has no site-operator footer');
 assert.match(subfleet, /Întreabă administratorul flotei tale care este CUI-ul pentru decontare/);
 assert.match(subfleet, /Oricând faci achiziții de produse sau servicii corespunzătoare domeniului de livrări/);
 assert.match(subfleet, /Termenul, metoda de predare și momentul plății sunt stabilite de sub-flota ta\./);
@@ -47,4 +55,4 @@ assert.match(script, /if\(!document\.querySelector\('\[data-card-payment\]'\)\)r
 const paymentBlock = html => html.split('        <details id="plati"')[1].split('        <details id="ghiduri-si-informatii"')[0];
 assert.equal(paymentBlock(subfleet).replaceAll('../hub/assets/calendar-', 'assets/calendar-'), paymentBlock(fleet));
 
-console.log('Sub-fleet Hub: shared payments, general reimbursement, ControlFleet and support actions passed.');
+console.log('Sub-fleet Hub: standalone header/footer, shared payments, general reimbursement, ControlFleet and support actions passed.');
