@@ -11,11 +11,11 @@
 
 .hub-category-accordion > summary {
   display: grid;
-  grid-template-columns: 52px minmax(0, 1fr) auto 38px;
+  grid-template-columns: 52px minmax(0, 1fr) 38px;
   align-items: center;
   gap: 16px;
-  min-height: 92px;
-  padding: 18px 22px;
+  min-height: 104px;
+  padding: 20px 24px;
   cursor: pointer;
   list-style: none;
   transition: background .24s ease;
@@ -43,8 +43,13 @@
   grid-column: 2;
   margin: 0;
   color: var(--hb-text);
-  font-size: clamp(21px, 2.35vw, 30px);
-  text-align: left;
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: .075em;
+  text-align: center;
+  text-transform: uppercase;
+  text-wrap: balance;
   transition: color .24s ease;
 }
 
@@ -60,7 +65,7 @@
 
 .hub-category-accordion > summary > i {
   display: grid;
-  grid-column: 4;
+  grid-column: 3;
   width: 38px;
   height: 38px;
   place-items: center;
@@ -86,8 +91,7 @@
   color: var(--hb-gold);
 }
 
-.hub-category-symbol svg,
-.hub-quick-button svg {
+.hub-category-symbol svg {
   width: 25px;
   height: 25px;
   fill: none;
@@ -95,61 +99,6 @@
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
-}
-
-.hub-quick-actions {
-  display: flex;
-  grid-column: 3;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 7px;
-  min-width: 0;
-}
-
-.hub-quick-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 42px;
-  padding: 6px 9px;
-  border: 1px solid var(--hb-line);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--hb-soft), var(--hb-panel) 45%);
-  color: var(--hb-text);
-  font: inherit;
-  font-size: 12px;
-  font-weight: 700;
-  white-space: nowrap;
-  cursor: pointer;
-  transition: transform .2s ease, background .2s ease, border-color .2s ease;
-}
-
-.hub-quick-button:hover,
-.hub-quick-button:focus-visible {
-  transform: translateY(-2px);
-  border-color: var(--hb-gold);
-  background: color-mix(in srgb, var(--hb-gold), var(--hb-panel) 68%);
-  outline: none;
-}
-
-.hub-quick-button img,
-.hub-quick-button svg {
-  width: 22px;
-  height: 22px;
-  flex: none;
-  object-fit: contain;
-}
-
-.hub-quick-button b {
-  display: grid;
-  width: 22px;
-  height: 22px;
-  place-items: center;
-  border-radius: 50%;
-  background: var(--hb-gold);
-  color: var(--hb-panel);
-  font-size: 9px;
 }
 
 .hub-category-whatsapp {
@@ -271,7 +220,8 @@
   }
 
   .hub-category-accordion .hub-category-title {
-    font-size: clamp(19px, 5.1vw, 25px);
+    font-size: clamp(16px, 4.6vw, 21px);
+    letter-spacing: .055em;
   }
 
   .hub-category-symbol {
@@ -282,28 +232,6 @@
   .hub-category-symbol svg {
     width: 23px;
     height: 23px;
-  }
-
-  .hub-category-accordion.has-quick-actions > summary {
-    grid-template-rows: auto auto;
-  }
-
-  .hub-quick-actions {
-    grid-column: 1 / -1;
-    grid-row: 2;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    padding-top: 4px;
-  }
-
-  .hub-quick-button {
-    width: 42px;
-    height: 42px;
-    padding: 6px;
-  }
-
-  .hub-quick-button span {
-    display: none;
   }
 
   .hub-essential-actions .hub-action {

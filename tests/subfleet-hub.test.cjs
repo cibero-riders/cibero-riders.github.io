@@ -6,6 +6,7 @@ const root = path.join(__dirname, '..');
 const fleet = fs.readFileSync(path.join(root, 'hub', 'index.html'), 'utf8');
 const subfleet = fs.readFileSync(path.join(root, 'subfleethub', 'index.html'), 'utf8');
 const script = fs.readFileSync(path.join(root, 'hub', 'hub.js'), 'utf8');
+const categoryStyles = fs.readFileSync(path.join(root, 'hub', 'hub-categories.css'), 'utf8');
 const themeScript = fs.readFileSync(path.join(root, 'site-theme.js'), 'utf8');
 
 assert.match(fleet, /Hub-ul Flotei CibeRO/);
@@ -13,7 +14,20 @@ assert.match(fleet, /data-hub-i18n="hubSubtitle"/);
 assert.match(subfleet, /<h1 id="hub-title" data-hub-i18n="hubTitle">Courier Hub<\/h1>/);
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=28/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=29/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=5/);
+assert.match(fleet, /hub-categories\.css\?v=5/);
+for (const html of [fleet, subfleet]) {
+  assert.doesNotMatch(html, /hub-quick-actions|hub-quick-button|data-hub-quick|has-quick-actions/);
+  for (const id of ['aplicatii-mobile', 'plati', 'ghiduri-si-informatii', 'echipament-oficial']) {
+    assert.match(html, new RegExp(`<details id="${id}" class="hub-category-accordion`));
+  }
+  assert.match(html, /data-app-platform="controlfleet"/);
+  assert.match(html, /id="urmatoarea-plata"/);
+  assert.match(html, /id="ghiduri-video"/);
+}
+assert.match(categoryStyles, /text-transform: uppercase/);
+assert.doesNotMatch(script, /data-hub-quick/);
 const header = subfleet.split('<header class="subfleet-header"')[1].split('</header>')[0];
 assert.match(header, /public-language-switch/);
 assert.doesNotMatch(header, /brand|social|main-nav|menu-toggle|nav-account|<nav|href=/);
@@ -32,7 +46,6 @@ for (const text of ['Strada Farului', 'Strada Tudor Vladimirescu', 'eatsdelivery
   assert.doesNotMatch(subfleet, new RegExp(text.replaceAll('.', '\\.')));
 }
 
-assert.match(subfleet, /data-hub-quick="aplicatii-mobile\/controlfleet"/);
 assert.match(subfleet, /data-app-platform="controlfleet"/);
 assert.match(subfleet, /data-app-panel="controlfleet"/);
 assert.match(subfleet, /https:\/\/play\.google\.com\/store\/apps\/details\?id=ro\.controlfleet\.employee/);

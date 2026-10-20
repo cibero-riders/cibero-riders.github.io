@@ -252,12 +252,6 @@
     if(category.open)setRoute(category.id);
     else if(category.contains(document.getElementById(currentRoute().split('/')[0])))setRoute('',true);
   },0)));
-  document.querySelectorAll('[data-hub-quick]').forEach(button=>button.addEventListener('click',event=>{
-    event.preventDefault();
-    event.stopPropagation();
-    setRoute(button.dataset.hubQuick);
-    openDeepLink();
-  }));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`aplicatii-mobile/${platformSlugs[button.dataset.appPlatform]}`)));
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`urmatoarea-plata/${platformSlugs[button.dataset.paymentPlatform]}`)));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`reguli-cash-si-reset/${platformSlugs[button.dataset.cashPlatform]}`)));
