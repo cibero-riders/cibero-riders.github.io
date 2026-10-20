@@ -10,10 +10,10 @@ const themeScript = fs.readFileSync(path.join(root, 'site-theme.js'), 'utf8');
 
 assert.match(fleet, /Hub-ul Flotei CibeRO/);
 assert.match(fleet, /data-hub-i18n="hubSubtitle"/);
-assert.match(subfleet, /HUB Sub-flote Cibero/);
+assert.match(subfleet, /<h1 id="hub-title" data-hub-i18n="hubTitle">Courier Hub<\/h1>/);
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=27/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=28/);
 const header = subfleet.split('<header class="subfleet-header"')[1].split('</header>')[0];
 assert.match(header, /public-language-switch/);
 assert.doesNotMatch(header, /brand|social|main-nav|menu-toggle|nav-account|<nav|href=/);
@@ -49,7 +49,7 @@ assert.match(subfleet, /Termenul, metoda de predare și momentul plății sunt s
 assert.match(subfleet, /Ce decontează flota/);
 assert.match(subfleet, /Ce NU decontează flota/);
 assert.match(subfleet, /data-reimbursement-slug="ce-deconteaza"/);
-assert.match(script, /CIBERO Sub-Fleets Hub/);
+assert.match(script, /hubTitle:'Courier Hub'/);
 assert.match(script, /if\(!document\.querySelector\('\[data-card-payment\]'\)\)return/);
 
 const paymentBlock = html => html.split('        <details id="plati"')[1].split('        <details id="ghiduri-si-informatii"')[0];
