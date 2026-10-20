@@ -181,6 +181,8 @@ html[data-theme="light"] .hub-rule-actions a:focus-visible{outline-color:#4b285c
 .hub-payment-content .hub-pay-period>p>strong{font-size:clamp(25px,2.7vw,37px);line-height:1.15}
 .hub-payment-content .hub-pay-reset>p>strong{font-size:clamp(26px,2.85vw,39px);line-height:1.15}
 .hub-pay-reset-label{font-weight:900}
+.hub-payment-content .hub-pay-delay-note{margin:0;padding:12px 16px;border:1px solid color-mix(in srgb,var(--hb-gold),transparent 40%);border-radius:14px;background:color-mix(in srgb,var(--hb-gold),transparent 86%);color:var(--hb-text);font-size:14px;font-weight:700;line-height:1.5}
+.hub-payment-content .hub-pay-delay-note[hidden]{display:none}
 .hub-essential-actions{margin:0 0 2px}
 .hub-essential-actions .hub-action{min-height:96px;padding:17px}
 .hub-essential-actions .hub-action strong{font-size:16px}
@@ -239,3 +241,10 @@ html[data-theme="light"] .hub-rule-actions a:focus-visible{outline-color:#4b285c
 @media(max-width:760px){.hub-hero{padding:35px 0 24px}.hub-hero-copy{padding:0 4px}.hub-essential-list{grid-template-columns:1fr;gap:12px}.hub-category-title{gap:12px;margin-top:34px;font-size:clamp(23px,7vw,30px)}.hub-app-selector{grid-template-columns:repeat(2,minmax(0,1fr));padding:10px}.hub-app-selector button{min-height:56px;padding:9px}.hub-app-panels{padding:14px}.hub-store-links{grid-template-columns:1fr}.hub-resource,.hub-resource[open],.hub-resource-gear{grid-column:1}.hub-dashboard .hub-resource:not([open])>summary{grid-template-columns:52px minmax(0,1fr) 28px;min-height:128px;padding:18px;gap:13px}.hub-resource-number{width:52px;height:52px;grid-template-rows:27px 9px}.hub-resource-number svg{width:24px;height:24px}.hub-dashboard .hub-resource summary strong{font-size:17px}.hub-resource:not([open]) summary small{font-size:12px}.hub-dashboard .hub-resource[open]>summary{grid-template-columns:52px minmax(0,1fr) 28px;gap:13px;min-height:92px;padding:16px 18px}.hub-resource[open] .hub-resource-content{padding:18px}.hub-essential-actions{grid-template-columns:1fr}.hub-essential-actions .hub-action{grid-template-columns:56px minmax(0,1fr) 28px;min-height:110px;padding:17px}.hub-essential-list>.hub-whatsapp-actions{grid-template-columns:1fr}}
 @media(max-width:430px){.hub-dashboard .hub-essential{padding:14px;border-radius:22px}.hub-hero h1{font-size:36px}.hub-app-selector button{justify-content:flex-start;font-size:12px}.hub-store-button{grid-template-columns:42px minmax(0,1fr) auto;padding:13px}.hub-store-icon{width:42px;height:42px}.hub-dashboard .hub-resource:not([open])>summary,.hub-dashboard .hub-resource[open]>summary{grid-template-columns:46px minmax(0,1fr) 26px;gap:11px}.hub-resource-number{width:46px;height:46px;grid-template-rows:23px 9px}.hub-resource-number svg{width:21px;height:21px}.hub-resource[open] .hub-resource-content{padding:15px}}
 @media(prefers-reduced-motion:reduce){.hub-resource,.hub-resource:after,.hub-essential-actions .hub-action{transition:none}.hub-resource:not([open]):hover,.hub-essential-actions .hub-action:hover{transform:none}}
+@media(max-width:600px){
+  .hub-payment-content .hub-pay-detail{grid-template-columns:minmax(0,1fr);gap:8px}
+  .hub-payment-content .hub-pay-detail-icon{width:38px;height:38px}
+  .hub-payment-content .hub-pay-detail .hub-pay-date,
+  .hub-payment-content .hub-pay-period>p>strong,
+  .hub-payment-content .hub-pay-reset>p>strong{font-size:clamp(20px,5.7vw,24px);overflow-wrap:normal;word-break:normal}
+}

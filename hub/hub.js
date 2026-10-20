@@ -36,6 +36,7 @@
     essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.',
     fleetPlatform:'Fleet platform',
     paymentMenu:'Next payment',
+    woltPaymentDelay:'Payment may be delayed by a few days while late reports are processed.',
     referralTitle:'Referral',
     supportCardBody:'Send a ticket for requests, changes and help.',
     campaignsCardBody:'Active CibeRO campaigns.',
@@ -121,20 +122,23 @@
   }
   function woltFiscalPeriod(date){const{year,month,day}=getParts(date);if(day<=7)return{start:dateFromParts(year,month,1),end:dateFromParts(year,month,7)};if(day<=15)return{start:dateFromParts(year,month,8),end:dateFromParts(year,month,15)};if(day<=22)return{start:dateFromParts(year,month,16),end:dateFromParts(year,month,22)};return{start:dateFromParts(year,month,23),end:dateFromParts(year,month,daysInMonth(year,month))};}
   function paymentFridayForWolt(end){const weekday=end.getUTCDay();if([4,5,6].includes(weekday))return addDays(end,12-weekday);let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
+  function woltDisplayRollover(period){
+    const weekday=period.end.getUTCDay();
+    if(weekday===4||weekday===5)return addDays(period.end,(2-weekday+7)%7);
+    return addDays(paymentFridayForWolt(period.end),1);
+  }
   function woltPaymentSchedule(now){
     const today=dateFromParts(now.year,now.month,now.day);
     const current=woltFiscalPeriod(today);
     const previous=woltFiscalPeriod(addDays(current.start,-1));
-    const previousPayment=paymentFridayForWolt(previous.end);
-    const p=getParts(previousPayment);
-    const beforePreviousCutoff=Date.UTC(now.year,now.month-1,now.day,now.hour,now.minute)<Date.UTC(p.year,p.month-1,p.day,17,0);
-    if(beforePreviousCutoff)return{...previous,payment:previousPayment,reset:current.end};
-    return{...current,payment:paymentFridayForWolt(current.end),reset:current.end};
+    const displayed=today<woltDisplayRollover(previous)?previous:current;
+    const weekday=displayed.end.getUTCDay();
+    return{...displayed,payment:paymentFridayForWolt(displayed.end),reset:displayed.end,delayed:weekday===4||weekday===5};
   }
   function scheduleFor(platform){const now=bucharestNow();return platform==='wolt'?woltPaymentSchedule(now):weeklyPaymentSchedule(now);}
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
-  function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`,note:resetDate+(language==='en'?', 23:59':', ora 23:59')};}
-  function renderPayments(){['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;});}
+  function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period,note:resetDate+(language==='en'?', 23:59':', ora 23:59'),delayed:Boolean(schedule.delayed)};}
+  function renderPayments(){['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
   function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
   function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):originals.get(node));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=language==='en'?'CIBERO Hub | Courier tools':'CIBERO Hub | Instrumente pentru curieri';if(description)description.content=language==='en'?'CIBERO Hub — information, tools and quick access for CibeRO couriers.':originalDescription;updatePosters();renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
