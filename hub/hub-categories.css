@@ -228,17 +228,13 @@
 
 .hub-category-content {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   min-width: 0;
   padding: 23px;
 }
 
 .hub-category-content > .hub-mobile-apps {
-  grid-column: 1 / -1;
-}
-
-.hub-category-content > .hub-resource[open] {
   grid-column: 1 / -1;
 }
 
