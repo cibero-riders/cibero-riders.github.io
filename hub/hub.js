@@ -118,12 +118,15 @@
     const today=dateFromParts(now.year,now.month,now.day);
     const monday=addDays(today,-((now.weekday+6)%7));
     const sunday=addDays(monday,6);
-    return{start:monday,end:sunday,payment:addDays(monday,11),reset:sunday};
+    // Keep the payout period through Friday; its cash deadline follows the current week.
+    const periodStart=now.weekday===0||now.weekday===6?monday:addDays(monday,-7);
+    return{start:periodStart,end:addDays(periodStart,6),payment:addDays(periodStart,11),reset:sunday};
   }
   function woltFiscalPeriod(date){const{year,month,day}=getParts(date);if(day<=7)return{start:dateFromParts(year,month,1),end:dateFromParts(year,month,7)};if(day<=15)return{start:dateFromParts(year,month,8),end:dateFromParts(year,month,15)};if(day<=22)return{start:dateFromParts(year,month,16),end:dateFromParts(year,month,22)};return{start:dateFromParts(year,month,23),end:dateFromParts(year,month,daysInMonth(year,month))};}
-  function paymentFridayForWolt(end){const weekday=end.getUTCDay();if([4,5,6].includes(weekday))return addDays(end,12-weekday);let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
+  function paymentFridayForWolt(end){const weekday=end.getUTCDay();let days=(5-weekday+7)%7;if(days===0)days=7;return addDays(end,days);}
   function woltDisplayRollover(period){
     const weekday=period.end.getUTCDay();
+    // Thursday/Friday resets stay visible through Monday so the delay warning is seen.
     if(weekday===4||weekday===5)return addDays(period.end,(2-weekday+7)%7);
     return addDays(paymentFridayForWolt(period.end),1);
   }
