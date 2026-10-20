@@ -91,11 +91,11 @@
     glovoDepositRule:'Deposits can be made at any SelfPay station, and the balance updates instantly.',
     woltCashRule:'If you reach an outstanding amount of <strong>500 lei</strong> in the balance or more, orders will be blocked and you will not be able to go online until you cover the amount <strong>IN FULL</strong>.',
     woltResetRule1:'The fiscal periods are: <strong>01–07, 08–15, 16–22 and 23–the last day of the month</strong> (28/29/30/31).',
-    woltResetRule2:'The reset takes place on the <strong>7th, 15th, 22nd and last day of the month</strong>. Depositing the full balance is mandatory by <strong>23:59</strong>.',
+    woltResetAction:'Deposit the full balance on reset days — the <strong>7th, 15th, 22nd and last day of the month</strong> — by <strong>23:59</strong>.',
     woltNoNextDayDeposit:'Do not make deposits on the day after a reset — the 1st, 8th, 16th and 23rd — because the amount may be withheld twice.',
-    woltDepositRule1:'Depositing through Aircash updates your balance instantly. Create the account with the same email address and phone number used for your Wolt account.',
-    woltDepositRule2:'Do not use <strong>Abon</strong> for deposits.',
-    woltDepositRule3:'You can deposit by card directly in Aircash or with cash at PayPoint, Un-doi Centru de plăți, Kaseria, StartPay and Inmedio.',
+    woltAircashAccountSetup:'When creating your Aircash account, use the same email address and phone number associated with your Wolt courier account.',
+    woltDepositRule2:'Do not use <strong>Abon</strong> for deposits. This method is no longer valid.',
+    woltDepositInfo:'Depositing through Aircash updates your balance instantly. You can deposit by card directly in Aircash or with cash at PayPoint, Un-doi Centru de plăți, Kaseria, StartPay and Inmedio.',
     woltDepositGuide:'Watch the deposit video guide',
     aircashLocations:'See Aircash locations'
   });
