@@ -483,44 +483,91 @@
   .hub-video-category:hover { transform: none; }
 }
 
-/* One visual language for the main hub categories and partner actions. */
+/* Shared purple-and-gold palette for both hubs, with readable light and night variants. */
+.hub-body {
+  --hub-category-fill: linear-gradient(132deg, #230a38, #4c1971 58%, #643373);
+  --hub-category-border: #d8ae61a6;
+  --hub-category-ink: #fff8ed;
+  --hub-category-icon: linear-gradient(135deg, #57257a, #946822);
+  --hub-category-sheen: #f2c4388c;
+}
+
+html[data-theme="light"] body.hub-body {
+  --hub-category-fill: linear-gradient(132deg, #fbf5ff, #eadbf3 58%, #e1cbea);
+  --hub-category-border: #9b6ab79c;
+  --hub-category-ink: #2d1740;
+  --hub-category-icon: #ead6f2;
+  --hub-category-sheen: #a15bbb38;
+}
+
+html[data-theme="night"] body.hub-body {
+  --hb-bg: #12091b;
+  --hb-panel: #21132d;
+  --hb-panel-2: #2b1939;
+  --hb-text: #fbf5ff;
+  --hb-muted: #d3c5dc;
+  --hb-gold: #f2ce80;
+  --hb-line: #c8a06466;
+  --hb-soft: #eec77518;
+  --hb-green: #97ddb5;
+  --hub-category-fill: linear-gradient(132deg, #1a0b2a, #36154e 58%, #442257);
+  --hub-category-border: #c6a1619c;
+  --hub-category-ink: #fbf5ff;
+  --hub-category-icon: linear-gradient(135deg, #3e1b5e, #705022);
+  --hub-category-sheen: #e6bc6070;
+  background: radial-gradient(circle at 76% 0, #6b358052, transparent 33%), var(--hb-bg);
+}
+
 .hub-category-accordion {
-  --category-accent: #9275b8;
-  --category-soft: #75509920;
-  border-color: #70538c66;
-  background: linear-gradient(125deg, #281b38, #21182e 55%, #18131f);
-  box-shadow: 0 10px 24px #100c1833, inset 0 1px #ffffff08;
+  --category-accent: var(--hb-gold);
+  --category-soft: var(--hb-soft);
+  border-color: var(--hub-category-border);
+  background: var(--hub-category-fill);
+  box-shadow: 0 13px 30px #17082455, inset 0 1px #ffffff25;
+}
+
+html[data-theme="light"] .hub-category-accordion {
+  box-shadow: 0 10px 24px #5433651f, inset 0 1px #fff;
 }
 
 .hub-category-accordion::after {
-  background: linear-gradient(90deg, transparent, #c6addd10, transparent);
+  background: linear-gradient(90deg, transparent, var(--hub-category-sheen), transparent);
+}
+
+.hub-category-accordion .hub-category-title,
+.hub-category-accordion > summary:hover .hub-category-title,
+.hub-category-accordion[open] .hub-category-title {
+  color: var(--hub-category-ink);
 }
 
 .hub-category-accordion .hub-category-title {
-  color: #fbf7ff;
   font-size: clamp(22px, 2.65vw, 30px);
   font-weight: 900;
   letter-spacing: .025em;
   text-transform: none;
-  text-shadow: none;
+  text-shadow: 0 2px 12px #17082466;
 }
 
-.hub-category-accordion > summary:hover .hub-category-title,
-.hub-category-accordion[open] .hub-category-title {
-  color: #fbf7ff;
+html[data-theme="light"] .hub-category-accordion .hub-category-title {
+  text-shadow: none;
 }
 
 .hub-category-accordion > summary,
 .hub-category-accordion > summary:hover {
-  background: transparent;
+  background: linear-gradient(90deg, #ffffff0e, transparent 65%);
 }
 
 .hub-category-accordion > summary > i,
 .hub-category-symbol {
-  border-color: #70538c66;
-  background: #362545;
-  color: #fbf7ff;
-  box-shadow: none;
+  border-color: var(--hub-category-border);
+  background: var(--hub-category-icon);
+  color: var(--hub-category-ink);
+  box-shadow: inset 0 1px #ffffff35, 0 6px 16px #17082440;
+}
+
+html[data-theme="light"] .hub-category-accordion > summary > i,
+html[data-theme="light"] .hub-category-symbol {
+  box-shadow: inset 0 1px #fff, 0 6px 14px #5433651f;
 }
 
 .hub-category-apps,
@@ -529,33 +576,39 @@
 .hub-category-reimbursement,
 .hub-category-faq,
 .hub-category-gear {
-  --category-accent: #9275b8;
+  --category-accent: var(--hb-gold);
 }
 
-.hub-dashboard .hub-essential-actions .hub-action,
-.hub-subfleet-support-actions .hub-action {
-  border-color: #70538c66;
-  background: linear-gradient(125deg, #281b38, #21182e 55%, #18131f);
-  box-shadow: 0 10px 24px #100c1833, inset 0 1px #ffffff08;
-  color: #fbf7ff !important;
+.hub-body .hub-essential-actions .hub-action,
+.hub-subfleet-support-actions .hub-action,
+.hub-calendar-button,
+.hub-video-category {
+  border-color: var(--hub-button-border);
+  background: var(--hub-button-fill);
+  box-shadow: var(--hub-button-shadow);
+  color: var(--hub-button-ink) !important;
 }
 
-.hub-dashboard .hub-essential-actions .hub-action:hover,
-.hub-subfleet-support-actions .hub-action:hover {
-  border-color: #9275b899;
-  box-shadow: 0 12px 26px #100c1844, inset 0 1px #ffffff0c;
+.hub-body .hub-essential-actions .hub-action:hover,
+.hub-subfleet-support-actions .hub-action:hover,
+.hub-calendar-button:hover,
+.hub-video-category:hover {
+  border-color: var(--hub-button-border);
+  box-shadow: inset 0 1px #fff9df, 0 12px 25px #0004;
   filter: brightness(1.04);
 }
 
-.hub-dashboard .hub-essential-actions .hub-action :is(strong, small, b),
+.hub-body .hub-essential-actions .hub-action :is(strong, small, b),
 .hub-subfleet-support-actions .hub-action :is(strong, small, b) {
-  color: #fbf7ff !important;
+  color: var(--hub-button-ink) !important;
 }
 
-.hub-dashboard .hub-essential-actions .hub-action-icon {
-  border-color: #70538c66;
-  background: #362545;
-  color: #fbf7ff;
+.hub-body .hub-essential-actions .hub-action-icon,
+.hub-subfleet-support-actions .hub-action-icon,
+.hub-youtube-mark {
+  border-color: #70451865;
+  background: #fff9df73;
+  color: var(--hub-button-ink);
 }
 
 @media (max-width: 760px) {
