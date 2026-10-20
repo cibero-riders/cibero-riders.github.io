@@ -18,8 +18,8 @@ assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=6/);
 assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=32/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=8/);
-assert.match(fleet, /hub-categories\.css\?v=8/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=9/);
+assert.match(fleet, /hub-categories\.css\?v=9/);
 for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /hub-quick-actions|hub-quick-button|data-hub-quick|has-quick-actions/);
   for (const id of ['aplicatii-mobile', 'plati', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {

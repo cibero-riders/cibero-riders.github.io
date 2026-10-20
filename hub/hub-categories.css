@@ -485,20 +485,15 @@
 
 /* One visual language for the main hub categories and partner actions. */
 .hub-category-accordion {
-  --category-accent: #9c32e1;
-  --category-gold: #d7a917;
-  --category-soft: #7f19be38;
-  border-color: #c99c169c;
-  background:
-    linear-gradient(112deg, transparent 17%, #edc3341f 31%, transparent 45%),
-    radial-gradient(ellipse at 5% 118%, #7112aa8f, transparent 55%),
-    radial-gradient(ellipse at 98% 1%, #e0ad1761, transparent 42%),
-    linear-gradient(132deg, #180027 0%, #3c0065 47%, #6a1b72 72%, #8f6810 100%);
-  box-shadow: 0 16px 34px #11001e80, inset 0 1px #f7cf4961, inset 0 -18px 34px #15002161;
+  --category-accent: #9275b8;
+  --category-soft: #75509920;
+  border-color: #70538c66;
+  background: linear-gradient(125deg, #281b38, #21182e 55%, #18131f);
+  box-shadow: 0 10px 24px #100c1833, inset 0 1px #ffffff08;
 }
 
 .hub-category-accordion::after {
-  background: linear-gradient(90deg, transparent, #f2c438b8, transparent);
+  background: linear-gradient(90deg, transparent, #c6addd10, transparent);
 }
 
 .hub-category-accordion .hub-category-title {
@@ -507,7 +502,7 @@
   font-weight: 900;
   letter-spacing: .025em;
   text-transform: none;
-  text-shadow: 0 2px 14px #180027c4, 0 0 24px #cb951a59;
+  text-shadow: none;
 }
 
 .hub-category-accordion > summary:hover .hub-category-title,
@@ -517,15 +512,15 @@
 
 .hub-category-accordion > summary,
 .hub-category-accordion > summary:hover {
-  background: linear-gradient(90deg, #ffffff10, transparent 62%);
+  background: transparent;
 }
 
 .hub-category-accordion > summary > i,
 .hub-category-symbol {
-  border-color: #dbad25cc;
-  background: linear-gradient(135deg, #6510a2, #ad7a12);
+  border-color: #70538c66;
+  background: #362545;
   color: #fbf7ff;
-  box-shadow: inset 0 1px #ffe99966, 0 8px 18px #1900258c;
+  box-shadow: none;
 }
 
 .hub-category-apps,
@@ -534,26 +529,22 @@
 .hub-category-reimbursement,
 .hub-category-faq,
 .hub-category-gear {
-  --category-accent: #9c32e1;
+  --category-accent: #9275b8;
 }
 
 .hub-dashboard .hub-essential-actions .hub-action,
 .hub-subfleet-support-actions .hub-action {
-  border-color: #d7a917b8;
-  background:
-    linear-gradient(112deg, transparent 18%, #f0c1351f 32%, transparent 45%),
-    radial-gradient(ellipse at 8% 118%, #7515aa99, transparent 56%),
-    radial-gradient(ellipse at 100% 0, #e0ad1757, transparent 42%),
-    linear-gradient(132deg, #230039, #4c007b 53%, #784d10 100%);
-  box-shadow: 0 14px 28px #11001e8c, inset 0 1px #f5cf4770, inset 0 -14px 26px #16002070;
+  border-color: #70538c66;
+  background: linear-gradient(125deg, #281b38, #21182e 55%, #18131f);
+  box-shadow: 0 10px 24px #100c1833, inset 0 1px #ffffff08;
   color: #fbf7ff !important;
 }
 
 .hub-dashboard .hub-essential-actions .hub-action:hover,
 .hub-subfleet-support-actions .hub-action:hover {
-  border-color: #f1c43d;
-  box-shadow: 0 20px 36px #11001eaa, 0 0 28px #e0ad1757, inset 0 1px #ffe4768a;
-  filter: brightness(1.08);
+  border-color: #9275b899;
+  box-shadow: 0 12px 26px #100c1844, inset 0 1px #ffffff0c;
+  filter: brightness(1.04);
 }
 
 .hub-dashboard .hub-essential-actions .hub-action :is(strong, small, b),
@@ -562,8 +553,8 @@
 }
 
 .hub-dashboard .hub-essential-actions .hub-action-icon {
-  border-color: #d7a917cc;
-  background: linear-gradient(135deg, #7517a8, #bb8a18);
+  border-color: #70538c66;
+  background: #362545;
   color: #fbf7ff;
 }
 
