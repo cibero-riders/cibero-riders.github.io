@@ -95,6 +95,57 @@
         </details>
 
 
+        <details id="plati" class="hub-category-accordion hub-category-payments has-quick-actions">
+          <summary><span class="hub-category-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18m-5 5h2"/></svg></span><h2 class="hub-category-title" data-hub-i18n="paymentsCategory">Plăți</h2><span class="hub-quick-actions" role="group" aria-label="Plăți" data-hub-i18n-aria="paymentsCategory"><button type="button" class="hub-quick-button" data-hub-quick="urmatoarea-plata" aria-label="Următoarea plată" data-hub-i18n-aria="paymentMenu" title="Următoarea plată" data-hub-i18n-title="paymentMenu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18m-4-4 4 4 4-4M4 7h16"/></svg><span data-hub-i18n="paymentMenu">Următoarea plată</span></button><button type="button" class="hub-quick-button" data-hub-quick="calendarul-de-plata" aria-label="Calendarul de plată" data-hub-i18n-aria="calendarTitle" title="Calendarul de plată" data-hub-i18n-title="calendarTitle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg><span data-hub-i18n="quickCalendar">Calendar</span></button></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-category-content" data-exclusive-accordion>
+
+        <details id="urmatoarea-plata" class="hub-resource hub-resource-payment">
+          <summary><span class="hub-resource-number" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18m-5 5h2"/></svg></span><span><strong data-hub-i18n="paymentMenu">Următoarea plată</strong><small data-hub-i18n="nextPaymentSummary">Data plății, perioada aferentă și următorul reset.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content hub-payment-content">
+            <div class="hub-platform-tabs hub-payment-selector" role="tablist" aria-label="Selectează platforma" data-hub-i18n-aria="paymentSelector"><button class="active" type="button" role="tab" aria-selected="true" data-payment-platform="bolt">Bolt Food</button><button type="button" role="tab" aria-selected="false" data-payment-platform="glovo">Glovo</button><button type="button" role="tab" aria-selected="false" data-payment-platform="wolt">Wolt</button></div>
+            <div class="hub-pay-stack" aria-live="polite">
+              <article class="hub-pay-row hub-payment-bolt" data-payment-card="bolt">
+                <div class="hub-pay-brand"><img src="../assets/ticket-bolt-round.png" alt="" /><h3>Bolt Food</h3></div>
+                <div class="hub-pay-detail hub-pay-detail-payment"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18m-5 5h2"/></svg></span><p class="hub-pay-sentence"><span data-hub-i18n="nextPaymentLabel">Următoarea plată:</span> <strong class="hub-pay-date" data-card-payment="bolt">—</strong><span aria-hidden="true">.</span></p></div>
+                <div class="hub-pay-detail hub-pay-period"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18M8 15h8"/></svg></span><p class="hub-pay-sentence"><span data-hub-i18n="paymentPeriodLabel">Pentru veniturile încasate în perioada</span> <strong data-card-period="bolt">—</strong><span aria-hidden="true">.</span></p></div>
+                <div class="hub-pay-detail hub-pay-reset"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M6.1 8A7 7 0 0 1 18 6l2 6M18 16a7 7 0 0 1-12 2l-2-6"/></svg></span><p class="hub-pay-sentence"><span class="hub-pay-reset-label" data-hub-i18n="paymentResetLabel">RESET: Depune integral balanța până la</span> <strong data-card-reset="bolt">—</strong><span aria-hidden="true">.</span></p></div>
+              </article>
+              <article class="hub-pay-row hub-payment-glovo" data-payment-card="glovo" hidden>
+                <div class="hub-pay-brand"><img src="../assets/glovo-round.png" alt="" /><h3>Glovo</h3></div>
+                <div class="hub-pay-detail hub-pay-detail-payment"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18m-5 5h2"/></svg></span><p class="hub-pay-sentence"><span data-hub-i18n="nextPaymentLabel">Următoarea plată:</span> <strong class="hub-pay-date" data-card-payment="glovo">—</strong><span aria-hidden="true">.</span></p></div>
+                <div class="hub-pay-detail hub-pay-period"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18M8 15h8"/></svg></span><p class="hub-pay-sentence"><span data-hub-i18n="paymentPeriodLabel">Pentru veniturile încasate în perioada</span> <strong data-card-period="glovo">—</strong><span aria-hidden="true">.</span></p></div>
+                <div class="hub-pay-detail hub-pay-reset"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M6.1 8A7 7 0 0 1 18 6l2 6M18 16a7 7 0 0 1-12 2l-2-6"/></svg></span><p class="hub-pay-sentence"><span class="hub-pay-reset-label" data-hub-i18n="paymentResetLabel">RESET: Depune integral balanța până la</span> <strong data-card-reset="glovo">—</strong><span aria-hidden="true">.</span></p></div>
+              </article>
+              <article class="hub-pay-row hub-payment-wolt" data-payment-card="wolt" hidden>
+                <div class="hub-pay-brand"><img src="../assets/wolt-round.png" alt="" /><h3>Wolt</h3></div>
+                <div class="hub-pay-detail hub-pay-detail-payment"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M3 10h18m-5 5h2"/></svg></span><p class="hub-pay-sentence"><span data-hub-i18n="nextPaymentLabel">Următoarea plată:</span> <strong class="hub-pay-date" data-card-payment="wolt">—</strong><span aria-hidden="true">.</span></p></div>
+                <p class="hub-pay-delay-note" data-card-delay="wolt" data-hub-i18n="woltPaymentDelay" hidden>Posibilă decalare a plății cu câteva zile pentru procesarea rapoartelor primite târziu.</p>
+                <div class="hub-pay-detail hub-pay-period"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18M8 15h8"/></svg></span><p class="hub-pay-sentence"><span data-hub-i18n="paymentPeriodLabel">Pentru veniturile încasate în perioada</span> <strong data-card-period="wolt">—</strong><span aria-hidden="true">.</span></p></div>
+                <div class="hub-pay-detail hub-pay-reset"><span class="hub-pay-detail-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5M6.1 8A7 7 0 0 1 18 6l2 6M18 16a7 7 0 0 1-12 2l-2-6"/></svg></span><p class="hub-pay-sentence"><span class="hub-pay-reset-label" data-hub-i18n="paymentResetLabel">RESET: Depune integral balanța până la</span> <strong data-card-reset="wolt">—</strong><span aria-hidden="true">.</span></p></div>
+              </article>
+            </div>
+          </div>
+        </details>
+
+        <details id="calendarul-de-plata" class="hub-resource hub-resource-calendar">
+          <summary><span class="hub-resource-number" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18M7 14h3m4 0h3m-10 3h3"/></svg></span><span><strong data-hub-i18n="calendarTitle">Calendarul de plată</strong><small data-hub-i18n="calendarSummary">Alege posterul sau explicația video.</small></span><i aria-hidden="true">＋</i></summary>
+          <div class="hub-resource-content">
+            <div class="hub-view-tabs" role="tablist" aria-label="Alege formatul calendarului" data-hub-i18n-aria="calendarFormatSelector"><button class="active" type="button" role="tab" aria-selected="true" data-calendar-tab="poster" data-hub-i18n="posterOption">Poster</button><button type="button" role="tab" aria-selected="false" data-calendar-tab="video">Video</button></div>
+            <div class="hub-poster-grid" data-calendar-panel="poster">
+              <a href="../hub/assets/calendar-bolt-ro.png" data-poster-link="bolt" target="_blank" rel="noopener"><img src="../hub/assets/calendar-bolt-ro.png" data-poster-image="bolt" alt="Calendarul de plată Bolt Food" data-poster-alt-ro="Calendarul de plată Bolt Food" data-poster-alt-en="Bolt Food payment calendar" /><span>Bolt Food <b aria-hidden="true">↗</b></span></a>
+              <a href="../hub/assets/calendar-glovo-ro.png" data-poster-link="glovo" target="_blank" rel="noopener"><img src="../hub/assets/calendar-glovo-ro.png" data-poster-image="glovo" alt="Calendarul de plată Glovo" data-poster-alt-ro="Calendarul de plată Glovo" data-poster-alt-en="Glovo payment calendar" /><span>Glovo <b aria-hidden="true">↗</b></span></a>
+              <a href="../hub/assets/calendar-wolt-ro.png" data-poster-link="wolt" target="_blank" rel="noopener"><img src="../hub/assets/calendar-wolt-ro.png" data-poster-image="wolt" alt="Calendarul de plată Wolt" data-poster-alt-ro="Calendarul de plată Wolt" data-poster-alt-en="Wolt payment calendar" /><span>Wolt <b aria-hidden="true">↗</b></span></a>
+            </div>
+            <div class="hub-calendar-video" data-calendar-panel="video" hidden>
+              <div class="hub-video-embed"><iframe src="https://www.youtube-nocookie.com/embed/iBThwch_Tn0?rel=0" title="Calendarul de plată explicat pentru Bolt Food, Glovo și Wolt" data-hub-i18n-title="calendarVideoTitle" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>
+              <a class="hub-calendar-video-external" href="https://youtu.be/iBThwch_Tn0" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="openCalendarYoutube">Deschide video-ul pe YouTube</span><b aria-hidden="true">↗</b></a>
+            </div>
+          </div>
+        </details>
+
+          </div>
+        </details>
+
         <details id="ghiduri-si-informatii" class="hub-category-accordion hub-category-guides has-quick-actions">
           <summary><span class="hub-category-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5c-3-2-6-2-9-1v15c3-1 6-1 9 1 3-2 6-2 9-1V4c-3-1-6-1-9 1Zm0 0v15"/></svg></span><h2 class="hub-category-title" data-hub-i18n="guidesCategory">Ghiduri și informații esențiale</h2><span class="hub-quick-actions" role="group" aria-label="Ghiduri și informații esențiale" data-hub-i18n-aria="guidesCategory"><button type="button" class="hub-quick-button" data-hub-quick="ghiduri-video" aria-label="Ghiduri video" data-hub-i18n-aria="videosTitle" title="Ghiduri video" data-hub-i18n-title="videosTitle"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m10 9 5 3-5 3V9Z"/></svg><span data-hub-i18n="quickVideos">Video</span></button><button type="button" class="hub-quick-button" data-hub-quick="reguli-cash-si-reset" aria-label="Cash, balanță, depunere și reset" data-hub-i18n-aria="cashTitle" title="Cash, balanță, depunere și reset" data-hub-i18n-title="cashTitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v12H4V7Zm3 0V5h10v2"/><circle cx="12" cy="13" r="2"/></svg><span>Cash</span></button><button type="button" class="hub-quick-button" data-hub-quick="decontare" aria-label="5% Decontare" data-hub-i18n-aria="reimbursementTitle" title="5% Decontare" data-hub-i18n-title="reimbursementTitle"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 16 8-8M9 8h.01M15 16h.01"/></svg><span data-hub-i18n="quickReimbursement">Decontare</span></button><button type="button" class="hub-quick-button" data-hub-quick="faq-platforme" aria-label="FAQ oficial al platformelor" data-hub-i18n-aria="faqTitle" title="FAQ oficial al platformelor" data-hub-i18n-title="faqTitle"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18 3 21v-5a8 8 0 1 1 3 3.2L5 18Z"/><path d="M9.5 9a2.5 2.5 0 1 1 3 2.4c-.9.3-1.5.8-1.5 1.6m0 3h.01"/></svg><span>FAQ</span></button></span><i aria-hidden="true">＋</i></summary>
           <div class="hub-category-content" data-exclusive-accordion>
@@ -147,29 +198,28 @@
           <summary><span class="hub-resource-number" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 16 8-8M9 8h.01M15 16h.01"/></svg></span><span><strong data-hub-i18n="reimbursementTitle">5% Decontare</strong><small data-hub-i18n="subfleetReimbursementSummary">Informații generale; detaliile le primești de la administratorul sub-flotei.</small></span><i aria-hidden="true">＋</i></summary>
           <div class="hub-resource-content hub-reimbursement">
             <div class="hub-reimbursement-intro">
-              <p data-hub-i18n="subfleetReimbursementIntro">💰 Dacă sub-flota ta oferă decontare de 5%, administratorul îți confirmă cheltuielile eligibile și condițiile aplicabile.</p>
-              <p data-hub-i18n="subfleetReimbursementCui">🧾 Întreabă administratorul flotei tale care este CUI-ul pentru decontare. CUI-ul CibeRO din footer identifică operatorul site-ului și nu se folosește automat pentru sub-flota ta.</p>
-              <p data-hub-i18n="subfleetReimbursementContact">📲 Cere administratorului, prin canalul vostru de comunicare, procedura de predare a bonurilor și data plății.</p>
+              <p data-hub-i18n="subfleetReimbursementIntro">💰 Flota oferă 5% decontare la serviciile și achizițiile făcute în domeniul livrărilor.</p>
+              <p data-hub-i18n="subfleetReimbursementCui">🧾 Întreabă administratorul flotei tale care este CUI-ul pentru decontare.</p>
             </div>
             <div class="hub-reimbursement-list" data-exclusive-accordion>
               <details class="hub-reimbursement-item" data-reimbursement-slug="cum-functioneaza">
                 <summary><span aria-hidden="true">?</span><strong data-hub-i18n="reimbursementHowTitle">Cum funcționează decontarea</strong><i aria-hidden="true">＋</i></summary>
                 <div>
-                  <p data-hub-i18n="subfleetReimbursementHow1">ℹ️ Înainte de achiziție, verifică la administrator dacă produsul sau serviciul este eligibil și ce date trebuie să apară pe bon sau factură.</p>
+                  <p data-hub-i18n="subfleetReimbursementHow1">ℹ️ Oricând faci achiziții de produse sau servicii corespunzătoare domeniului de livrări, cere comerciantului să treacă CUI-ul firmei pe bon/factură.</p>
                   <p data-hub-i18n="subfleetReimbursementHow2">🧾 Folosește numai CUI-ul indicat de administratorul sub-flotei tale și păstrează documentele justificative.</p>
-                  <p data-hub-i18n="subfleetReimbursementHow3">📅 Termenul, metoda de predare și momentul plății sunt stabilite de sub-flota ta. Nu folosi adresele, formularele sau termenele flotei CibeRO fără confirmare.</p>
+                  <p data-hub-i18n="subfleetReimbursementHow3">📅 Termenul, metoda de predare și momentul plății sunt stabilite de sub-flota ta.</p>
                 </div>
               </details>
               <details class="hub-reimbursement-item" data-reimbursement-slug="ce-deconteaza">
-                <summary><span aria-hidden="true">✓</span><strong data-hub-i18n="subfleetReimbursementCoveredTitle">Exemple de cheltuieli posibil eligibile</strong><i aria-hidden="true">＋</i></summary>
+                <summary><span aria-hidden="true">✓</span><strong data-hub-i18n="reimbursementCoveredTitle">Ce decontează flota</strong><i aria-hidden="true">＋</i></summary>
                 <div>
-                  <p data-hub-i18n="subfleetReimbursementCovered1">👉 Cheltuieli legate de vehiculul folosit la livrări: întreținere, reparații, piese, combustibil sau închiriere, dacă sub-flota le acceptă.</p>
-                  <p data-hub-i18n="subfleetReimbursementCovered2">👉 Echipament de livrare și protecție folosit în activitate, dacă este aprobat de administrator.</p>
+                  <p data-hub-i18n-html="reimbursementCovered1">👉 tot ce ține de vehiculul folosit - reparații, piese de schimb, combustibil, rată, închiriere, accesorii <em>utile</em>, etc.</p>
+                  <p data-hub-i18n="reimbursementCovered2">👉 tot ce ține de echipament oficial (Bolt/Glovo/Wolt) folosit în domeniu - geantă, geacă, accesorii, echipamente de protecție, etc.</p>
                 </div>
               </details>
               <details class="hub-reimbursement-item" data-reimbursement-slug="ce-nu-deconteaza">
-                <summary><span aria-hidden="true">×</span><strong data-hub-i18n="subfleetReimbursementNotCoveredTitle">Cheltuieli care, de regulă, nu sunt eligibile</strong><i aria-hidden="true">＋</i></summary>
-                <div><p data-hub-i18n="subfleetReimbursementNotCovered1">👉 Achizițiile pentru uz personal, fără legătură directă cu livrările — de exemplu mese, haine obișnuite sau amenzi. Confirmă lista exactă la administrator.</p></div>
+                <summary><span aria-hidden="true">×</span><strong data-hub-i18n="reimbursementNotCoveredTitle">Ce NU decontează flota</strong><i aria-hidden="true">＋</i></summary>
+                <div><p data-hub-i18n="reimbursementNotCovered1">👉 Orice produse/servicii achiziționate cu scop de folosire personală și nu direct asociate cu domeniul livrărilor - haine obișnuite, mese, cafea, snacks, amenzi/taxe personale, telefon, etc.</p></div>
               </details>
             </div>
           </div>
@@ -200,6 +250,6 @@
   <script src="../site-theme.js?v=3"></script>
   <script src="../site-language.js?v=14"></script>
   <script src="../site-accordion.js?v=1"></script>
-  <script src="../hub/hub.js?v=25"></script>
+  <script src="../hub/hub.js?v=26"></script>
 </body>
 </html>

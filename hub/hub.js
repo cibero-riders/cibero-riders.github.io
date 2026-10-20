@@ -101,17 +101,11 @@
     hubTitle:'CIBERO Sub-Fleets Hub',
     hubSubtitle:'Information and resources for partner couriers.',
     subfleetReimbursementSummary:'General guidance; ask your sub-fleet administrator for the details.',
-    subfleetReimbursementIntro:'💰 If your sub-fleet offers 5% reimbursement, its administrator will confirm eligible expenses and the applicable terms.',
-    subfleetReimbursementCui:'🧾 Ask your fleet administrator which company tax ID to use for reimbursement. The CibeRO tax ID in the footer identifies the site operator and does not automatically apply to your sub-fleet.',
-    subfleetReimbursementContact:'📲 Ask your administrator, through your usual communication channel, how to submit receipts and when reimbursement is paid.',
-    subfleetReimbursementHow1:'ℹ️ Before making a purchase, check with your administrator whether it qualifies and which details must appear on the receipt or invoice.',
+    subfleetReimbursementIntro:'💰 The fleet offers 5% reimbursement for services and purchases made for delivery work.',
+    subfleetReimbursementCui:'🧾 Ask your fleet administrator which company tax ID to use for reimbursement.',
+    subfleetReimbursementHow1:'ℹ️ Whenever you purchase products or services related to delivery work, ask the merchant to add the company tax ID to the receipt/invoice.',
     subfleetReimbursementHow2:'🧾 Use only the company tax ID provided by your sub-fleet administrator and keep the supporting documents.',
-    subfleetReimbursementHow3:'📅 Your sub-fleet sets the deadline, submission method and payment date. Do not use CibeRO fleet addresses, forms or deadlines without confirmation.',
-    subfleetReimbursementCoveredTitle:'Examples of potentially eligible expenses',
-    subfleetReimbursementCovered1:'👉 Expenses for a vehicle used for deliveries — maintenance, repairs, parts, fuel or rental — if accepted by your sub-fleet.',
-    subfleetReimbursementCovered2:'👉 Delivery and protective equipment used for work, if approved by your administrator.',
-    subfleetReimbursementNotCoveredTitle:'Expenses generally not eligible',
-    subfleetReimbursementNotCovered1:'👉 Personal purchases unrelated to deliveries, such as meals, ordinary clothes or fines. Confirm the exact list with your administrator.'
+    subfleetReimbursementHow3:'📅 Your sub-fleet sets the deadline, submission method and payment date.'
   });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
@@ -160,7 +154,7 @@
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
   function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period,note:resetDate+(language==='en'?', 23:59':', ora 23:59'),delayed:Boolean(schedule.delayed)};}
   function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
-  function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
+  function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`${isSubfleet?'../hub/':''}assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
   function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?(language==='en'?'CIBERO Sub-Fleets Hub':'Hub-ul Sub-Flotelor CibeRO'):(language==='en'?'CIBERO Fleet Hub':'Hub-ul Flotei CibeRO');if(description)description.content=language==='en'?(isSubfleet?'CIBERO Sub-Fleets Hub — general information and resources for partner couriers.':'CIBERO Fleet Hub — information and resources for CibeRO couriers.'):originalDescription;updatePosters();renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');

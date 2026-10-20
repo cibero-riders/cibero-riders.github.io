@@ -12,22 +12,29 @@ assert.match(fleet, /data-hub-i18n="hubSubtitle"/);
 assert.match(subfleet, /Hub-ul Sub-Flotelor CibeRO/);
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=25/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=26/);
 
-for (const id of ['aplicatii-mobile', 'ghiduri-video', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
+for (const id of ['aplicatii-mobile', 'plati', 'urmatoarea-plata', 'calendarul-de-plata', 'ghiduri-video', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
   assert.match(subfleet, new RegExp(`id="${id}"`));
 }
-for (const id of ['plati', 'urmatoarea-plata', 'calendarul-de-plata', 'comunicare-whatsapp']) {
+for (const id of ['comunicare-whatsapp']) {
   assert.doesNotMatch(subfleet, new RegExp(`id="${id}"`));
 }
-for (const text of ['ControlFleet', 'Strada Farului', 'Strada Tudor Vladimirescu', 'eatsdelivery.bolt.host', 'data-card-payment', 'data-poster-link', 'hub-action-grid hub-essential-actions']) {
+for (const text of ['ControlFleet', 'Strada Farului', 'Strada Tudor Vladimirescu', 'eatsdelivery.bolt.host', 'hub-action-grid hub-essential-actions', 'CUI-ul CibeRO din footer', 'flotei CibeRO fără confirmare']) {
   assert.doesNotMatch(subfleet, new RegExp(text.replaceAll('.', '\\.')));
 }
 
 assert.equal((subfleet.match(/RO53182698/g) || []).length, 1, 'The site operator CUI belongs in the legal footer only');
 assert.match(subfleet, /Întreabă administratorul flotei tale care este CUI-ul pentru decontare/);
+assert.match(subfleet, /Oricând faci achiziții de produse sau servicii corespunzătoare domeniului de livrări/);
+assert.match(subfleet, /Termenul, metoda de predare și momentul plății sunt stabilite de sub-flota ta\./);
+assert.match(subfleet, /Ce decontează flota/);
+assert.match(subfleet, /Ce NU decontează flota/);
 assert.match(subfleet, /data-reimbursement-slug="ce-deconteaza"/);
 assert.match(script, /CIBERO Sub-Fleets Hub/);
 assert.match(script, /if\(!document\.querySelector\('\[data-card-payment\]'\)\)return/);
 
-console.log('Sub-fleet Hub: general resources, fleet-specific exclusions, shared translations and deep links passed.');
+const paymentBlock = html => html.split('        <details id="plati"')[1].split('        <details id="ghiduri-si-informatii"')[0];
+assert.equal(paymentBlock(subfleet).replaceAll('../hub/assets/calendar-', 'assets/calendar-'), paymentBlock(fleet));
+
+console.log('Sub-fleet Hub: shared payments, general reimbursement, excluded fleet-only resources and deep links passed.');
