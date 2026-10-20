@@ -263,3 +263,222 @@
     transform: none;
   }
 }
+
+/* Standalone hub categories share the dynamic treatment of the payment panel. */
+.hub-category-accordion {
+  --category-accent: var(--hb-gold);
+  --category-soft: color-mix(in srgb, var(--category-accent), transparent 84%);
+  position: relative;
+  isolation: isolate;
+  border-color: color-mix(in srgb, var(--category-accent), transparent 48%);
+  background:
+    radial-gradient(circle at 8% 120%, var(--category-soft), transparent 48%),
+    linear-gradient(140deg, color-mix(in srgb, var(--hb-panel-2), var(--category-accent) 7%), var(--hb-panel));
+}
+
+.hub-category-accordion::after {
+  position: absolute;
+  z-index: 0;
+  top: -54%;
+  bottom: -54%;
+  left: -42%;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, #fff, transparent 38%), transparent);
+  content: "";
+  filter: blur(3px);
+  opacity: .4;
+  pointer-events: none;
+  transform: skewX(-18deg);
+  animation: hub-category-shine 8s ease-in-out infinite;
+}
+
+.hub-category-accordion > summary,
+.hub-category-accordion > .hub-category-content {
+  position: relative;
+  z-index: 1;
+}
+
+.hub-category-accordion > summary {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--category-accent), transparent 93%), transparent 55%);
+}
+
+.hub-category-accordion > summary:hover {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--category-accent), transparent 82%), transparent 72%);
+}
+
+.hub-category-accordion .hub-category-title {
+  color: color-mix(in srgb, var(--hb-text), var(--category-accent) 14%);
+  font-family: "DM Sans", sans-serif;
+  font-weight: 900;
+  text-shadow: 0 1px 0 #0002, 0 0 20px color-mix(in srgb, var(--category-accent), transparent 84%);
+}
+
+.hub-category-accordion > summary > i,
+.hub-category-symbol {
+  border-color: color-mix(in srgb, var(--category-accent), transparent 40%);
+  background: color-mix(in srgb, var(--category-accent), transparent 84%);
+  color: var(--category-accent);
+}
+
+.hub-category-apps { --category-accent: #79baff; }
+.hub-category-payments { --category-accent: #74dfac; }
+.hub-category-cash { --category-accent: #76c8ff; }
+.hub-category-reimbursement { --category-accent: #d995ff; }
+.hub-category-faq { --category-accent: #7ee0d4; }
+.hub-category-gear { --category-accent: #f0b863; }
+
+.hub-platform-tabs button {
+  border-color: color-mix(in srgb, var(--hb-gold), transparent 45%);
+  background: color-mix(in srgb, var(--hb-panel), var(--hb-gold) 4%);
+  box-shadow: inset 0 1px #ffffff0c;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+}
+
+.hub-platform-tabs button:hover {
+  transform: translateY(-2px);
+  border-color: var(--hb-gold);
+  box-shadow: 0 9px 19px #0002, 0 0 18px color-mix(in srgb, var(--hb-gold), transparent 82%);
+}
+
+.hub-platform-tabs button.active {
+  box-shadow: inset 0 1px #fff8, 0 8px 18px color-mix(in srgb, var(--hb-gold), transparent 72%);
+}
+
+.hub-payment-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: clamp(18px, 2.5vw, 28px);
+  border: 1px solid color-mix(in srgb, #74dfac, transparent 42%);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at 92% 8%, #74dfac25, transparent 32%),
+    linear-gradient(145deg, color-mix(in srgb, var(--hb-panel-2), #74dfac 9%), var(--hb-panel));
+  box-shadow: 0 16px 32px #0002, inset 0 1px #ffffff14;
+}
+
+.hub-payment-panel::after {
+  position: absolute;
+  z-index: -1;
+  inset: -90% auto -90% -38%;
+  width: 22%;
+  background: linear-gradient(90deg, transparent, #ffffff66, transparent);
+  content: "";
+  filter: blur(3px);
+  transform: skewX(-18deg);
+  animation: hub-category-shine 7s ease-in-out infinite;
+}
+
+.hub-payment-panel-head {
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.hub-payment-panel-head strong,
+.hub-payment-panel-head small {
+  display: block;
+}
+
+.hub-payment-panel-head strong {
+  color: var(--hb-text);
+  font-size: clamp(21px, 2.5vw, 28px);
+  font-weight: 900;
+  line-height: 1.12;
+}
+
+.hub-payment-panel-head small {
+  margin-top: 5px;
+  color: var(--hb-muted);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.hub-calendar-button,
+.hub-video-category {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 15px;
+  min-height: 76px;
+  border: 1px solid #ff857b;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ff5547, #bd1621 72%);
+  box-shadow: inset 0 1px #fff7, 0 13px 24px #8f001b38;
+  color: #fff !important;
+  font-weight: 900;
+  text-decoration: none;
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+
+.hub-calendar-button {
+  margin-top: 18px;
+  padding: 12px 18px 12px 12px;
+}
+
+.hub-video-category {
+  min-height: 112px;
+  padding: 22px 24px;
+  font-size: clamp(19px, 2.3vw, 26px);
+  letter-spacing: .04em;
+  text-align: center;
+}
+
+.hub-calendar-button:hover,
+.hub-video-category:hover {
+  transform: translateY(-4px) scale(1.008);
+  box-shadow: inset 0 1px #fff9, 0 20px 34px #8f001b55, 0 0 30px #ff554766;
+  filter: brightness(1.06);
+}
+
+.hub-youtube-mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid #ffffff73;
+  border-radius: 15px;
+  background: #ffffff21;
+}
+
+.hub-youtube-mark svg {
+  width: 31px;
+  height: 31px;
+  fill: currentColor;
+}
+
+.hub-calendar-button b,
+.hub-video-category b {
+  font-size: 22px;
+}
+
+@keyframes hub-category-shine {
+  0%, 52% { left: -42%; opacity: 0; }
+  58% { opacity: .46; }
+  77% { left: 118%; opacity: .1; }
+  100% { left: 118%; opacity: 0; }
+}
+
+@media (max-width: 760px) {
+  .hub-payment-panel { padding: 17px; border-radius: 18px; }
+  .hub-payment-panel-head { grid-template-columns: 46px minmax(0, 1fr); gap: 12px; }
+  .hub-payment-panel-head .hub-resource-number { width: 46px; height: 46px; }
+  .hub-calendar-button,
+  .hub-video-category { grid-template-columns: 46px minmax(0, 1fr) 24px; gap: 12px; }
+  .hub-video-category { min-height: 94px; padding: 18px; font-size: clamp(17px, 5.1vw, 22px); }
+  .hub-youtube-mark { width: 46px; height: 46px; border-radius: 13px; }
+  .hub-youtube-mark svg { width: 27px; height: 27px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-category-accordion::after,
+  .hub-payment-panel::after { animation: none; }
+  .hub-platform-tabs button,
+  .hub-calendar-button,
+  .hub-video-category { transition: none; }
+  .hub-platform-tabs button:hover,
+  .hub-calendar-button:hover,
+  .hub-video-category:hover { transform: none; }
+}

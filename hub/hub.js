@@ -12,8 +12,8 @@
     hubKicker:'CIBERO · COURIER TOOLS',
     paymentDate:'Payment date',
     paymentPeriod:'Payment period',
-    paymentsCategory:'Payments',
-    appsCategory:'Mobile apps for couriers',
+    paymentsCategory:'Payment periods and next payment day',
+    appsCategory:'Official mobile apps',
     appsSelector:'Select the courier platform',
     downloadBoltIos:'Download Bolt Food from the App Store',
     downloadBoltAndroid:'Download Bolt Food from Google Play',
@@ -22,7 +22,8 @@
     downloadWoltIos:'Download Wolt Partner from the App Store',
     downloadWoltAndroid:'Download Wolt Partner from Google Play',
     downloadControlFleetAndroid:'Download ControlFleet from Google Play',
-    guidesCategory:'Guides and essential information',
+    guidesCategory:'Cash, balance, deposit and reset',
+    videosCategory:'Video guides and tutorials',
     toolsCategory:'Tools, resources and support',
     whatsappCategory:'Announcements and Communication - WhatsApp',
     quickCalendar:'Calendar',quickVideos:'Video',quickReimbursement:'Reimbursement',
@@ -32,7 +33,7 @@
     paymentResetLabel:'RESET: Deposit the full balance by',
     calendarFormatSelector:'Choose the calendar format',
     posterOption:'Poster',
-    openCalendarYoutube:'Open the video on YouTube',
+    openCalendarYoutube:'View payment calendar',
     calendarVideoTitle:'Payment calendar explained for Bolt Food, Glovo and Wolt',
     essentialTitle:'Tools and information for couriers',
     essentialIntro:'Calendars, guides and answers for your daily work. Choose the category you need.',
@@ -161,8 +162,7 @@
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
   function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;return{payment:(language==='en'?'Friday, ':'Vineri, ')+formatDate(schedule.payment)+(language==='en'?', by 17:00':', până în ora 17:00'),period,note:resetDate+(language==='en'?', 23:59':', ora 23:59'),delayed:Boolean(schedule.delayed)};}
   function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
-  function updatePosters(){document.querySelectorAll('[data-poster-link]').forEach(link=>{const platform=link.dataset.posterLink;const source=`${isSubfleet?'../hub/':''}assets/calendar-${platform}-${language}.png`;link.href=source;const image=link.querySelector('[data-poster-image]');image.src=source;image.alt=language==='en'?image.dataset.posterAltEn:image.dataset.posterAltRo;});}
-  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?'Courier Hub':(language==='en'?'CIBERO Fleet Hub':'Hub-ul Flotei CibeRO');if(description)description.content=language==='en'?(isSubfleet?'Courier Hub — general information and resources for partner couriers.':'CIBERO Fleet Hub — information and resources for CibeRO couriers.'):originalDescription;updatePosters();renderPayments();}
+  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?'Courier Hub':(language==='en'?'CIBERO Fleet Hub':'Hub-ul Flotei CibeRO');if(description)description.content=language==='en'?(isSubfleet?'Courier Hub — general information and resources for partner couriers.':'CIBERO Fleet Hub — information and resources for CibeRO couriers.'):originalDescription;renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
   document.querySelectorAll('.hub-pay-row').forEach(card=>{
@@ -182,8 +182,7 @@
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.paymentPlatform;document.querySelectorAll('[data-payment-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-payment-card]').forEach(card=>card.hidden=card.dataset.paymentCard!==platform);}));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
-  document.querySelectorAll('[data-calendar-tab]').forEach(button=>button.addEventListener('click',()=>{const view=button.dataset.calendarTab;document.querySelectorAll('[data-calendar-tab]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-calendar-panel]').forEach(panel=>panel.hidden=panel.dataset.calendarPanel!==view);}));
-  const hubSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','urmatoarea-plata','calendarul-de-plata','ghiduri-si-informatii','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
+  const hubSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
   const nonDisclosureSections=new Set(['informatii-esentiale','instrumente-si-suport']);
   const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
   const reimbursementSlugs=['cum-functioneaza','orase','cand-primesc-banii','ce-deconteaza','ce-nu-deconteaza'];
@@ -220,14 +219,6 @@
     if(category)category.open=true;
     if(section==='urmatoarea-plata'&&parts[1])selectPlatform('data-payment-platform',parts[1]);
     if(section==='reguli-cash-si-reset'&&parts[1])selectPlatform('data-cash-platform',parts[1]);
-    if(section==='calendarul-de-plata'){
-      const view=parts[1]==='video'?'video':'poster';
-      document.querySelector(`[data-calendar-tab="${view}"]`).click();
-      if(view==='poster'&&parts[2]){
-        const poster=parts[2]==='boltfood'?'bolt':parts[2];
-        target=document.querySelector(`[data-poster-link="${poster}"]`)||target;
-      }
-    }
     if(section==='decontare'&&parts[1]){
       const item=reimbursementItems.find((candidate,index)=>(candidate.dataset.reimbursementSlug||reimbursementSlugs[index])===parts[1]);
       if(item){
@@ -257,7 +248,6 @@
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`aplicatii-mobile/${platformSlugs[button.dataset.appPlatform]}`)));
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`urmatoarea-plata/${platformSlugs[button.dataset.paymentPlatform]}`)));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`reguli-cash-si-reset/${platformSlugs[button.dataset.cashPlatform]}`)));
-  document.querySelectorAll('[data-calendar-tab]').forEach(button=>button.addEventListener('click',()=>setRoute(`calendarul-de-plata/${button.dataset.calendarTab}`)));
   window.addEventListener('hashchange',openDeepLink);
   window.addEventListener('popstate',openDeepLink);
   if(location.hash){openDeepLink();window.addEventListener('load',openDeepLink,{once:true});}

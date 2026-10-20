@@ -17,17 +17,19 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=6/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=29/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=5/);
-assert.match(fleet, /hub-categories\.css\?v=5/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=32/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=6/);
+assert.match(fleet, /hub-categories\.css\?v=6/);
 for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /hub-quick-actions|hub-quick-button|data-hub-quick|has-quick-actions/);
-  for (const id of ['aplicatii-mobile', 'plati', 'ghiduri-si-informatii', 'echipament-oficial']) {
+  for (const id of ['aplicatii-mobile', 'plati', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
     assert.match(html, new RegExp(`<details id="${id}" class="hub-category-accordion`));
   }
   assert.match(html, /data-app-platform="controlfleet"/);
-  assert.match(html, /id="urmatoarea-plata"/);
-  assert.match(html, /id="ghiduri-video"/);
+  assert.match(html, /<section id="urmatoarea-plata" class="hub-payment-panel">/);
+  assert.match(html, /class="hub-calendar-button" href="https:\/\/youtu\.be\/iBThwch_Tn0"/);
+  assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
+  assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
 assert.match(categoryStyles, /text-transform: uppercase/);
 assert.doesNotMatch(script, /data-hub-quick/);
@@ -39,9 +41,10 @@ assert.match(subfleet, /\.\.\/site-theme\.js\?v=4/);
 assert.doesNotMatch(subfleet, /site-navigation\.css|site-footer\.css|main-page\.js/);
 assert.match(subfleet, /<footer class="subfleet-footer">© Powered by Cibero - 2026 \| All rights reserved<\/footer>/);
 
-for (const id of ['aplicatii-mobile', 'plati', 'urmatoarea-plata', 'calendarul-de-plata', 'ghiduri-video', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
+for (const id of ['aplicatii-mobile', 'plati', 'urmatoarea-plata', 'ghiduri-video', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
   assert.match(subfleet, new RegExp(`id="${id}"`));
 }
+assert.doesNotMatch(subfleet, /id="calendarul-de-plata"|id="ghiduri-si-informatii"/);
 for (const id of ['comunicare-whatsapp']) {
   assert.doesNotMatch(subfleet, new RegExp(`id="${id}"`));
 }
@@ -70,7 +73,13 @@ assert.match(subfleet, /data-reimbursement-slug="ce-deconteaza"/);
 assert.match(script, /hubTitle:'Courier Hub'/);
 assert.match(script, /if\(!document\.querySelector\('\[data-card-payment\]'\)\)return/);
 
-const paymentBlock = html => html.split('        <details id="plati"')[1].split('        <details id="ghiduri-si-informatii"')[0];
-assert.equal(paymentBlock(subfleet).replaceAll('../hub/assets/calendar-', 'assets/calendar-'), paymentBlock(fleet));
+for (const html of [fleet, subfleet]) {
+  assert.match(html, /Perioadele de plăți și ziua următoarei plăți/);
+  assert.match(html, /Aplicațiile mobile oficiale/);
+  assert.match(html, /Ghiduri Video și Tutoriale/);
+}
+assert.match(categoryStyles, /hub-category-shine/);
+assert.match(categoryStyles, /hub-calendar-button/);
+assert.match(categoryStyles, /hub-video-category/);
 
 console.log('Sub-fleet Hub: standalone header/footer, shared payments, general reimbursement, ControlFleet and support actions passed.');
