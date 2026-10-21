@@ -419,6 +419,7 @@
 }
 
 .hub-video-category {
+  grid-column: 1 / -1;
   min-height: 112px;
   padding: 22px 24px;
   font-size: clamp(19px, 2.3vw, 26px);
