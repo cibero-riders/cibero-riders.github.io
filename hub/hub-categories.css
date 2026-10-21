@@ -691,11 +691,11 @@ html[data-theme="light"] .hub-category-symbol {
   .hub-video-category {
     grid-template-columns: 42px minmax(0, 1fr) 34px;
     gap: 10px;
-    min-height: 110px;
+    min-height: 118px;
     padding: 16px;
   }
   .hub-category-whatsapp:not([open]) > summary {
-    min-height: 108px;
+    min-height: 116px;
   }
   .hub-video-category .hub-youtube-mark {
     width: 42px;

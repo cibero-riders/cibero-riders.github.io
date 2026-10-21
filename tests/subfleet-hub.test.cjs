@@ -27,8 +27,8 @@ assert.match(fleet, /hub\.js\?v=35/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=15/);
-assert.match(fleet, /hub-categories\.css\?v=15/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=16/);
+assert.match(fleet, /hub-categories\.css\?v=16/);
 for (const html of [fleet, subfleet]) {
   const structuralTags = /<\/?(?:div|section|details)\b[^>]*>/g;
   const openElements = [];
@@ -73,7 +73,8 @@ assert.match(categoryStyles, /\.hub-category-accordion \{[\s\S]*?grid-column: 1 
 assert.match(categoryStyles, /\.hub-video-category \{\s*grid-column: 1 \/ -1;/);
 assert.match(categoryStyles, /\.hub-video-category \{[\s\S]*?grid-template-columns: 52px minmax\(0, 1fr\) 38px;[\s\S]*?min-height: 106px;/);
 assert.match(categoryStyles, /\.hub-video-category \.hub-youtube-mark img \{[\s\S]*?width: 44px;[\s\S]*?height: 44px;/);
-assert.match(categoryStyles, /\.hub-category-whatsapp:not\(\[open\]\) > summary \{\s*min-height: 108px;/);
+assert.match(categoryStyles, /\.hub-category-whatsapp:not\(\[open\]\) > summary \{\s*min-height: 116px;/);
+assert.match(categoryStyles, /\.hub-video-category \{[\s\S]*?grid-template-columns: 42px minmax\(0, 1fr\) 34px;[\s\S]*?min-height: 118px;/);
 assert.match(categoryStyles, /--hub-category-fill: linear-gradient\(132deg, #230a38/);
 assert.match(categoryStyles, /html\[data-theme="light"\] body\.hub-body/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body/);
