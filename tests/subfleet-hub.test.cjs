@@ -27,6 +27,23 @@ assert.match(subfleet, /subfleet-support\.js\?v=1/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=12/);
 assert.match(fleet, /hub-categories\.css\?v=12/);
 for (const html of [fleet, subfleet]) {
+  const structuralTags = /<\/?(?:div|section|details)\b[^>]*>/g;
+  const openElements = [];
+  let tag;
+  while ((tag = structuralTags.exec(html))) {
+    const closing = tag[0].startsWith('</');
+    const name = tag[0].match(/^<\/?(\w+)/)[1];
+    if (closing) {
+      assert.equal(openElements.pop()?.name, name, `Balanced ${name} markup in the hub`);
+      continue;
+    }
+    const id = tag[0].match(/\bid="([^"]+)"/)?.[1];
+    if (['aplicatii-mobile', 'plati', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial'].includes(id)) {
+      assert.match(openElements.at(-1)?.classes || '', /\bhub-essential-list\b/, `${id} stays in the evenly spaced hub menu`);
+    }
+    openElements.push({ name, classes: tag[0].match(/\bclass="([^"]+)"/)?.[1] || '' });
+  }
+  assert.equal(openElements.length, 0, 'The hub keeps all sections inside their intended containers');
   assert.doesNotMatch(html, /hub-quick-actions|hub-quick-button|data-hub-quick|has-quick-actions/);
   for (const id of ['aplicatii-mobile', 'plati', 'reguli-cash-si-reset', 'decontare', 'faq-platforme', 'echipament-oficial']) {
     assert.match(html, new RegExp(`<details id="${id}" class="hub-category-accordion`));
@@ -49,6 +66,7 @@ for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
 assert.match(categoryStyles, /text-transform: uppercase/);
+assert.match(categoryStyles, /\.hub-category-accordion \{[\s\S]*?grid-column: 1 \/ -1/);
 assert.match(categoryStyles, /--hub-category-fill: linear-gradient\(132deg, #230a38/);
 assert.match(categoryStyles, /html\[data-theme="light"\] body\.hub-body/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body/);
