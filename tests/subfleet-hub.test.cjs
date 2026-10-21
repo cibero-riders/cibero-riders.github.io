@@ -19,7 +19,10 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=33/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=34/);
+assert.match(fleet, /hub\.js\?v=34/);
+assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
+assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=12/);
 assert.match(fleet, /hub-categories\.css\?v=12/);
@@ -78,18 +81,23 @@ for (const text of ['Strada Farului', 'Strada Tudor Vladimirescu', 'eatsdelivery
 assert.match(subfleet, /data-app-platform="controlfleet"/);
 assert.match(subfleet, /data-app-panel="controlfleet"/);
 assert.match(subfleet, /https:\/\/play\.google\.com\/store\/apps\/details\?id=ro\.controlfleet\.employee/);
-assert.match(subfleet, /id="suport-si-solicitari"/);
-assert.ok(subfleet.indexOf('id="suport-si-solicitari"') < subfleet.indexOf('id="instrumente-si-suport"'), 'Support actions appear above the four menu categories');
-assert.match(subfleet, /class="hub-action-grid hub-essential-actions hub-subfleet-support-actions"/);
-assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri" target="_blank" rel="noopener noreferrer"[\s\S]*?Deschide un ticket[\s\S]*?<\/a>/);
-assert.match(subfleet, /<button class="hub-action" type="button" data-vehicle-toggle aria-expanded="false" aria-controls="subfleet-vehicle-options"/);
-assert.match(subfleet, /id="subfleet-vehicle-options"[\s\S]*?Alege platforma la care vrei să schimbi vehiculul/);
-const vehicleOptions = subfleet.match(/<div id="subfleet-vehicle-options"[\s\S]*?<\/div>\s*<\/div>/)[0];
-assert.match(vehicleOptions, /href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle"[\s\S]*?Bolt Food/);
-assert.equal((vehicleOptions.match(/href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri"/g) || []).length, 2);
+for (const html of [fleet, subfleet]) {
+  assert.match(html, /id="suport-si-solicitari"/);
+  assert.ok(html.indexOf('id="suport-si-solicitari"') < html.indexOf('id="aplicatii-mobile"'), 'Support actions appear above the hub menu');
+  assert.match(html, /class="hub-action-grid hub-essential-actions hub-subfleet-support-actions"/);
+  assert.match(html, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri" target="_blank" rel="noopener noreferrer"[\s\S]*?Deschide un ticket[\s\S]*?<\/a>/);
+  assert.match(html, /<button class="hub-action" type="button" data-vehicle-toggle aria-expanded="false" aria-controls="subfleet-vehicle-options"/);
+  assert.match(html, /id="subfleet-vehicle-options"[\s\S]*?Alege platforma la care vrei să schimbi vehiculul/);
+  const vehicleOptions = html.match(/<div id="subfleet-vehicle-options"[\s\S]*?<\/div>\s*<\/div>/)[0];
+  assert.match(vehicleOptions, /href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle"[\s\S]*?Bolt Food/);
+  assert.equal((vehicleOptions.match(/href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri"/g) || []).length, 2);
+  assert.match(html, /Când e următoarea plată/);
+}
 assert.match(supportScript, /aria-expanded/);
 assert.match(supportScript, /options\.hidden = expanded/);
 assert.match(script, /subfleetVehiclePrompt:'Choose the platform where you want to change your vehicle'/);
+assert.match(script, /paymentsCategory:'When is the next payment\?'/);
+assert.match(subfleetStyles, /\.hub-subfleet-support \{[\s\S]*?border-bottom: 1px solid var\(--hb-line\)/);
 assert.doesNotMatch(subfleetStyles, /subfleet-browser|subfleet-sidebar|subfleet-view/);
 
 assert.equal((subfleet.match(/RO53182698/g) || []).length, 0, 'The standalone sub-fleet interface has no site-operator footer');
@@ -103,7 +111,7 @@ assert.match(script, /hubTitle:'Courier Hub'/);
 assert.match(script, /if\(!document\.querySelector\('\[data-card-payment\]'\)\)return/);
 
 for (const html of [fleet, subfleet]) {
-  assert.match(html, /Perioadele de plăți și ziua următoarei plăți/);
+  assert.doesNotMatch(html, /Perioadele de plăți și ziua următoarei plăți/);
   assert.match(html, /Aplicațiile mobile oficiale/);
   assert.match(html, /Ghiduri Video și Tutoriale/);
 }

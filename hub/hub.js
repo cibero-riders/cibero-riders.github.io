@@ -12,7 +12,13 @@
     hubKicker:'CIBERO · COURIER TOOLS',
     paymentDate:'Payment date',
     paymentPeriod:'Payment period',
-    paymentsCategory:'Payment periods and next payment day',
+    paymentsCategory:'When is the next payment?',
+    subfleetSupportTitle:'Support and requests',
+    subfleetTicketTitle:'Open a ticket',
+    subfleetTicketBody:'Send a request to the support team.',
+    subfleetVehicleTitle:'Change vehicle',
+    subfleetVehicleBody:'Update the vehicle you use for deliveries.',
+    subfleetVehiclePrompt:'Choose the platform where you want to change your vehicle',
     appsCategory:'Official mobile apps',
     appsSelector:'Select the courier platform',
     downloadBoltIos:'Download Bolt Food from the App Store',
@@ -103,12 +109,6 @@
   if(isSubfleet)Object.assign(translations,{
     hubTitle:'Courier Hub',
     hubSubtitle:'Information and resources for partner couriers.',
-    subfleetSupportTitle:'Support and requests',
-    subfleetTicketTitle:'Open a ticket',
-    subfleetTicketBody:'Send a request to the support team.',
-    subfleetVehicleTitle:'Change vehicle',
-    subfleetVehicleBody:'Update the vehicle you use for deliveries.',
-    subfleetVehiclePrompt:'Choose the platform where you want to change your vehicle',
     subfleetReimbursementSummary:'General guidance; ask your sub-fleet administrator for the details.',
     subfleetReimbursementIntro:'💰 The fleet offers 5% reimbursement for services and purchases made for delivery work.',
     subfleetReimbursementCui:'🧾 Ask your fleet administrator which company tax ID to use for reimbursement.',
@@ -183,8 +183,8 @@
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.paymentPlatform;document.querySelectorAll('[data-payment-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-payment-card]').forEach(card=>card.hidden=card.dataset.paymentCard!==platform);}));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
-  const hubSections=new Set(['informatii-esentiale','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
-  const nonDisclosureSections=new Set(['informatii-esentiale','instrumente-si-suport']);
+  const hubSections=new Set(['informatii-esentiale','suport-si-solicitari','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
+  const nonDisclosureSections=new Set(['informatii-esentiale','suport-si-solicitari','instrumente-si-suport']);
   const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
   const reimbursementSlugs=['cum-functioneaza','orase','cand-primesc-banii','ce-deconteaza','ce-nu-deconteaza'];
   const citySlugs=['iasi','constanta','restul-tarii'];
