@@ -55,16 +55,24 @@ for (const html of [fleet, subfleet]) {
   assert.match(html, /<section id="urmatoarea-plata" class="hub-payment-panel">/);
   assert.match(html, /class="hub-calendar-button" href="https:\/\/youtu\.be\/iBThwch_Tn0"/);
   assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
-  assert.match(html, /hub-cash-bubbles\.css\?v=1/);
+  assert.match(html, /hub-cash-bubbles\.css\?v=2/);
   assert.doesNotMatch(html, /class="hub-rule-section"|data-hub-i18n="cashKnowTitle"|data-hub-i18n="cashDoTitle"/);
   for (const key of ['boltCashIntro', 'boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule4', 'boltCashRule5', 'boltCashRule6', 'glovoCashRule', 'glovoDepositRule', 'glovoResetRule1', 'glovoResetRule2', 'woltCashRule', 'woltResetRule1', 'woltAircashAccountSetup', 'woltDepositInfo', 'woltDepositRule2', 'woltResetAction', 'woltNoNextDayDeposit']) {
-    assert.match(html, new RegExp(`class="hub-cash-fact" data-hub-i18n(?:-html)?="${key}"`));
+    assert.match(html, new RegExp(`class="hub-cash-fact(?: hub-cash-fact-deadline)?" data-hub-i18n(?:-html)?="${key}"`));
   }
   const boltFacts = html.match(/<article class="hub-rule hub-rule-bolt"[\s\S]*?<\/article>/)[0];
   for (let index = 1; index < 6; index += 1) {
     assert.ok(boltFacts.indexOf(`"boltCashRule${index}"`) < boltFacts.indexOf(`"boltCashRule${index + 1}"`));
   }
   assert.match(boltFacts, /<div class="hub-cash-head">[\s\S]*?Vezi ghidul de depunere[\s\S]*?<\/div>/);
+  const glovoFacts = html.match(/<article class="hub-rule hub-rule-glovo"[\s\S]*?<\/article>/)[0];
+  const woltFacts = html.match(/<article class="hub-rule hub-rule-wolt"[\s\S]*?<\/article>/)[0];
+  assert.match(glovoFacts, /<div class="hub-cash-head">[\s\S]*?Găsește o stație SelfPay[\s\S]*?<\/div>\s*<ul/);
+  assert.match(woltFacts, /<div class="hub-cash-head">[\s\S]*?Vezi ghidul de depunere[\s\S]*?<\/div>\s*<ul/);
+  assert.doesNotMatch(woltFacts, /Deschide Aircash|Vezi locațiile Aircash/);
+  for (const [facts, key] of [[boltFacts, 'boltCashRule4'], [glovoFacts, 'glovoResetRule1'], [woltFacts, 'woltResetAction']]) {
+    assert.match(facts, new RegExp(`class="hub-cash-fact hub-cash-fact-deadline" data-hub-i18n-html="${key}"`));
+  }
   assert.match(html, /src="\.\.\/assets\/social-youtube\.svg"/);
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
@@ -79,6 +87,7 @@ assert.match(categoryStyles, /--hub-category-fill: linear-gradient\(132deg, #230
 assert.match(categoryStyles, /html\[data-theme="light"\] body\.hub-body/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body/);
 assert.match(cashStyles, /\.hub-category-cash \.hub-cash-facts/);
+assert.match(cashStyles, /\.hub-cash-fact\.hub-cash-fact-deadline:nth-child\(n\)/);
 assert.match(categoryStyles, /html\[data-theme="midday"\] body\.hub-body \{[\s\S]*?--hb-bg: #12091b/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body \{[\s\S]*?--hb-bg: #0d0e0c/);
 assert.match(fleet, /src="\.\.\/assets\/social-whatsapp\.svg"/);

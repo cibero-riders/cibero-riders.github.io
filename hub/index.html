@@ -27,7 +27,7 @@
   <link rel="stylesheet" href="hub-essential.css?v=22" />
   <link rel="stylesheet" href="hub-actions.css?v=1" />
   <link rel="stylesheet" href="hub-categories.css?v=16" />
-  <link rel="stylesheet" href="hub-cash-bubbles.css?v=1" />
+  <link rel="stylesheet" href="hub-cash-bubbles.css?v=2" />
   <link rel="stylesheet" href="hub-deeplinks.css?v=2" />
   <link rel="stylesheet" href="../subfleethub/subfleet.css?v=8" />
 </head>
@@ -171,7 +171,7 @@
                   <li class="hub-cash-fact" data-hub-i18n="boltCashRule1">Nu modifica suma din balanță din aplicație. Dacă e necesar, consultă-te mai întâi cu asistența din aplicație și cere-le lor să facă modificarea, pentru a preveni dificultăți sau probleme ulterioare în urma modificărilor balanței de către tine.</li>
                   <li class="hub-cash-fact" data-hub-i18n="boltCashRule2">La Bolt, depunerea nu e obligatorie în timpul săptămânii, din moment ce primești comenzi la care ai de achitat la preluare. Poți restabili balanța în acest ritm.</li>
                   <li class="hub-cash-fact" data-hub-i18n="boltCashRule3">Dacă depășești suma de -250 lei în balanță, nu-ți face griji. Comenzile la care ai avea de primit cash de la client nu-ți vor mai fi atribuite până ce balanța ta scade sub prag. Însă, vei restabili balanța lejer la următoarele comenzi, unde vei achita la preluare.</li>
-                  <li class="hub-cash-fact" data-hub-i18n-html="boltCashRule4">În timpul săptămânii, poți rula banii liniștit. În fiecare <strong>duminică</strong> la ora <strong>23:59</strong>, depunerea integrală e obligatorie.</li>
+                  <li class="hub-cash-fact hub-cash-fact-deadline" data-hub-i18n-html="boltCashRule4">În timpul săptămânii, poți rula banii liniștit. În fiecare <strong>duminică</strong> la ora <strong>23:59</strong>, depunerea integrală e obligatorie.</li>
                   <li class="hub-cash-fact" data-hub-i18n-html="boltCashRule5">Dacă îți faci planuri și nu vei ieși la livrări câteva zile, acoperă integral suma din balanță pentru a nu rămâne cu sumă restantă o perioadă prelungită. <strong>Platformelor nu le place asta.</strong></li>
                   <li class="hub-cash-fact" data-hub-i18n-html="boltCashRule6"><em>Tips-ul numerar primit de la clienți, rămâne în buzunarul tău.</em></li>
                 </ul>
@@ -179,18 +179,19 @@
               <article class="hub-rule hub-rule-glovo" data-rule-platform="glovo" hidden>
                 <div class="hub-cash-head">
                   <div class="hub-rule-brand"><img src="../assets/glovo-round.png" alt="" /><span>Glovo</span></div>
+                  <div class="hub-rule-actions"><a href="https://www.selfpay.ro/localizare/" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="selfpayLocations">Găsește o stație SelfPay</span><b aria-hidden="true">↗</b></a></div>
                 </div>
                 <ul class="hub-cash-facts">
                   <li class="hub-cash-fact" data-hub-i18n-html="glovoCashRule"><strong>Dacă atingi suma de 600 RON în balanța cash, comenzile cash vor fi blocate.</strong> Depune frecvent pentru a-ți menține balanța la un prag optim.</li>
                   <li class="hub-cash-fact" data-hub-i18n="glovoDepositRule">Depunerea se face la orice stație SelfPay, iar balanța se actualizează instant.</li>
-                  <li class="hub-cash-fact" data-hub-i18n-html="glovoResetRule1">Resetul principal are loc în fiecare <strong>duminică, la 23:59</strong>. Menține balanța la 0.</li>
+                  <li class="hub-cash-fact hub-cash-fact-deadline" data-hub-i18n-html="glovoResetRule1">Resetul principal are loc în fiecare <strong>duminică, la 23:59</strong>. Menține balanța la 0.</li>
                   <li class="hub-cash-fact" data-hub-i18n-html="glovoResetRule2">Glovo mai efectuează un reset și luni. Recomandăm ca balanța să fie 0 atât <strong>duminică la 23:59</strong>, cât și <strong>luni la 23:59</strong>, pentru a evita ca banii să fie opriți de două ori.</li>
                 </ul>
-                <div class="hub-rule-actions"><a href="https://www.selfpay.ro/localizare/" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="selfpayLocations">Găsește o stație SelfPay</span><b aria-hidden="true">↗</b></a></div>
               </article>
               <article class="hub-rule hub-rule-wolt" data-rule-platform="wolt" hidden>
                 <div class="hub-cash-head">
                   <div class="hub-rule-brand"><img src="../assets/wolt-round.png" alt="" /><span>Wolt</span></div>
+                  <div class="hub-rule-actions"><a href="https://www.youtube.com/shorts/p_dF5jPabLc?feature=share" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="depositGuide">Vezi ghidul de depunere</span><b aria-hidden="true">↗</b></a></div>
                 </div>
                 <ul class="hub-cash-facts">
                   <li class="hub-cash-fact" data-hub-i18n-html="woltCashRule">Dacă atingi suma restantă de <strong>500 lei</strong> în balanță sau mai mult, comenzile vor fi blocate și nu te vei mai putea pune online până ce nu acoperi suma <strong>INTEGRALĂ</strong>.</li>
@@ -198,10 +199,9 @@
                   <li class="hub-cash-fact" data-hub-i18n="woltAircashAccountSetup">Când creezi contul de Aircash, folosește același e-mail și număr de telefon asociate contului de curier Wolt.</li>
                   <li class="hub-cash-fact" data-hub-i18n="woltDepositInfo">Depunerea prin Aircash actualizează balanța instant. Poți depune cu cardul direct în Aircash sau numerar la PayPoint, Un-doi Centru de plăți, Kaseria, StartPay și Inmedio.</li>
                   <li class="hub-cash-fact" data-hub-i18n-html="woltDepositRule2">Nu folosi <strong>Abon</strong> pentru depunere. Metoda nu mai este validă.</li>
-                  <li class="hub-cash-fact" data-hub-i18n-html="woltResetAction">Depune suma integrală din balanță în zilele de reset, adică în zilele de <strong>7, 15, 22 și ultima zi a lunii</strong>, până în ora <strong>23:59</strong>.</li>
+                  <li class="hub-cash-fact hub-cash-fact-deadline" data-hub-i18n-html="woltResetAction">Depune suma integrală din balanță în zilele de reset, adică în zilele de <strong>7, 15, 22 și ultima zi a lunii</strong>, până în ora <strong>23:59</strong>.</li>
                   <li class="hub-cash-fact" data-hub-i18n="woltNoNextDayDeposit">Nu efectua depuneri în ziua următoare resetului — zilele 01, 08, 16 și 23 — deoarece suma poate fi reținută de două ori.</li>
                 </ul>
-                <div class="hub-rule-actions"><a href="https://aircash.eu/ro-RO" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="openAircash">Deschide Aircash</span><b aria-hidden="true">↗</b></a><a href="https://www.youtube.com/shorts/p_dF5jPabLc?feature=share" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="woltDepositGuide">Vezi ghidul video de depunere</span><b aria-hidden="true">↗</b></a><a href="https://aircash.eu/ro-RO/Locatii" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="aircashLocations">Vezi locațiile Aircash</span><b aria-hidden="true">↗</b></a></div>
               </article>
             </div>
         </section>
