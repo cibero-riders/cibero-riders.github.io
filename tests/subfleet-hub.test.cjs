@@ -27,8 +27,8 @@ assert.match(fleet, /hub\.js\?v=35/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=16/);
-assert.match(fleet, /hub-categories\.css\?v=16/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=17/);
+assert.match(fleet, /hub-categories\.css\?v=17/);
 for (const html of [fleet, subfleet]) {
   const structuralTags = /<\/?(?:div|section|details)\b[^>]*>/g;
   const openElements = [];
@@ -77,6 +77,8 @@ for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
 assert.match(categoryStyles, /text-transform: uppercase/);
+assert.match(categoryStyles, /\.hub-platform-tabs \{[\s\S]*?grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*?overflow: visible;/);
+assert.match(categoryStyles, /data-payment-platform="bolt"[\s\S]*?--platform-tab-accent: #2dce8a/);
 assert.match(categoryStyles, /\.hub-category-accordion \{[\s\S]*?grid-column: 1 \/ -1/);
 assert.match(categoryStyles, /\.hub-video-category \{\s*grid-column: 1 \/ -1;/);
 assert.match(categoryStyles, /\.hub-video-category \{[\s\S]*?grid-template-columns: 52px minmax\(0, 1fr\) 38px;[\s\S]*?min-height: 106px;/);

@@ -327,21 +327,66 @@
 .hub-category-faq { --category-accent: #7ee0d4; }
 .hub-category-gear { --category-accent: #f0b863; }
 
+.hub-platform-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  overflow: visible;
+  margin: -8px -8px 14px;
+  padding: 8px;
+  scrollbar-width: none;
+}
+
 .hub-platform-tabs button {
-  border-color: color-mix(in srgb, var(--hb-gold), transparent 45%);
-  background: color-mix(in srgb, var(--hb-panel), var(--hb-gold) 4%);
-  box-shadow: inset 0 1px #ffffff0c;
+  --platform-tab-accent: var(--hb-gold);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  border-color: color-mix(in srgb, var(--platform-tab-accent), transparent 45%);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--hb-panel-2), var(--platform-tab-accent) 7%), var(--hb-panel));
+  box-shadow: inset 0 1px #ffffff12, 0 5px 12px #0001;
+  color: var(--hb-text);
   transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
 }
 
+.hub-platform-tabs button::before {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--platform-tab-accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--platform-tab-accent), transparent 84%);
+  content: "";
+}
+
+.hub-platform-tabs button:is([data-payment-platform="bolt"], [data-cash-platform="bolt"]) { --platform-tab-accent: #2dce8a; }
+.hub-platform-tabs button:is([data-payment-platform="glovo"], [data-cash-platform="glovo"]) { --platform-tab-accent: #efbd2d; }
+.hub-platform-tabs button:is([data-payment-platform="wolt"], [data-cash-platform="wolt"]) { --platform-tab-accent: #18b7d7; }
+
 .hub-platform-tabs button:hover {
+  z-index: 1;
   transform: translateY(-2px);
-  border-color: var(--hb-gold);
-  box-shadow: 0 9px 19px #0002, 0 0 18px color-mix(in srgb, var(--hb-gold), transparent 82%);
+  border-color: var(--platform-tab-accent);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--hb-panel-2), var(--platform-tab-accent) 13%), var(--hb-panel));
+  box-shadow: 0 9px 19px #0002, 0 0 18px color-mix(in srgb, var(--platform-tab-accent), transparent 76%);
 }
 
 .hub-platform-tabs button.active {
-  box-shadow: inset 0 1px #fff8, 0 8px 18px color-mix(in srgb, var(--hb-gold), transparent 72%);
+  z-index: 1;
+  transform: translateY(-1px);
+  border-color: var(--platform-tab-accent);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--hb-panel-2), var(--platform-tab-accent) 22%), color-mix(in srgb, var(--hb-panel), var(--platform-tab-accent) 8%));
+  box-shadow: inset 0 1px #ffffff35, 0 9px 19px #0002, 0 0 22px color-mix(in srgb, var(--platform-tab-accent), transparent 70%);
+  color: var(--hb-text);
+}
+
+.hub-platform-tabs button.active::before {
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--platform-tab-accent), transparent 78%), 0 0 13px var(--platform-tab-accent);
 }
 
 .hub-payment-panel {
