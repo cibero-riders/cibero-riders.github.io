@@ -56,6 +56,7 @@ assert.match(cashStyles, /\.hub-category-cash \.hub-cash-facts/);
 assert.match(categoryStyles, /html\[data-theme="midday"\] body\.hub-body \{[\s\S]*?--hb-bg: #12091b/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body \{[\s\S]*?--hb-bg: #0d0e0c/);
 assert.match(fleet, /src="\.\.\/assets\/social-whatsapp\.svg"/);
+assert.doesNotMatch(fleet, /eatsdelivery\.bolt\.host\/modification-flow/);
 assert.match(fs.readFileSync(path.join(root, 'assets', 'social-whatsapp.svg'), 'utf8'), /viewBox="0 0 24 24"/);
 assert.match(categoryStyles, /\.hub-video-category \{[\s\S]*?background: var\(--hub-button-fill\)/);
 assert.doesNotMatch(script, /data-hub-quick/);
