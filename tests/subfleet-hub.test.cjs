@@ -7,8 +7,10 @@ const fleet = fs.readFileSync(path.join(root, 'hub', 'index.html'), 'utf8');
 const subfleet = fs.readFileSync(path.join(root, 'subfleethub', 'index.html'), 'utf8');
 const script = fs.readFileSync(path.join(root, 'hub', 'hub.js'), 'utf8');
 const categoryStyles = fs.readFileSync(path.join(root, 'hub', 'hub-categories.css'), 'utf8');
+const cashStyles = fs.readFileSync(path.join(root, 'hub', 'hub-cash-bubbles.css'), 'utf8');
 const themeScript = fs.readFileSync(path.join(root, 'site-theme.js'), 'utf8');
 const subfleetStyles = fs.readFileSync(path.join(root, 'subfleethub', 'subfleet.css'), 'utf8');
+const supportScript = fs.readFileSync(path.join(root, 'subfleethub', 'subfleet-support.js'), 'utf8');
 
 assert.match(fleet, /Hub-ul Flotei CibeRO/);
 assert.match(fleet, /data-hub-i18n="hubSubtitle"/);
@@ -16,8 +18,9 @@ assert.match(subfleet, /<h1 id="hub-title" data-hub-i18n="hubTitle">Courier Hub<
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
-assert.match(subfleet, /subfleet\.css\?v=6/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=32/);
+assert.match(subfleet, /subfleet\.css\?v=8/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=33/);
+assert.match(subfleet, /subfleet-support\.js\?v=1/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=12/);
 assert.match(fleet, /hub-categories\.css\?v=12/);
 for (const html of [fleet, subfleet]) {
@@ -29,6 +32,16 @@ for (const html of [fleet, subfleet]) {
   assert.match(html, /<section id="urmatoarea-plata" class="hub-payment-panel">/);
   assert.match(html, /class="hub-calendar-button" href="https:\/\/youtu\.be\/iBThwch_Tn0"/);
   assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
+  assert.match(html, /hub-cash-bubbles\.css\?v=1/);
+  assert.doesNotMatch(html, /class="hub-rule-section"|data-hub-i18n="cashKnowTitle"|data-hub-i18n="cashDoTitle"/);
+  for (const key of ['boltCashIntro', 'boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule4', 'boltCashRule5', 'boltCashRule6', 'glovoCashRule', 'glovoDepositRule', 'glovoResetRule1', 'glovoResetRule2', 'woltCashRule', 'woltResetRule1', 'woltAircashAccountSetup', 'woltDepositInfo', 'woltDepositRule2', 'woltResetAction', 'woltNoNextDayDeposit']) {
+    assert.match(html, new RegExp(`class="hub-cash-fact" data-hub-i18n(?:-html)?="${key}"`));
+  }
+  const boltFacts = html.match(/<article class="hub-rule hub-rule-bolt"[\s\S]*?<\/article>/)[0];
+  for (let index = 1; index < 6; index += 1) {
+    assert.ok(boltFacts.indexOf(`"boltCashRule${index}"`) < boltFacts.indexOf(`"boltCashRule${index + 1}"`));
+  }
+  assert.match(boltFacts, /<div class="hub-cash-head">[\s\S]*?Vezi ghidul de depunere[\s\S]*?<\/div>/);
   assert.match(html, /src="\.\.\/assets\/social-youtube\.svg"/);
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
@@ -36,6 +49,7 @@ assert.match(categoryStyles, /text-transform: uppercase/);
 assert.match(categoryStyles, /--hub-category-fill: linear-gradient\(132deg, #230a38/);
 assert.match(categoryStyles, /html\[data-theme="light"\] body\.hub-body/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body/);
+assert.match(cashStyles, /\.hub-category-cash \.hub-cash-facts/);
 assert.match(categoryStyles, /html\[data-theme="midday"\] body\.hub-body \{[\s\S]*?--hb-bg: #12091b/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body \{[\s\S]*?--hb-bg: #0d0e0c/);
 assert.match(fleet, /src="\.\.\/assets\/social-whatsapp\.svg"/);
@@ -67,9 +81,15 @@ assert.match(subfleet, /https:\/\/play\.google\.com\/store\/apps\/details\?id=ro
 assert.match(subfleet, /id="suport-si-solicitari"/);
 assert.ok(subfleet.indexOf('id="suport-si-solicitari"') < subfleet.indexOf('id="instrumente-si-suport"'), 'Support actions appear above the four menu categories');
 assert.match(subfleet, /class="hub-action-grid hub-essential-actions hub-subfleet-support-actions"/);
-assert.match(subfleet, /<button class="hub-action" type="button" disabled>[\s\S]*?Deschide un ticket[\s\S]*?În curând[\s\S]*?<\/button>/);
-assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle" target="_blank" rel="noopener noreferrer"/);
-assert.match(script, /subfleetTicketComingSoon:'Coming soon'/);
+assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri" target="_blank" rel="noopener noreferrer"[\s\S]*?Deschide un ticket[\s\S]*?<\/a>/);
+assert.match(subfleet, /<button class="hub-action" type="button" data-vehicle-toggle aria-expanded="false" aria-controls="subfleet-vehicle-options"/);
+assert.match(subfleet, /id="subfleet-vehicle-options"[\s\S]*?Alege platforma la care vrei să schimbi vehiculul/);
+const vehicleOptions = subfleet.match(/<div id="subfleet-vehicle-options"[\s\S]*?<\/div>\s*<\/div>/)[0];
+assert.match(vehicleOptions, /href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle"[\s\S]*?Bolt Food/);
+assert.equal((vehicleOptions.match(/href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri"/g) || []).length, 2);
+assert.match(supportScript, /aria-expanded/);
+assert.match(supportScript, /options\.hidden = expanded/);
+assert.match(script, /subfleetVehiclePrompt:'Choose the platform where you want to change your vehicle'/);
 assert.doesNotMatch(subfleetStyles, /subfleet-browser|subfleet-sidebar|subfleet-view/);
 
 assert.equal((subfleet.match(/RO53182698/g) || []).length, 0, 'The standalone sub-fleet interface has no site-operator footer');

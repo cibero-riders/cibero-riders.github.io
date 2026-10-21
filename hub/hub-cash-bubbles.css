@@ -1,0 +1,114 @@
+/* One readable stream of cash rules per platform, without the old two-column subpanels. */
+.hub-category-cash .hub-cash-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px 20px;
+  margin-bottom: 22px;
+}
+
+.hub-category-cash .hub-rule-brand {
+  margin: 0;
+}
+
+.hub-category-cash .hub-rule-brand span {
+  color: var(--hb-text);
+  font-size: clamp(19px, 2vw, 25px);
+}
+
+.hub-category-cash .hub-cash-head .hub-rule-actions {
+  display: flex;
+  margin: 0 0 0 auto;
+}
+
+.hub-category-cash .hub-cash-head .hub-rule-actions a {
+  min-height: 48px;
+  padding: 11px 16px;
+}
+
+.hub-category-cash .hub-rule-bolt { --cash-accent: #2dce8a; }
+.hub-category-cash .hub-rule-glovo { --cash-accent: #efbd2d; }
+.hub-category-cash .hub-rule-wolt { --cash-accent: #18b7d7; }
+
+.hub-category-cash .hub-cash-facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hub-category-cash .hub-cash-fact {
+  box-sizing: border-box;
+  position: relative;
+  flex: 1 1 43%;
+  min-width: min(100%, 250px);
+  min-height: 104px;
+  margin: 0;
+  padding: 21px 22px 21px 46px;
+  border: 1px solid color-mix(in srgb, var(--hb-line) 65%, var(--cash-accent) 35%);
+  border-radius: 22px 17px 23px 18px;
+  background: linear-gradient(140deg, color-mix(in srgb, var(--hb-panel-2) 91%, var(--cash-accent) 9%), var(--hb-panel));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text) 9%, transparent), 0 9px 22px #0002;
+  color: var(--hb-text);
+  font-size: clamp(14px, 1.35vw, 16px);
+  line-height: 1.6;
+}
+
+.hub-category-cash .hub-cash-fact:nth-child(4n + 1),
+.hub-category-cash .hub-cash-fact:nth-child(4n + 4) {
+  flex-basis: 51%;
+}
+
+.hub-category-cash .hub-cash-fact:nth-child(4n + 2),
+.hub-category-cash .hub-cash-fact:nth-child(4n + 3) {
+  flex-basis: 42%;
+  border-radius: 17px 23px 18px 24px;
+}
+
+.hub-category-cash .hub-cash-fact::before {
+  position: absolute;
+  top: 27px;
+  left: 21px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--cash-accent);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--cash-accent) 16%, transparent);
+  content: "";
+}
+
+.hub-category-cash .hub-cash-fact :is(strong, em) {
+  color: var(--hb-text);
+}
+
+@media (max-width: 700px) {
+  .hub-category-cash .hub-cash-head {
+    align-items: stretch;
+  }
+
+  .hub-category-cash .hub-cash-head .hub-rule-actions {
+    width: 100%;
+    margin: 0;
+  }
+
+  .hub-category-cash .hub-cash-head .hub-rule-actions a {
+    width: 100%;
+  }
+
+  .hub-category-cash .hub-cash-fact,
+  .hub-category-cash .hub-cash-fact:nth-child(n) {
+    flex-basis: 100%;
+    min-width: 0;
+    min-height: 0;
+    padding: 18px 18px 18px 43px;
+  }
+
+  .hub-category-cash .hub-cash-fact::before {
+    top: 24px;
+    left: 19px;
+  }
+}
