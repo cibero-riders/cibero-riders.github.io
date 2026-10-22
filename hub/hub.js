@@ -2,7 +2,7 @@
   const isSubfleet=document.body.dataset.hubVariant==='subfleet';
   const translations = {
     currentPayment:'Current payment period',byFive:'by 17:00',paymentTimezone:'Fleet calendar · Romania time',
-    heroKicker:'CIBERO · COURIER HUB',heroTitle:'Everything you need for courier work, in one place.',heroLead:'Clear information, quick access to support and fleet tools — ready when you need them.',ticketButton:'Open a ticket',exploreButton:'See essential information',liveInfo:'AUTOMATICALLY UPDATED',nextPayment:'Next payment',workPeriod:'Earnings period',paymentSelector:'Select platform',toolsKicker:'QUICK ACCESS',toolsTitle:'How can we help?',toolsIntro:'The most-used information and actions, without searching through old conversations.',supportTitle:'Support and requests',supportBody:'Payments, accounts, documents, reimbursements and other situations.',campaignsTitle:'Campaigns',campaignsBody:'See active campaigns and their conditions.',benefitsTitle:'Benefits',benefitsBody:'Reimbursement, consultancy and sole trader collaboration.',platformsTitle:'Platform guide',platformsBody:'Compare Bolt Food, Glovo and Wolt.',onboardingTitle:'Onboarding',onboardingBody:'Everything you need before activation.',
+    heroKicker:'CIBERO · COURIER HUB',heroTitle:'Everything you need for courier work, in one place.',heroLead:'Clear information, quick access to support and fleet tools — ready when you need them.',ticketButton:'Open a ticket',exploreButton:'See essential information',liveInfo:'AUTOMATICALLY UPDATED',nextPayment:'Next payment',workPeriod:'Earnings period',paymentSelector:'Select platform',toolsKicker:'QUICK ACCESS',toolsTitle:'How can we help?',toolsIntro:'The most-used information and actions, without searching through old conversations.',supportTitle:'Support and requests',supportBody:'Payments, accounts, documents, reimbursements and other situations.',campaignsTitle:'Campaigns',campaignsBody:'See active campaigns and their conditions.',benefitsTitle:'Other benefits',benefitsBody:'Reimbursement, consultancy and sole trader collaboration.',platformsTitle:'Platform guide',platformsBody:'Compare Bolt Food, Glovo and Wolt.',onboardingTitle:'Onboarding',onboardingBody:'Everything you need before activation.',
     essentialKicker:'FROM THE CIBERO HUB',essentialTitle:'Essential Information.',essentialIntro:'Everything you used in the Telegram menu, reorganized into a clearer and easier-to-use library.',essentialNote:'Spend a few minutes now to get informed — you will save more time later.',calendarTitle:'Payment calendar',calendarSummary:'Choose the poster or the video explanation.',paymentCutoff:'Payments are made on Friday, by 17:00. The displayed periods update automatically after this time.',explainedCalendar:'Watch the explained calendar for all 3 platforms',videosTitle:'Video guides',videosSummary:'Practical steps for Bolt Food and Wolt.',boltPlaylist:'Bolt — complete guide playlist',boltDepositVideo:'Bolt — balance deposit',woltDepositVideo:'Wolt — balance deposit',woltIdVideo:'Wolt — how to find your courier ID',cashTitle:'Cash, balance, deposit and reset',cashSummary:'Essential rules, separated by platform.',platformSelector:'Select platform',boltTitle:'Balance and deposit',boltRule1:'The reset takes place on Sunday at 23:59. The fleet recommends keeping your balance at 0.',boltRule2:'Any remaining amount may be deducted from the next report and may temporarily affect order priority.',boltRule3:'Deposit directly by card in Bolt Courier; avoid bank transfers during the weekend.',glovoTitle:'Cash and balance',glovoRule1:'The main reset takes place on Sunday at 23:59. Keep the balance at 0 through the end of Monday as well.',glovoRule2:'At RON 600 in cash balance, cash orders are blocked.',glovoRule3:'Deposit at SelfPay stations, with instant balance updates.',woltTitle:'Cash and reset day',woltRule1:'The reset takes place on the 7th, 15th, 22nd and last day of the month, at 23:59.',woltRule2:'At an outstanding balance of RON 500 or more, orders are blocked until it is fully covered.',woltRule3:'Deposit through Aircash; create the account using the details associated with your Wolt account.',woltRule4:'Do not deposit on the 1st, 8th, 16th or 23rd, to avoid a possible double deduction.',depositGuide:'See the deposit guide',selfpayLocations:'Find a SelfPay station',openAircash:'Open Aircash',faqTitle:'Official platform FAQ',faqSummary:'Answers published directly by Bolt, Glovo and Wolt.',faqCaveat:'Some official sections may not be fully up to date. For fleet procedures, use the updated information in this Hub.',gearTitle:'Official bags and gear',gearSummary:'The official stores of all three platforms.',
     communityKicker:'STAY CONNECTED',communityTitle:'The CibeRO community is on WhatsApp.',communityBody:'General discussions and help between couriers are in the community group. Important news is published separately in the announcements channel.',communityButton:'Community group',announcementsButton:'Announcements channel',nextKicker:'COMING TO THE HUB',nextTitle:'A personal account for every member.',nextIntro:'This area will be connected after we define authentication and migrate data from the Telegram system.',profileTitle:'Verified profile',profileBody:'Phone, city, platforms and seniority, protected by authentication.',requestsTitle:'Requests and status',requestsBody:'Data updates, approvals and history in one flow.',remindersTitle:'Personal reminders',remindersBody:'Preferences for payments, reset dates and WhatsApp notifications.',versionNote:'This is the first informational version of the Hub. It does not yet collect or display personal data.'
   };
@@ -97,6 +97,26 @@
     consultingFree:'<strong>The service is free for CibeRO couriers.</strong> When you contact the consultant, mention that you are a courier in our fleet.',
     consultingWhatsapp:'Contact the consultant',
     consultingWhatsappAria:'Contact the consultant on WhatsApp',
+    platformsGroupTitle:'PLATFORMS',
+    platformsGroupMeta:'BOLT FOOD | GLOVO | WOLT',
+    paymentsGroupTitle:'PAYMENTS',
+    benefitsGroupTitle:'BENEFITS',
+    pfaTitle:'🚀 SOLE TRADER - LOWER FEE',
+    pfaCardBody:'Work independently under more favorable conditions.',
+    pfaIntroTitle:'Your work, under your own business',
+    pfaIntroBody:'Continue working with us under more favorable conditions and build something in your own name.',
+    pfaLowerFeeTitle:'Lower fleet fee',
+    pfaLowerFeeBody:'The fee decreases after your sole trader collaboration becomes active, so you keep more of your earnings.',
+    pfaInvoiceTitle:'We issue the self-billing invoice',
+    pfaInvoiceBody:'We handle the weekly self-billing invoice, so you do not need to issue invoices yourself.',
+    pfaSoloTitle:'One month of SOLO from us',
+    pfaSoloBody:'After your first full month working through a sole trader, we pay for one month of your SOLO subscription.',
+    pfaHistoryTitle:'Your own financial history',
+    pfaHistoryBody:'Build turnover, prove your income and apply for financing, subject to eligibility.',
+    pfaExpensesTitle:'Expenses you can record',
+    pfaExpensesBody:'Depending on tax rules and supporting documents: fuel, repairs, phone and internet, delivery gear, vehicle costs and other business expenses.',
+    pfaFooter:'<strong>The sole trader business is yours.</strong> Manage income and expenses in your own name while retaining support, reports, payments and platform access.',
+    pfaCta:'Open your sole trader business',
     reimbursementNotCoveredTitle:'What the fleet does NOT reimburse',
     reimbursementNotCovered1:'👉 Any products/services purchased for personal use and not directly related to delivery work - regular clothes, meals, coffee, snacks, fines/personal taxes, phone, etc.',
     cashKnowTitle:'What you need to know ↓',
@@ -134,6 +154,62 @@
     subfleetReimbursementHow2:'🧾 Use only the company tax ID provided by your sub-fleet administrator and keep the supporting documents.',
     subfleetReimbursementHow3:'📅 Your sub-fleet sets the deadline, submission method and payment date.'
   });
+  function createGroupHeading(key,text,meta=''){
+    const heading=document.createElement('h2');
+    heading.className='hub-group-heading';
+    const label=document.createElement('span');
+    label.dataset.hubI18n=key;
+    label.textContent=text;
+    heading.append(label);
+    if(meta){
+      const detail=document.createElement('small');
+      detail.dataset.hubI18n='platformsGroupMeta';
+      detail.textContent=meta;
+      heading.append(detail);
+    }
+    return heading;
+  }
+  function organizeHub(){
+    const list=document.querySelector('.hub-essential-list');
+    if(!list)return;
+    document.querySelector('.hub-subfleet-support h2')?.classList.add('hub-group-heading','hub-group-heading-support');
+    const byId=id=>document.getElementById(id);
+    const platformNodes=['aplicatii-mobile','faq-platforme','echipament-oficial','reguli-cash-si-reset'].map(byId).filter(Boolean);
+    const paymentNode=byId('plati');
+    const reimbursement=byId('decontare');
+    const whatsapp=byId('comunicare-whatsapp');
+    const videos=byId('ghiduri-video');
+    const platformHeading=createGroupHeading('platformsGroupTitle','PLATFORME','BOLT FOOD | GLOVO | WOLT');
+    const paymentHeading=createGroupHeading('paymentsGroupTitle','PLĂȚI');
+    const benefitsHeading=createGroupHeading('benefitsGroupTitle','BENEFICII');
+    let benefitsList=list.querySelector('.hub-essential-actions');
+    if(!benefitsList){
+      benefitsList=document.createElement('div');
+      benefitsList.className='hub-action-grid hub-essential-actions';
+    }
+    benefitsList.classList.add('hub-benefits-list');
+    const orderedBenefits=isSubfleet
+      ? [reimbursement]
+      : ['campaigns','consulting','referral'].map(key=>document.querySelector(`[data-benefit-card="${key}"]`)).concat(reimbursement,document.querySelector('[data-benefit-card="pfa"]'),document.querySelector('[data-benefit-card="other"]'));
+    benefitsList.replaceChildren(...orderedBenefits.filter(Boolean));
+    let divider=byId('instrumente-si-suport');
+    if(!divider||divider===list){
+      divider=document.createElement('div');
+      divider.className='hub-tools-divider';
+      divider.setAttribute('aria-hidden','true');
+    }
+    divider.classList.add('hub-final-divider');
+    list.replaceChildren(
+      platformHeading,...platformNodes,
+      paymentHeading,...(paymentNode?[paymentNode]:[]),
+      benefitsHeading,benefitsList,
+      divider,...(whatsapp?[whatsapp]:[]),...(videos?[videos]:[])
+    );
+    const calendarButton=document.querySelector('.hub-calendar-button');
+    const paymentHead=document.querySelector('.hub-payment-panel-head');
+    if(calendarButton&&paymentHead)paymentHead.append(calendarButton);
+  }
+  organizeHub();
   const categoryDialogs=new Map();
   document.querySelectorAll('.hub-category-accordion').forEach(category=>{
     const summary=category.querySelector(':scope > summary');
@@ -236,19 +312,19 @@
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.paymentPlatform;document.querySelectorAll('[data-payment-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-payment-card]').forEach(card=>card.hidden=card.dataset.paymentCard!==platform);}));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
-  const consultingDialog=document.getElementById('consulting-dialog');
-  const consultingTrigger=document.querySelector('[data-consulting-open]');
-  let consultingReturnFocus=null;
-  if(consultingDialog&&consultingTrigger){
-    consultingTrigger.addEventListener('click',()=>{
-      consultingReturnFocus=consultingTrigger;
-      consultingDialog.showModal();
-    });
-    consultingDialog.querySelector('[data-consulting-close]')?.addEventListener('click',()=>consultingDialog.close());
-    consultingDialog.addEventListener('click',event=>{if(event.target===consultingDialog)consultingDialog.close();});
-    consultingDialog.addEventListener('close',()=>consultingReturnFocus?.focus());
+  function wireStandaloneDialog(dialogId,openSelector,closeSelector){
+    const dialog=document.getElementById(dialogId);
+    const trigger=document.querySelector(openSelector);
+    if(!dialog||!trigger)return;
+    let returnFocus=null;
+    trigger.addEventListener('click',()=>{returnFocus=trigger;dialog.showModal();});
+    dialog.querySelector(closeSelector)?.addEventListener('click',()=>dialog.close());
+    dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+    dialog.addEventListener('close',()=>returnFocus?.focus());
   }
-  const hubSections=new Set(['informatii-esentiale','suport-si-solicitari','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
+  wireStandaloneDialog('consulting-dialog','[data-consulting-open]','[data-consulting-close]');
+  wireStandaloneDialog('pfa-dialog','[data-pfa-open]','[data-pfa-close]');
+  const hubSections=new Set(['informatii-esentiale','suport-si-solicitari','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp','consultanta-financiara','pfa-comision-redus']);
   const nonDisclosureSections=new Set(['informatii-esentiale','suport-si-solicitari','instrumente-si-suport']);
   const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
   const reimbursementSlugs=['cum-functioneaza','orase','cand-primesc-banii','ce-deconteaza','ce-nu-deconteaza'];

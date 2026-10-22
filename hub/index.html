@@ -24,9 +24,9 @@
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=1" />
   <link rel="stylesheet" href="hub.css?v=2" />
-  <link rel="stylesheet" href="hub-essential.css?v=26" />
+  <link rel="stylesheet" href="hub-essential.css?v=27" />
   <link rel="stylesheet" href="hub-actions.css?v=1" />
-  <link rel="stylesheet" href="hub-categories.css?v=18" />
+  <link rel="stylesheet" href="hub-categories.css?v=19" />
   <link rel="stylesheet" href="hub-cash-bubbles.css?v=2" />
   <link rel="stylesheet" href="hub-deeplinks.css?v=2" />
   <link rel="stylesheet" href="../subfleethub/subfleet.css?v=8" />
@@ -262,10 +262,11 @@
         <div id="instrumente-si-suport" class="hub-tools-divider" aria-hidden="true"></div>
 
         <div class="hub-action-grid hub-essential-actions">
-          <a class="hub-action" href="../campanii/" target="_blank" rel="noopener noreferrer"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4V10Zm8 0v10M3 7h18v3H3V7Zm9 0H8.5A2.5 2.5 0 1 1 12 3.5V7Zm0 0h3.5A2.5 2.5 0 1 0 12 3.5V7Z"/></svg></span><span><strong data-hub-i18n="campaignsTitle">Campanii</strong><small data-hub-i18n="campaignsCardBody">Campaniile CibeRO active.</small></span><b aria-hidden="true">↗</b></a>
-          <a class="hub-action" href="../beneficii/" target="_blank" rel="noopener noreferrer"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 15 9l6 .9-4.5 4.4 1.1 6.2L12 17.6l-5.6 2.9 1.1-6.2L3 9.9 9 9l3-6Z"/></svg></span><span><strong data-hub-i18n="benefitsTitle">Beneficii</strong><small data-hub-i18n="benefitsCardBody">Avantajele colaborării.</small></span><b aria-hidden="true">↗</b></a>
-          <button id="consultanta-financiara" class="hub-action hub-consulting-trigger" type="button" data-consulting-open aria-haspopup="dialog" aria-controls="consulting-dialog"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/><path d="m4 9 6-4 6 7 4-3"/></svg></span><span><strong data-hub-i18n="consultingTitle">Consultanță financiară</strong><small data-hub-i18n="consultingCardBody">Discută gratuit, 1 la 1, cu un consultant.</small></span><b aria-hidden="true">→</b></button>
-          <a class="hub-action hub-referral-action" href="https://cibero.delivery/campanii/#recomandare" target="_blank" rel="noopener noreferrer"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2a5.5 5.5 0 0 1 11 0v2M18 8v6m-3-3h6"/></svg></span><span><strong data-hub-i18n="referralTitle">Referral</strong><small data-hub-i18n="referralCardBody">Recomandă și câștigați amândoi.</small></span><b aria-hidden="true">↗</b></a>
+          <a class="hub-action" data-benefit-card="campaigns" href="../campanii/" target="_blank" rel="noopener noreferrer"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10h16v10H4V10Zm8 0v10M3 7h18v3H3V7Zm9 0H8.5A2.5 2.5 0 1 1 12 3.5V7Zm0 0h3.5A2.5 2.5 0 1 0 12 3.5V7Z"/></svg></span><span><strong data-hub-i18n="campaignsTitle">Campanii</strong><small data-hub-i18n="campaignsCardBody">Campaniile CibeRO active.</small></span><b aria-hidden="true">↗</b></a>
+          <a class="hub-action" data-benefit-card="other" href="../beneficii/" target="_blank" rel="noopener noreferrer"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 15 9l6 .9-4.5 4.4 1.1 6.2L12 17.6l-5.6 2.9 1.1-6.2L3 9.9 9 9l3-6Z"/></svg></span><span><strong data-hub-i18n="benefitsTitle">Alte beneficii</strong><small data-hub-i18n="benefitsCardBody">Alte avantaje ale colaborării.</small></span><b aria-hidden="true">↗</b></a>
+          <button id="consultanta-financiara" class="hub-action hub-consulting-trigger" data-benefit-card="consulting" type="button" data-consulting-open aria-haspopup="dialog" aria-controls="consulting-dialog"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19V9m6 10V5m6 14v-7m4 7H2"/><path d="m4 9 6-4 6 7 4-3"/></svg></span><span><strong data-hub-i18n="consultingTitle">Consultanță financiară</strong><small data-hub-i18n="consultingCardBody">Discută gratuit, 1 la 1, cu un consultant.</small></span><b aria-hidden="true">→</b></button>
+          <a class="hub-action hub-referral-action" data-benefit-card="referral" href="https://cibero.delivery/campanii/#recomandare" target="_blank" rel="noopener noreferrer"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3"/><path d="M3.5 20v-2a5.5 5.5 0 0 1 11 0v2M18 8v6m-3-3h6"/></svg></span><span><strong data-hub-i18n="referralTitle">Referral</strong><small data-hub-i18n="referralCardBody">Recomandă și câștigați amândoi.</small></span><b aria-hidden="true">↗</b></a>
+          <button id="pfa-comision-redus" class="hub-action hub-pfa-trigger" data-benefit-card="pfa" type="button" data-pfa-open aria-haspopup="dialog" aria-controls="pfa-dialog"><span class="hub-action-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 19h16M6 19V9l6-5 6 5v10M9 19v-6h6v6"/><path d="M16 5h4v4"/></svg></span><span><strong data-hub-i18n="pfaTitle">🚀 PFA - Comision Redus</strong><small data-hub-i18n="pfaCardBody">Lucrează pe cont propriu, în condiții mai avantajoase.</small></span><b aria-hidden="true">→</b></button>
         </div>
 
         <details id="comunicare-whatsapp" class="hub-category-accordion hub-category-whatsapp">
@@ -308,12 +309,36 @@
     </div>
   </dialog>
 
+  <dialog id="pfa-dialog" class="hub-consulting-dialog hub-pfa-dialog" aria-labelledby="pfa-dialog-title">
+    <div class="hub-consulting-dialog-shell">
+      <button class="hub-consulting-back" type="button" data-pfa-close><span aria-hidden="true">←</span><span data-hub-i18n="dialogBack">Înapoi la Hub</span></button>
+      <div class="hub-consulting-dialog-heading">
+        <span aria-hidden="true">PFA</span>
+        <div><small>CIBERO</small><h2 id="pfa-dialog-title" data-hub-i18n="pfaTitle">🚀 PFA - Comision Redus</h2></div>
+      </div>
+      <div class="hub-consulting hub-pfa-content">
+        <div class="hub-consulting-intro"><div><strong data-hub-i18n="pfaIntroTitle">Activitatea ta, pe cont propriu</strong><p data-hub-i18n="pfaIntroBody">Continuă colaborarea cu noi în condiții mai avantajoase și construiește ceva pe numele tău.</p></div></div>
+        <div class="hub-consulting-grid hub-pfa-grid">
+          <article><span aria-hidden="true">01</span><div><strong data-hub-i18n="pfaLowerFeeTitle">Comision mai mic</strong><p data-hub-i18n="pfaLowerFeeBody">Comisionul scade după activarea colaborării pe PFA, iar tu rămâi cu mai mulți bani.</p></div></article>
+          <article><span aria-hidden="true">02</span><div><strong data-hub-i18n="pfaInvoiceTitle">Autofactura este emisă de noi</strong><p data-hub-i18n="pfaInvoiceBody">Ne ocupăm de autofactura săptămânală, fără să fie nevoie să emiți tu facturi.</p></div></article>
+          <article><span aria-hidden="true">03</span><div><strong data-hub-i18n="pfaSoloTitle">O lună SOLO din partea noastră</strong><p data-hub-i18n="pfaSoloBody">După prima lună completă de activitate pe PFA, îți achităm o lună de abonament SOLO.</p></div></article>
+          <article><span aria-hidden="true">04</span><div><strong data-hub-i18n="pfaHistoryTitle">Istoric financiar propriu</strong><p data-hub-i18n="pfaHistoryBody">Îți creezi rulaj, îți demonstrezi veniturile și poți aplica pentru finanțare, în funcție de eligibilitate.</p></div></article>
+        </div>
+        <div class="hub-pfa-expenses"><strong data-hub-i18n="pfaExpensesTitle">Cheltuieli pe care le poți înregistra</strong><p data-hub-i18n="pfaExpensesBody">În funcție de regulile fiscale și documentele justificative: combustibil, reparații, telefon și internet, echipamente de livrare, costuri pentru vehicul și alte cheltuieli necesare activității.</p></div>
+        <div class="hub-consulting-footer">
+          <p data-hub-i18n-html="pfaFooter"><strong>PFA-ul este al tău.</strong> Îți gestionezi veniturile și cheltuielile pe numele tău, păstrând suportul, rapoartele, plățile și accesul la platformele disponibile.</p>
+          <a class="hub-pfa-cta" href="https://pfa.solo.ro/register/vreau-pfa" target="_blank" rel="noopener noreferrer"><span data-hub-i18n="pfaCta">Deschide-ți PFA</span><b aria-hidden="true">↗</b></a>
+        </div>
+      </div>
+    </div>
+  </dialog>
+
   <footer class="site-footer"><div class="footer-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" width="38" height="38" /></a></div><div class="footer-company-details"><span><b class="footer-company-name">CibeRO S.R.L.</b> <i aria-hidden="true">·</i> CUI RO53182698 <i aria-hidden="true">·</i> Constanța, România</span></div><nav class="footer-legal-links" aria-label="Informații juridice"><a href="../termeni/">Termeni și Condiții</a><a href="../confidentialitate/">Confidențialitate &amp; GDPR</a><a href="../cookie-uri/">Politica de Cookie-uri</a><a href="mailto:cibero.riders@gmail.com">Contact</a></nav><span class="footer-copyright">© Powered by Cibero - 2026 | All rights reserved</span></footer>
   <script src="../main-page.js?v=10"></script>
   <script src="../site-theme.js?v=3"></script>
   <script src="../site-language.js?v=14"></script>
   <script src="../site-accordion.js?v=1"></script>
-  <script src="hub.js?v=38"></script>
+  <script src="hub.js?v=39"></script>
   <script src="../subfleethub/subfleet-support.js?v=1"></script>
 </body>
 </html>
