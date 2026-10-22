@@ -82,6 +82,7 @@
     consultingTitle:'Financial consultancy',
     consultingCardBody:'Talk to a consultant for free, one-to-one.',
     consultingBack:'Back to Hub',
+    dialogBack:'Back to Hub',
     consultingIntroTitle:'Talk directly with a consultant',
     consultingIntroBody:'You have free access to personalized financial consultancy, including if you work through a sole trader or company.',
     consultingHelpLabel:'The consultant can help you make clearer decisions about:',
@@ -132,6 +133,41 @@
     subfleetReimbursementHow1:'ℹ️ Whenever you purchase products or services related to delivery work, ask the merchant to add the company tax ID to the receipt/invoice.',
     subfleetReimbursementHow2:'🧾 Use only the company tax ID provided by your sub-fleet administrator and keep the supporting documents.',
     subfleetReimbursementHow3:'📅 Your sub-fleet sets the deadline, submission method and payment date.'
+  });
+  const categoryDialogs=new Map();
+  document.querySelectorAll('.hub-category-accordion').forEach(category=>{
+    const summary=category.querySelector(':scope > summary');
+    const content=category.querySelector(':scope > .hub-category-content');
+    const sourceTitle=summary?.querySelector('.hub-category-title');
+    if(!summary||!content||!sourceTitle||!category.id)return;
+    category.open=false;
+    summary.setAttribute('role','button');
+    summary.setAttribute('aria-haspopup','dialog');
+    summary.setAttribute('aria-controls',`${category.id}-dialog`);
+    summary.querySelector(':scope > i')?.replaceChildren('→');
+    const dialog=document.createElement('dialog');
+    dialog.id=`${category.id}-dialog`;
+    dialog.className=`hub-category-dialog ${[...category.classList].filter(name=>name!=='hub-category-accordion').join(' ')}`;
+    dialog.setAttribute('aria-labelledby',`${category.id}-dialog-title`);
+    const shell=document.createElement('div');
+    shell.className='hub-category-dialog-shell';
+    const back=document.createElement('button');
+    back.className='hub-category-dialog-back';
+    back.type='button';
+    back.dataset.categoryDialogClose='';
+    back.innerHTML='<span aria-hidden="true">←</span><span data-hub-i18n="dialogBack">Înapoi la Hub</span>';
+    const heading=document.createElement('div');
+    heading.className='hub-category-dialog-heading';
+    const symbol=summary.querySelector('.hub-category-symbol')?.cloneNode(true);
+    const title=sourceTitle.cloneNode(true);
+    title.id=`${category.id}-dialog-title`;
+    if(symbol)heading.append(symbol);
+    heading.append(title);
+    content.classList.add('hub-category-dialog-content');
+    shell.append(back,heading,content);
+    dialog.append(shell);
+    category.after(dialog);
+    categoryDialogs.set(category.id,{section:category.id,category,summary,dialog,back,shell});
   });
   const nodes=[...document.querySelectorAll('[data-hub-i18n]')];
   const originals=new Map(nodes.map(node=>[node,node.textContent]));
@@ -228,6 +264,14 @@
     if(applyingDeepLink||currentRoute()===route)return;
     history[replace?'replaceState':'pushState'](null,'',`${location.pathname}${location.search}${route?`#${route}`:''}`);
   }
+  function showCategoryDialog(section,updateRoute=true){
+    const entry=categoryDialogs.get(section);
+    if(!entry)return false;
+    categoryDialogs.forEach(other=>{if(other!==entry&&other.dialog.open)other.dialog.close();});
+    if(!entry.dialog.open)entry.dialog.showModal();
+    if(updateRoute)setRoute(section);
+    return true;
+  }
   function selectPlatform(attribute,slug){
     const platform=slug==='boltfood'||slug==='bolt-food'?'bolt':slug;
     if(!Object.hasOwn(platformSlugs,platform))return false;
@@ -243,10 +287,14 @@
     applyingDeepLink=true;
     let target=document.getElementById(section);
     if(!target){applyingDeepLink=false;return;}
+    let categoryEntry=categoryDialogs.get(section);
+    if(!categoryEntry){
+      const parentDialog=target.closest('.hub-category-dialog');
+      if(parentDialog)categoryEntry=[...categoryDialogs.values()].find(entry=>entry.dialog===parentDialog);
+    }
+    if(categoryEntry){showCategoryDialog(categoryEntry.section,false);target=categoryEntry.shell;}
     if(section==='aplicatii-mobile'&&parts[1])selectPlatform('data-app-platform',parts[1]);
-    if(!nonDisclosureSections.has(section))target.open=true;
-    const category=target.closest('.hub-category-accordion');
-    if(category)category.open=true;
+    if(!categoryEntry&&!nonDisclosureSections.has(section))target.open=true;
     if(section==='urmatoarea-plata'&&parts[1])selectPlatform('data-payment-platform',parts[1]);
     if(section==='reguli-cash-si-reset'&&parts[1])selectPlatform('data-cash-platform',parts[1]);
     if(section==='decontare'&&parts[1]){
@@ -261,7 +309,7 @@
       }
     }
     applyingDeepLink=false;
-    requestAnimationFrame(()=>target.scrollIntoView({block:'start',behavior:'instant'}));
+    if(!categoryEntry)requestAnimationFrame(()=>target.scrollIntoView({block:'start',behavior:'instant'}));
   }
   document.querySelectorAll('.hub-resource, .hub-reimbursement-item, .hub-city-list > details').forEach(item=>{
     item.querySelector(':scope > summary').addEventListener('click',()=>setTimeout(()=>{
@@ -270,11 +318,17 @@
       else if(currentRoute()===route||currentRoute().startsWith(`${route}/`))setRoute(item.classList.contains('hub-resource')?'informatii-esentiale':item.closest('.hub-city-list')?'decontare/orase':'decontare',true);
     },0));
   });
-  document.querySelectorAll('.hub-category-accordion > summary').forEach(summary=>summary.addEventListener('click',()=>setTimeout(()=>{
-    const category=summary.parentElement;
-    if(category.open)setRoute(category.id);
-    else if(category.contains(document.getElementById(currentRoute().split('/')[0])))setRoute('',true);
-  },0)));
+  categoryDialogs.forEach((entry,section)=>{
+    entry.summary.addEventListener('click',event=>{event.preventDefault();showCategoryDialog(section);});
+    entry.back.addEventListener('click',()=>entry.dialog.close());
+    entry.dialog.addEventListener('click',event=>{if(event.target===entry.dialog)entry.dialog.close();});
+    entry.dialog.addEventListener('close',()=>{
+      const routeSection=currentRoute().split('/')[0];
+      const routeTarget=document.getElementById(routeSection);
+      if(!applyingDeepLink&&(routeSection===section||entry.dialog.contains(routeTarget)))setRoute('',true);
+      entry.summary.focus();
+    });
+  });
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`aplicatii-mobile/${platformSlugs[button.dataset.appPlatform]}`)));
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`urmatoarea-plata/${platformSlugs[button.dataset.paymentPlatform]}`)));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>setRoute(`reguli-cash-si-reset/${platformSlugs[button.dataset.cashPlatform]}`)));
