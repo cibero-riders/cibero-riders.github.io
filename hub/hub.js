@@ -52,6 +52,7 @@
     benefitsCardBody:'Your partnership benefits.',
     referralCardBody:'Refer a friend and both of you earn.',
     reimbursementTitle:'5% Reimbursement',
+    reimbursementCardBody:'Get money back on your work expenses.',
     reimbursementSummary:'The full procedure, eligibility and receipt submission.',
     reimbursementIntro:'💰 The fleet offers 5% reimbursement for all services and purchases made for delivery work.',
     reimbursementCui:'🧾 The company tax ID is: <strong><code>RO53182698</code></strong>',
@@ -101,7 +102,7 @@
     platformsGroupMeta:'BOLT FOOD | GLOVO | WOLT',
     paymentsGroupTitle:'PAYMENTS',
     benefitsGroupTitle:'BENEFITS',
-    pfaTitle:'🚀 SOLE TRADER - LOWER FEE',
+    pfaTitle:'SOLE TRADER - LOWER FEE',
     pfaCardBody:'Work independently under more favorable conditions.',
     pfaIntroTitle:'Your work, under your own business',
     pfaIntroBody:'Continue working with us under more favorable conditions and build something in your own name.',
@@ -190,7 +191,7 @@
     benefitsList.classList.add('hub-benefits-list');
     const orderedBenefits=isSubfleet
       ? [reimbursement]
-      : ['campaigns','consulting','referral'].map(key=>document.querySelector(`[data-benefit-card="${key}"]`)).concat(reimbursement,document.querySelector('[data-benefit-card="pfa"]'),document.querySelector('[data-benefit-card="other"]'));
+      : ['campaigns','consulting','referral'].map(key=>document.querySelector(`[data-benefit-card="${key}"]`)).concat(reimbursement,document.querySelector('[data-benefit-card="pfa"]'));
     benefitsList.replaceChildren(...orderedBenefits.filter(Boolean));
     let divider=byId('instrumente-si-suport');
     if(!divider||divider===list){

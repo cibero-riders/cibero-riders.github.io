@@ -379,15 +379,17 @@
   display: flex;
   grid-column: 1 / -1;
   align-items: baseline;
+  justify-content: center;
   gap: 12px;
   margin: 34px 0 3px;
   padding: 0 3px 12px;
   border-bottom: 1px solid color-mix(in srgb, var(--hb-gold), transparent 62%);
   color: var(--hb-text);
-  font-size: clamp(18px, 2vw, 24px);
+  font-size: clamp(30px, 3.5vw, 42px);
   font-weight: 950;
-  letter-spacing: .075em;
+  letter-spacing: .045em;
   line-height: 1.15;
+  text-align: center;
   text-transform: uppercase;
 }
 
@@ -403,7 +405,7 @@
 
 .hub-group-heading small {
   color: var(--hb-muted);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 900;
   letter-spacing: .13em;
 }
@@ -417,9 +419,9 @@
   margin: 0 0 23px;
   padding: 0 3px 12px;
   color: var(--hb-text);
-  font-size: clamp(18px, 2vw, 24px);
-  letter-spacing: .075em;
-  text-align: left;
+  font-size: clamp(30px, 3.5vw, 42px);
+  letter-spacing: .045em;
+  text-align: center;
 }
 
 .hub-benefits-list {
@@ -443,6 +445,51 @@
 .hub-benefits-list > .hub-category-accordion > summary > i {
   border-color: #70451865;
   background: #fff9df73;
+}
+
+.hub-benefits-list > .hub-category-accordion > summary {
+  grid-template-columns: 56px minmax(0, 1fr) 28px;
+  gap: 16px;
+  min-height: 126px;
+  padding: 20px;
+}
+
+.hub-benefits-list > .hub-category-accordion .hub-category-symbol {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+.hub-benefits-list > .hub-category-accordion > summary > i {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-size: 16px;
+}
+
+.hub-benefit-card-copy {
+  display: block;
+  grid-column: 2;
+  min-width: 0;
+  text-align: left;
+}
+
+.hub-benefits-list .hub-benefit-card-copy .hub-category-title {
+  margin: 0;
+  font-size: 17px;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.hub-benefit-card-copy small {
+  display: block;
+  margin-top: 6px;
+  color: var(--hub-button-ink);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: .78;
 }
 
 .hub-final-divider {
@@ -484,16 +531,17 @@
 
 @media (max-width: 760px) {
   .hub-group-heading {
-    align-items: flex-start;
+    align-items: center;
     flex-wrap: wrap;
     margin-top: 27px;
     padding-bottom: 10px;
-    font-size: clamp(17px, 5.3vw, 21px);
+    font-size: clamp(24px, 7vw, 31px);
   }
   .hub-group-heading small {
     width: 100%;
-    margin-left: 17px;
+    margin-left: 0;
     font-size: 9px;
+    text-align: center;
   }
   .hub-group-heading::before {
     width: 4px;
@@ -507,6 +555,11 @@
     width: 100%;
     max-width: none;
     margin-top: 4px;
+  }
+  .hub-benefits-list > .hub-category-accordion > summary {
+    grid-template-columns: 56px minmax(0, 1fr) 28px;
+    min-height: 110px;
+    padding: 17px;
   }
 }
 
