@@ -7,6 +7,7 @@ const fleet = fs.readFileSync(path.join(root, 'hub', 'index.html'), 'utf8');
 const subfleet = fs.readFileSync(path.join(root, 'subfleethub', 'index.html'), 'utf8');
 const script = fs.readFileSync(path.join(root, 'hub', 'hub.js'), 'utf8');
 const categoryStyles = fs.readFileSync(path.join(root, 'hub', 'hub-categories.css'), 'utf8');
+const essentialStyles = fs.readFileSync(path.join(root, 'hub', 'hub-essential.css'), 'utf8');
 const cashStyles = fs.readFileSync(path.join(root, 'hub', 'hub-cash-bubbles.css'), 'utf8');
 const themeScript = fs.readFileSync(path.join(root, 'site-theme.js'), 'utf8');
 const subfleetStyles = fs.readFileSync(path.join(root, 'subfleethub', 'subfleet.css'), 'utf8');
@@ -22,14 +23,14 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=36/);
-assert.match(fleet, /hub\.js\?v=36/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=37/);
+assert.match(fleet, /hub\.js\?v=37/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=17/);
 assert.match(fleet, /hub-categories\.css\?v=17/);
-assert.match(fleet, /hub-essential\.css\?v=24/);
+assert.match(fleet, /hub-essential\.css\?v=25/);
 for (const html of [fleet, subfleet]) {
   const structuralTags = /<\/?(?:div|section|details)\b[^>]*>/g;
   const openElements = [];
@@ -110,11 +111,17 @@ for (const id of ['aplicatii-mobile', 'plati', 'urmatoarea-plata', 'ghiduri-vide
   assert.match(subfleet, new RegExp(`id="${id}"`));
 }
 assert.doesNotMatch(subfleet, /id="calendarul-de-plata"|id="ghiduri-si-informatii"/);
-assert.match(fleet, /<details id="consultanta-financiara" class="hub-category-accordion hub-category-consulting">/);
+assert.match(fleet, /<button id="consultanta-financiara" class="hub-action hub-consulting-trigger"[^>]*data-consulting-open/);
+assert.match(fleet, /<dialog id="consulting-dialog" class="hub-consulting-dialog"/);
+assert.match(fleet, /data-consulting-close[^>]*>[\s\S]*?Înapoi la Hub/);
 assert.match(fleet, /href="https:\/\/wa\.me\/40741946373"/);
-assert.ok(fleet.indexOf('id="decontare"') < fleet.indexOf('id="consultanta-financiara"'), 'Consultancy appears after reimbursement');
-assert.ok(fleet.indexOf('id="consultanta-financiara"') < fleet.indexOf('id="faq-platforme"'), 'Consultancy appears before platform FAQ');
+assert.ok(fleet.indexOf('data-hub-i18n="benefitsTitle"') < fleet.indexOf('id="consultanta-financiara"'), 'Consultancy appears after Benefits');
+assert.ok(fleet.indexOf('id="consultanta-financiara"') < fleet.indexOf('data-hub-i18n="referralTitle"'), 'Consultancy stays next to the benefit actions');
+assert.doesNotMatch(fleet, /<details id="consultanta-financiara"/);
 assert.doesNotMatch(subfleet, /id="consultanta-financiara"/);
+assert.match(script, /consultingDialog\.showModal\(\)/);
+assert.match(script, /event\.target===consultingDialog/);
+assert.match(essentialStyles, /\.hub-consulting-trigger\{grid-column:2;grid-row:2/);
 for (const id of ['comunicare-whatsapp']) {
   assert.doesNotMatch(subfleet, new RegExp(`id="${id}"`));
 }

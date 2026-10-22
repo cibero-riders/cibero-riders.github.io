@@ -80,6 +80,8 @@
     reimbursementCovered1:'👉 everything related to the vehicle used - repairs, spare parts, fuel, instalments, rental, <em>useful</em> accessories, etc.',
     reimbursementCovered2:'👉 everything related to official equipment (Bolt/Glovo/Wolt) used for delivery work - bag, jacket, accessories, protective equipment, etc.',
     consultingTitle:'Financial consultancy',
+    consultingCardBody:'Talk to a consultant for free, one-to-one.',
+    consultingBack:'Back to Hub',
     consultingIntroTitle:'Talk directly with a consultant',
     consultingIntroBody:'You have free access to personalized financial consultancy, including if you work through a sole trader or company.',
     consultingHelpLabel:'The consultant can help you make clearer decisions about:',
@@ -198,6 +200,18 @@
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.paymentPlatform;document.querySelectorAll('[data-payment-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-payment-card]').forEach(card=>card.hidden=card.dataset.paymentCard!==platform);}));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
+  const consultingDialog=document.getElementById('consulting-dialog');
+  const consultingTrigger=document.querySelector('[data-consulting-open]');
+  let consultingReturnFocus=null;
+  if(consultingDialog&&consultingTrigger){
+    consultingTrigger.addEventListener('click',()=>{
+      consultingReturnFocus=consultingTrigger;
+      consultingDialog.showModal();
+    });
+    consultingDialog.querySelector('[data-consulting-close]')?.addEventListener('click',()=>consultingDialog.close());
+    consultingDialog.addEventListener('click',event=>{if(event.target===consultingDialog)consultingDialog.close();});
+    consultingDialog.addEventListener('close',()=>consultingReturnFocus?.focus());
+  }
   const hubSections=new Set(['informatii-esentiale','suport-si-solicitari','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp']);
   const nonDisclosureSections=new Set(['informatii-esentiale','suport-si-solicitari','instrumente-si-suport']);
   const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
