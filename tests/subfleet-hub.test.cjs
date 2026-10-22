@@ -22,13 +22,14 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=35/);
-assert.match(fleet, /hub\.js\?v=35/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=36/);
+assert.match(fleet, /hub\.js\?v=36/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=17/);
 assert.match(fleet, /hub-categories\.css\?v=17/);
+assert.match(fleet, /hub-essential\.css\?v=24/);
 for (const html of [fleet, subfleet]) {
   const structuralTags = /<\/?(?:div|section|details)\b[^>]*>/g;
   const openElements = [];
@@ -109,6 +110,11 @@ for (const id of ['aplicatii-mobile', 'plati', 'urmatoarea-plata', 'ghiduri-vide
   assert.match(subfleet, new RegExp(`id="${id}"`));
 }
 assert.doesNotMatch(subfleet, /id="calendarul-de-plata"|id="ghiduri-si-informatii"/);
+assert.match(fleet, /<details id="consultanta-financiara" class="hub-category-accordion hub-category-consulting">/);
+assert.match(fleet, /href="https:\/\/wa\.me\/40741946373"/);
+assert.ok(fleet.indexOf('id="decontare"') < fleet.indexOf('id="consultanta-financiara"'), 'Consultancy appears after reimbursement');
+assert.ok(fleet.indexOf('id="consultanta-financiara"') < fleet.indexOf('id="faq-platforme"'), 'Consultancy appears before platform FAQ');
+assert.doesNotMatch(subfleet, /id="consultanta-financiara"/);
 for (const id of ['comunicare-whatsapp']) {
   assert.doesNotMatch(subfleet, new RegExp(`id="${id}"`));
 }
