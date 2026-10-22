@@ -445,6 +445,7 @@
 .hub-benefits-list > .hub-category-accordion > summary > i {
   border-color: #70451865;
   background: #fff9df73;
+  color: var(--hub-button-ink);
 }
 
 .hub-benefits-list > .hub-category-accordion > summary {
@@ -485,11 +486,11 @@
 .hub-benefit-card-copy small {
   display: block;
   margin-top: 6px;
-  color: var(--hub-button-ink);
+  color: var(--hub-button-ink) !important;
   font-size: 12px;
   font-weight: 600;
   line-height: 1.45;
-  opacity: .78;
+  opacity: .82;
 }
 
 .hub-final-divider {
