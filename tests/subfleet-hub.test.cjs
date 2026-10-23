@@ -145,14 +145,17 @@ for (const html of [fleet, subfleet]) {
   assert.match(html, /id="suport-si-solicitari"/);
   assert.ok(html.indexOf('id="suport-si-solicitari"') < html.indexOf('id="aplicatii-mobile"'), 'Support actions appear above the hub menu');
   assert.match(html, /class="hub-action-grid hub-essential-actions hub-subfleet-support-actions"/);
-  assert.match(html, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri" target="_blank" rel="noopener noreferrer"[\s\S]*?Deschide un ticket[\s\S]*?<\/a>/);
   assert.match(html, /<button class="hub-action" type="button" data-vehicle-toggle aria-expanded="false" aria-controls="subfleet-vehicle-options"/);
   assert.match(html, /id="subfleet-vehicle-options"[\s\S]*?Alege platforma la care vrei să schimbi vehiculul/);
   const vehicleOptions = html.match(/<div id="subfleet-vehicle-options"[\s\S]*?<\/div>\s*<\/div>/)[0];
   assert.match(vehicleOptions, /href="https:\/\/cibero-manager-tool\.bolt\.host\/cibero-curieri-vehicle"[\s\S]*?Bolt Food/);
-  assert.equal((vehicleOptions.match(/href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri"/g) || []).length, 2);
   assert.match(html, /Când e următoarea plată/);
 }
+assert.match(fleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri\?cod=RLDE" target="_blank" rel="noopener noreferrer"[\s\S]*?Deschide un ticket[\s\S]*?<\/a>/);
+assert.equal((fleet.match(/href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri\?cod=RLDE"/g) || []).length, 3);
+assert.match(subfleet, /<a class="hub-action" href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri" target="_blank" rel="noopener noreferrer"[\s\S]*?Deschide un ticket[\s\S]*?<\/a>/);
+assert.equal((subfleet.match(/href="https:\/\/cibero-manager-tool\.bolt\.host\/suport-curieri"/g) || []).length, 3);
+assert.doesNotMatch(subfleet, /suport-curieri\?cod=RLDE/);
 assert.match(supportScript, /aria-expanded/);
 assert.match(supportScript, /options\.hidden = expanded/);
 assert.match(script, /subfleetVehiclePrompt:'Choose the platform where you want to change your vehicle'/);
