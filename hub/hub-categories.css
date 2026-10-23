@@ -544,17 +544,19 @@
 
 @media (max-width: 760px) {
   .hub-group-heading {
+    gap: 4px;
     margin-top: 27px;
     padding-bottom: 10px;
-    font-size: clamp(24px, 7vw, 31px);
+    font-size: clamp(21px, 5.7vw, 24px);
+    letter-spacing: .025em;
   }
   .hub-group-heading small {
     font-size: 9px;
     text-align: center;
   }
   .hub-group-heading-arrow {
-    width: 26px;
-    height: 26px;
+    width: 24px;
+    height: 24px;
   }
   .hub-payment-panel-head {
     grid-template-columns: 46px minmax(0, 1fr);
