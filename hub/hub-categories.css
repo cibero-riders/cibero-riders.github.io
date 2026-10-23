@@ -550,6 +550,10 @@
     font-size: clamp(21px, 5.7vw, 24px);
     letter-spacing: .025em;
   }
+  .hub-subfleet-support .hub-group-heading-support {
+    font-size: clamp(21px, 5.7vw, 24px);
+    letter-spacing: .025em;
+  }
   .hub-group-heading small {
     font-size: 9px;
     text-align: center;
