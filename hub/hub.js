@@ -335,18 +335,23 @@
   document.querySelectorAll('[data-payment-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.paymentPlatform;document.querySelectorAll('[data-payment-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-payment-card]').forEach(card=>card.hidden=card.dataset.paymentCard!==platform);}));
   document.querySelectorAll('[data-app-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.appPlatform;document.querySelectorAll('[data-app-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-app-panel]').forEach(panel=>panel.hidden=panel.dataset.appPanel!==platform);}));
   document.querySelectorAll('[data-cash-platform]').forEach(button=>button.addEventListener('click',()=>{const platform=button.dataset.cashPlatform;document.querySelectorAll('[data-cash-platform]').forEach(item=>{const active=item===button;item.classList.toggle('active',active);item.setAttribute('aria-selected',String(active));});document.querySelectorAll('[data-rule-platform]').forEach(card=>card.hidden=card.dataset.rulePlatform!==platform);}));
-  function wireStandaloneDialog(dialogId,openSelector,closeSelector){
+  const standaloneDialogs=new Map();
+  function wireStandaloneDialog(section,dialogId,openSelector,closeSelector){
     const dialog=document.getElementById(dialogId);
     const trigger=document.querySelector(openSelector);
     if(!dialog||!trigger)return;
     let returnFocus=null;
-    trigger.addEventListener('click',()=>{returnFocus=trigger;dialog.showModal();});
+    standaloneDialogs.set(section,{dialog,trigger,setReturnFocus:()=>{returnFocus=trigger;}});
+    trigger.addEventListener('click',()=>showStandaloneDialog(section));
     dialog.querySelector(closeSelector)?.addEventListener('click',()=>dialog.close());
     dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
-    dialog.addEventListener('close',()=>returnFocus?.focus());
+    dialog.addEventListener('close',()=>{
+      if(!applyingDeepLink&&currentRoute().split('/')[0]===section)setRoute('',true);
+      returnFocus?.focus();
+    });
   }
-  wireStandaloneDialog('consulting-dialog','[data-consulting-open]','[data-consulting-close]');
-  wireStandaloneDialog('pfa-dialog','[data-pfa-open]','[data-pfa-close]');
+  wireStandaloneDialog('consultanta-financiara','consulting-dialog','[data-consulting-open]','[data-consulting-close]');
+  wireStandaloneDialog('pfa-comision-redus','pfa-dialog','[data-pfa-open]','[data-pfa-close]');
   const hubSections=new Set(['informatii-esentiale','suport-si-solicitari','aplicatii-mobile','plati','urmatoarea-plata','ghiduri-video','reguli-cash-si-reset','decontare','faq-platforme','instrumente-si-suport','echipament-oficial','comunicare-whatsapp','consultanta-financiara','pfa-comision-redus']);
   const nonDisclosureSections=new Set(['informatii-esentiale','suport-si-solicitari','instrumente-si-suport']);
   const platformSlugs={bolt:'boltfood',glovo:'glovo',wolt:'wolt',controlfleet:'controlfleet'};
@@ -371,6 +376,16 @@
     if(updateRoute)setRoute(section);
     return true;
   }
+  function showStandaloneDialog(section,updateRoute=true){
+    const entry=standaloneDialogs.get(section);
+    if(!entry)return false;
+    categoryDialogs.forEach(other=>{if(other.dialog.open)other.dialog.close();});
+    standaloneDialogs.forEach(other=>{if(other!==entry&&other.dialog.open)other.dialog.close();});
+    entry.setReturnFocus();
+    if(!entry.dialog.open)entry.dialog.showModal();
+    if(updateRoute)setRoute(section);
+    return true;
+  }
   function selectPlatform(attribute,slug){
     const platform=slug==='boltfood'||slug==='bolt-food'?'bolt':slug;
     if(!Object.hasOwn(platformSlugs,platform))return false;
@@ -382,10 +397,20 @@
   function openDeepLink(){
     const parts=currentRoute().split('/').filter(Boolean);
     const section=parts[0];
+    if(!section){
+      standaloneDialogs.forEach(entry=>{if(entry.dialog.open)entry.dialog.close();});
+      return;
+    }
     if(!hubSections.has(section))return;
     applyingDeepLink=true;
     let target=document.getElementById(section);
     if(!target){applyingDeepLink=false;return;}
+    const standaloneEntry=standaloneDialogs.get(section);
+    if(standaloneEntry){
+      showStandaloneDialog(section,false);
+      applyingDeepLink=false;
+      return;
+    }
     let categoryEntry=categoryDialogs.get(section);
     if(!categoryEntry){
       const parentDialog=target.closest('.hub-category-dialog');
