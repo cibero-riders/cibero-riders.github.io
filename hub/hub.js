@@ -155,33 +155,56 @@
     subfleetReimbursementHow2:'🧾 Use only the company tax ID provided by your sub-fleet administrator and keep the supporting documents.',
     subfleetReimbursementHow3:'📅 Your sub-fleet sets the deadline, submission method and payment date.'
   });
-  function createGroupHeading(key,text,meta=''){
-    const heading=document.createElement('h2');
-    heading.className='hub-group-heading';
+  function createGroupHeadingArrow(){
+    const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    svg.classList.add('hub-group-heading-arrow');
+    svg.setAttribute('aria-hidden','true');
+    svg.setAttribute('viewBox','0 0 24 24');
+    svg.setAttribute('fill','none');
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d','M12 3v17M5.5 13.5 12 20l6.5-6.5');
+    svg.append(path);
+    return svg;
+  }
+  function populateGroupHeading(heading,key,text,meta=''){
+    const copy=document.createElement('span');
+    copy.className='hub-group-heading-copy';
     const label=document.createElement('span');
     label.dataset.hubI18n=key;
     label.textContent=text;
-    heading.append(label);
+    copy.append(label);
     if(meta){
       const detail=document.createElement('small');
       detail.dataset.hubI18n='platformsGroupMeta';
       detail.textContent=meta;
-      heading.append(detail);
+      copy.append(detail);
     }
+    heading.replaceChildren(createGroupHeadingArrow(),copy,createGroupHeadingArrow());
+    return heading;
+  }
+  function createGroupHeading(key,text,meta=''){
+    const heading=document.createElement('h2');
+    heading.className='hub-group-heading';
+    populateGroupHeading(heading,key,text,meta);
     return heading;
   }
   function organizeHub(){
     const list=document.querySelector('.hub-essential-list');
     if(!list)return;
-    document.querySelector('.hub-subfleet-support h2')?.classList.add('hub-group-heading','hub-group-heading-support');
+    const supportHeading=document.querySelector('.hub-subfleet-support h2');
+    if(supportHeading){
+      const key=supportHeading.dataset.hubI18n||'subfleetSupportTitle';
+      const text=supportHeading.textContent.trim();
+      delete supportHeading.dataset.hubI18n;
+      supportHeading.classList.add('hub-group-heading','hub-group-heading-support');
+      populateGroupHeading(supportHeading,key,text);
+    }
     const byId=id=>document.getElementById(id);
-    const platformNodes=['aplicatii-mobile','faq-platforme','echipament-oficial','reguli-cash-si-reset'].map(byId).filter(Boolean);
-    const paymentNode=byId('plati');
+    const platformNodes=['plati','aplicatii-mobile','faq-platforme','echipament-oficial','reguli-cash-si-reset'].map(byId).filter(Boolean);
     const reimbursement=byId('decontare');
     const whatsapp=byId('comunicare-whatsapp');
     const videos=byId('ghiduri-video');
     const platformHeading=createGroupHeading('platformsGroupTitle','PLATFORME','BOLT FOOD | GLOVO | WOLT');
-    const paymentHeading=createGroupHeading('paymentsGroupTitle','PLĂȚI');
     const benefitsHeading=createGroupHeading('benefitsGroupTitle','BENEFICII');
     let benefitsList=list.querySelector('.hub-essential-actions');
     if(!benefitsList){
@@ -202,7 +225,6 @@
     divider.classList.add('hub-final-divider');
     list.replaceChildren(
       platformHeading,...platformNodes,
-      paymentHeading,...(paymentNode?[paymentNode]:[]),
       benefitsHeading,benefitsList,
       divider,...(whatsapp?[whatsapp]:[]),...(videos?[videos]:[])
     );

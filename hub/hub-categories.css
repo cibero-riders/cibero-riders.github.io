@@ -378,9 +378,9 @@
 .hub-group-heading {
   display: flex;
   grid-column: 1 / -1;
-  align-items: baseline;
+  align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
   margin: 34px 0 3px;
   padding: 0 3px 12px;
   border-bottom: 1px solid color-mix(in srgb, var(--hb-gold), transparent 62%);
@@ -393,17 +393,29 @@
   text-transform: uppercase;
 }
 
-.hub-group-heading::before {
-  width: 5px;
-  height: 22px;
-  border-radius: 3px;
-  background: linear-gradient(180deg, var(--hb-gold), color-mix(in srgb, var(--hb-gold), #6c2384 55%));
-  box-shadow: 0 0 16px color-mix(in srgb, var(--hb-gold), transparent 56%);
-  content: "";
+.hub-group-heading-arrow {
+  width: 30px;
+  height: 30px;
   flex: 0 0 auto;
+  color: var(--hb-gold);
+  filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--hb-gold), transparent 72%));
+}
+
+.hub-group-heading-arrow path {
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.hub-group-heading-copy {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
 }
 
 .hub-group-heading small {
+  display: block;
   color: var(--hb-muted);
   font-size: 11px;
   font-weight: 900;
@@ -532,21 +544,17 @@
 
 @media (max-width: 760px) {
   .hub-group-heading {
-    align-items: center;
-    flex-wrap: wrap;
     margin-top: 27px;
     padding-bottom: 10px;
     font-size: clamp(24px, 7vw, 31px);
   }
   .hub-group-heading small {
-    width: 100%;
-    margin-left: 0;
     font-size: 9px;
     text-align: center;
   }
-  .hub-group-heading::before {
-    width: 4px;
-    height: 19px;
+  .hub-group-heading-arrow {
+    width: 26px;
+    height: 26px;
   }
   .hub-payment-panel-head {
     grid-template-columns: 46px minmax(0, 1fr);
