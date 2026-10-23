@@ -274,6 +274,10 @@ html[data-theme="light"] .hub-rule-actions a:focus-visible{outline-color:#4b285c
 .hub-consulting-grid article>span{display:grid;width:34px;height:34px;place-items:center;border-radius:10px;background:var(--hb-soft);color:var(--hb-gold);font-size:11px;font-weight:900}
 .hub-consulting-grid strong{display:block;color:var(--hb-text);font-size:14px;line-height:1.4}
 .hub-consulting-grid p{margin-top:4px}
+.hub-consulting-services{grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;border-block:0}
+.hub-consulting-services article{grid-column:span 2;border:1px solid var(--hb-line);border-radius:14px;background:color-mix(in srgb,var(--hb-soft),transparent 18%)}
+.hub-consulting-services article:nth-child(n+4){grid-column:span 3}
+.hub-consulting-services article:nth-child(odd),.hub-consulting-services article:nth-child(-n+2){border:1px solid var(--hb-line)}
 .hub-consulting-footer{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:18px;padding-top:2px}
 .hub-consulting-footer p{max-width:590px;margin:0}
 .hub-consulting-footer p strong{color:var(--hb-text)}
@@ -288,5 +292,5 @@ html[data-theme="light"] .hub-rule-actions a:focus-visible{outline-color:#4b285c
 .hub-pfa-cta:hover{transform:translateY(-2px);box-shadow:0 14px 28px color-mix(in srgb,var(--hb-gold),transparent 66%)}
 .hub-pfa-cta b{font-size:17px}
 body:has(.hub-consulting-dialog[open],.hub-category-dialog[open]){overflow:hidden}
-@media(max-width:760px){.hub-consulting-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px);border-radius:20px}.hub-consulting-dialog-shell{max-height:calc(100dvh - 20px);padding:16px}.hub-consulting-dialog-heading{grid-template-columns:50px minmax(0,1fr);margin-top:20px}.hub-consulting-dialog-heading>span{width:50px;height:50px}.hub-consulting-grid{grid-template-columns:1fr}.hub-consulting-grid article:nth-child(odd){border-right:0}.hub-consulting-grid article:not(:last-child){border-bottom:1px solid var(--hb-line)}.hub-consulting-footer{grid-template-columns:1fr}.hub-consulting-whatsapp{width:100%}}
+@media(max-width:760px){.hub-consulting-dialog{width:calc(100% - 20px);max-height:calc(100dvh - 20px);border-radius:20px}.hub-consulting-dialog-shell{max-height:calc(100dvh - 20px);padding:16px}.hub-consulting-dialog-heading{grid-template-columns:50px minmax(0,1fr);margin-top:20px}.hub-consulting-dialog-heading>span{width:50px;height:50px}.hub-consulting-grid{grid-template-columns:1fr}.hub-consulting-grid article:nth-child(odd){border-right:0}.hub-consulting-grid article:not(:last-child){border-bottom:1px solid var(--hb-line)}.hub-consulting-services article,.hub-consulting-services article:nth-child(odd){grid-column:1;border-right:1px solid var(--hb-line)}.hub-consulting-footer{grid-template-columns:1fr}.hub-consulting-whatsapp{width:100%}}
 @media(prefers-reduced-motion:reduce){.hub-consulting-back,.hub-consulting-whatsapp,.hub-pfa-cta{transition:none}.hub-consulting-back:hover,.hub-consulting-whatsapp:hover,.hub-pfa-cta:hover{transform:none}}

@@ -95,6 +95,8 @@
     consultingFutureBody:'Savings for children, retirement and long-term goals.',
     consultingPlanTitle:'Personal financial plan',
     consultingPlanBody:'Organizing income and expenses into a plan suited to your goals.',
+    consultingCompensationTitle:'Compensation claims',
+    consultingCompensationBody:'Guidance on claim files, required documents and requesting compensation from the insurer.',
     consultingFree:'<strong>The service is free for CibeRO couriers.</strong> When you contact the consultant, mention that you are a courier in our fleet.',
     consultingWhatsapp:'Contact the consultant',
     consultingWhatsappAria:'Contact the consultant on WhatsApp',
