@@ -9,7 +9,9 @@ const script = fs.readFileSync(path.join(root, 'campanii', 'campanii.js'), 'utf8
 assert.match(html, /data-i18n="biweeklyCampaign">Campanie bi-săptămânală/);
 assert.match(html, /CAMPANIE BI-SĂPTĂMÂNALĂ/);
 assert.match(html, /cele 2 săptămâni de desfășurare a campaniei/);
-assert.match(html, /campanii\.js\?v=14/);
+assert.match(html, /0% comision pentru a 2-a săptămână/);
+assert.match(html, /veniturilor încasate în a doua săptămână din cele două în care campania e desfășurată/);
+assert.match(html, /campanii\.js\?v=15/);
 assert.doesNotMatch(html, /data-i18n="weeklyCampaign"/);
 
 for (const expected of [
@@ -18,7 +20,9 @@ for (const expected of [
   'Șanse bi-săptămânale automate pentru toți curierii activi.',
   'Automatic biweekly chances for all active couriers.',
   'La finalul celor 2 săptămâni',
-  'At the end of the 2 weeks'
+  'At the end of the 2 weeks',
+  '0% commission for the second week',
+  'during the second of the two campaign weeks'
 ]) {
   assert.match(script, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
 }
