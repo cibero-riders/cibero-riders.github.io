@@ -13,7 +13,7 @@ main { width: min(1050px, calc(100% - 48px)); padding: 56px 0 96px; }
 .hero h1 em { color: #e2bd56; }
 .hero > p:last-child { max-width: 610px; color: #d4c4d7; }
 
-.campaign-shell { padding: 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
+.campaign-shell { padding: 12px; border: 1px solid #d8b45270; border-radius: 22px; background: transparent; box-shadow: none; }
 .tabs { gap: 10px; padding: 0; }
 .tab { min-height: 76px; padding: 14px 18px; border-color: #d7b95352; border-radius: 10px; background: #1d0d25bd; box-shadow: inset 0 1px 0 #fff4c20d; }
 .tab:hover { border-color: #e2bd56; background: #2b1534; transform: translateY(-1px); }
@@ -73,6 +73,7 @@ html[data-theme="light"] .closing { color: #95600f; }
   .hero { margin-bottom: 28px; }
   .hero h1 { font-size: 36px; letter-spacing: -1.4px; }
   .hero > p:last-child { font-size: 15px; }
+  .campaign-shell { padding: 9px; border-radius: 18px; }
   .tabs { grid-template-columns: 1fr; gap: 8px; }
   .tab { min-height: 68px; padding: 12px 14px; }
   .campaign-panel { padding: 20px 14px; border-radius: 15px; }
