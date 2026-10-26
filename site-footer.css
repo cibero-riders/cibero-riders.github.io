@@ -17,6 +17,8 @@ footer.site-footer {
   font-family: "DM Sans", Arial, sans-serif;
   text-align: center;
 }
+/* Keep the page canvas and its ornaments visible through the footer in every theme. */
+html[data-theme] footer.site-footer { background: transparent; }
 .site-footer .footer-company-details {
   display: flex;
   align-items: center;
