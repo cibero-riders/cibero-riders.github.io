@@ -37,6 +37,7 @@
     nextPaymentLabel:'Next payment:',
     paymentPeriodLabel:'For earnings collected during',
     paymentResetLabel:'RESET: Deposit the full balance by',
+    paymentResetGlovoLabel:'RESET: Deposit the full balance by',
     calendarFormatSelector:'Choose the calendar format',
     posterOption:'Poster',
     openCalendarYoutube:'View payment calendar',
