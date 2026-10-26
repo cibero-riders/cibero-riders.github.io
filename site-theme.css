@@ -3,6 +3,29 @@
 /* One readable typeface across public pages, including dynamically added copy. */
 body, body * { font-family: "DM Sans", Arial, sans-serif !important; }
 
+/* Shared ornamental frame, borrowed from onboarding without replacing each theme's palette. */
+body:not(.onboarding-page) { position: relative; isolation: isolate; }
+body:not(.onboarding-page)::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url("/onboarding/assets/onboarding-ornamental-background.png") center/cover no-repeat;
+  opacity: .42;
+  mix-blend-mode: screen;
+  pointer-events: none;
+}
+html[data-theme="light"] body:not(.onboarding-page)::before {
+  filter: grayscale(1) sepia(.28);
+  opacity: .1;
+  mix-blend-mode: multiply;
+}
+html[data-theme="night"] body:not(.onboarding-page)::before {
+  filter: grayscale(1) sepia(.24);
+  opacity: .2;
+  mix-blend-mode: screen;
+}
+
 .public-theme-switch {
   display: inline-grid;
   grid-template-columns: repeat(3, 32px);
@@ -312,6 +335,7 @@ html[data-theme="night"] :is(.upload-preview,.upload-preview-empty,.upload-previ
 html[data-theme="night"] .hero h1 em { color:#c7a776; }
 
 @media (max-width: 760px) {
+  body:not(.onboarding-page)::before { background-position: center top; }
   html[data-theme="light"] .global-header nav { border-color:#b98b466b; background:#fffdf8; box-shadow:0 18px 40px #6d4d1633; }
   html[data-theme="light"] .global-header nav > a:not(.nav-account) { color:#382b3b; }
   html[data-theme="midday"] .global-header nav { background:#211027; }

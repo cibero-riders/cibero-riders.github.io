@@ -44,14 +44,16 @@ export const viewport: Viewport = {
 const themeBootstrap = `
 try {
   var savedTheme = localStorage.getItem("cibero-public-theme");
-  document.documentElement.dataset.theme = ["light", "midday", "night"].includes(savedTheme) ? savedTheme : "midday";
+  var hasUserChoice = localStorage.getItem("cibero-public-theme-user-choice") === "1";
+  var isLegacyChoice = savedTheme === "light" || savedTheme === "night";
+  document.documentElement.dataset.theme = (hasUserChoice || isLegacyChoice) && ["light", "midday", "night"].includes(savedTheme) ? savedTheme : "night";
 } catch (_) {
-  document.documentElement.dataset.theme = "midday";
+  document.documentElement.dataset.theme = "night";
 }`;
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="ro" data-theme="midday" suppressHydrationWarning>
+    <html lang="ro" data-theme="night" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
         <meta property="og:image:secure_url" content={socialImage} />
@@ -65,7 +67,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
         <link rel="stylesheet" href="/main-page.css?v=40" />
         <link rel="stylesheet" href="/site-navigation.css?v=31" />
         <link rel="stylesheet" href="/smooth-typography.css?v=1" />
-        <link rel="stylesheet" href="/site-theme.css?v=12" />
+        <link rel="stylesheet" href="/site-theme.css?v=13" />
         <link rel="stylesheet" href="/site-footer.css?v=1" />
       </head>
       <body>{children}</body>

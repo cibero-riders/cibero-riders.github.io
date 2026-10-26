@@ -115,7 +115,7 @@ const header = subfleet.split('<header class="subfleet-header"')[1].split('</hea
 assert.match(header, /public-language-switch/);
 assert.doesNotMatch(header, /brand|social|main-nav|menu-toggle|nav-account|<nav|href=/);
 assert.match(themeScript, /\.subfleet-header/);
-assert.match(subfleet, /\.\.\/site-theme\.js\?v=4/);
+assert.match(subfleet, /\.\.\/site-theme\.js\?v=5/);
 assert.doesNotMatch(subfleet, /site-navigation\.css|site-footer\.css|main-page\.js/);
 assert.match(subfleet, /<footer class="subfleet-footer">© Powered by Cibero - 2026 \| All rights reserved<\/footer>/);
 

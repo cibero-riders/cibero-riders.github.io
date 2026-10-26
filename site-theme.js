@@ -1,18 +1,36 @@
 (() => {
   const STORAGE_KEY = "cibero-public-theme";
+  const USER_CHOICE_KEY = "cibero-public-theme-user-choice";
   const THEMES = ["light", "midday", "night"];
   const icons = { light: "☀", midday: "◐", night: "☾" };
   const labels = { light: "Day mode", midday: "Midday mode", night: "Night mode" };
 
-  function storedTheme() {
-    const value = localStorage.getItem(STORAGE_KEY);
-    return THEMES.includes(value) ? value : "midday";
+  function defaultTheme() {
+    return /^\/(?:public\/)?onboarding(?:\/|$)/.test(window.location.pathname) ? "midday" : "night";
   }
 
-  function applyTheme(theme) {
-    const nextTheme = THEMES.includes(theme) ? theme : "midday";
+  function storedTheme() {
+    const value = localStorage.getItem(STORAGE_KEY);
+    const hasExplicitChoice = localStorage.getItem(USER_CHOICE_KEY) === "1";
+    if (hasExplicitChoice && THEMES.includes(value)) return value;
+
+    // Before this marker existed, Midday was written automatically on every visit.
+    // Preserve legacy Day/Night values because those necessarily came from the user.
+    if (value === "light" || value === "night") {
+      localStorage.setItem(USER_CHOICE_KEY, "1");
+      return value;
+    }
+
+    return defaultTheme();
+  }
+
+  function applyTheme(theme, persist = false) {
+    const nextTheme = THEMES.includes(theme) ? theme : defaultTheme();
     document.documentElement.dataset.theme = nextTheme;
-    localStorage.setItem(STORAGE_KEY, nextTheme);
+    if (persist) {
+      localStorage.setItem(USER_CHOICE_KEY, "1");
+      localStorage.setItem(STORAGE_KEY, nextTheme);
+    }
     document.querySelectorAll("[data-public-theme]").forEach((button) => {
       const active = button.dataset.publicTheme === nextTheme;
       button.classList.toggle("active", active);
@@ -32,7 +50,7 @@
       button.title = labels[theme];
       button.setAttribute("aria-label", labels[theme]);
       button.innerHTML = `<span aria-hidden="true">${icons[theme]}</span>`;
-      button.addEventListener("click", () => applyTheme(theme));
+      button.addEventListener("click", () => applyTheme(theme, true));
       control.append(button);
     });
     return control;
@@ -103,6 +121,6 @@
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", installHeaderControls, { once: true });
   else installHeaderControls();
   window.addEventListener("storage", (event) => {
-    if (event.key === STORAGE_KEY) applyTheme(storedTheme());
+    if (event.key === STORAGE_KEY || event.key === USER_CHOICE_KEY) applyTheme(storedTheme());
   });
 })();
