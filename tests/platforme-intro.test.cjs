@@ -14,7 +14,7 @@ assert.doesNotMatch(html, /CibeRO · GHID PLATFORME|platforms-kicker/);
 assert.match(html, /Află diferențele dintre platformele de delivery\./);
 assert.doesNotMatch(html, /Află care platformă ți se potrivește cel mai mult\./);
 assert.match(html, /platforme\.css\?v=10/);
-assert.match(html, /site-language\.js\?v=16/);
+assert.match(html, /site-language\.js\?v=17/);
 assert.match(css, /\.platforms-page \{[^}]*padding: 44px 0 88px;/);
 assert.match(css, /@media \(max-width: 760px\)[\s\S]*?\.platforms-page \{[^}]*padding: 28px 0 64px;/);
 
