@@ -23,8 +23,8 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=45/);
-assert.match(fleet, /hub\.js\?v=45/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=46/);
+assert.match(fleet, /hub\.js\?v=46/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
@@ -60,7 +60,7 @@ for (const html of [fleet, subfleet]) {
   assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
   assert.match(html, /hub-cash-bubbles\.css\?v=2/);
   assert.doesNotMatch(html, /class="hub-rule-section"|data-hub-i18n="cashKnowTitle"|data-hub-i18n="cashDoTitle"/);
-  for (const key of ['boltCashIntro', 'boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule4', 'boltCashRule5', 'boltCashRule6', 'glovoCashRule', 'glovoDepositRule', 'glovoResetRule1', 'glovoResetRule2', 'woltCashRule', 'woltResetRule1', 'woltAircashAccountSetup', 'woltDepositInfo', 'woltDepositRule2', 'woltResetAction', 'woltNoNextDayDeposit']) {
+  for (const key of ['boltCashIntro', 'boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule4', 'boltCashRule5', 'boltCashRule6', 'glovoCashRule', 'glovoDepositRule', 'glovoResetRule1', 'woltCashRule', 'woltResetRule1', 'woltAircashAccountSetup', 'woltDepositInfo', 'woltDepositRule2', 'woltResetAction', 'woltNoNextDayDeposit']) {
     assert.match(html, new RegExp(`class="hub-cash-fact(?: hub-cash-fact-deadline)?" data-hub-i18n(?:-html)?="${key}"`));
   }
   const boltFacts = html.match(/<article class="hub-rule hub-rule-bolt"[\s\S]*?<\/article>/)[0];
@@ -79,6 +79,13 @@ for (const html of [fleet, subfleet]) {
   assert.match(html, /src="\.\.\/assets\/social-youtube\.svg"/);
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
+for (const html of [fleet, subfleet]) {
+  assert.match(html, /Resetul principal la Glovo are loc în fiecare <strong>Marți, până în ora 14:00<\/strong>/);
+  assert.doesNotMatch(html, /Glovo mai efectuează un reset și luni|glovoResetRule2/);
+}
+assert.match(script, /glovoResetDate\(now\)/);
+assert.match(script, /platform==='glovo'\?formatWeekdayDate\(schedule\.reset\)/);
+assert.match(script, /platform==='glovo'\?\(language==='en'\?'[,] 14:00':'[,] ora 14:00'\)/);
 assert.match(categoryStyles, /text-transform: uppercase/);
 assert.match(categoryStyles, /\.hub-platform-tabs \{[\s\S]*?grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*?overflow: visible;/);
 assert.match(categoryStyles, /data-payment-platform="bolt"[\s\S]*?--platform-tab-accent: #2dce8a/);
