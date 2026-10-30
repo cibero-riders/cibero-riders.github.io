@@ -56,7 +56,7 @@ html[data-theme="light"] .subfleet-body {
 .sf-button-primary { border-color: #f7d373; background: linear-gradient(135deg, #fff1b9, #e7aa28); box-shadow: 0 16px 34px rgba(213, 155, 33, .19); color: #251806 !important; }
 .sf-button-primary:hover { box-shadow: 0 20px 42px rgba(213, 155, 33, .28); }
 .sf-button-secondary { background: var(--sf-surface); color: var(--sf-text) !important; }
-.sf-apply-note { display: flex; max-width: 660px; gap: 10px; margin: 30px 0 0; font-size: 12px; line-height: 1.55; }
+.sf-apply-note { display: flex; max-width: 660px; gap: 10px; margin: 0; padding-top: 24px; font-size: 12px; line-height: 1.55; }
 .sf-apply-note > span:first-child { display: grid; flex: 0 0 19px; width: 19px; height: 19px; place-items: center; border: 1px solid var(--sf-line); border-radius: 50%; color: var(--sf-gold); font-size: 11px; font-weight: 800; }
 
 .sf-manager-preview { overflow: hidden; border: 1px solid var(--sf-line); border-radius: 24px; background: linear-gradient(145deg, var(--sf-card), var(--sf-surface-strong)); box-shadow: var(--sf-shadow); }
