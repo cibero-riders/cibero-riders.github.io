@@ -11,6 +11,8 @@ const formUrl = 'https://cibero-manager-tool.bolt.host/inscriere';
 assert.ok((html.match(new RegExp(formUrl, 'g')) || []).length >= 2, 'Both primary CTAs use the registration form');
 assert.match(html, /selectează opțiunea „SRL”/i, 'The hero explains that applicants must select SRL');
 assert.match(html, /CIBERO Manager/);
+assert.match(html, /Tu îți dezvolți echipa —/);
+assert.match(css, /white-space: nowrap/, 'The desktop hero headline stays on one line');
 assert.match(html, /Administrarea curierilor Bolt Food/);
 assert.match(html, /Control cash și protecție antifraudă/);
 assert.match(html, /Liste de așteptare și înscrieri/);

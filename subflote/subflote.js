@@ -1,8 +1,8 @@
 (() => {
   const en = {
     heroEyebrow: 'PARTNERSHIP FOR SUB-FLEETS',
-    heroTitleFirst: 'Control operations.',
-    heroTitleSecond: 'Grow your team.',
+    heroTitleFirst: 'You grow your team —',
+    heroTitleSecond: 'we provide the infrastructure.',
     heroLead: 'Partnering with us gives you access to CIBERO Manager, the system where you manage couriers, recruitment, waiting lists and operational requests.',
     heroSupport: 'You have tools for direct action and support for operations that require our involvement.',
     applyButton: 'Apply as a sub-fleet',
