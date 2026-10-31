@@ -23,8 +23,8 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=50/);
-assert.match(fleet, /hub\.js\?v=50/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=51/);
+assert.match(fleet, /hub\.js\?v=51/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
@@ -86,9 +86,11 @@ for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /Glovo mai efectuează un reset și luni|glovoResetRule2/);
   assert.match(html, /data-hub-i18n="paymentResetGlovoLabel">RESET: Depune integral balanța până<\/span> <strong data-card-reset="glovo"/);
   assert.doesNotMatch(html, /până la<\/span> <strong data-card-reset="glovo"/);
+  assert.doesNotMatch(html, /până la<\/span> <strong data-card-reset="(?:bolt|wolt)"/);
 }
 assert.match(script, /glovoResetDate\(now\)/);
-assert.match(script, /platform==='glovo'\?formatWeekdayDate\(schedule\.reset\)/);
+assert.match(script, /resetDate=capitalizeDate\(formatWeekdayDate\(schedule\.reset\)\)/);
+assert.doesNotMatch(script, /platform==='glovo'\?formatWeekdayDate\(schedule\.reset\)/);
 assert.match(script, /platform==='glovo'\?\(language==='en'\?'[,] 14:00':'[,] ora 14:00'\)/);
 assert.match(categoryStyles, /text-transform: uppercase/);
 assert.match(categoryStyles, /\.hub-platform-tabs \{[\s\S]*?grid-template-columns: repeat\(3, minmax\(0, 1fr\)\);[\s\S]*?overflow: visible;/);
