@@ -324,9 +324,15 @@
       caveatText.dataset.hubI18n=copy.caveatKey;
     }
     content.classList.add('hub-category-dialog-content');
-    const headerAction=category.id==='plati'?content.querySelector('.hub-calendar-button'):null;
-    if(headerAction)headerAction.classList.add('hub-dialog-header-action');
-    shell.append(back,heading,...(caveat?[caveat]:[]),...(headerAction?[headerAction]:[]),content);
+    const calendarTemplate=category.id==='plati'?content.querySelector('.hub-calendar-button'):null;
+    if(calendarTemplate){
+      content.querySelectorAll('.hub-pay-row').forEach((row,index)=>{
+        const action=index===0?calendarTemplate:calendarTemplate.cloneNode(true);
+        action.classList.add('hub-pay-card-calendar');
+        row.querySelector('.hub-pay-brand')?.append(action);
+      });
+    }
+    shell.append(back,heading,...(caveat?[caveat]:[]),content);
     dialog.append(shell);
     category.after(dialog);
     categoryDialogs.set(category.id,{section:category.id,category,summary,dialog,back,shell});

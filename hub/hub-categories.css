@@ -1874,16 +1874,27 @@ html[data-theme="light"] .hub-category-symbol {
   grid-row: 2;
 }
 
-.hub-category-payments .hub-calendar-button.hub-youtube-button.hub-dialog-header-action {
-  grid-column: 1 / -1;
-  grid-row: 2;
-  justify-self: end;
-  width: min(100%, 310px);
-  margin: -8px 0 16px;
+.hub-category-payments .hub-pay-brand .hub-calendar-button.hub-youtube-button.hub-pay-card-calendar {
+  grid-template-columns: 27px minmax(0, 1fr) 16px;
+  gap: 8px;
+  width: min(42%, 270px);
+  min-width: 225px;
+  min-height: 44px;
+  margin: 0 0 0 auto;
+  padding: 7px 11px;
+  border-radius: 13px;
+  font-size: 12px;
+  line-height: 1.2;
 }
 
-.hub-category-payments .hub-category-dialog-content {
-  grid-row: 3;
+.hub-category-payments .hub-pay-brand .hub-pay-card-calendar .hub-youtube-mark,
+.hub-category-payments .hub-pay-brand .hub-pay-card-calendar .hub-youtube-mark img {
+  width: 27px;
+  height: 27px;
+}
+
+.hub-category-payments .hub-pay-brand .hub-pay-card-calendar b {
+  font-size: 17px;
 }
 
 .hub-dialog-caveat {
@@ -1916,14 +1927,6 @@ html[data-theme="light"] .hub-category-symbol {
     margin: 16px 0 20px;
   }
 
-  .hub-category-payments .hub-calendar-button.hub-youtube-button.hub-dialog-header-action {
-    grid-column: 1;
-    grid-row: 3;
-    justify-self: center;
-    width: min(100%, 310px);
-    margin: -3px 0 16px;
-  }
-
   .hub-category-dialog-intro h2,
   .hub-category-payments .hub-category-dialog-intro h2 {
     max-width: 100%;
@@ -1942,10 +1945,6 @@ html[data-theme="light"] .hub-category-symbol {
     grid-row: 3;
   }
 
-  .hub-category-payments .hub-category-dialog-content {
-    grid-row: 4;
-  }
-
   .hub-dialog-caveat {
     grid-column: 1;
     grid-row: 3;
@@ -1954,6 +1953,35 @@ html[data-theme="light"] .hub-category-symbol {
 
   .hub-category-dialog-shell:has(.hub-dialog-caveat) .hub-category-dialog-content {
     grid-row: 4;
+  }
+
+  .hub-category-payments .hub-pay-brand .hub-calendar-button.hub-youtube-button.hub-pay-card-calendar {
+    grid-template-columns: 23px minmax(0, 1fr) 14px;
+    gap: 6px;
+    width: 168px;
+    min-width: 0;
+    min-height: 38px;
+    margin: 0 0 0 auto;
+    padding: 5px 7px;
+    border-radius: 11px;
+    font-size: 10px;
+  }
+
+  .hub-category-payments .hub-pay-brand .hub-pay-card-calendar .hub-youtube-mark,
+  .hub-category-payments .hub-pay-brand .hub-pay-card-calendar .hub-youtube-mark img {
+    width: 23px;
+    height: 23px;
+  }
+}
+
+@media (max-width: 380px) {
+  .hub-category-payments .hub-payment-content .hub-pay-brand {
+    flex-wrap: wrap;
+  }
+
+  .hub-category-payments .hub-pay-brand .hub-calendar-button.hub-youtube-button.hub-pay-card-calendar {
+    width: 100%;
+    margin-top: 4px;
   }
 }
 
