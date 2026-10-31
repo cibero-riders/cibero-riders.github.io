@@ -1755,3 +1755,75 @@ html[data-theme="light"] .hub-category-symbol {
     display: inline;
   }
 }
+
+/* Unified centered headings for every focused Hub section. */
+.hub-category-dialog-intro {
+  justify-items: center;
+  text-align: center;
+}
+
+.hub-category-dialog-intro h2,
+.hub-category-payments .hub-category-dialog-intro h2 {
+  width: 100%;
+  margin: 0;
+  color: var(--hb-text);
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1.16;
+  letter-spacing: -.03em;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hub-category-dialog-intro > p {
+  width: 100%;
+  margin: 4px 0 0;
+  color: var(--hb-muted);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.4;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.hub-dialog-caveat {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-self: center;
+  width: min(100%, 620px);
+  margin: 0 auto 16px;
+  text-align: center;
+}
+
+.hub-dialog-caveat p {
+  flex: 1;
+  text-align: center;
+}
+
+.hub-category-dialog-shell:has(.hub-dialog-caveat) .hub-category-dialog-content {
+  grid-row: 3;
+}
+
+@media (max-width: 760px) {
+  .hub-category-dialog-intro h2,
+  .hub-category-payments .hub-category-dialog-intro h2 {
+    font-size: 20px;
+    line-height: 1.16;
+    letter-spacing: -.025em;
+  }
+
+  .hub-category-dialog-intro > p {
+    margin-top: 3px;
+    font-size: 12px;
+  }
+
+  .hub-dialog-caveat {
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 9px 12px;
+  }
+
+  .hub-dialog-caveat p {
+    font-size: 12px;
+  }
+}

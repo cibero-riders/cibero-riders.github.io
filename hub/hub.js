@@ -314,17 +314,17 @@
       note.dataset.hubI18n=copy.noteKey;
       heading.append(note);
     }
+    let caveat=null;
     if(copy.caveat){
-      const caveat=document.createElement('aside');
+      caveat=document.createElement('aside');
       caveat.className='hub-dialog-caveat';
       caveat.innerHTML='<span aria-hidden="true">i</span><p></p>';
       const caveatText=caveat.querySelector('p');
       caveatText.textContent=copy.caveat;
       caveatText.dataset.hubI18n=copy.caveatKey;
-      heading.append(caveat);
     }
     content.classList.add('hub-category-dialog-content');
-    shell.append(back,heading,content);
+    shell.append(back,heading,...(caveat?[caveat]:[]),content);
     dialog.append(shell);
     category.after(dialog);
     categoryDialogs.set(category.id,{section:category.id,category,summary,dialog,back,shell});
