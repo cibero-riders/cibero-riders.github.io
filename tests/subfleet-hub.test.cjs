@@ -23,13 +23,13 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=51/);
-assert.match(fleet, /hub\.js\?v=51/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=52/);
+assert.match(fleet, /hub\.js\?v=52/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=29/);
-assert.match(fleet, /hub-categories\.css\?v=29/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=30/);
+assert.match(fleet, /hub-categories\.css\?v=30/);
 assert.match(subfleet, /\.\.\/hub\/hub-essential\.css\?v=29/);
 assert.match(fleet, /hub-essential\.css\?v=29/);
 for (const html of [fleet, subfleet]) {
@@ -89,6 +89,9 @@ for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /până la<\/span> <strong data-card-reset="(?:bolt|wolt)"/);
 }
 assert.match(script, /glovoResetDate\(now\)/);
+assert.match(script, /title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată'/);
+assert.doesNotMatch(script, /title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată\.'/);
+assert.match(script, /headerAction=category\.id==='plati'\?content\.querySelector\('\.hub-calendar-button'\):null/);
 assert.match(script, /resetDate=capitalizeDate\(formatWeekdayDate\(schedule\.reset\)\)/);
 assert.doesNotMatch(script, /platform==='glovo'\?formatWeekdayDate\(schedule\.reset\)/);
 assert.match(script, /platform==='glovo'\?\(language==='en'\?'[,] 14:00':'[,] ora 14:00'\)/);

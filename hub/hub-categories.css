@@ -1844,7 +1844,7 @@ html[data-theme="light"] .hub-category-symbol {
 
 .hub-category-dialog-intro,
 .hub-category-payments .hub-category-dialog-intro {
-  grid-column: 2;
+  grid-column: 1 / -1;
   grid-row: 1;
   align-self: center;
   justify-items: center;
@@ -1855,10 +1855,11 @@ html[data-theme="light"] .hub-category-symbol {
 
 .hub-category-dialog-intro h2,
 .hub-category-payments .hub-category-dialog-intro h2 {
-  max-width: 760px;
+  max-width: 800px;
   font-size: clamp(34px, 3.15vw, 38px);
   line-height: 1.08;
   letter-spacing: -.035em;
+  text-wrap: pretty;
 }
 
 .hub-category-dialog-intro > p {
@@ -1871,6 +1872,18 @@ html[data-theme="light"] .hub-category-symbol {
 .hub-category-dialog-content {
   grid-column: 1 / -1;
   grid-row: 2;
+}
+
+.hub-category-payments .hub-calendar-button.hub-youtube-button.hub-dialog-header-action {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  justify-self: end;
+  width: min(100%, 310px);
+  margin: -8px 0 16px;
+}
+
+.hub-category-payments .hub-category-dialog-content {
+  grid-row: 3;
 }
 
 .hub-dialog-caveat {
@@ -1903,6 +1916,14 @@ html[data-theme="light"] .hub-category-symbol {
     margin: 16px 0 20px;
   }
 
+  .hub-category-payments .hub-calendar-button.hub-youtube-button.hub-dialog-header-action {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: center;
+    width: min(100%, 310px);
+    margin: -3px 0 16px;
+  }
+
   .hub-category-dialog-intro h2,
   .hub-category-payments .hub-category-dialog-intro h2 {
     max-width: 100%;
@@ -1921,6 +1942,10 @@ html[data-theme="light"] .hub-category-symbol {
     grid-row: 3;
   }
 
+  .hub-category-payments .hub-category-dialog-content {
+    grid-row: 4;
+  }
+
   .hub-dialog-caveat {
     grid-column: 1;
     grid-row: 3;
@@ -1929,5 +1954,21 @@ html[data-theme="light"] .hub-category-symbol {
 
   .hub-category-dialog-shell:has(.hub-dialog-caveat) .hub-category-dialog-content {
     grid-row: 4;
+  }
+}
+
+@media (min-width: 761px) {
+  .hub-category-payments .hub-payment-content {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hub-category-payments .hub-payment-selector {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .hub-category-payments .hub-pay-stack {
+    grid-column: 1;
+    grid-row: 2;
   }
 }

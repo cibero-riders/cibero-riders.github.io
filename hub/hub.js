@@ -146,15 +146,15 @@
     woltDepositInfo:'Depositing through Aircash updates your balance instantly. You can deposit by card directly in Aircash or with cash at PayPoint, Un-doi Centru de plăți, Kaseria, StartPay and Inmedio.',
     woltDepositGuide:'Watch the deposit video guide',
     aircashLocations:'See Aircash locations',
-    appsDialogTitle:'Choose the platform whose mobile app you want to download.',
-    paymentsDialogTitle:'Choose the platform whose current fiscal periods and next payment you want to view.',
-    cashDialogTitle:'Choose the platform whose cash, balance, deposit and reset rules you want to view.',
-    reimbursementDialogTitle:'See how the 5% reimbursement works.',
-    faqDialogTitle:'Choose the platform whose FAQ you want to view.',
+    appsDialogTitle:'Choose the platform whose mobile app you want to download',
+    paymentsDialogTitle:'Choose the platform whose current fiscal periods and next payment you want to view',
+    cashDialogTitle:'Choose the platform whose cash, balance, deposit and reset rules you want to view',
+    reimbursementDialogTitle:'See how the 5% reimbursement works',
+    faqDialogTitle:'Choose the platform whose FAQ you want to view',
     faqDialogCaveat:'Some information may not be up to date.',
-    gearDialogTitle:'Choose the platform whose official equipment store you want to view.',
+    gearDialogTitle:'Choose the platform whose official equipment store you want to view',
     gearDialogNote:'Bags, helmets, gloves and other useful equipment and accessories.',
-    whatsappDialogTitle:'Choose the WhatsApp channel you want to open.'
+    whatsappDialogTitle:'Choose the WhatsApp channel you want to open'
   });
   if(isSubfleet)Object.assign(translations,{
     hubTitle:'Courier Hub',
@@ -244,35 +244,35 @@
   const categoryDialogCopy={
     'aplicatii-mobile':{
       titleKey:'appsDialogTitle',
-      title:'Alege platforma pentru care vrei să descarci aplicația mobilă.'
+      title:'Alege platforma pentru care vrei să descarci aplicația mobilă'
     },
     plati:{
       titleKey:'paymentsDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată.'
+      title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată'
     },
     'reguli-cash-si-reset':{
       titleKey:'cashDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi regulile de cash, balanță, depunere și reset.'
+      title:'Alege platforma pentru care vrei să vezi regulile de cash, balanță, depunere și reset'
     },
     decontare:{
       titleKey:'reimbursementDialogTitle',
-      title:'Află cum funcționează decontarea de 5%.'
+      title:'Află cum funcționează decontarea de 5%'
     },
     'faq-platforme':{
       titleKey:'faqDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi FAQ.',
+      title:'Alege platforma pentru care vrei să vezi FAQ',
       caveatKey:'faqDialogCaveat',
       caveat:'Unele informații s-ar putea să nu fie de actualitate.'
     },
     'echipament-oficial':{
       titleKey:'gearDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi magazinul online de echipament.',
+      title:'Alege platforma pentru care vrei să vezi magazinul online de echipament',
       noteKey:'gearDialogNote',
       note:'Genți, căști, mănuși și alte echipamente sau accesorii utile.'
     },
     'comunicare-whatsapp':{
       titleKey:'whatsappDialogTitle',
-      title:'Alege canalul WhatsApp pe care vrei să-l deschizi.'
+      title:'Alege canalul WhatsApp pe care vrei să-l deschizi'
     }
   };
   const categoryDialogs=new Map();
@@ -324,7 +324,9 @@
       caveatText.dataset.hubI18n=copy.caveatKey;
     }
     content.classList.add('hub-category-dialog-content');
-    shell.append(back,heading,...(caveat?[caveat]:[]),content);
+    const headerAction=category.id==='plati'?content.querySelector('.hub-calendar-button'):null;
+    if(headerAction)headerAction.classList.add('hub-dialog-header-action');
+    shell.append(back,heading,...(caveat?[caveat]:[]),...(headerAction?[headerAction]:[]),content);
     dialog.append(shell);
     category.after(dialog);
     categoryDialogs.set(category.id,{section:category.id,category,summary,dialog,back,shell});
