@@ -154,7 +154,7 @@
     faqDialogCaveat:'Some information may not be up to date.',
     gearDialogTitle:'Choose the platform whose official equipment store you want to view',
     gearDialogNote:'Bags, helmets, gloves and other useful equipment and accessories.',
-    whatsappDialogTitle:'Choose the WhatsApp channel you want to open'
+    whatsappDialogTitle:'Choose the WhatsApp channel you\u00a0want\u00a0to\u00a0open'
   });
   if(isSubfleet)Object.assign(translations,{
     hubTitle:'Courier Hub',
@@ -241,6 +241,7 @@
     );
   }
   organizeHub();
+  const formatDialogHeading=value=>String(value||'').replace(/(\p{L})-(?=\p{L})/gu,'$1\u2011');
   const categoryDialogCopy={
     'aplicatii-mobile':{
       titleKey:'appsDialogTitle',
@@ -272,7 +273,7 @@
     },
     'comunicare-whatsapp':{
       titleKey:'whatsappDialogTitle',
-      title:'Alege canalul WhatsApp pe care vrei să-l deschizi'
+      title:'Alege canalul WhatsApp pe care vrei\u00a0să\u2011l\u00a0deschizi'
     }
   };
   const categoryDialogs=new Map();
@@ -305,7 +306,7 @@
     heading.className='hub-category-dialog-intro';
     const title=document.createElement('h2');
     title.id=`${category.id}-dialog-title`;
-    title.textContent=copy.title;
+    title.textContent=formatDialogHeading(copy.title);
     if(copy.titleKey)title.dataset.hubI18n=copy.titleKey;
     heading.append(title);
     if(copy.note){
@@ -385,7 +386,7 @@
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
   function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatWeekdayDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;const paymentPrefix=schedule.delayed?(language==='en'?'Friday, ':'Vineri, '):(language==='en'?'no later than Friday, ':'cel târziu Vineri, ');const resetTime=platform==='glovo'?(language==='en'?', 14:00':', ora 14:00'):(language==='en'?', 23:59':', ora 23:59');return{payment:paymentPrefix+formatDate(schedule.payment)+(language==='en'?', 17:00':', ora 17:00'),period,note:resetDate+resetTime,delayed:Boolean(schedule.delayed)};}
   function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
-  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?'Courier Hub':'CIBERO Hub';if(description)description.content=language==='en'?(isSubfleet?'Courier Hub — general information and resources for partner couriers.':'CIBERO Hub — information and resources for CibeRO couriers.'):originalDescription;renderPayments();}
+  function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));document.querySelectorAll('.hub-category-dialog-intro h2').forEach(node=>node.textContent=formatDialogHeading(node.textContent));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?'Courier Hub':'CIBERO Hub';if(description)description.content=language==='en'?(isSubfleet?'Courier Hub — general information and resources for partner couriers.':'CIBERO Hub — information and resources for CibeRO couriers.'):originalDescription;renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
   document.querySelectorAll('.hub-pay-row').forEach(card=>{

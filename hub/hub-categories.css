@@ -1865,6 +1865,10 @@ html[data-theme="light"] .hub-category-symbol {
   line-height: 1.08;
   letter-spacing: -.035em;
   text-wrap: pretty;
+  overflow-wrap: normal;
+  word-break: normal;
+  -webkit-hyphens: none;
+  hyphens: none;
 }
 
 .hub-category-dialog-intro > p {

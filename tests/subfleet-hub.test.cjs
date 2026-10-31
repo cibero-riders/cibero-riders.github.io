@@ -23,13 +23,13 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=53/);
-assert.match(fleet, /hub\.js\?v=53/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=54/);
+assert.match(fleet, /hub\.js\?v=54/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=32/);
-assert.match(fleet, /hub-categories\.css\?v=32/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=33/);
+assert.match(fleet, /hub-categories\.css\?v=33/);
 assert.match(subfleet, /\.\.\/hub\/hub-essential\.css\?v=29/);
 assert.match(fleet, /hub-essential\.css\?v=29/);
 for (const html of [fleet, subfleet]) {
@@ -94,6 +94,8 @@ assert.doesNotMatch(script, /title:'Alege platforma pentru care vrei să vezi pe
 assert.match(script, /calendarTemplate=category\.id==='plati'\?content\.querySelector\('\.hub-calendar-button'\):null/);
 assert.match(script, /content\.querySelectorAll\('\.hub-pay-row'\)\.forEach/);
 assert.match(script, /action\.classList\.add\('hub-pay-card-calendar'\)/);
+assert.match(script, /vrei\\u00a0să\\u2011l\\u00a0deschizi/);
+assert.match(script, /formatDialogHeading/);
 assert.match(script, /resetDate=capitalizeDate\(formatWeekdayDate\(schedule\.reset\)\)/);
 assert.doesNotMatch(script, /platform==='glovo'\?formatWeekdayDate\(schedule\.reset\)/);
 assert.match(script, /platform==='glovo'\?\(language==='en'\?'[,] 14:00':'[,] ora 14:00'\)/);
@@ -205,6 +207,7 @@ assert.match(categoryStyles, /hub-category-shine/);
 assert.match(categoryStyles, /hub-calendar-button/);
 assert.match(categoryStyles, /grid-template-columns: minmax\(145px, \.8fr\) minmax\(0, 3\.6fr\) minmax\(145px, \.8fr\)/);
 assert.match(categoryStyles, /\.hub-category-dialog-back,[\s\S]*?z-index: 4;[\s\S]*?pointer-events: auto;/);
+assert.match(categoryStyles, /overflow-wrap: normal;[\s\S]*?word-break: normal;[\s\S]*?hyphens: none;/);
 assert.match(categoryStyles, /hub-video-category/);
 
 console.log('Sub-fleet Hub: standalone header/footer, shared payments, general reimbursement, ControlFleet and support actions passed.');
