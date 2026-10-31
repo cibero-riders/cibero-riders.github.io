@@ -28,8 +28,8 @@ assert.match(fleet, /hub\.js\?v=53/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=31/);
-assert.match(fleet, /hub-categories\.css\?v=31/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=32/);
+assert.match(fleet, /hub-categories\.css\?v=32/);
 assert.match(subfleet, /\.\.\/hub\/hub-essential\.css\?v=29/);
 assert.match(fleet, /hub-essential\.css\?v=29/);
 for (const html of [fleet, subfleet]) {
@@ -203,6 +203,8 @@ for (const html of [fleet, subfleet]) {
 }
 assert.match(categoryStyles, /hub-category-shine/);
 assert.match(categoryStyles, /hub-calendar-button/);
+assert.match(categoryStyles, /grid-template-columns: minmax\(145px, \.8fr\) minmax\(0, 3\.6fr\) minmax\(145px, \.8fr\)/);
+assert.match(categoryStyles, /\.hub-category-dialog-back,[\s\S]*?z-index: 4;[\s\S]*?pointer-events: auto;/);
 assert.match(categoryStyles, /hub-video-category/);
 
 console.log('Sub-fleet Hub: standalone header/footer, shared payments, general reimbursement, ControlFleet and support actions passed.');

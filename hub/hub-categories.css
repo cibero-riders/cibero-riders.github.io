@@ -1831,7 +1831,7 @@ html[data-theme="light"] .hub-category-symbol {
 /* Keep section titles optically centered, independent of the back button. */
 .hub-category-dialog-shell,
 .hub-category-dialog.hub-category-payments .hub-category-dialog-shell {
-  grid-template-columns: minmax(132px, 1fr) minmax(0, 3.15fr) minmax(132px, 1fr);
+  grid-template-columns: minmax(145px, .8fr) minmax(0, 3.6fr) minmax(145px, .8fr);
   column-gap: clamp(14px, 2vw, 24px);
 }
 
@@ -1840,14 +1840,19 @@ html[data-theme="light"] .hub-category-symbol {
   grid-column: 1;
   grid-row: 1;
   justify-self: start;
+  position: relative;
+  z-index: 4;
+  pointer-events: auto;
 }
 
 .hub-category-dialog-intro,
 .hub-category-payments .hub-category-dialog-intro {
-  grid-column: 1 / -1;
+  grid-column: 2;
   grid-row: 1;
   align-self: center;
   justify-items: center;
+  position: relative;
+  z-index: 1;
   width: 100%;
   margin: 0 0 26px;
   text-align: center;
@@ -1855,7 +1860,7 @@ html[data-theme="light"] .hub-category-symbol {
 
 .hub-category-dialog-intro h2,
 .hub-category-payments .hub-category-dialog-intro h2 {
-  max-width: 800px;
+  max-width: 100%;
   font-size: clamp(34px, 3.15vw, 38px);
   line-height: 1.08;
   letter-spacing: -.035em;
