@@ -1078,3 +1078,398 @@ html[data-theme="light"] .hub-category-symbol {
     height: 36px;
   }
 }
+
+/* Contextual introductions inside the focused Hub sections. */
+.hub-category-dialog-intro {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  margin: 23px auto 21px;
+  text-align: center;
+}
+
+.hub-category-dialog-intro h2 {
+  max-width: 900px;
+  margin: 0;
+  color: var(--hb-text);
+  font-size: clamp(24px, 3.4vw, 37px);
+  font-weight: 900;
+  letter-spacing: -.035em;
+  line-height: 1.13;
+  text-wrap: balance;
+}
+
+.hub-category-dialog-intro > p {
+  max-width: 760px;
+  margin: 0;
+  color: var(--hb-muted);
+  font-size: clamp(14px, 1.55vw, 17px);
+  font-weight: 650;
+  line-height: 1.5;
+  text-wrap: balance;
+}
+
+.hub-dialog-caveat {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  max-width: 620px;
+  margin-top: 8px;
+  padding: 11px 15px;
+  border: 1px solid color-mix(in srgb, var(--hb-gold), transparent 48%);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--hb-gold), transparent 88%);
+  color: var(--hb-text);
+  text-align: left;
+}
+
+.hub-dialog-caveat > span {
+  display: grid;
+  width: 25px;
+  height: 25px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--hb-gold), transparent 30%);
+  border-radius: 50%;
+  color: var(--hb-gold);
+  font: 900 14px/1 "DM Sans", sans-serif;
+}
+
+.hub-dialog-caveat p {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+/* YouTube redirects use one recognizable, high-contrast visual language. */
+.hub-calendar-button.hub-youtube-button,
+.hub-rule-actions .hub-youtube-button {
+  display: grid;
+  grid-template-columns: 52px minmax(0, 1fr) 24px;
+  align-items: center;
+  gap: 14px;
+  border: 1px solid #f0bd3d;
+  border-radius: 18px;
+  background: linear-gradient(115deg, #fff2bd, #f5cb64 56%, #efb735);
+  box-shadow: inset 0 1px #fff, 0 12px 26px #0003;
+  color: #28190c !important;
+  font-weight: 900;
+  text-align: left;
+}
+
+.hub-calendar-button.hub-youtube-button {
+  min-height: 84px;
+  padding: 12px 18px 12px 12px;
+}
+
+.hub-rule-actions .hub-youtube-button {
+  min-width: min(100%, 310px);
+  min-height: 66px;
+  padding: 8px 14px 8px 8px;
+  border-radius: 15px;
+}
+
+.hub-youtube-button .hub-youtube-mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  place-items: center;
+  border: 1px solid #b79466;
+  border-radius: 14px;
+  background: #fffdf8;
+  box-shadow: inset 0 1px #fff, 0 7px 17px #6c451d24;
+}
+
+.hub-youtube-button .hub-youtube-mark img {
+  display: block;
+  width: 43px;
+  height: 43px;
+  object-fit: contain;
+}
+
+.hub-youtube-button b {
+  color: #2b1a0b;
+  font-size: 21px;
+}
+
+.hub-calendar-button.hub-youtube-button:hover,
+.hub-rule-actions .hub-youtube-button:hover {
+  transform: translateY(-3px);
+  border-color: #ffd86e;
+  box-shadow: inset 0 1px #fff, 0 17px 30px #0004, 0 0 24px #e1ac3852;
+  filter: brightness(1.025);
+}
+
+/* The payment view is deliberately compact and never creates a second scrollbar. */
+.hub-category-dialog.hub-category-payments {
+  width: min(1080px, calc(100% - 24px));
+  max-height: calc(100dvh - 16px);
+}
+
+.hub-category-dialog.hub-category-payments .hub-category-dialog-shell {
+  max-height: calc(100dvh - 16px);
+  padding: 17px 20px;
+  overflow: hidden;
+}
+
+.hub-category-payments .hub-category-dialog-intro {
+  gap: 5px;
+  margin: 8px auto 9px;
+}
+
+.hub-category-payments .hub-category-dialog-intro h2 {
+  font-size: clamp(21px, 2.35vw, 29px);
+}
+
+.hub-category-payments .hub-category-dialog-intro > p {
+  font-size: 13px;
+}
+
+.hub-category-payments .hub-category-dialog-back {
+  min-height: 34px;
+  padding: 6px 10px;
+}
+
+.hub-category-payments .hub-payment-content {
+  padding-top: 0;
+}
+
+.hub-category-payments .hub-payment-selector {
+  margin-bottom: 10px;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-row {
+  gap: 6px;
+  padding: 12px 15px;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-brand {
+  margin-bottom: 0;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-brand img {
+  width: 40px;
+  height: 40px;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-brand h3 {
+  font-size: 23px;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-detail {
+  min-height: 57px;
+  padding: 8px 12px;
+  grid-template-columns: 36px minmax(0, 1fr);
+  gap: 10px;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-detail-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+}
+
+.hub-category-payments .hub-pay-sentence {
+  font-size: clamp(15px, 1.4vw, 18px);
+  line-height: 1.3;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-detail .hub-pay-date,
+.hub-category-payments .hub-payment-content .hub-pay-reset > p > strong {
+  font-size: clamp(21px, 2.25vw, 29px);
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-period {
+  grid-template-columns: minmax(0, 1fr);
+  text-align: center;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-detail-icon {
+  display: none !important;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-sentence {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-sentence > span:first-child {
+  display: block;
+  font-size: 14px;
+  font-weight: 800;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-sentence > strong {
+  display: block;
+  font-size: clamp(23px, 2.5vw, 32px);
+  white-space: nowrap;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-sentence > span[aria-hidden] {
+  display: none;
+}
+
+.hub-category-payments .hub-payment-content .hub-pay-delay-note {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
+.hub-category-payments .hub-calendar-button {
+  min-height: 66px;
+  margin-top: 8px;
+  padding-block: 7px;
+}
+
+@media (max-width: 760px) {
+  .hub-category-dialog-intro {
+    gap: 7px;
+    margin: 17px auto 16px;
+  }
+
+  .hub-category-dialog-intro h2 {
+    font-size: clamp(22px, 6.5vw, 29px);
+  }
+
+  .hub-category-dialog-intro > p {
+    font-size: 14px;
+  }
+
+  .hub-calendar-button.hub-youtube-button,
+  .hub-rule-actions .hub-youtube-button {
+    grid-template-columns: 46px minmax(0, 1fr) 22px;
+    gap: 11px;
+  }
+
+  .hub-youtube-button .hub-youtube-mark {
+    width: 46px;
+    height: 46px;
+    border-radius: 12px;
+  }
+
+  .hub-youtube-button .hub-youtube-mark img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hub-category-dialog.hub-category-payments,
+  .hub-category-dialog.hub-category-payments .hub-category-dialog-shell {
+    max-height: calc(100dvh - 10px);
+  }
+
+  .hub-category-dialog.hub-category-payments {
+    width: calc(100% - 10px);
+    border-radius: 17px;
+  }
+
+  .hub-category-dialog.hub-category-payments .hub-category-dialog-shell {
+    padding: 10px;
+  }
+
+  .hub-category-payments .hub-category-dialog-back {
+    min-height: 34px;
+    padding: 6px 10px;
+  }
+
+  .hub-category-payments .hub-category-dialog-intro {
+    gap: 4px;
+    margin: 8px auto 9px;
+  }
+
+  .hub-category-payments .hub-category-dialog-intro h2 {
+    font-size: clamp(18px, 5.2vw, 23px);
+    line-height: 1.12;
+  }
+
+  .hub-category-payments .hub-category-dialog-intro > p {
+    font-size: 11px;
+    line-height: 1.3;
+  }
+
+  .hub-category-payments .hub-payment-selector {
+    margin-bottom: 7px;
+  }
+
+  .hub-category-payments .hub-payment-selector button {
+    min-height: 37px;
+    padding: 6px 8px;
+    font-size: 12px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-row {
+    gap: 6px;
+    padding: 10px;
+    border-radius: 18px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-brand img {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-brand h3 {
+    font-size: 19px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-detail {
+    min-height: 0;
+    padding: 8px 9px;
+    grid-template-columns: 32px minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-detail-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-detail-icon svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .hub-category-payments .hub-pay-sentence {
+    font-size: 12px;
+    line-height: 1.23;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-detail .hub-pay-date,
+  .hub-category-payments .hub-payment-content .hub-pay-reset > p > strong {
+    font-size: clamp(17px, 4.8vw, 21px);
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-sentence > span:first-child {
+    font-size: 12px;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-period .hub-pay-sentence > strong {
+    max-width: 100%;
+    font-size: clamp(17px, 4.8vw, 21px);
+    letter-spacing: -.045em;
+    white-space: nowrap;
+  }
+
+  .hub-category-payments .hub-payment-content .hub-pay-delay-note {
+    padding: 6px 9px;
+    font-size: 10px;
+    line-height: 1.3;
+  }
+
+  .hub-category-payments .hub-calendar-button.hub-youtube-button {
+    min-height: 58px;
+    margin-top: 7px;
+    padding: 6px 10px 6px 6px;
+    font-size: 13px;
+  }
+
+  .hub-category-payments .hub-calendar-button .hub-youtube-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .hub-category-payments .hub-calendar-button .hub-youtube-mark img {
+    width: 35px;
+    height: 35px;
+  }
+}

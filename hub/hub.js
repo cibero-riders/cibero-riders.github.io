@@ -145,7 +145,22 @@
     woltDepositRule2:'Do not use <strong>Abon</strong> for deposits. This method is no longer valid.',
     woltDepositInfo:'Depositing through Aircash updates your balance instantly. You can deposit by card directly in Aircash or with cash at PayPoint, Un-doi Centru de plăți, Kaseria, StartPay and Inmedio.',
     woltDepositGuide:'Watch the deposit video guide',
-    aircashLocations:'See Aircash locations'
+    aircashLocations:'See Aircash locations',
+    appsDialogTitle:'Choose the platform whose mobile app you want to download.',
+    appsDialogNote:'Download the official courier app for your device.',
+    paymentsDialogTitle:'Choose the platform whose current fiscal periods and next payment you want to view.',
+    paymentsDialogNote:'The dates update automatically according to each platform’s schedule.',
+    cashDialogTitle:'Choose the platform whose cash, balance, deposit and reset rules you want to view.',
+    cashDialogNote:'Check the deposit method and deadline before each reset.',
+    reimbursementDialogTitle:'See how the 5% reimbursement works.',
+    reimbursementDialogNote:'Review the steps, eligible expenses and submission rules.',
+    faqDialogTitle:'Choose the platform whose FAQ you want to view.',
+    faqDialogNote:'General information and answers published directly by the platforms.',
+    faqDialogCaveat:'Some information may not be up to date.',
+    gearDialogTitle:'Choose the platform whose official equipment store you want to view.',
+    gearDialogNote:'Bags, helmets, gloves and other useful equipment and accessories.',
+    whatsappDialogTitle:'Choose the WhatsApp channel you want to open.',
+    whatsappDialogNote:'Community discussions or official fleet announcements.'
   });
   if(isSubfleet)Object.assign(translations,{
     hubTitle:'Courier Hub',
@@ -230,11 +245,54 @@
       benefitsHeading,benefitsList,
       divider,...(whatsapp?[whatsapp]:[]),...(videos?[videos]:[])
     );
-    const calendarButton=document.querySelector('.hub-calendar-button');
-    const paymentHead=document.querySelector('.hub-payment-panel-head');
-    if(calendarButton&&paymentHead)paymentHead.append(calendarButton);
   }
   organizeHub();
+  const categoryDialogCopy={
+    'aplicatii-mobile':{
+      titleKey:'appsDialogTitle',
+      title:'Alege platforma pentru care vrei să descarci aplicația mobilă.',
+      noteKey:'appsDialogNote',
+      note:'Descarcă aplicația oficială de curier pentru dispozitivul tău.'
+    },
+    plati:{
+      titleKey:'paymentsDialogTitle',
+      title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată.',
+      noteKey:'paymentsDialogNote',
+      note:'Datele se actualizează automat, conform calendarului fiecărei platforme.'
+    },
+    'reguli-cash-si-reset':{
+      titleKey:'cashDialogTitle',
+      title:'Alege platforma pentru care vrei să vezi regulile de cash, balanță, depunere și reset.',
+      noteKey:'cashDialogNote',
+      note:'Verifică metoda și termenul de depunere înainte de fiecare reset.'
+    },
+    decontare:{
+      titleKey:'reimbursementDialogTitle',
+      title:'Află cum funcționează decontarea de 5%.',
+      noteKey:'reimbursementDialogNote',
+      note:'Consultă pașii, cheltuielile eligibile și regulile de predare.'
+    },
+    'faq-platforme':{
+      titleKey:'faqDialogTitle',
+      title:'Alege platforma pentru care vrei să vezi FAQ.',
+      noteKey:'faqDialogNote',
+      note:'Informații generale și răspunsuri publicate direct de platforme.',
+      caveatKey:'faqDialogCaveat',
+      caveat:'Unele informații s-ar putea să nu fie de actualitate.'
+    },
+    'echipament-oficial':{
+      titleKey:'gearDialogTitle',
+      title:'Alege platforma pentru care vrei să vezi magazinul online de echipament.',
+      noteKey:'gearDialogNote',
+      note:'Genți, căști, mănuși și alte echipamente sau accesorii utile.'
+    },
+    'comunicare-whatsapp':{
+      titleKey:'whatsappDialogTitle',
+      title:'Alege canalul WhatsApp pe care vrei să-l deschizi.',
+      noteKey:'whatsappDialogNote',
+      note:'Discuții în comunitate sau anunțuri oficiale ale flotei.'
+    }
+  };
   const categoryDialogs=new Map();
   document.querySelectorAll('.hub-category-accordion').forEach(category=>{
     const summary=category.querySelector(':scope > summary');
@@ -257,13 +315,32 @@
     back.type='button';
     back.dataset.categoryDialogClose='';
     back.innerHTML='<span aria-hidden="true">←</span><span data-hub-i18n="dialogBack">Înapoi la Hub</span>';
+    const copy=categoryDialogCopy[category.id]||{
+      titleKey:sourceTitle.dataset.hubI18n,
+      title:sourceTitle.textContent.trim()
+    };
     const heading=document.createElement('div');
-    heading.className='hub-category-dialog-heading';
-    const symbol=summary.querySelector('.hub-category-symbol')?.cloneNode(true);
-    const title=sourceTitle.cloneNode(true);
+    heading.className='hub-category-dialog-intro';
+    const title=document.createElement('h2');
     title.id=`${category.id}-dialog-title`;
-    if(symbol)heading.append(symbol);
+    title.textContent=copy.title;
+    if(copy.titleKey)title.dataset.hubI18n=copy.titleKey;
     heading.append(title);
+    if(copy.note){
+      const note=document.createElement('p');
+      note.textContent=copy.note;
+      note.dataset.hubI18n=copy.noteKey;
+      heading.append(note);
+    }
+    if(copy.caveat){
+      const caveat=document.createElement('aside');
+      caveat.className='hub-dialog-caveat';
+      caveat.innerHTML='<span aria-hidden="true">i</span><p></p>';
+      const caveatText=caveat.querySelector('p');
+      caveatText.textContent=copy.caveat;
+      caveatText.dataset.hubI18n=copy.caveatKey;
+      heading.append(caveat);
+    }
     content.classList.add('hub-category-dialog-content');
     shell.append(back,heading,content);
     dialog.append(shell);

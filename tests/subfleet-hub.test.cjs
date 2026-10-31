@@ -23,13 +23,13 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=8/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=47/);
-assert.match(fleet, /hub\.js\?v=47/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=48/);
+assert.match(fleet, /hub\.js\?v=48/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=24/);
-assert.match(fleet, /hub-categories\.css\?v=24/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=25/);
+assert.match(fleet, /hub-categories\.css\?v=25/);
 assert.match(subfleet, /\.\.\/hub\/hub-essential\.css\?v=29/);
 assert.match(fleet, /hub-essential\.css\?v=29/);
 for (const html of [fleet, subfleet]) {
@@ -56,7 +56,9 @@ for (const html of [fleet, subfleet]) {
   }
   assert.match(html, /data-app-platform="controlfleet"/);
   assert.match(html, /<section id="urmatoarea-plata" class="hub-payment-panel">/);
-  assert.match(html, /class="hub-calendar-button" href="https:\/\/youtu\.be\/iBThwch_Tn0"/);
+  assert.match(html, /class="hub-calendar-button hub-youtube-button" href="https:\/\/youtu\.be\/iBThwch_Tn0"/);
+  assert.doesNotMatch(html, /class="hub-payment-panel-head"/);
+  assert.match(html, /class="hub-youtube-button" href="https:\/\/(?:www\.)?youtube\.com\/shorts\//);
   assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
   assert.match(html, /hub-cash-bubbles\.css\?v=2/);
   assert.doesNotMatch(html, /class="hub-rule-section"|data-hub-i18n="cashKnowTitle"|data-hub-i18n="cashDoTitle"/);
@@ -137,6 +139,9 @@ assert.match(script, /event\.target===dialog/);
 assert.doesNotMatch(essentialStyles, /\.hub-consulting-trigger\{[^}]*grid-column/);
 assert.match(script, /document\.querySelectorAll\('\.hub-category-accordion'\)/);
 assert.match(script, /dialog\.className=`hub-category-dialog/);
+assert.match(script, /const categoryDialogCopy=/);
+assert.match(script, /faqDialogCaveat/);
+assert.doesNotMatch(script, /heading\.className='hub-category-dialog-heading'/);
 assert.match(script, /entry\.summary\.addEventListener\('click',event=>\{event\.preventDefault\(\);showCategoryDialog\(section\);\}\)/);
 assert.match(script, /if\(event\.target===entry\.dialog\)entry\.dialog\.close\(\)/);
 assert.ok(fleet.indexOf('id="echipament-oficial"') < fleet.indexOf('id="instrumente-si-suport"'), 'Official gear stays with the information sections');
