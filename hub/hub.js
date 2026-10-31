@@ -147,20 +147,14 @@
     woltDepositGuide:'Watch the deposit video guide',
     aircashLocations:'See Aircash locations',
     appsDialogTitle:'Choose the platform whose mobile app you want to download.',
-    appsDialogNote:'Download the official courier app for your device.',
     paymentsDialogTitle:'Choose the platform whose current fiscal periods and next payment you want to view.',
-    paymentsDialogNote:'The dates update automatically according to each platform’s schedule.',
     cashDialogTitle:'Choose the platform whose cash, balance, deposit and reset rules you want to view.',
-    cashDialogNote:'Check the deposit method and deadline before each reset.',
     reimbursementDialogTitle:'See how the 5% reimbursement works.',
-    reimbursementDialogNote:'Review the steps, eligible expenses and submission rules.',
     faqDialogTitle:'Choose the platform whose FAQ you want to view.',
-    faqDialogNote:'General information and answers published directly by the platforms.',
     faqDialogCaveat:'Some information may not be up to date.',
     gearDialogTitle:'Choose the platform whose official equipment store you want to view.',
     gearDialogNote:'Bags, helmets, gloves and other useful equipment and accessories.',
-    whatsappDialogTitle:'Choose the WhatsApp channel you want to open.',
-    whatsappDialogNote:'Community discussions or official fleet announcements.'
+    whatsappDialogTitle:'Choose the WhatsApp channel you want to open.'
   });
   if(isSubfleet)Object.assign(translations,{
     hubTitle:'Courier Hub',
@@ -250,33 +244,23 @@
   const categoryDialogCopy={
     'aplicatii-mobile':{
       titleKey:'appsDialogTitle',
-      title:'Alege platforma pentru care vrei să descarci aplicația mobilă.',
-      noteKey:'appsDialogNote',
-      note:'Descarcă aplicația oficială de curier pentru dispozitivul tău.'
+      title:'Alege platforma pentru care vrei să descarci aplicația mobilă.'
     },
     plati:{
       titleKey:'paymentsDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată.',
-      noteKey:'paymentsDialogNote',
-      note:'Datele se actualizează automat, conform calendarului fiecărei platforme.'
+      title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată.'
     },
     'reguli-cash-si-reset':{
       titleKey:'cashDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi regulile de cash, balanță, depunere și reset.',
-      noteKey:'cashDialogNote',
-      note:'Verifică metoda și termenul de depunere înainte de fiecare reset.'
+      title:'Alege platforma pentru care vrei să vezi regulile de cash, balanță, depunere și reset.'
     },
     decontare:{
       titleKey:'reimbursementDialogTitle',
-      title:'Află cum funcționează decontarea de 5%.',
-      noteKey:'reimbursementDialogNote',
-      note:'Consultă pașii, cheltuielile eligibile și regulile de predare.'
+      title:'Află cum funcționează decontarea de 5%.'
     },
     'faq-platforme':{
       titleKey:'faqDialogTitle',
       title:'Alege platforma pentru care vrei să vezi FAQ.',
-      noteKey:'faqDialogNote',
-      note:'Informații generale și răspunsuri publicate direct de platforme.',
       caveatKey:'faqDialogCaveat',
       caveat:'Unele informații s-ar putea să nu fie de actualitate.'
     },
@@ -288,9 +272,7 @@
     },
     'comunicare-whatsapp':{
       titleKey:'whatsappDialogTitle',
-      title:'Alege canalul WhatsApp pe care vrei să-l deschizi.',
-      noteKey:'whatsappDialogNote',
-      note:'Discuții în comunitate sau anunțuri oficiale ale flotei.'
+      title:'Alege canalul WhatsApp pe care vrei să-l deschizi.'
     }
   };
   const categoryDialogs=new Map();

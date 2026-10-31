@@ -1397,6 +1397,11 @@ html[data-theme="light"] .hub-category-symbol {
     font-size: 12px;
   }
 
+  .hub-category-payments .hub-calendar-button.hub-youtube-button {
+    min-height: 48px;
+    padding: 7px 11px;
+  }
+
   .hub-category-payments .hub-payment-content .hub-pay-row {
     gap: 6px;
     padding: 10px;
@@ -1471,5 +1476,175 @@ html[data-theme="light"] .hub-category-symbol {
   .hub-category-payments .hub-calendar-button .hub-youtube-mark img {
     width: 35px;
     height: 35px;
+  }
+}
+
+/* Keep every dialog heading aligned with the back control. */
+.hub-category-dialog-shell {
+  display: grid;
+  grid-template-columns: max-content minmax(0, 1fr);
+  align-items: start;
+  column-gap: clamp(14px, 2vw, 24px);
+}
+
+.hub-category-dialog-back {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.hub-category-dialog-intro {
+  grid-column: 2;
+  grid-row: 1;
+  justify-items: start;
+  width: 100%;
+  margin: 0 0 20px;
+  text-align: left;
+}
+
+.hub-category-dialog-intro h2,
+.hub-category-dialog-intro > p {
+  max-width: none;
+  text-align: left;
+  text-wrap: pretty;
+}
+
+.hub-category-dialog-content {
+  grid-column: 1 / -1;
+  grid-row: 2;
+}
+
+.hub-dialog-caveat {
+  justify-self: start;
+}
+
+/* Compact YouTube actions, matched to the SelfPay action dimensions. */
+.hub-calendar-button.hub-youtube-button,
+.hub-rule-actions .hub-youtube-button {
+  grid-template-columns: 30px minmax(0, 1fr) 18px;
+  gap: 9px;
+  width: min(100%, 310px);
+  min-width: 0;
+  min-height: 48px;
+  padding: 8px 13px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.25;
+}
+
+.hub-calendar-button.hub-youtube-button {
+  margin: 10px 0 0 auto;
+}
+
+.hub-rule-actions .hub-youtube-button {
+  min-height: 48px;
+  padding: 8px 13px;
+}
+
+.hub-youtube-button .hub-youtube-mark,
+.hub-video-category .hub-youtube-mark {
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hub-youtube-button .hub-youtube-mark img,
+.hub-video-category .hub-youtube-mark img {
+  width: 30px;
+  height: 30px;
+  filter: drop-shadow(0 4px 7px #5a27002e);
+}
+
+.hub-youtube-button b {
+  font-size: 18px;
+}
+
+.hub-video-category {
+  grid-template-columns: 52px minmax(0, 1fr) 38px;
+}
+
+.hub-video-category .hub-youtube-mark,
+.hub-video-category .hub-youtube-mark img {
+  width: 52px;
+  height: 52px;
+}
+
+.hub-category-payments .hub-category-dialog-intro {
+  margin: 0 0 10px;
+}
+
+@media (max-width: 760px) {
+  .hub-category-dialog-shell,
+  .hub-category-dialog.hub-category-payments .hub-category-dialog-shell {
+    grid-template-columns: max-content minmax(0, 1fr);
+    column-gap: 10px;
+  }
+
+  .hub-category-dialog-intro,
+  .hub-category-payments .hub-category-dialog-intro {
+    gap: 5px;
+    margin: 0 0 15px;
+  }
+
+  .hub-category-dialog-intro h2 {
+    font-size: clamp(18px, 5.2vw, 23px);
+    line-height: 1.14;
+  }
+
+  .hub-category-payments .hub-category-dialog-intro h2 {
+    font-size: clamp(17px, 4.85vw, 21px);
+  }
+
+  .hub-category-dialog-intro > p {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .hub-dialog-caveat {
+    margin-top: 5px;
+    padding: 8px 10px;
+  }
+
+  .hub-dialog-caveat p {
+    font-size: 11px;
+  }
+
+  .hub-calendar-button.hub-youtube-button,
+  .hub-rule-actions .hub-youtube-button {
+    grid-template-columns: 27px minmax(0, 1fr) 17px;
+    gap: 8px;
+    min-height: 46px;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+
+  .hub-youtube-button .hub-youtube-mark,
+  .hub-youtube-button .hub-youtube-mark img {
+    width: 27px;
+    height: 27px;
+  }
+
+  .hub-category-payments .hub-calendar-button.hub-youtube-button {
+    min-height: 48px;
+    padding: 7px 11px;
+    font-size: 12px;
+  }
+
+  .hub-category-payments .hub-calendar-button .hub-youtube-mark,
+  .hub-category-payments .hub-calendar-button .hub-youtube-mark img {
+    width: 27px;
+    height: 27px;
+  }
+
+  .hub-video-category {
+    grid-template-columns: 42px minmax(0, 1fr) 34px;
+  }
+
+  .hub-video-category .hub-youtube-mark,
+  .hub-video-category .hub-youtube-mark img {
+    width: 42px;
+    height: 42px;
   }
 }
