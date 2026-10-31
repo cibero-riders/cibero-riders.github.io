@@ -28,8 +28,8 @@ assert.match(fleet, /hub\.js\?v=49/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
-assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=26/);
-assert.match(fleet, /hub-categories\.css\?v=26/);
+assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=27/);
+assert.match(fleet, /hub-categories\.css\?v=27/);
 assert.match(subfleet, /\.\.\/hub\/hub-essential\.css\?v=29/);
 assert.match(fleet, /hub-essential\.css\?v=29/);
 for (const html of [fleet, subfleet]) {
