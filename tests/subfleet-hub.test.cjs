@@ -22,11 +22,16 @@ assert.match(subfleet, /<h1 id="hub-title" data-hub-i18n="hubTitle">Courier Hub<
 assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
-assert.match(subfleet, /subfleet\.css\?v=8/);
+assert.match(subfleet, /subfleet\.css\?v=9/);
 assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=54/);
 assert.match(fleet, /hub\.js\?v=54/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
-assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=8/);
+assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=9/);
+assert.match(fleet, /data-hub-mobile-simple="true"/);
+assert.match(fleet, /class="hub-mobile-home" href="https:\/\/cibero\.delivery\/"/);
+assert.match(fleet, /data-hub-i18n="mobileHubHome">Site principal/);
+assert.match(fleet, /site-theme\.js\?v=6/);
+assert.match(subfleet, /site-theme\.js\?v=6/);
 assert.match(subfleet, /subfleet-support\.js\?v=1/);
 assert.match(subfleet, /\.\.\/hub\/hub-categories\.css\?v=33/);
 assert.match(fleet, /hub-categories\.css\?v=33/);
@@ -126,7 +131,12 @@ const header = subfleet.split('<header class="subfleet-header"')[1].split('</hea
 assert.match(header, /public-language-switch/);
 assert.doesNotMatch(header, /brand|social|main-nav|menu-toggle|nav-account|<nav|href=/);
 assert.match(themeScript, /\.subfleet-header/);
-assert.match(subfleet, /\.\.\/site-theme\.js\?v=5/);
+assert.match(subfleet, /\.\.\/site-theme\.js\?v=6/);
+assert.match(themeScript, /const simplifiedHubMobile = header\.dataset\.hubMobileSimple === "true"/);
+assert.match(themeScript, /if \(theme\) header\.append\(theme\)/);
+assert.match(themeScript, /if \(language\) header\.append\(language\)/);
+assert.match(subfleetStyles, /data-hub-mobile-simple="true"/);
+assert.match(subfleetStyles, /> \.hub-mobile-home/);
 assert.doesNotMatch(subfleet, /site-navigation\.css|site-footer\.css|main-page\.js/);
 assert.match(subfleet, /<footer class="subfleet-footer">© Powered by Cibero - 2026 \| All rights reserved<\/footer>/);
 

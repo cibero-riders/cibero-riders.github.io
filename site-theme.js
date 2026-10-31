@@ -89,16 +89,24 @@
     const controls = document.createElement("div");
     controls.className = "mobile-menu-controls";
     const mobile = window.matchMedia("(max-width: 760px)");
+    const simplifiedHubMobile = header.dataset.hubMobileSimple === "true";
 
     function arrangeNavigation() {
       navigation.classList.remove("open");
       header.querySelector(".menu-toggle")?.setAttribute("aria-expanded", "false");
       if (mobile.matches) {
-        header.insertBefore(account, navigation);
-        account.classList.add("mobile-header-account");
-        if (language) controls.append(language);
-        if (theme) controls.append(theme);
-        navigation.append(controls);
+        if (simplifiedHubMobile) {
+          account.classList.remove("mobile-header-account");
+          if (theme) header.append(theme);
+          if (language) header.append(language);
+          controls.remove();
+        } else {
+          header.insertBefore(account, navigation);
+          account.classList.add("mobile-header-account");
+          if (language) controls.append(language);
+          if (theme) controls.append(theme);
+          navigation.append(controls);
+        }
       } else {
         accountSlot.after(account);
         account.classList.remove("mobile-header-account");

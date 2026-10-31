@@ -84,7 +84,7 @@
     consultingTitle:'Financial consultancy',
     consultingCardBody:'Talk to a consultant for free, one-to-one.',
     consultingBack:'Back to Hub',
-    dialogBack:'Back to Hub',
+    dialogBack:'Back to Hub',mobileHubHome:'Main site',
     consultingIntroTitle:'Talk directly with a consultant',
     consultingIntroBody:'You have free access to personalized financial consultancy, including if you work through a sole trader or company.',
     consultingHelpLabel:'The consultant can help you make clearer decisions about:',
