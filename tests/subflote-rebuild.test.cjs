@@ -13,8 +13,10 @@ assert.match(html, /selectează opțiunea „SRL”/i, 'The hero explains that a
 assert.match(html, /CIBERO Manager/);
 assert.match(html, /Tu îți dezvolți echipa —/);
 assert.match(css, /\.sf-hero-heading \{[^}]*text-align: center/, 'The sub-fleet hero heading follows the centered sub-page format');
-assert.match(css, /\.sf-hero-heading \.sf-eyebrow \{ justify-content: center; \}/);
-assert.match(html, /heroEyebrow">PARTENERIAT PENTRU SUB-FLOTE<\/span><span aria-hidden="true"><\/span>/, 'The hero eyebrow uses symmetrical separators');
+assert.doesNotMatch(html, /PARTENERIAT PENTRU SUB-FLOTE/, 'The hero opens directly with its main heading');
+assert.match(css, /\.sf-hero h1 \{[^}]*font-size: clamp\(50px, 5\.8vw, 74px\)/, 'The main hero heading has stronger sub-page scale');
+assert.match(css, /padding: clamp\(36px, 4\.5vw, 58px\) 0 86px/, 'The hero begins closer to the site header');
+assert.match(css, /font-size: clamp\(44px, 12vw, 60px\)/, 'The stronger hero scale carries through to mobile');
 assert.match(html, /data-youtube-id="JSIBthWjTgc"/, 'The sub-fleet presentation video is featured in the hero');
 assert.match(html, /youtube\.com\/shorts\/JSIBthWjTgc/);
 assert.match(js, /youtube-nocookie\.com\/embed/);

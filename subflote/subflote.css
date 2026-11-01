@@ -43,12 +43,12 @@ html[data-theme="light"] .subfleet-body {
 .subfleet-body a { color: inherit; }
 
 .subfleet-page { width: min(1180px, calc(100% - 48px)); margin: 0 auto; padding-bottom: 90px; }
-.sf-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, .82fr); column-gap: clamp(45px, 7vw, 96px); row-gap: 42px; min-height: 680px; padding: clamp(72px, 9vw, 124px) 0 86px; align-items: center; }
+.sf-hero { display: grid; grid-template-columns: minmax(0, 1fr) minmax(420px, .82fr); column-gap: clamp(45px, 7vw, 96px); row-gap: 42px; min-height: 680px; padding: clamp(36px, 4.5vw, 58px) 0 86px; align-items: center; }
 .sf-hero-heading { grid-column: 1 / -1; width: 100%; max-width: 1080px; margin: 0 auto; text-align: center; }
 .sf-hero-heading .sf-eyebrow { justify-content: center; }
 .sf-eyebrow, .sf-overline { display: flex; align-items: center; gap: 13px; margin-bottom: 20px; color: var(--sf-gold) !important; font-size: 11px; font-weight: 800; letter-spacing: .18em; text-transform: uppercase; }
 .sf-eyebrow > span:first-child, .sf-eyebrow > span:last-child, .sf-overline > span:first-child, .sf-overline > span:last-child { width: 38px; height: 1px; background: currentColor; }
-.sf-hero h1 { max-width: 1080px; margin: 0 auto; font-size: clamp(42px, 5vw, 62px); line-height: 1.08; letter-spacing: -.05em; text-wrap: balance; white-space: normal; }
+.sf-hero h1 { max-width: 1120px; margin: 0 auto; font-size: clamp(50px, 5.8vw, 74px); line-height: 1.04; letter-spacing: -.052em; text-wrap: balance; white-space: normal; }
 .sf-hero h1 em { margin-left: .08em; color: var(--sf-gold); font-family: Georgia, "Times New Roman", serif; font-weight: 500; letter-spacing: -.035em; }
 .sf-lead { max-width: 690px; margin-bottom: 17px; color: var(--sf-text) !important; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; }
 .sf-hero-support { max-width: 650px; margin-bottom: 29px; font-size: 15px; line-height: 1.65; }
@@ -189,8 +189,8 @@ p.sf-feature-lead { display: block; font-size: 17px; line-height: 1.7; }
 
 @media (max-width: 760px) {
   .subfleet-page { width: min(100% - 30px, 620px); padding-bottom: 65px; }
-  .sf-hero { gap: 34px; padding: 55px 0 62px; }
-  .sf-hero h1 { font-size: clamp(40px, 11vw, 54px); white-space: normal; }
+  .sf-hero { gap: 34px; padding: 30px 0 62px; }
+  .sf-hero h1 { font-size: clamp(44px, 12vw, 60px); white-space: normal; }
   .sf-hero h1 em { display: block; margin: 7px 0 0; }
   .sf-lead { font-size: 18px; }
   .sf-video-showcase { justify-self: center; }
