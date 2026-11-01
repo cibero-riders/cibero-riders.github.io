@@ -13,8 +13,8 @@ assert.match(html, /selectează opțiunea „SRL”/i, 'The hero explains that a
 assert.match(html, /CIBERO Manager/);
 assert.match(html, /Tu îți dezvolți echipa —/);
 assert.match(css, /white-space: nowrap/, 'The desktop hero headline stays on one line');
-assert.match(html, /data-youtube-id="PyERZbPsXao"/, 'The sub-fleet presentation video is featured in the hero');
-assert.match(html, /youtube\.com\/shorts\/PyERZbPsXao/);
+assert.match(html, /data-youtube-id="JSIBthWjTgc"/, 'The sub-fleet presentation video is featured in the hero');
+assert.match(html, /youtube\.com\/shorts\/JSIBthWjTgc/);
 assert.match(js, /youtube-nocookie\.com\/embed/);
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The YouTube Short keeps a vertical presentation frame');
 assert.match(html, /Administrarea curierilor Bolt Food/);
