@@ -23,8 +23,8 @@ assert.match(subfleet, /data-hub-variant="subfleet"/);
 assert.match(subfleet, /href="https:\/\/cibero\.delivery\/subfleethub\/"/);
 assert.doesNotMatch(subfleet, /subfleet-navigation\.js/);
 assert.match(subfleet, /subfleet\.css\?v=9/);
-assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=55/);
-assert.match(fleet, /hub\.js\?v=55/);
+assert.match(subfleet, /\.\.\/hub\/hub\.js\?v=56/);
+assert.match(fleet, /hub\.js\?v=56/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet-support\.js\?v=1/);
 assert.match(fleet, /\.\.\/subfleethub\/subfleet\.css\?v=9/);
 assert.match(fleet, /data-hub-mobile-simple="true"/);
@@ -65,10 +65,10 @@ for (const html of [fleet, subfleet]) {
   assert.doesNotMatch(html, /class="hub-payment-panel-head"/);
   assert.match(html, /class="hub-youtube-button" href="https:\/\/(?:www\.)?youtube\.com\/shorts\//);
   assert.match(html, /class="hub-video-category" href="https:\/\/www\.youtube\.com\/@CibeRORiders\/"/);
-  assert.match(html, /hub-cash-bubbles\.css\?v=3/);
-  assert.match(html, /hub\.js\?v=55/);
+  assert.match(html, /hub-cash-bubbles\.css\?v=4/);
+  assert.match(html, /hub\.js\?v=56/);
   assert.doesNotMatch(html, /class="hub-rule-section"|data-hub-i18n="cashKnowTitle"|data-hub-i18n="cashDoTitle"/);
-  for (const key of ['boltCashIntro', 'boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule4', 'boltCashRule5', 'boltCashRule6', 'glovoCashRule', 'glovoDepositRule', 'glovoResetRule1', 'woltCashRule', 'woltResetRule1', 'woltAircashAccountSetup', 'woltDepositInfo', 'woltDepositRule2', 'woltResetAction', 'woltNoNextDayDeposit']) {
+  for (const key of ['boltCashIntro', 'boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule5', 'boltCashRule6', 'glovoCashRule', 'glovoDepositRule', 'glovoResetRule1', 'woltCashRule', 'woltResetRule1', 'woltAircashAccountSetup', 'woltDepositInfo', 'woltDepositRule2', 'woltNoNextDayDeposit']) {
     assert.match(html, new RegExp(`class="hub-cash-fact(?: hub-cash-fact-deadline)?" data-hub-i18n(?:-html)?="${key}"`));
   }
   const boltFacts = html.match(/<article class="hub-rule hub-rule-bolt"[\s\S]*?<\/article>/)[0];
@@ -83,15 +83,17 @@ for (const html of [fleet, subfleet]) {
   assert.match(glovoFacts, /data-hub-i18n-html="glovoSelfPayGuide">[\s\S]*?căutați <strong>„Glovo”<\/strong>[\s\S]*?Actualizarea este instantă/);
   assert.match(woltFacts, /<div class="hub-cash-head">[\s\S]*?Vezi ghidul de depunere[\s\S]*?<\/div>\s*<ul/);
   assert.doesNotMatch(woltFacts, /Deschide Aircash|Vezi locațiile Aircash/);
-  for (const [facts, key] of [[boltFacts, 'boltCashRule4'], [glovoFacts, 'glovoResetRule1'], [woltFacts, 'woltResetAction']]) {
-    assert.match(facts, new RegExp(`class="hub-cash-fact hub-cash-fact-deadline" data-hub-i18n-html="${key}"`));
+  assert.match(glovoFacts, /class="hub-cash-fact hub-cash-fact-deadline" data-hub-i18n-html="glovoResetRule1"/);
+  for (const [facts, key] of [[boltFacts, 'boltCashRule4'], [woltFacts, 'woltResetAction']]) {
+    assert.match(facts, new RegExp(`class="hub-cash-fact hub-cash-fact-deadline hub-cash-deadline-guide"[\\s\\S]*?data-hub-i18n="mandatoryDepositTitle">Depunere integrală obligatorie[\\s\\S]*?data-hub-i18n-html="${key}"`));
   }
   assert.match(html, /src="\.\.\/assets\/social-youtube\.svg"/);
   assert.doesNotMatch(html, /calendar-(bolt|glovo|wolt)-ro\.png|data-calendar-tab|data-poster-link/);
 }
 assert.match(script, /glovoSelfPayGuideTitle:'SelfPay deposit guide'/);
 assert.match(script, /glovoSelfPayGuide:'SelfPay stations are available/);
-assert.match(cashStyles, /\.hub-category-cash \.hub-cash-guide \{/);
+assert.match(script, /mandatoryDepositTitle:'Mandatory full balance deposit'/);
+assert.match(cashStyles, /\.hub-category-cash :is\(\.hub-cash-guide, \.hub-cash-deadline-guide\) \{/);
 for (const html of [fleet, subfleet]) {
   assert.match(html, /Resetul principal la Glovo are loc în fiecare <strong>Marți, până în ora 14:00<\/strong>/);
   assert.doesNotMatch(html, /Glovo mai efectuează un reset și luni|glovoResetRule2/);

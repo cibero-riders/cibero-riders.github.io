@@ -132,6 +132,7 @@
     boltCashRule2:'On Bolt, depositing is not mandatory during the week, since you receive orders that require payment at pickup. You can restore your balance at this pace.',
     boltCashRule3:'If your balance goes beyond -250 lei, do not worry. Orders where you would receive cash from the customer will no longer be assigned until your balance drops below the threshold. You will easily restore the balance through the next orders where you pay at pickup.',
     boltCashRule4:'During the week, you can keep the money in circulation. Every <strong>Sunday</strong> at <strong>23:59</strong>, depositing the full balance is mandatory.',
+    mandatoryDepositTitle:'Mandatory full balance deposit',
     boltCashRule5:'If you make plans and will not deliver for a few days, cover the full balance so that you do not leave an outstanding amount for an extended period. <strong>Platforms do not like this.</strong>',
     boltCashRule6:'<em>Cash tips received from customers stay in your pocket.</em>',
     glovoCashRule:'<strong>If your cash balance reaches RON 600, cash orders will be blocked.</strong> Deposit frequently to keep your balance at an optimal level.',
