@@ -72,12 +72,15 @@ for (const html of [fleet, subfleet]) {
     assert.match(html, new RegExp(`class="hub-cash-fact(?: hub-cash-fact-deadline)?" data-hub-i18n(?:-html)?="${key}"`));
   }
   const boltFacts = html.match(/<article class="hub-rule hub-rule-bolt"[\s\S]*?<\/article>/)[0];
-  for (let index = 1; index < 6; index += 1) {
-    assert.ok(boltFacts.indexOf(`"boltCashRule${index}"`) < boltFacts.indexOf(`"boltCashRule${index + 1}"`));
+  assert.ok(boltFacts.indexOf('"boltCashRule4"') < boltFacts.indexOf('"boltCashIntro"'));
+  const orderedBoltKeys = ['boltCashRule1', 'boltCashRule2', 'boltCashRule3', 'boltCashRule5', 'boltCashRule6'];
+  for (let index = 0; index < orderedBoltKeys.length - 1; index += 1) {
+    assert.ok(boltFacts.indexOf(`"${orderedBoltKeys[index]}"`) < boltFacts.indexOf(`"${orderedBoltKeys[index + 1]}"`));
   }
   assert.match(boltFacts, /<div class="hub-cash-head">[\s\S]*?Vezi ghidul de depunere[\s\S]*?<\/div>/);
   const glovoFacts = html.match(/<article class="hub-rule hub-rule-glovo"[\s\S]*?<\/article>/)[0];
   const woltFacts = html.match(/<article class="hub-rule hub-rule-wolt"[\s\S]*?<\/article>/)[0];
+  assert.ok(woltFacts.indexOf('"woltResetAction"') < woltFacts.indexOf('"woltCashRule"'));
   assert.match(glovoFacts, /<div class="hub-cash-head">[\s\S]*?Găsește o stație SelfPay[\s\S]*?<\/div>\s*<ul/);
   assert.match(glovoFacts, /class="hub-cash-guide"[\s\S]*?data-hub-i18n="glovoSelfPayGuideTitle">Ghid de depunere SelfPay/);
   assert.match(glovoFacts, /data-hub-i18n-html="glovoSelfPayGuide">[\s\S]*?căutați <strong>„Glovo”<\/strong>[\s\S]*?Actualizarea este instantă/);
