@@ -25,14 +25,20 @@ for (const directory of copies) {
   assert.match(script, /onclick="if\(event\.target===this\)closeTelegramGuide\(\)"/);
   assert.match(script, /Înapoi la ghiduri/);
   assert.match(script, /event\.key==='Escape'/);
+  assert.match(script, /function renderSelectionChange\(\)\{suppressNextSelectionAnimation=true;render\(\)\}/);
+  assert.match(script, /confirmBoltPlaylist\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
+  assert.match(script, /confirmEquipment\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
+  assert.match(script, /confirmCalendarVideo\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
+  assert.match(script, /confirmRegistrationReturn\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
   assert.match(script, /toggleTelegramGuides/);
   assert.match(script, /Afișează ghidurile/);
   assert.match(styles, /\.telegram-guide-option\{/);
   assert.match(styles, /\.telegram-guide-trigger\{/);
   assert.match(styles, /\.telegram-video-modal\{/);
   assert.match(styles, /\.telegram-video-dialog\.is-short \.playlist-player\{[^}]*aspect-ratio:9\/16/);
-  assert.match(html, /styles\.css\?v=telegram-guides-3/);
-  assert.match(html, /app\.js\?v=telegram-guides-3/);
+  assert.match(styles, /#app\.instant-selection-update \.guided-reveal/);
+  assert.match(html, /styles\.css\?v=onboarding-checkboxes-1/);
+  assert.match(html, /app\.js\?v=onboarding-checkboxes-1/);
 }
 
 console.log('Onboarding completion screen links to the original CIBERO Hub in both published copies.');
