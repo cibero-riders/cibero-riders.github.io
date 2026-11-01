@@ -19,15 +19,20 @@ for (const directory of copies) {
   assert.match(styles, /\.campaign-completion\.hub-completion\{margin-top:14px;/);
   assert.match(styles, /\.hub-resource-badge\{/);
   assert.doesNotMatch(script, /PLLEIvJ6LBUOs/);
-  assert.match(script, /telegramGuideCard\(1,'Cum îți creezi cont pe Telegram','juBx-JwoBaA'\)/);
-  assert.match(script, /telegramGuideCard\(2,'Cum faci onboarding-ul pe Telegram','44GbSXgUQV0'\)/);
-  assert.match(script, /telegramGuideCard\(3,'Cum să folosești Hub-ul CIBERO de pe Telegram','D1gdobmjeDY'\)/);
+  assert.match(script, /button:'Vezi ghidul pentru crearea unui cont Telegram',id:'juBx-JwoBaA',format:'short'/);
+  assert.match(script, /button:'Vezi ghidul pentru onboarding-ul pe Telegram',id:'44GbSXgUQV0',format:'wide'/);
+  assert.match(script, /button:'Vezi ghidul pentru folosirea Hub-ului CIBERO',id:'D1gdobmjeDY',format:'wide'/);
+  assert.match(script, /onclick="if\(event\.target===this\)closeTelegramGuide\(\)"/);
+  assert.match(script, /Înapoi la ghiduri/);
+  assert.match(script, /event\.key==='Escape'/);
   assert.match(script, /toggleTelegramGuides/);
   assert.match(script, /Afișează ghidurile/);
   assert.match(styles, /\.telegram-guide-option\{/);
-  assert.match(styles, /\.telegram-guide-card\{/);
-  assert.match(html, /styles\.css\?v=telegram-guides-2/);
-  assert.match(html, /app\.js\?v=telegram-guides-2/);
+  assert.match(styles, /\.telegram-guide-trigger\{/);
+  assert.match(styles, /\.telegram-video-modal\{/);
+  assert.match(styles, /\.telegram-video-dialog\.is-short \.playlist-player\{[^}]*aspect-ratio:9\/16/);
+  assert.match(html, /styles\.css\?v=telegram-guides-3/);
+  assert.match(html, /app\.js\?v=telegram-guides-3/);
 }
 
 console.log('Onboarding completion screen links to the original CIBERO Hub in both published copies.');
