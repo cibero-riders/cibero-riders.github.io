@@ -8,6 +8,10 @@
     applyButton: 'Apply as a sub-fleet',
     discoverButton: 'See what you receive',
     formNote: 'In the registration form, select “SRL” to apply as a sub-fleet.',
+    videoEyebrow: 'PRESENTATION VIDEO',
+    videoTitle: 'Discover the CIBERO partnership for sub-fleets',
+    videoAction: 'See what your sub-fleet receives',
+    videoLink: 'Watch the presentation on YouTube',
     previewActive: 'OPERATIONAL',
     previewEyebrow: 'SUB-FLEET DASHBOARD',
     previewTitle: 'One place for your team.',
@@ -110,6 +114,8 @@
   const nodes = document.querySelectorAll('[data-i18n]');
   nodes.forEach(node => originals.set(node, node.textContent));
   const description = document.querySelector('meta[name="description"]');
+  const videoFrame = document.querySelector('.sf-video-frame[data-youtube-id]');
+  const videoPoster = videoFrame?.querySelector('.sf-video-poster');
 
   function setLanguage(language) {
     const isEnglish = language === 'en';
@@ -120,8 +126,44 @@
     description?.setAttribute('content', isEnglish
       ? 'Manage and grow your sub-fleet with CIBERO Manager, operational tools, recruitment and dedicated support.'
       : 'Administrează și dezvoltă-ți sub-flota cu CIBERO Manager, instrumente operaționale, recrutare și suport dedicat.');
+    if (videoFrame) videoFrame.dataset.videoTitle = isEnglish
+      ? 'CIBERO presentation for partner sub-fleets'
+      : 'Prezentare CIBERO pentru sub-flote';
+    videoPoster?.setAttribute('aria-label', isEnglish
+      ? 'Play the CIBERO presentation for partner sub-fleets'
+      : 'Redă prezentarea CIBERO pentru sub-flote');
   }
 
   document.addEventListener('cibero:language-change', event => setLanguage(event.detail.language));
   setLanguage(document.documentElement.lang);
+
+  if (videoFrame && videoPoster) {
+    const thumbnail = videoPoster.querySelector('img[data-thumbnail-fallback]');
+    if (thumbnail) {
+      const useFallback = () => {
+        const fallback = thumbnail.dataset.thumbnailFallback;
+        if (!fallback) return;
+        delete thumbnail.dataset.thumbnailFallback;
+        thumbnail.src = fallback;
+      };
+      thumbnail.addEventListener('error', useFallback, { once: true });
+      thumbnail.addEventListener('load', () => {
+        if (thumbnail.naturalWidth < 300) useFallback();
+      }, { once: true });
+      if (thumbnail.complete && thumbnail.naturalWidth < 300) useFallback();
+    }
+
+    videoPoster.addEventListener('click', () => {
+      const videoId = videoFrame.dataset.youtubeId;
+      if (!videoId) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&playsinline=1&rel=0`;
+      iframe.title = videoFrame.dataset.videoTitle || 'Prezentare CIBERO pentru sub-flote';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      videoFrame.replaceChildren(iframe);
+      iframe.focus();
+    }, { once: true });
+  }
 })();
