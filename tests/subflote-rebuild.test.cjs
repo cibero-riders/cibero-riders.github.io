@@ -18,6 +18,10 @@ assert.match(css, /\.sf-hero h1 \{[^}]*font-size: clamp\(50px, 5\.8vw, 74px\)/, 
 assert.match(css, /padding: clamp\(36px, 4\.5vw, 58px\) 0 58px/, 'The compact hero begins close to the site header');
 assert.match(css, /font-size: clamp\(44px, 12vw, 60px\)/, 'The stronger hero scale carries through to mobile');
 assert.match(html, /data-youtube-id="JSIBthWjTgc"/, 'The sub-fleet presentation video is featured in the hero');
+assert.doesNotMatch(html, /Descoperă parteneriatul CIBERO pentru sub-flote/, 'The long video heading was removed');
+assert.match(html, /class="sf-video-eyebrow"[\s\S]*?data-i18n="videoEyebrow">Prezentare/);
+assert.equal((html.match(/class="sf-video-arrow"/g) || []).length, 2, 'Two arrows point toward the embedded Short');
+assert.match(css, /\.sf-video-arrow \{[^}]*stroke: currentColor/);
 assert.match(html, /youtube\.com\/shorts\/JSIBthWjTgc/);
 assert.match(js, /youtube-nocookie\.com\/embed/);
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The YouTube Short keeps a vertical presentation frame');
