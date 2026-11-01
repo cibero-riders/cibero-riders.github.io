@@ -17,6 +17,7 @@ assert.match(html, /data-youtube-id="JSIBthWjTgc"/, 'The sub-fleet presentation 
 assert.match(html, /youtube\.com\/shorts\/JSIBthWjTgc/);
 assert.match(js, /youtube-nocookie\.com\/embed/);
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The YouTube Short keeps a vertical presentation frame');
+assert.match(css, /@media \(min-width: 981px\) \{[\s\S]*?\.sf-video-showcase \{ grid-column: 1; grid-row: 2; \}[\s\S]*?\.sf-hero-copy \{ grid-column: 2; grid-row: 2; \}/, 'The presentation video sits left of the hero copy on desktop');
 assert.match(html, /Administrarea curierilor Bolt Food/);
 assert.match(html, /Control cash și protecție antifraudă/);
 assert.match(html, /Liste de așteptare și înscrieri/);
