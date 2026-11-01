@@ -12,7 +12,9 @@ assert.ok((html.match(new RegExp(formUrl, 'g')) || []).length >= 2, 'Both primar
 assert.match(html, /selectează opțiunea „SRL”/i, 'The hero explains that applicants must select SRL');
 assert.match(html, /CIBERO Manager/);
 assert.match(html, /Tu îți dezvolți echipa —/);
-assert.match(css, /white-space: nowrap/, 'The desktop hero headline stays on one line');
+assert.match(css, /\.sf-hero-heading \{[^}]*text-align: center/, 'The sub-fleet hero heading follows the centered sub-page format');
+assert.match(css, /\.sf-hero-heading \.sf-eyebrow \{ justify-content: center; \}/);
+assert.match(html, /heroEyebrow">PARTENERIAT PENTRU SUB-FLOTE<\/span><span aria-hidden="true"><\/span>/, 'The hero eyebrow uses symmetrical separators');
 assert.match(html, /data-youtube-id="JSIBthWjTgc"/, 'The sub-fleet presentation video is featured in the hero');
 assert.match(html, /youtube\.com\/shorts\/JSIBthWjTgc/);
 assert.match(js, /youtube-nocookie\.com\/embed/);
