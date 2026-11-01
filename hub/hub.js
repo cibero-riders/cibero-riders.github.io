@@ -31,7 +31,8 @@
     guidesCategory:'Cash, balance, deposit and reset',
     videosCategory:'Video guides and tutorials',
     toolsCategory:'Tools, resources and support',
-    whatsappCategory:'Announcements and Communication - WhatsApp',
+    whatsappCategory:'Announcements and Community - Telegram',
+    telegramOnboardingButton:'Open Telegram onboarding',
     quickCalendar:'Calendar',quickVideos:'Video',quickReimbursement:'Reimbursement',
     nextPaymentSummary:'Payment date, covered period and next reset.',
     nextPaymentLabel:'Next payment:',
@@ -157,7 +158,7 @@
     faqDialogCaveat:'Some information may not be up to date.',
     gearDialogTitle:'Choose the platform whose official equipment store you want to view',
     gearDialogNote:'Bags, helmets, gloves and other useful equipment and accessories.',
-    whatsappDialogTitle:'Choose the WhatsApp channel you\u00a0want\u00a0to\u00a0open'
+    whatsappDialogTitle:'Open the CibeRO community on Telegram'
   });
   if(isSubfleet)Object.assign(translations,{
     hubTitle:'Courier Hub',
@@ -276,7 +277,7 @@
     },
     'comunicare-whatsapp':{
       titleKey:'whatsappDialogTitle',
-      title:'Alege canalul WhatsApp pe care vrei\u00a0să\u2011l\u00a0deschizi'
+      title:'Intră în comunitatea CibeRO pe Telegram'
     }
   };
   const categoryDialogs=new Map();

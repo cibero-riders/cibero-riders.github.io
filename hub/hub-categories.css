@@ -102,8 +102,8 @@
 }
 
 .hub-category-whatsapp {
-  border-color: #72e6a1;
-  background: linear-gradient(110deg, #d5ffe4, #85eeb0 52%, #43cb83);
+  border-color: #74c8ef;
+  background: linear-gradient(110deg, #d9f3ff, #87d6f7 52%, #229ed9);
 }
 
 .hub-category-whatsapp > summary:hover,
@@ -114,19 +114,19 @@
 .hub-category-whatsapp .hub-category-title,
 .hub-category-whatsapp > summary:hover .hub-category-title,
 .hub-category-whatsapp[open] .hub-category-title {
-  color: #123c28;
+  color: #10394c;
 }
 
 .hub-category-whatsapp .hub-category-symbol {
-  border-color: #217a4d;
-  background: #1da75f;
+  border-color: #1478a6;
+  background: #229ed9;
   color: white;
 }
 
 .hub-category-whatsapp > summary > i {
-  border-color: #217a4d78;
+  border-color: #1478a678;
   background: #ffffff85;
-  color: #134b2e;
+  color: #10435b;
 }
 
 .hub-category-gear .hub-link-grid {
@@ -199,6 +199,10 @@
   margin: 0;
   padding: 0;
   border: 0;
+}
+
+.hub-category-whatsapp .hub-whatsapp-card {
+  grid-column: 1 / -1;
 }
 
 @media (max-width: 760px) {
@@ -975,9 +979,9 @@ html[data-theme="night"] .hub-category-symbol {
 }
 
 .hub-category-whatsapp .hub-category-symbol {
-  border-color: #baf8cb;
-  background: linear-gradient(145deg, #32e273, #179d52);
-  box-shadow: inset 0 1px #fff8, 0 8px 20px #0d8b4866;
+  border-color: #bfeaff;
+  background: linear-gradient(145deg, #45b8ed, #1689bf);
+  box-shadow: inset 0 1px #fff8, 0 8px 20px #147eaf66;
 }
 
 .hub-category-whatsapp .hub-category-symbol img {
