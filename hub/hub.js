@@ -137,6 +137,8 @@
     glovoCashRule:'<strong>If your cash balance reaches RON 600, cash orders will be blocked.</strong> Deposit frequently to keep your balance at an optimal level.',
     glovoResetRule1:'Glovo’s main reset takes place every <strong>Tuesday by 14:00</strong>. Deposit the full balance before the reset.',
     glovoDepositRule:'Deposits can be made at any SelfPay station, and the balance updates instantly.',
+    glovoSelfPayGuideTitle:'SelfPay deposit guide',
+    glovoSelfPayGuide:'SelfPay stations are available in many supermarkets and shops (Profi, Kaufland etc.). To deposit, go to a SelfPay station, search for <strong>“Glovo”</strong> on the screen, enter your courier code (available in the Glovo courier app), then insert the banknotes. <strong>The balance updates instantly.</strong>',
     woltCashRule:'If you reach an outstanding amount of <strong>500 lei</strong> in the balance or more, orders will be blocked and you will not be able to go online until you cover the amount <strong>IN FULL</strong>.',
     woltResetRule1:'The fiscal periods are: <strong>01–07, 08–15, 16–22 and 23–the last day of the month</strong> (28/29/30/31).',
     woltResetAction:'Deposit the full balance on reset days — the <strong>7th, 15th, 22nd and last day of the month</strong> — by <strong>23:59</strong>.',
