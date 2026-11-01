@@ -18,8 +18,12 @@ for (const directory of copies) {
   assert.match(script, /class="campaign-completion hub-completion" href="\$\{links\.hub\}" target="_blank" rel="noopener noreferrer"/);
   assert.match(styles, /\.campaign-completion\.hub-completion\{margin-top:14px;/);
   assert.match(styles, /\.hub-resource-badge\{/);
-  assert.match(html, /styles\.css\?v=final-hub-1/);
-  assert.match(html, /app\.js\?v=telegram-restore-1/);
+  assert.match(script, /playlistPlayer\('PLLEIvJ6LBUOs','Ghiduri pentru Telegram'\)/);
+  assert.match(script, /toggleTelegramGuides/);
+  assert.match(script, /Afișează ghidurile/);
+  assert.match(styles, /\.telegram-guide-option\{/);
+  assert.match(html, /styles\.css\?v=telegram-guides-1/);
+  assert.match(html, /app\.js\?v=telegram-guides-1/);
 }
 
 console.log('Onboarding completion screen links to the original CIBERO Hub in both published copies.');
