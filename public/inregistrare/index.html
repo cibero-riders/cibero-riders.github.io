@@ -32,7 +32,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="registration.css?v=3" />
+  <link rel="stylesheet" href="registration.css?v=4" />
   <link rel="stylesheet" href="../site-theme.css?v=13" />
 </head>
 <body>
@@ -47,15 +47,17 @@
 
     <section id="registration-card" class="registration-card" aria-labelledby="registration-title">
       <div id="registration-intake">
-        <p class="eyebrow" data-i18n="eyebrow">CibeRO · ÎNREGISTRARE</p>
-        <h1 id="registration-title" data-i18n="title">Înscriere Curier</h1>
-        <p class="intro" data-i18n="intro">Alătură-te rețelei noastre de livrare și începe să câștigi.</p>
+        <div class="registration-heading">
+          <h1 id="registration-title" data-i18n="title">CIBERO - Primul pas</h1>
+          <p class="intro" data-i18n="intro">Alătură-te rețelei noastre de livrare și începe să câștigi.</p>
+        </div>
+        <p class="intake-note" data-i18n="intakeNote">Completează formularul cu atenție, nu omite câmpuri și te vom contacta pentru următorii pași.</p>
 
         <form id="social-registration-form" novalidate>
         <label class="honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
 
         <fieldset class="profile-fieldset">
-          <legend><span data-i18n="courierType">Ce tip de curier ești?</span> <b>*</b></legend>
+          <legend><span data-i18n="courierType">Alege tipul de colaborare:</span> <b>*</b></legend>
           <div class="profile-grid">
             <label class="profile-option"><input required type="radio" name="courier_type" value="new_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="15" r="6"/><path d="M12 38c1.4-7.5 6.1-11 12-11s10.6 3.5 12 11M17 28l-2.5 8m19-8 2.5 8"/></svg></span><span class="profile-copy"><strong data-i18n="newCourier">Curier nou</strong><small data-i18n="newCourierDescription">Ești la început și vrei să începi rapid</small></span></label>
             <label class="profile-option"><input type="radio" name="courier_type" value="experienced_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="9"/><path d="m20.5 20 2.4 2.4 5-5M19 29l-2 10 7-3 7 3-2-10M16 11l3 1.4L21 9l3 2.2L27 9l2 3.4L32 11"/></svg></span><span class="profile-copy"><strong data-i18n="experienced">Curier cu experiență</strong><small data-i18n="experiencedDescription">Ai mai lucrat ca livrator</small></span></label>
@@ -64,6 +66,7 @@
           </div>
         </fieldset>
 
+        <h2 class="form-section-title" data-i18n="personalDataTitle">Datele personale și ale colaborării</h2>
         <div class="form-grid">
           <label><span data-i18n="fullName">Nume complet</span> <b>*</b><input required name="full_name" autocomplete="name" data-i18n-placeholder="fullNamePlaceholder" placeholder="Ion Popescu" /></label>
           <label><span data-i18n="email">Email</span> <b>*</b><input required type="email" name="email" autocomplete="email" placeholder="email@exemplu.ro" /></label>
@@ -72,7 +75,7 @@
           <label><span data-i18n="city">Oraș</span> <b>*</b><select required name="city" id="city-select"></select></label>
           <label><span data-i18n="vehicle">Tip vehicul</span> <b>*</b><select required name="vehicle" id="vehicle-select"></select></label>
           <label class="full"><span data-i18n="source">De unde ai aflat de noi?</span> <b>*</b><select required name="discovery_source" id="source-select"></select></label>
-          <label class="full"><span data-i18n="intent">Ce vrei să faci?</span> <small data-i18n="intentHint">Descrie pe scurt</small><textarea required name="message" maxlength="2000" data-i18n-placeholder="intentPlaceholder" placeholder="Ex: Vreau să lucrez la Glovo; Am PFA și vreau 5 curieri; Avem SRL cu 10 mașini..."></textarea></label>
+          <label class="full"><span data-i18n="intent">Descrie în căsuța de dedesubt ce vrei să faci în colaborarea cu Cibero</span><textarea required name="message" maxlength="2000" data-i18n-placeholder="intentPlaceholder" placeholder="Ex: Vreau să lucrez la Glovo; Am PFA și vreau 5 curieri; Avem SRL cu 10 mașini..."></textarea></label>
         </div>
 
         <fieldset class="platform-fieldset">
@@ -86,7 +89,7 @@
 
         <div class="consents">
           <label><input required type="checkbox" name="adult_confirmed" /><span data-i18n="adult">Confirm că am cel puțin 18 ani.</span> <b>*</b></label>
-          <label><input required type="checkbox" name="consent_privacy" /><span data-i18n="privacy">Sunt de acord cu procesarea datelor mele personale pentru analizarea acestei înregistrări.</span> <b>*</b></label>
+          <label class="privacy-consent"><input required type="checkbox" name="consent_privacy" /><span><span data-i18n="privacyPrefix">Sunt de acord cu prelucrarea datelor mele personale și accept</span> <button type="button" class="legal-link" data-legal-url="https://cibero.delivery/termeni/" data-i18n="terms">Termenii și Condițiile</button> <span data-i18n="privacyJoin">și</span> <button type="button" class="legal-link" data-legal-url="https://cibero.delivery/confidentialitate/" data-i18n="privacyPolicy">Politica de Confidențialitate</button>. <b>*</b></span></label>
         </div>
 
         <button id="submit-registration" class="submit-button" type="submit" data-i18n="submit">Trimite înregistrarea</button>
@@ -107,12 +110,20 @@
       <button id="courier-guide-close" class="courier-guide-close" type="button" aria-label="Închide">×</button>
       <div class="courier-guide-content">
         <h2 id="courier-guide-title"></h2>
+        <p id="courier-guide-intro" class="courier-guide-intro"></p>
         <div id="courier-guide-items" class="courier-guide-items"></div>
+        <div id="courier-guide-extra" class="courier-guide-extra"></div>
       </div>
       <footer class="courier-guide-footer"><button id="courier-guide-continue" class="courier-guide-continue" type="button">Am înțeles, continuă</button></footer>
     </section>
   </dialog>
-  <script src="registration.js?v=3"></script>
+  <dialog id="legal-dialog" class="legal-dialog" aria-labelledby="legal-dialog-title">
+    <section class="legal-dialog-panel">
+      <header><h2 id="legal-dialog-title">Document juridic</h2><button id="legal-dialog-close" type="button" aria-label="Închide">×</button></header>
+      <iframe id="legal-dialog-frame" title="Document juridic"></iframe>
+    </section>
+  </dialog>
+  <script src="registration.js?v=4"></script>
   <script src="../site-theme.js?v=5"></script>
 </body>
 </html>
