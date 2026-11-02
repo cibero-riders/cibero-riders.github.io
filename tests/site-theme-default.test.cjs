@@ -82,4 +82,13 @@ for (const cssPath of ['site-theme.css', path.join('public', 'site-theme.css')])
   assert.match(css, /html\[data-theme="night"\] body:not\(\.onboarding-page\)::before/);
 }
 
+for (const cssPath of ['site-navigation.css', path.join('public', 'site-navigation.css')]) {
+  const css = fs.readFileSync(path.join(root, cssPath), 'utf8');
+  assert.match(css, /html\[data-theme\] \.global-header \.brand-wordmark img \{[\s\S]*?filter: none;[\s\S]*?opacity: 1;/);
+  assert.doesNotMatch(css, /html\[data-theme="night"\] \.global-header \.brand-wordmark img[\s\S]*?grayscale/);
+}
+
+const onboardingDisplayThemes = fs.readFileSync(path.join(root, 'onboarding', 'display-themes.css'), 'utf8');
+assert.match(onboardingDisplayThemes, /html\[data-theme="night"\] \.onboarding-page \.site-title \.header-art \{[\s\S]*?grayscale\(1\)/);
+
 console.log('Site theme: Night default, onboarding exception, explicit cross-tab choice and ornamental background passed.');
