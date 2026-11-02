@@ -28,7 +28,7 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 ## Route lifecycle
 
-- Rutele `/admin/` și `/ticket/`, precum și aliasul `/tickete/`, sunt inactive/legacy. Statutul include copiile lor din `public/` și fișierele dedicate exclusiv acestor rute.
+- Toate rutele enumerate în secțiunea „Rute inactive” din `ROUTE_STATUS.md` sunt inactive/legacy. Statutul include copiile lor din `public/` și fișierele dedicate exclusiv acestor rute.
 - Exclude aceste rute din modificările generale de design, antet, footer, teme, traduceri și conținut, cu excepția cazului în care utilizatorul cere explicit lucrul la una dintre ele.
 - Păstrează URL-urile și codul existent; statutul inactiv nu autorizează ștergerea lor.
 - Consultă `ROUTE_STATUS.md` înaintea unei modificări generale care atinge mai multe pagini.

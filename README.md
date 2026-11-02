@@ -33,4 +33,4 @@ Copiază `.env.example` ca `.env.local` numai pentru dezvoltare locală și comp
 
 ## Migrare graduală
 
-Rutele `/admin/`, `/ticket/` și aliasul `/tickete/` sunt păstrate numai pentru compatibilitate, cu statut inactiv/legacy, și sunt excluse implicit din mentenanța generală. Celelalte rute legacy rescrise intern către paginile statice păstrate continuă să funcționeze până când fiecare flux va fi migrat separat în React. Evidența completă este în `ROUTE_STATUS.md`.
+Rutele enumerate ca inactive în `ROUTE_STATUS.md` sunt păstrate numai pentru compatibilitate și sunt excluse implicit din mentenanța generală. Celelalte rute legacy rescrise intern către paginile statice păstrate continuă să funcționeze până când fiecare flux va fi migrat separat în React.
