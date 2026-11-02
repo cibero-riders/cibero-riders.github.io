@@ -2,11 +2,11 @@
 * { box-sizing:border-box; }
 body { min-width:320px; margin:0; background:radial-gradient(circle at 12% 0,#743d6847,transparent 31rem),radial-gradient(circle at 90% 92%,#7c4c1d35,transparent 30rem),linear-gradient(145deg,#16091d,#0d0511); color:var(--cream); font-family:"DM Sans",sans-serif; }
 button,input,select,textarea { font:inherit; }
-.registration-page { width:min(940px,calc(100% - 32px)); margin:0 auto; padding:30px 0 64px; }
-.registration-header { display:flex; align-items:center; justify-content:flex-start; gap:10px; min-height:108px; margin-bottom:18px; border:0!important; background:transparent!important; box-shadow:none!important; }
-.registration-brand { display:inline-flex; min-width:0; align-items:center; flex:0 1 auto; border-radius:12px; }
+.registration-page { width:min(940px,calc(100% - 32px)); margin:0 auto; padding:8px 0 64px; }
+.registration-header { display:flex; align-items:center; justify-content:flex-start; gap:10px; min-height:82px; margin-bottom:10px; border:0!important; background:transparent!important; box-shadow:none!important; }
+.registration-brand { display:inline-flex; width:220px; height:82px; min-width:0; align-items:center; flex:0 1 auto; overflow:hidden; border-radius:12px; }
 .registration-brand:focus-visible { outline:2px solid var(--gold-light); outline-offset:4px; }
-.registration-header img { display:block; width:220px; max-width:100%; height:auto; object-fit:contain; }
+.registration-header img { display:block; width:220px; max-width:100%; height:auto; object-fit:contain; transform:translateY(-17%); }
 .registration-header .public-theme-switch { margin-left:auto; }
 .registration-header .language-switch { margin-left:0; }
 .language-switch { display:flex; gap:4px; padding:4px; border:1px solid var(--line); border-radius:999px; background:#15091dca; }
@@ -20,7 +20,7 @@ h1 { margin:0; font:700 clamp(30px,5vw,47px) "DM Sans",sans-serif; }
 .intake-note { margin:27px 0 24px; border:1px solid #e4bc5c66; border-radius:12px; padding:14px 17px; background:#f0c76012; color:#eadce7; font-size:13px; line-height:1.55; text-align:center; }
 fieldset { margin:0; padding:0; border:0; }
 legend,label { color:#f2e1ee; font-size:13px; font-weight:700; }
-.form-section { border:1px solid #b889b94d; border-radius:17px; padding:21px; background:linear-gradient(145deg,#1a0b2396,#10071582); box-shadow:inset 0 1px 0 #fff3c20a; }
+.form-section { margin-inline:-22px; border:1px solid #b889b94d; border-radius:17px; padding:21px; background:linear-gradient(145deg,#1a0b2396,#10071582); box-shadow:inset 0 1px 0 #fff3c20a; }
 .form-section + .form-section { margin-top:22px; }
 .profile-fieldset legend { width:100%; margin-bottom:14px; color:var(--gold-light); font-size:clamp(18px,3vw,23px); font-weight:900; }
 legend { margin-bottom:11px; } b { color:#ffd46f; } legend span { color:#ffd46f; }.profile-fieldset legend span { color:inherit; }
@@ -87,4 +87,4 @@ html[data-theme="night"] .platform-fieldset,
 html[data-theme="night"] .consents { border-top-color:#80674745; }
 html[data-theme="night"] .legal-dialog-panel header { background:#151613; }
 
-@media(max-width:680px){.registration-page{width:min(100% - 20px,940px);padding-top:10px}.registration-card{padding:25px 18px;border-radius:19px}.form-section{padding:17px 14px;border-radius:14px}.profile-grid{grid-template-columns:1fr}.profile-option{min-height:74px}.form-grid{grid-template-columns:1fr;gap:14px}.form-grid label.full{grid-column:auto}.platform-grid{grid-template-columns:1fr}.platform-grid span{justify-content:flex-start;padding:0 17px}.registration-header{min-height:68px;flex-wrap:nowrap;justify-content:space-between;gap:0;margin-bottom:12px}.registration-brand{min-width:0;flex:0 1 auto;justify-content:flex-start}.registration-header img{width:clamp(112px,calc(100vw - 205px),158px);height:auto}.registration-header .public-theme-switch{grid-template-columns:repeat(3,24px);gap:2px;min-height:34px;margin-left:0;margin-right:0;padding:2px}.registration-header .public-theme-switch button{width:24px;min-height:28px}.registration-header .public-theme-switch span{font-size:15px}.registration-header .language-switch{gap:2px;padding:3px}.registration-header .language-switch button{min-width:31px;padding:6px 7px}.legal-dialog{width:calc(100% - 12px);height:calc(100dvh - 12px);border-radius:14px}.courier-guide-content{padding:54px 22px 25px}.courier-guide-footer{padding:16px}.courier-guide-items{gap:15px}.courier-guide-panel h2{font-size:20px}}
+@media(max-width:680px){.registration-page{width:min(100% - 20px,940px);padding-top:4px}.registration-card{padding:25px 18px;border-radius:19px}.form-section{margin-inline:-7px;padding:17px 14px;border-radius:14px}.profile-grid{grid-template-columns:1fr}.profile-option{min-height:74px}.form-grid{grid-template-columns:1fr;gap:14px}.form-grid label.full{grid-column:auto}.platform-grid{grid-template-columns:1fr}.platform-grid span{justify-content:flex-start;padding:0 17px}.registration-header{min-height:58px;flex-wrap:nowrap;justify-content:space-between;gap:0;margin-bottom:8px}.registration-brand{width:clamp(112px,calc(100vw - 205px),158px);height:clamp(48px,calc(38vw - 77.9px),60px);min-width:0;flex:0 1 auto;justify-content:flex-start}.registration-header img{width:100%;max-width:none;height:auto;transform:translateY(-17%)}.registration-header .public-theme-switch{grid-template-columns:repeat(3,24px);gap:2px;min-height:34px;margin-left:0;margin-right:0;padding:2px}.registration-header .public-theme-switch button{width:24px;min-height:28px}.registration-header .public-theme-switch span{font-size:15px}.registration-header .language-switch{gap:2px;padding:3px}.registration-header .language-switch button{min-width:31px;padding:6px 7px}.legal-dialog{width:calc(100% - 12px);height:calc(100dvh - 12px);border-radius:14px}.courier-guide-content{padding:54px 22px 25px}.courier-guide-footer{padding:16px}.courier-guide-items{gap:15px}.courier-guide-panel h2{font-size:20px}}
