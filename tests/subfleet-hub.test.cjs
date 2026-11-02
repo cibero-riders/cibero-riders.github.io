@@ -134,7 +134,7 @@ assert.match(cashStyles, /\.hub-cash-fact\.hub-cash-fact-deadline:nth-child\(n\)
 assert.match(categoryStyles, /html\[data-theme="midday"\] body\.hub-body \{[\s\S]*?--hb-bg: #12091b/);
 assert.match(categoryStyles, /html\[data-theme="night"\] body\.hub-body \{[\s\S]*?--hb-bg: #0d0e0c/);
 assert.match(fleet, /src="\.\.\/assets\/social-whatsapp\.svg"/);
-assert.match(fleet, /https:\/\/chat\.whatsapp\.com\/L1P5tryfmsxG23HEjkO6bH/);
+assert.match(fleet, /https:\/\/chat\.whatsapp\.com\/DfcXcyDC5MgBIT20hohBEZ/);
 assert.match(fleet, /https:\/\/chat\.whatsapp\.com\/HhF6ACi1A2YC7tDjoOxMwJ/);
 assert.doesNotMatch(fleet, /eatsdelivery_bot\?start=onboarding|social-telegram\.svg/);
 assert.doesNotMatch(fleet, /eatsdelivery\.bolt\.host\/modification-flow/);

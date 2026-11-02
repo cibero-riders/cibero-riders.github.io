@@ -18,7 +18,7 @@ for (const directory of copies) {
   assert.match(script, /class="campaign-completion hub-completion" href="\$\{links\.hub\}" target="_blank" rel="noopener noreferrer"/);
   assert.match(styles, /\.campaign-completion\.hub-completion\{margin-top:14px;/);
   assert.match(styles, /\.hub-resource-badge\{/);
-  assert.match(script, /whatsappCommunity: 'https:\/\/chat\.whatsapp\.com\/L1P5tryfmsxG23HEjkO6bH'/);
+  assert.match(script, /whatsappCommunity: 'https:\/\/chat\.whatsapp\.com\/DfcXcyDC5MgBIT20hohBEZ'/);
   assert.match(script, /whatsappAnnouncements: 'https:\/\/chat\.whatsapp\.com\/HhF6ACi1A2YC7tDjoOxMwJ'/);
   assert.match(script, /function joinWhatsAppCommunity/);
   assert.match(script, /function joinWhatsAppAnnouncements/);
@@ -34,7 +34,7 @@ for (const directory of copies) {
   assert.match(styles, /#app\.instant-selection-update \.guided-reveal/);
   assert.doesNotMatch(styles, /\.telegram-guide-option|\.telegram-video-modal/);
   assert.match(html, /styles\.css\?v=whatsapp-restore-1/);
-  assert.match(html, /app\.js\?v=whatsapp-restore-1/);
+  assert.match(html, /app\.js\?v=whatsapp-community-2/);
 }
 
 console.log('Both onboarding copies use the WhatsApp handoff and keep instant checkbox updates.');

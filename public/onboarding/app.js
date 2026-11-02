@@ -1,7 +1,7 @@
 const links = {
   boltGuide: 'https://www.youtube.com/playlist?list=PLQFx_vtbR0SioPtXeXO2j8aAPaUb3TOYU',
   registration: 'https://controlfleet.ro/onboarding/participatiune/5b2df208d1b9a87844e7fe9508fea2d572d6d9ac503bd2382213a0416f52bb32',
-  whatsappCommunity: 'https://chat.whatsapp.com/L1P5tryfmsxG23HEjkO6bH',
+  whatsappCommunity: 'https://chat.whatsapp.com/DfcXcyDC5MgBIT20hohBEZ',
   whatsappAnnouncements: 'https://chat.whatsapp.com/HhF6ACi1A2YC7tDjoOxMwJ',
   hub: 'https://cibero.delivery/hub/'
 };
