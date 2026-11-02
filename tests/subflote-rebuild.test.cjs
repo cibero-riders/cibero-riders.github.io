@@ -26,6 +26,8 @@ assert.match(html, /youtube\.com\/shorts\/JSIBthWjTgc/);
 assert.match(js, /youtube-nocookie\.com\/embed/);
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The YouTube Short keeps a vertical presentation frame');
 assert.match(html, /assets\/cibero-subfleet-partnership-infographic\.webp/, 'The optimized partnership infographic is included');
+assert.match(css, /\.subfleet-body \{[\s\S]*?margin: 0;/, 'The page removes the browser body margin so the header reaches every viewport edge');
+assert.match(html, /subflote\.css\?v=13/, 'The corrected Sub-fleet stylesheet version is loaded');
 assert.match(html, /class="sf-infographic"[\s\S]*?target="_blank"/, 'The infographic can be opened at full size');
 assert.match(css, /\.sf-infographic a \{[^}]*border-radius: 28px/, 'The infographic has rounded corners');
 assert.doesNotMatch(html, /class="sf-platform-strip"/, 'The redundant platform strip was removed');
