@@ -32,13 +32,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="registration.css?v=4" />
+  <link rel="stylesheet" href="registration.css?v=5" />
   <link rel="stylesheet" href="../site-theme.css?v=13" />
 </head>
 <body>
   <main class="registration-page">
     <header class="registration-header">
-      <img src="../assets/cibero-header-wordmark.png" alt="CibeRO" />
+      <a class="registration-brand" href="https://cibero.delivery/" aria-label="CibeRO — pagina principală"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
       <div class="language-switch" role="group" aria-label="Limba / Language">
         <button type="button" data-language="ro" class="active">RO</button>
         <button type="button" data-language="en">EN</button>
@@ -57,7 +57,7 @@
         <label class="honeypot" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off" /></label>
 
         <fieldset class="profile-fieldset">
-          <legend><span data-i18n="courierType">Alege tipul de colaborare:</span> <b>*</b></legend>
+          <legend><span data-i18n="courierType">Alege tipul de colaborare</span><b>*</b></legend>
           <div class="profile-grid">
             <label class="profile-option"><input required type="radio" name="courier_type" value="new_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="15" r="6"/><path d="M12 38c1.4-7.5 6.1-11 12-11s10.6 3.5 12 11M17 28l-2.5 8m19-8 2.5 8"/></svg></span><span class="profile-copy"><strong data-i18n="newCourier">Curier nou</strong><small data-i18n="newCourierDescription">Ești la început și vrei să începi rapid</small></span></label>
             <label class="profile-option"><input type="radio" name="courier_type" value="experienced_courier" /><span class="profile-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><circle cx="24" cy="20" r="9"/><path d="m20.5 20 2.4 2.4 5-5M19 29l-2 10 7-3 7 3-2-10M16 11l3 1.4L21 9l3 2.2L27 9l2 3.4L32 11"/></svg></span><span class="profile-copy"><strong data-i18n="experienced">Curier cu experiență</strong><small data-i18n="experiencedDescription">Ai mai lucrat ca livrator</small></span></label>
@@ -66,20 +66,20 @@
           </div>
         </fieldset>
 
-        <h2 class="form-section-title" data-i18n="personalDataTitle">Datele personale și ale colaborării</h2>
+        <h2 class="form-section-title"><span data-i18n="personalDataTitle">Datele personale și ale colaborării</span><b>*</b></h2>
         <div class="form-grid">
-          <label><span data-i18n="fullName">Nume complet</span> <b>*</b><input required name="full_name" autocomplete="name" data-i18n-placeholder="fullNamePlaceholder" placeholder="Ion Popescu" /></label>
-          <label><span data-i18n="email">Email</span> <b>*</b><input required type="email" name="email" autocomplete="email" placeholder="email@exemplu.ro" /></label>
-          <label><span data-i18n="phone">Telefon</span> <b>*</b><input required type="tel" name="phone" autocomplete="tel" placeholder="07XX XXX XXX" /></label>
-          <label><span data-i18n="nationality">Naționalitate</span> <b>*</b><input required name="nationality" autocomplete="country-name" data-i18n-placeholder="nationalityPlaceholder" placeholder="Română" /></label>
-          <label><span data-i18n="city">Oraș</span> <b>*</b><select required name="city" id="city-select"></select></label>
-          <label><span data-i18n="vehicle">Tip vehicul</span> <b>*</b><select required name="vehicle" id="vehicle-select"></select></label>
-          <label class="full"><span data-i18n="source">De unde ai aflat de noi?</span> <b>*</b><select required name="discovery_source" id="source-select"></select></label>
-          <label class="full"><span data-i18n="intent">Descrie în căsuța de dedesubt ce vrei să faci în colaborarea cu Cibero</span><textarea required name="message" maxlength="2000" data-i18n-placeholder="intentPlaceholder" placeholder="Ex: Vreau să lucrez la Glovo; Am PFA și vreau 5 curieri; Avem SRL cu 10 mașini..."></textarea></label>
+          <label><span class="field-label"><span data-i18n="fullName">Nume complet</span><b>*</b></span><input required name="full_name" autocomplete="name" data-i18n-placeholder="fullNamePlaceholder" placeholder="Ion Popescu" /></label>
+          <label><span class="field-label"><span data-i18n="email">Adresa de e-mail</span><b>*</b></span><input required type="email" name="email" autocomplete="email" placeholder="email@exemplu.ro" /></label>
+          <label><span class="field-label"><span data-i18n="phone">Număr de telefon</span><b>*</b></span><input required type="tel" name="phone" autocomplete="tel" placeholder="07XX XXX XXX" /></label>
+          <label><span class="field-label"><span data-i18n="nationality">Naționalitate</span><b>*</b></span><input required name="nationality" autocomplete="country-name" data-i18n-placeholder="nationalityPlaceholder" placeholder="Română" /></label>
+          <label><span class="field-label"><span data-i18n="city">Oraș</span><b>*</b></span><select required name="city" id="city-select"></select></label>
+          <label><span class="field-label"><span data-i18n="vehicle">Tip vehicul</span><b>*</b></span><select required name="vehicle" id="vehicle-select"></select></label>
+          <label class="full"><span class="field-label"><span data-i18n="source">De unde ai aflat de noi?</span><b>*</b></span><select required name="discovery_source" id="source-select"></select></label>
+          <label class="full"><span class="field-label"><span data-i18n="intent">Descrie intenția ta în colaborarea cu Cibero</span><b>*</b></span><textarea required name="message" maxlength="2000" data-i18n-placeholder="intentPlaceholder" placeholder="Ex: Vreau să lucrez la Glovo; Am PFA și vreau 5 curieri; Avem SRL cu 10 mașini..."></textarea></label>
         </div>
 
         <fieldset class="platform-fieldset">
-          <legend><span data-i18n="platforms">Selectează platformele</span> <b>*</b></legend>
+          <legend><span data-i18n="platforms">Selectează platformele</span><b>*</b></legend>
           <div class="platform-grid">
             <label><input type="checkbox" name="platforms" value="bolt" /><span><img src="../assets/ticket-bolt-round.png" alt="" />Bolt Food</span></label>
             <label><input type="checkbox" name="platforms" value="glovo" /><span><img src="../assets/glovo-round.png" alt="" />Glovo</span></label>
@@ -123,7 +123,7 @@
       <iframe id="legal-dialog-frame" title="Document juridic"></iframe>
     </section>
   </dialog>
-  <script src="registration.js?v=4"></script>
+  <script src="registration.js?v=5"></script>
   <script src="../site-theme.js?v=5"></script>
 </body>
 </html>
