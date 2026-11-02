@@ -18,27 +18,23 @@ for (const directory of copies) {
   assert.match(script, /class="campaign-completion hub-completion" href="\$\{links\.hub\}" target="_blank" rel="noopener noreferrer"/);
   assert.match(styles, /\.campaign-completion\.hub-completion\{margin-top:14px;/);
   assert.match(styles, /\.hub-resource-badge\{/);
+  assert.match(script, /whatsappCommunity: 'https:\/\/chat\.whatsapp\.com\/L1P5tryfmsxG23HEjkO6bH'/);
+  assert.match(script, /whatsappAnnouncements: 'https:\/\/chat\.whatsapp\.com\/HhF6ACi1A2YC7tDjoOxMwJ'/);
+  assert.match(script, /function joinWhatsAppCommunity/);
+  assert.match(script, /function joinWhatsAppAnnouncements/);
+  assert.match(script, /Intră în grupurile flotei de WhatsApp/);
+  assert.match(script, /Comunicarea o desfășurăm pe WhatsApp/);
   assert.doesNotMatch(script, /PLLEIvJ6LBUOs/);
-  assert.match(script, /button:'Vezi ghidul pentru crearea unui cont Telegram',id:'juBx-JwoBaA',format:'short'/);
-  assert.match(script, /button:'Vezi ghidul pentru onboarding-ul pe Telegram',id:'44GbSXgUQV0',format:'wide'/);
-  assert.match(script, /button:'Vezi ghidul pentru folosirea Hub-ului CIBERO',id:'D1gdobmjeDY',format:'wide'/);
-  assert.match(script, /onclick="if\(event\.target===this\)closeTelegramGuide\(\)"/);
-  assert.match(script, /Înapoi la ghiduri/);
-  assert.match(script, /event\.key==='Escape'/);
+  assert.doesNotMatch(script, /telegramGuides|joinTelegram|closeTelegramGuide/);
   assert.match(script, /function renderSelectionChange\(\)\{suppressNextSelectionAnimation=true;render\(\)\}/);
   assert.match(script, /confirmBoltPlaylist\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
   assert.match(script, /confirmEquipment\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
   assert.match(script, /confirmCalendarVideo\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
   assert.match(script, /confirmRegistrationReturn\(confirmed\)\{[^}]*renderSelectionChange\(\)/);
-  assert.match(script, /toggleTelegramGuides/);
-  assert.match(script, /Afișează ghidurile/);
-  assert.match(styles, /\.telegram-guide-option\{/);
-  assert.match(styles, /\.telegram-guide-trigger\{/);
-  assert.match(styles, /\.telegram-video-modal\{/);
-  assert.match(styles, /\.telegram-video-dialog\.is-short \.playlist-player\{[^}]*aspect-ratio:9\/16/);
   assert.match(styles, /#app\.instant-selection-update \.guided-reveal/);
-  assert.match(html, /styles\.css\?v=onboarding-checkboxes-1/);
-  assert.match(html, /app\.js\?v=onboarding-checkboxes-1/);
+  assert.doesNotMatch(styles, /\.telegram-guide-option|\.telegram-video-modal/);
+  assert.match(html, /styles\.css\?v=whatsapp-restore-1/);
+  assert.match(html, /app\.js\?v=whatsapp-restore-1/);
 }
 
-console.log('Onboarding completion screen links to the original CIBERO Hub in both published copies.');
+console.log('Both onboarding copies use the WhatsApp handoff and keep instant checkbox updates.');
