@@ -25,3 +25,10 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Preserve existing visual design unless redesign is explicitly requested.
 - Nu șterge assets sau cod legacy până nu confirmi că nu mai sunt utilizate.
 - Dacă există un branch sau PR activ pentru aceeași zonă, verifică mai întâi dacă modificările lui au ajuns deja în `main`.
+
+## Route lifecycle
+
+- Rutele `/admin/` și `/ticket/`, precum și aliasul `/tickete/`, sunt inactive/legacy. Statutul include copiile lor din `public/` și fișierele dedicate exclusiv acestor rute.
+- Exclude aceste rute din modificările generale de design, antet, footer, teme, traduceri și conținut, cu excepția cazului în care utilizatorul cere explicit lucrul la una dintre ele.
+- Păstrează URL-urile și codul existent; statutul inactiv nu autorizează ștergerea lor.
+- Consultă `ROUTE_STATUS.md` înaintea unei modificări generale care atinge mai multe pagini.

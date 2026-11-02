@@ -33,4 +33,4 @@ Copiază `.env.example` ca `.env.local` numai pentru dezvoltare locală și comp
 
 ## Migrare graduală
 
-Rutele `/admin/`, `/campanii/`, `/inregistrare/`, `/locuri/`, `/onboarding/`, `/orase/`, `/ticket/` și `/tickete/` sunt rescrise intern către paginile statice păstrate. Astfel, formularele, autentificarea existentă, hărțile, tutorialele și integrarea Supabase continuă să funcționeze până când fiecare flux va fi migrat separat în React.
+Rutele `/admin/`, `/ticket/` și aliasul `/tickete/` sunt păstrate numai pentru compatibilitate, cu statut inactiv/legacy, și sunt excluse implicit din mentenanța generală. Celelalte rute legacy rescrise intern către paginile statice păstrate continuă să funcționeze până când fiecare flux va fi migrat separat în React. Evidența completă este în `ROUTE_STATUS.md`.
