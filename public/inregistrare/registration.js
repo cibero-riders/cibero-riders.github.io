@@ -64,6 +64,8 @@ const courierGuideExtra = document.querySelector("#courier-guide-extra");
 const courierGuideClose = document.querySelector("#courier-guide-close");
 const courierGuideContinue = document.querySelector("#courier-guide-continue");
 const legalDialog = document.querySelector("#legal-dialog");
+const legalDialogPanel = document.querySelector(".legal-dialog-panel");
+const legalDialogHeader = document.querySelector(".legal-dialog-panel > header");
 const legalDialogTitle = document.querySelector("#legal-dialog-title");
 const legalDialogFrame = document.querySelector("#legal-dialog-frame");
 const legalDialogClose = document.querySelector("#legal-dialog-close");
@@ -77,8 +79,10 @@ function render() { const t=copy[language]; document.documentElement.lang=langua
 document.querySelectorAll("[data-language]").forEach(button=>button.addEventListener("click",()=>{language=button.dataset.language;render();}));
 form.querySelectorAll('input[name="courier_type"]').forEach(input=>input.addEventListener("change",()=>{if(!input.checked)return;selectedCourierType=input.value;renderGuide();if(!courierGuideDialog.open)courierGuideDialog.showModal();}));
 courierGuideClose.addEventListener("click",closeGuide); courierGuideContinue.addEventListener("click",closeGuide); courierGuideDialog.addEventListener("click",event=>{if(event.target===courierGuideDialog)closeGuide();});
-document.querySelectorAll("[data-legal-url]").forEach(button=>button.addEventListener("click",()=>{legalDialogTitle.textContent=button.textContent;legalDialogFrame.src=button.dataset.legalUrl;legalDialog.showModal();}));
+function sizeLegalFrame(){const width=legalDialogPanel.clientWidth;const headerHeight=legalDialogHeader.offsetHeight;legalDialogFrame.style.width=`${width}px`;legalDialogFrame.style.inlineSize=`${width}px`;legalDialogFrame.style.height=`${Math.max(0,legalDialogPanel.clientHeight-headerHeight)}px`;legalDialogFrame.style.top=`${headerHeight}px`;}
+document.querySelectorAll("[data-legal-url]").forEach(button=>button.addEventListener("click",()=>{legalDialogTitle.textContent=button.textContent;legalDialogFrame.src=button.dataset.legalUrl;legalDialog.showModal();requestAnimationFrame(sizeLegalFrame);}));
 function closeLegalDialog(){legalDialog.close();legalDialogFrame.src="about:blank";}
 legalDialogClose.addEventListener("click",closeLegalDialog);legalDialog.addEventListener("click",event=>{if(event.target===legalDialog)closeLegalDialog();});
+window.addEventListener("resize",()=>{if(legalDialog.open)sizeLegalFrame();});
 form.addEventListener("submit",async event=>{event.preventDefault();feedback.textContent="";feedback.classList.remove("success");const selected=[...form.querySelectorAll('input[name="platforms"]:checked')];if(!selected.length){feedback.textContent=copy[language].platformError;return;}if(!form.reportValidity())return;submit.disabled=true;submit.textContent=copy[language].sending;try{const body=new FormData(form);body.set("adult_confirmed",body.get("adult_confirmed")?"true":"false");body.set("consent_privacy",body.get("consent_privacy")?"true":"false");const response=await fetch(API_URL,{method:"POST",headers:{apikey:PUBLISHABLE_KEY},body});const result=await response.json().catch(()=>({}));if(!response.ok||!result.ok)throw new Error(result.error||copy[language].error);form.reset();registrationCard.hidden=true;registrationSuccess.hidden=false;window.scrollTo({top:0,behavior:"smooth"});}catch(error){feedback.textContent=error.message||copy[language].error;}finally{submit.disabled=false;submit.textContent=copy[language].submit;}});
 render();
