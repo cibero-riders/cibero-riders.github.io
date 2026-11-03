@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.submit-social-registration]
 verify_jwt = false
+
+[functions.track-site-entry]
+verify_jwt = false

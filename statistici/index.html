@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ro" data-theme="night">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="color-scheme" content="dark" />
+  <title>Statistici site | CIBERO</title>
+  <link rel="icon" href="../assets/cibero-favicon.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="statistici.css?v=1" />
+</head>
+<body>
+  <header class="stats-header">
+    <a class="stats-brand" href="../" aria-label="CIBERO, pagina principală">
+      <img src="../assets/cibero-header-wordmark.png" alt="CIBERO" />
+    </a>
+    <div class="stats-header-copy">
+      <span>Panou privat</span>
+      <strong>Statistici site</strong>
+    </div>
+    <button id="logout-button" class="quiet-button" type="button" hidden>Deconectare</button>
+  </header>
+
+  <main class="stats-shell">
+    <section id="login-panel" class="login-panel" aria-labelledby="login-title">
+      <p class="eyebrow">ACCES CIBERO</p>
+      <h1 id="login-title">Statistici de trafic</h1>
+      <p>Autentifică-te cu un cont CIBERO de administrator pentru a vedea datele site-ului.</p>
+      <form id="login-form">
+        <label for="email">Adresa de e-mail</label>
+        <input id="email" name="email" type="email" autocomplete="username" required />
+        <label for="password">Parola</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required />
+        <button class="primary-button" type="submit">Autentificare</button>
+        <p id="login-feedback" class="feedback" role="status"></p>
+      </form>
+    </section>
+
+    <section id="dashboard" class="dashboard" hidden aria-labelledby="dashboard-title">
+      <div class="dashboard-intro">
+        <div>
+          <p class="eyebrow">CIBERO ANALYTICS</p>
+          <h1 id="dashboard-title">Intrările pe site</h1>
+          <p>Numărăm doar pagina prin care un vizitator intră direct sau dintr-un site extern. Navigarea internă nu este contorizată.</p>
+        </div>
+        <form id="range-form" class="range-form">
+          <label>De la <input id="date-from" type="date" required /></label>
+          <label>Până la <input id="date-to" type="date" required /></label>
+          <button class="primary-button" type="submit">Actualizează</button>
+        </form>
+      </div>
+
+      <p id="dashboard-feedback" class="feedback" role="status"></p>
+
+      <div class="metric-grid" aria-label="Rezumat trafic">
+        <article><span>Intrări în interval</span><strong id="metric-entries">—</strong></article>
+        <article><span>Vizitatori unici pe zile</span><strong id="metric-visitors">—</strong></article>
+        <article><span>Intrări astăzi</span><strong id="metric-today">—</strong></article>
+        <article><span>Pagini accesate</span><strong id="metric-pages">—</strong></article>
+      </div>
+
+      <section class="panel" aria-labelledby="daily-title">
+        <div class="panel-heading">
+          <div><p class="eyebrow">EVOLUȚIE ZILNICĂ</p><h2 id="daily-title">Intrări și vizitatori</h2></div>
+          <div class="legend"><span><i class="entries-dot"></i> Intrări</span><span><i class="visitors-dot"></i> Vizitatori</span></div>
+        </div>
+        <div id="daily-chart" class="daily-chart" aria-label="Grafic zilnic"></div>
+      </section>
+
+      <section class="panel" aria-labelledby="pages-title">
+        <div class="panel-heading">
+          <div><p class="eyebrow">PAGINI DE INTRARE</p><h2 id="pages-title">Accesări pe fiecare pagină</h2></div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Pagină</th><th>Intrări</th><th>Vizitatori</th><th>Direct</th><th>Link extern</th></tr></thead>
+            <tbody id="pages-body"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="details-title">
+        <div class="panel-heading">
+          <div><p class="eyebrow">ISTORIC</p><h2 id="details-title">Detalii pe zile</h2></div>
+        </div>
+        <div id="daily-details" class="daily-details"></div>
+      </section>
+    </section>
+  </main>
+
+  <script type="module" src="statistici.js?v=1"></script>
+</body>
+</html>

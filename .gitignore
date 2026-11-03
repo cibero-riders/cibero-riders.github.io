@@ -19,3 +19,5 @@ Thumbs.db
 
 # Codex-local attachments
 .codex-remote-attachments/
+.codex-tmp/
+supabase/.temp/
