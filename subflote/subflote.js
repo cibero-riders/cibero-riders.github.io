@@ -8,8 +8,6 @@
     applyButton: 'Apply as a sub-fleet',
     discoverButton: 'See what you receive',
     formNote: 'In the registration form, select “SRL” to apply as a sub-fleet.',
-    videoEyebrow: 'Presentation',
-    videoAction: 'See what your sub-fleet receives',
     videoLink: 'Play the presentation',
     infographicCaption: 'Tap the infographic to view it at full size.',
     previewActive: 'OPERATIONAL',
