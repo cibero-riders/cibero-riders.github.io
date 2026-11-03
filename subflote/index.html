@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="../site-theme.css?v=13" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=2" />
-  <link rel="stylesheet" href="subflote.css?v=15" />
+  <link rel="stylesheet" href="subflote.css?v=16" />
 </head>
 <body class="subfleet-body">
   <header class="site-header global-header">
@@ -52,10 +52,12 @@
       </div>
       <div class="sf-hero-media">
         <figure class="sf-infographic">
-          <a href="../assets/cibero-subfleet-network-infographic.png" target="_blank" rel="noopener noreferrer" aria-label="Deschide infograficul rețelei operaționale CIBERO la dimensiune completă">
+          <button class="sf-infographic-open" type="button" aria-haspopup="dialog" aria-controls="sf-infographic-dialog" aria-label="Mărește infograficul rețelei operaționale CIBERO">
             <img src="../assets/cibero-subfleet-network-infographic.png" alt="Infografic despre rețeaua operațională CIBERO pentru sub-flote: platforme, panou propriu, recrutare, sisteme operaționale și automatizări" width="1672" height="941" decoding="async" />
-          </a>
+          </button>
         </figure>
+
+        <span class="sf-media-arrow" aria-hidden="true">→</span>
 
         <aside class="sf-video-showcase" aria-label="Prezentare video CIBERO pentru sub-flote">
           <div class="sf-video-frame" data-video-src="../assets/cibero-subflote-promo.mp4" data-video-poster="../assets/cibero-subflote-promo-poster-v2.jpg" data-video-title="Prezentare CIBERO pentru sub-flote">
@@ -214,12 +216,19 @@
     </section>
   </main>
 
+  <dialog id="sf-infographic-dialog" class="sf-infographic-dialog" aria-label="Infograficul rețelei operaționale CIBERO">
+    <div class="sf-infographic-dialog-content">
+      <button class="sf-infographic-close" type="button" aria-label="Închide infograficul"><span data-i18n="closeInfographic">Închide</span><b aria-hidden="true">×</b></button>
+      <img src="../assets/cibero-subfleet-network-infographic.png" alt="Infografic despre rețeaua operațională CIBERO pentru sub-flote: platforme, panou propriu, recrutare, sisteme operaționale și automatizări" width="1672" height="941" />
+    </div>
+  </dialog>
+
   <footer class="site-footer"><div class="footer-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" width="38" height="38" /></a></div><div class="footer-company-details"><span><b class="footer-company-name">CibeRO S.R.L.</b> <i aria-hidden="true">·</i> CUI RO53182698 <i aria-hidden="true">·</i> Constanța, România</span></div><nav class="footer-legal-links" aria-label="Informații juridice"><a href="../termeni/">Termeni și Condiții</a><a href="../confidentialitate/">Confidențialitate &amp; GDPR</a><a href="../cookie-uri/">Politica de Cookie-uri</a><a href="mailto:cibero.riders@gmail.com">Contact</a></nav><span class="footer-copyright">© Powered by Cibero - 2026 | All rights reserved</span></footer>
   <script src="../main-page.js?v=10"></script>
   <script src="../site-theme.js?v=5"></script>
   <script src="../site-language.js?v=13"></script>
   <script src="../site-accordion.js?v=1"></script>
-  <script src="subflote.js?v=8"></script>
+  <script src="subflote.js?v=9"></script>
   <script defer src="/site-analytics.js?v=1"></script>
 </body>
 </html>

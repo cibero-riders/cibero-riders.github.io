@@ -101,6 +101,7 @@
     tag2: 'Automation',
     tag3: 'Recruitment',
     tag4: 'Support',
+    closeInfographic: 'Close',
     finalOverline: 'THE NEXT STEP',
     finalTitle: 'Build your sub-fleet on a solid foundation.',
     finalBody: 'Complete the registration form and select “SRL”. The CIBERO team will review your request and contact you about the next steps.',
@@ -113,6 +114,10 @@
   const description = document.querySelector('meta[name="description"]');
   const videoFrame = document.querySelector('.sf-video-frame[data-video-src]');
   const videoPoster = videoFrame?.querySelector('.sf-video-poster');
+  const infographicOpen = document.querySelector('.sf-infographic-open');
+  const infographicDialog = document.querySelector('.sf-infographic-dialog');
+  const infographicDialogContent = infographicDialog?.querySelector('.sf-infographic-dialog-content');
+  const infographicClose = infographicDialog?.querySelector('.sf-infographic-close');
 
   function setLanguage(language) {
     const isEnglish = language === 'en';
@@ -133,6 +138,23 @@
 
   document.addEventListener('cibero:language-change', event => setLanguage(event.detail.language));
   setLanguage(document.documentElement.lang);
+
+  if (infographicOpen && infographicDialog) {
+    const closeInfographic = () => infographicDialog.close();
+    infographicOpen.addEventListener('click', () => {
+      infographicDialog.showModal();
+      document.documentElement.classList.add('sf-modal-open');
+      infographicClose?.focus();
+    });
+    infographicClose?.addEventListener('click', closeInfographic);
+    infographicDialog.addEventListener('click', event => {
+      if (event.target === infographicDialog || event.target === infographicDialogContent) closeInfographic();
+    });
+    infographicDialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('sf-modal-open');
+      infographicOpen.focus();
+    });
+  }
 
   if (videoFrame && videoPoster) {
     videoPoster.addEventListener('click', () => {
