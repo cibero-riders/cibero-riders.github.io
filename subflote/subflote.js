@@ -3,7 +3,6 @@
     heroEyebrow: 'PARTNERSHIP FOR SUB-FLEETS',
     heroTitleFirst: 'You grow your team —',
     heroTitleSecond: 'we provide the infrastructure.',
-    heroLead: 'CIBERO Manager gives you one place for courier management, recruitment, operations and support.',
     heroSupport: 'You have tools for direct action and support for operations that require our involvement.',
     applyButton: 'Apply as a sub-fleet',
     discoverButton: 'See what you receive',
