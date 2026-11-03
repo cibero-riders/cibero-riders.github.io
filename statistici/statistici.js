@@ -16,6 +16,26 @@ const dateTo = document.querySelector('#date-to');
 const formatter = new Intl.NumberFormat('ro-RO');
 const dateFormatter = new Intl.DateTimeFormat('ro-RO', { day: 'numeric', month: 'long', year: 'numeric' });
 const shortDateFormatter = new Intl.DateTimeFormat('ro-RO', { day: '2-digit', month: '2-digit' });
+const ACTIVE_PAGES = [
+  { path: '/', label: 'Pagina principală' },
+  { path: '/hub/', label: 'CIBERO Hub' },
+  { path: '/subfleethub/', label: 'Courier Hub' },
+  { path: '/subflote/', label: 'Parteneriate sub-flote' },
+  { path: '/campanii/', label: 'Campanii' },
+  { path: '/platforme/', label: 'Bolt Food, Glovo sau Wolt?' },
+  { path: '/orase/', label: 'Orașe' },
+  { path: '/beneficii/', label: 'Beneficii' },
+  { path: '/onboarding/', label: 'Onboarding' },
+  { path: '/termeni/', label: 'Termeni și Condiții' },
+  { path: '/confidentialitate/', label: 'Confidențialitate & GDPR' },
+  { path: '/cookie-uri/', label: 'Politica de Cookie-uri' }
+];
+
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[character]);
+}
 
 function isoDate(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
@@ -87,23 +107,28 @@ function renderChart(rows, from, to) {
 }
 
 function aggregatePages(rows) {
-  const pages = new Map();
+  const pages = new Map(ACTIVE_PAGES.map((page, index) => [page.path, {
+    ...page, order: index, entries: 0, visitors: 0, direct: 0, external: 0
+  }]));
   rows.forEach(row => {
-    const current = pages.get(row.page_path) ?? { path: row.page_path, entries: 0, visitors: 0, direct: 0, external: 0 };
+    const current = pages.get(row.page_path) ?? {
+      path: row.page_path, label: row.page_path, order: ACTIVE_PAGES.length,
+      entries: 0, visitors: 0, direct: 0, external: 0
+    };
     current.entries += Number(row.entries);
     current.visitors += Number(row.visitors);
     current.direct += Number(row.direct_entries);
     current.external += Number(row.external_entries);
     pages.set(row.page_path, current);
   });
-  return [...pages.values()].sort((a, b) => b.entries - a.entries || a.path.localeCompare(b.path));
+  return [...pages.values()].sort((a, b) => b.entries - a.entries || a.order - b.order || a.path.localeCompare(b.path));
 }
 
 function renderPages(rows) {
   const pages = aggregatePages(rows);
   const body = document.querySelector('#pages-body');
-  body.innerHTML = pages.length ? pages.map(page => `<tr><td><code>${page.path}</code></td><td>${formatter.format(page.entries)}</td><td>${formatter.format(page.visitors)}</td><td>${formatter.format(page.direct)}</td><td>${formatter.format(page.external)}</td></tr>`).join('') : '<tr class="empty-row"><td colspan="5">Nu există încă intrări în intervalul selectat.</td></tr>';
-  document.querySelector('#metric-pages').textContent = formatter.format(pages.length);
+  body.innerHTML = pages.map(page => `<tr${page.entries ? '' : ' class="is-empty"'}><td class="page-cell"><strong>${escapeHtml(page.label)}</strong><code>${escapeHtml(page.path)}</code></td><td>${formatter.format(page.entries)}</td><td>${formatter.format(page.visitors)}</td><td>${formatter.format(page.direct)}</td><td>${formatter.format(page.external)}</td></tr>`).join('');
+  document.querySelector('#metric-pages').textContent = formatter.format(pages.filter(page => page.entries > 0).length);
 }
 
 function renderDetails(dailyRows, pageRows) {
@@ -117,7 +142,7 @@ function renderDetails(dailyRows, pageRows) {
   document.querySelector('#daily-details').innerHTML = days.length ? days.map(day => {
     const daily = dailyMap.get(day);
     const pages = grouped.get(day) ?? [];
-    const rows = pages.map(page => `<tr><td><code>${page.page_path}</code></td><td>${formatter.format(page.entries)}</td><td>${formatter.format(page.visitors)}</td></tr>`).join('');
+    const rows = pages.map(page => `<tr><td><code>${escapeHtml(page.page_path)}</code></td><td>${formatter.format(page.entries)}</td><td>${formatter.format(page.visitors)}</td></tr>`).join('');
     return `<details class="day-detail"><summary>${dateFormatter.format(parseDate(day))}<span>${formatter.format(daily.entries)} intrări · ${formatter.format(daily.visitors)} vizitatori</span></summary><table><thead><tr><th>Pagină</th><th>Intrări</th><th>Vizitatori</th></tr></thead><tbody>${rows}</tbody></table></details>`;
   }).join('') : '<p class="feedback">Istoricul va apărea aici după primele intrări înregistrate.</p>';
 }

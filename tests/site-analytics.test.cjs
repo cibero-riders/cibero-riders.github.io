@@ -44,6 +44,11 @@ async function runTracker({ pathname = '/campanii/', referrer = '' } = {}) {
   activePages.forEach(file => assert.match(fs.readFileSync(file, 'utf8'), /site-analytics\.js\?v=1/, `${file} must include analytics`));
   assert.doesNotMatch(fs.readFileSync('admin/index.html', 'utf8'), /site-analytics\.js/, 'inactive admin route stays excluded');
 
+  const dashboardSource = fs.readFileSync('statistici/statistici.js', 'utf8');
+  ['/hub/', '/subfleethub/', '/subflote/', '/campanii/', '/platforme/'].forEach(path => {
+    assert.match(dashboardSource, new RegExp(`path: '${path.replaceAll('/', '\\/')}'`), `${path} must remain visible even with zero entries`);
+  });
+
   console.log('site analytics tests passed');
 })().catch(error => {
   console.error(error);
