@@ -77,7 +77,8 @@ html[data-theme="light"] .subfleet-body {
 .sf-video-poster:hover img, .sf-video-poster:focus-visible img { filter: brightness(1.08); transform: scale(1.035); }
 .sf-video-poster:hover .sf-video-play, .sf-video-poster:focus-visible .sf-video-play { filter: brightness(1.08); transform: translate(-50%, -50%) scale(1.08); }
 .sf-video-poster:focus-visible { outline: 2px solid var(--sf-gold); outline-offset: -6px; }
-.sf-video-frame iframe { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; border: 0; }
+.sf-video-frame :is(iframe, video) { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; border: 0; }
+.sf-video-frame video { background: #000; object-fit: contain; }
 .sf-video-frame noscript a { color: var(--sf-gold); }
 html[data-theme="light"] .sf-video-frame { background: #f7f0df; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .4), var(--sf-shadow), 0 0 30px rgba(170, 116, 19, .12); }
 

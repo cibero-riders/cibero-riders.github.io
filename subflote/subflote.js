@@ -10,7 +10,7 @@
     formNote: 'In the registration form, select “SRL” to apply as a sub-fleet.',
     videoEyebrow: 'Presentation',
     videoAction: 'See what your sub-fleet receives',
-    videoLink: 'Watch the presentation on YouTube',
+    videoLink: 'Play the presentation',
     infographicCaption: 'Tap the infographic to view it at full size.',
     previewActive: 'OPERATIONAL',
     previewEyebrow: 'SUB-FLEET DASHBOARD',
@@ -114,7 +114,7 @@
   const nodes = document.querySelectorAll('[data-i18n]');
   nodes.forEach(node => originals.set(node, node.textContent));
   const description = document.querySelector('meta[name="description"]');
-  const videoFrame = document.querySelector('.sf-video-frame[data-youtube-id]');
+  const videoFrame = document.querySelector('.sf-video-frame[data-video-src]');
   const videoPoster = videoFrame?.querySelector('.sf-video-poster');
 
   function setLanguage(language) {
@@ -138,32 +138,22 @@
   setLanguage(document.documentElement.lang);
 
   if (videoFrame && videoPoster) {
-    const thumbnail = videoPoster.querySelector('img[data-thumbnail-fallback]');
-    if (thumbnail) {
-      const useFallback = () => {
-        const fallback = thumbnail.dataset.thumbnailFallback;
-        if (!fallback) return;
-        delete thumbnail.dataset.thumbnailFallback;
-        thumbnail.src = fallback;
-      };
-      thumbnail.addEventListener('error', useFallback, { once: true });
-      thumbnail.addEventListener('load', () => {
-        if (thumbnail.naturalWidth < 300) useFallback();
-      }, { once: true });
-      if (thumbnail.complete && thumbnail.naturalWidth < 300) useFallback();
-    }
-
     videoPoster.addEventListener('click', () => {
-      const videoId = videoFrame.dataset.youtubeId;
-      if (!videoId) return;
-      const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(videoId)}?autoplay=1&playsinline=1&rel=0`;
-      iframe.title = videoFrame.dataset.videoTitle || 'Prezentare CIBERO pentru sub-flote';
-      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
-      iframe.allowFullscreen = true;
-      videoFrame.replaceChildren(iframe);
-      iframe.focus();
+      const videoSource = videoFrame.dataset.videoSrc;
+      if (!videoSource) return;
+      const video = document.createElement('video');
+      video.src = videoSource;
+      video.poster = videoFrame.dataset.videoPoster || '';
+      video.title = videoFrame.dataset.videoTitle || 'Prezentare CIBERO pentru sub-flote';
+      video.setAttribute('aria-label', video.title);
+      video.controls = true;
+      video.autoplay = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.setAttribute('webkit-playsinline', '');
+      videoFrame.replaceChildren(video);
+      video.focus();
+      video.play().catch(() => {});
     }, { once: true });
   }
 })();
