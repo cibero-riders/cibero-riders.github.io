@@ -7,8 +7,10 @@
   const courierContent = document.querySelector('[data-courier-content]');
   const courierLoading = document.querySelector('[data-courier-loading]');
   let courierReady = false;
+  let courierPromise = null;
   let languageReady = false;
   let activeChoice = null;
+  const seenPrompts = new Set();
   let promptAudience = null;
   let infoMode = 'general';
   let promptReturnFocus = null;
@@ -16,6 +18,111 @@
   const promptContent = document.querySelector('[data-prompt-content]');
   const infoToggle = document.querySelector('.audience-info-toggle');
   const infoButtons = [...document.querySelectorAll('[data-info-mode]')];
+
+  const pageTranslations = {
+    'Alege tipul de colaborare': 'Choose how you want to collaborate',
+    'Curieri': 'Couriers',
+    'Vreau să livrez': 'I want to deliver',
+    'Sub-Flote': 'Sub-Fleets',
+    'Vreau să-mi dezvolt echipa': 'I want to grow my team',
+    'Alege „Curieri” sau „Sub-Flote” pentru a descoperi ce îți oferim.': 'Choose “Couriers” or “Sub-Fleets” to discover what we offer.',
+    'Pregătim pagina pentru curieri…': 'Preparing the courier page…',
+    'Introducere': 'Introduction',
+    'Prezentare CIBERO pentru sub-flote': 'CIBERO presentation for sub-fleets',
+    'Redă prezentarea CIBERO pentru sub-flote': 'Play the CIBERO presentation for sub-fleets',
+    'Coperta prezentării CIBERO pentru sub-flote': 'CIBERO sub-fleet presentation cover',
+    'infrastructură pentru creștere': 'infrastructure for growth',
+    'Aplică drept sub-flotă': 'Apply as a sub-fleet',
+    'Ce primești ca sub-flotă': 'What you get as a sub-fleet',
+    'Panou propriu': 'Your own dashboard',
+    'Control într-un singur loc': 'Control in one place',
+    'Îți vezi curierii, statusurile, cererile și istoricul operațiunilor disponibile.': 'View your couriers, statuses, requests and available operation history.',
+    'Administrare Bolt Food': 'Bolt Food administration',
+    'Operațiuni rapide': 'Fast operations',
+    'Cauți curieri și verifici vehiculul, soldurile, statusul contului și accesul la cash.': 'Find couriers and check their vehicle, balances, account status and cash access.',
+    'Control cash și antifraudă': 'Cash control and fraud prevention',
+    'Risc gestionat mai clar': 'Clearer risk management',
+    'Verifici balanțele și controlezi accesul curierilor la comenzile cu numerar.': 'Check balances and control courier access to cash orders.',
+    'Liste de așteptare': 'Waiting lists',
+    'Înscrieri bine organizate': 'Well-organised applications',
+    'Urmărești candidații, platforma, disponibilitatea și progresul până la activare.': 'Track candidates, platforms, availability and progress through activation.',
+    'Recrutare și leaduri': 'Recruitment and leads',
+    'Oportunități noi de recrutare': 'New recruitment opportunities',
+    'Primești candidați alocați și îi urmărești în sistem până la activare.': 'Receive assigned candidates and track them in the system through activation.',
+    'Tichete și suport': 'Tickets and support',
+    'Cereri urmărite cap-coadă': 'Requests tracked end to end',
+    'Trimiți solicitări pentru conturi, vehicule sau date și vezi stadiul lor.': 'Submit account, vehicle or data requests and follow their status.',
+    'Rapoarte și financiar': 'Reports and financials',
+    'Situații mai ușor de urmărit': 'Easier-to-follow statements',
+    'Ai acces la rapoarte de activitate, plăți, solduri și clarificarea diferențelor.': 'Access activity reports, payments, balances and discrepancy clarification.',
+    'Suport pentru curierii tăi': 'Support for your couriers',
+    'Sprijin înainte și după activare': 'Support before and after activation',
+    'Onboarding, transferuri și modificări de cont, vehicul sau oraș.': 'Onboarding, transfers and account, vehicle or city changes.',
+    'Automatizări CIBERO Manager': 'CIBERO Manager automation',
+    'Mai puțină muncă manuală, mai mult control': 'Less manual work, more control',
+    'Operațiunile integrate reduc pașii repetați și păstrează istoricul acțiunilor.': 'Integrated operations reduce repetitive steps and preserve the action history.',
+    'Cum funcționează rețeaua operațională CIBERO': 'How the CIBERO operational network works',
+    'Infografic despre rețeaua operațională CIBERO pentru sub-flote': 'Infographic about the CIBERO operational network for sub-fleets',
+    'Vezi pagina completă pentru sub-flote ↗': 'View the full sub-fleet page ↗',
+    'Informații utile': 'Useful information',
+    'Întrebări frecvente pentru sub-flote': 'Frequently asked questions for sub-fleets',
+    'Cine poate aplica drept sub-flotă?': 'Who can apply as a sub-fleet?',
+    'O societate activă (SRL), cu acte la zi și o persoană de contact responsabilă de administrarea curierilor proprii.': 'An active company with up-to-date documents and a contact person responsible for managing its couriers.',
+    'Cum aplic pentru parteneriat?': 'How do I apply for a partnership?',
+    'Completezi formularul de': 'Complete the',
+    'Înregistrare': 'registration form',
+    ', selectezi „SRL” și menționezi că vrei să colaborezi ca sub-flotă.': ', select “SRL” and mention that you want to collaborate as a sub-fleet.',
+    'Ce pot administra în CIBERO Manager?': 'What can I manage in CIBERO Manager?',
+    'În funcție de permisiuni: curieri, statusuri, cereri, vehicule, balanțe, acces cash, leaduri și istoricul operațiunilor.': 'Depending on your permissions: couriers, statuses, requests, vehicles, balances, cash access, leads and operation history.',
+    'Primesc ajutor pentru recrutare?': 'Do I receive recruitment support?',
+    'Da. Poți primi candidați prin sistemul de repartizare și îi poți urmări până la activare. Contactarea și coordonarea lor rămân în responsabilitatea ta.': 'Yes. You can receive candidates through the allocation system and track them through activation. Contacting and coordinating them remains your responsibility.',
+    'Cine răspunde de banii cash?': 'Who is responsible for cash?',
+    'Administratorul sub-flotei răspunde de curierii proprii care lucrează cu numerar și de respectarea termenelor de depunere.': 'The sub-fleet administrator is responsible for their couriers who handle cash and for meeting deposit deadlines.',
+    'Cum stabilim comisionul și plățile?': 'How are commission and payments agreed?',
+    'Condițiile financiare se discută direct și sunt stabilite clar înainte de semnarea colaborării.': 'Financial terms are discussed directly and clearly agreed before the partnership is signed.',
+    'Ce suport primesc curierii mei?': 'What support do my couriers receive?',
+    'Îndrumare pentru onboarding, transferuri, modificări de cont sau vehicul și clarificări administrative, în limitele operațiunilor disponibile.': 'Guidance for onboarding, transfers, account or vehicle changes and administrative clarification within the available operations.'
+  };
+  const pageOriginalText = new WeakMap();
+  const pageOriginalAttributes = new WeakMap();
+
+  function rememberPageCopy(root) {
+    root.querySelectorAll('*').forEach(element => {
+      Array.from(element.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).forEach(node => {
+        if (!pageOriginalText.has(node)) pageOriginalText.set(node, node.nodeValue);
+      });
+      ['aria-label', 'alt', 'title', 'data-video-title'].forEach(attribute => {
+        if (!element.hasAttribute(attribute)) return;
+        let originals = pageOriginalAttributes.get(element);
+        if (!originals) { originals = {}; pageOriginalAttributes.set(element, originals); }
+        if (!(attribute in originals)) originals[attribute] = element.getAttribute(attribute);
+      });
+    });
+  }
+
+  function translatedValue(value, language) {
+    if (language !== 'en') return value;
+    const trimmed = value.trim();
+    return pageTranslations[trimmed] ? value.replace(trimmed, pageTranslations[trimmed]) : value;
+  }
+
+  function translateTestPage(language = currentLanguage()) {
+    [gate, document.querySelector('[data-choice-panel="subfleet"]')].filter(Boolean).forEach(root => {
+      root.querySelectorAll('*').forEach(element => {
+        Array.from(element.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).forEach(node => {
+          const original = pageOriginalText.get(node);
+          if (original !== undefined) node.nodeValue = translatedValue(original, language);
+        });
+        const originals = pageOriginalAttributes.get(element);
+        if (!originals) return;
+        Object.entries(originals).forEach(([attribute, original]) => element.setAttribute(attribute, translatedValue(original, language)));
+      });
+    });
+    const benefitTitle = courierContent?.querySelector('#showcase-title > span');
+    if (benefitTitle) benefitTitle.textContent = language === 'en' ? 'What you get as a courier' : 'Ce primești ca și curier';
+  }
+
+  [gate, document.querySelector('[data-choice-panel="subfleet"]')].filter(Boolean).forEach(rememberPageCopy);
 
   const audienceCopy = {
     ro: {
@@ -288,7 +395,8 @@
 
   async function prepareCourier() {
     if (courierReady) return;
-    try {
+    if (courierPromise) return courierPromise;
+    courierPromise = (async () => { try {
       const response = await fetch('../index.html', { cache: 'no-store' });
       if (!response.ok) throw new Error(`Homepage unavailable: ${response.status}`);
       const source = new DOMParser().parseFromString(await response.text(), 'text/html');
@@ -306,11 +414,13 @@
       if (about && sharedAbout) sharedAbout.replaceChildren(document.importNode(about, true));
       courierReady = true;
       loadLanguageScript();
+      translateTestPage();
     } catch (error) {
       courierLoading.innerHTML = 'Pagina pentru curieri nu a putut fi încărcată. <a href="../">Deschide pagina principală</a>.';
       console.error(error);
       loadLanguageScript();
-    }
+    } })();
+    return courierPromise;
   }
 
   function activate(value, updateHash = true) {
@@ -323,14 +433,35 @@
     if (value === 'courier') prepareCourier();
   }
 
+  function chooseAudience(value, sourceTab) {
+    if (!seenPrompts.has(value)) {
+      seenPrompts.add(value);
+      openAudiencePrompt(value, sourceTab);
+      return;
+    }
+    revealAudience(value);
+  }
+
+  async function revealAudience(value) {
+    activate(value);
+    if (value === 'courier') await prepareCourier();
+    const panel = panels.find(item => item.dataset.choicePanel === value);
+    const target = panel?.querySelector('.test-showcase') || panel;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      if (!target) return;
+      const top = target.getBoundingClientRect().top + window.scrollY - 12;
+      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+    }));
+  }
+
   tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => openAudiencePrompt(tab.dataset.choice, tab));
+    tab.addEventListener('click', () => chooseAudience(tab.dataset.choice, tab));
     tab.addEventListener('keydown', event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
       tabs[next].focus();
-      openAudiencePrompt(tabs[next].dataset.choice, tabs[next]);
+      chooseAudience(tabs[next].dataset.choice, tabs[next]);
     });
   });
 
@@ -350,11 +481,9 @@
   document.querySelector('[data-prompt-cta]')?.addEventListener('click', () => {
     const value = promptAudience;
     if (!value) return;
-    activate(value);
+    revealAudience(value);
     prompt.hidden = true;
     document.body.classList.remove('audience-prompt-open');
-    const panel = panels.find(item => item.dataset.choicePanel === value);
-    requestAnimationFrame(() => panel?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   });
   document.addEventListener('keydown', event => {
     if (!prompt || prompt.hidden) return;
@@ -367,7 +496,10 @@
     if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
     else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
   });
-  document.addEventListener('cibero:language-change', renderAudiencePrompt);
+  document.addEventListener('cibero:language-change', event => {
+    renderAudiencePrompt();
+    translateTestPage(event.detail?.language || currentLanguage());
+  });
 
   document.querySelectorAll('[data-local-video]').forEach(frame => frame.querySelector('button')?.addEventListener('click', () => {
     const video = document.createElement('video');
