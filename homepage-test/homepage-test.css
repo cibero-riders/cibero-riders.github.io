@@ -11,14 +11,14 @@
 .choice-side-arrow { color: var(--test-gold); font-size: 30px; font-weight: 800; line-height: 1; }
 .choice-side-arrow:first-child { animation: choice-nudge-right 1.8s ease-in-out infinite; }
 .choice-side-arrow:last-child { animation: choice-nudge-left 1.8s .22s ease-in-out infinite; }
-.choice-toggle { position: relative; display: grid; width: 100%; min-height: 96px; grid-template-columns: 1fr 1fr; gap: 14px; }
-.choice-toggle button { position: relative; display: grid; min-width: 0; padding: 14px 16px; overflow: hidden; place-items: center; border: 1px solid var(--test-border); border-radius: 22px; background: var(--test-surface); box-shadow: inset 0 1px 0 #fff9dc18, 0 14px 32px var(--test-shadow); color: var(--test-muted); font: inherit; text-align: center; cursor: pointer; transition: color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
+.choice-toggle { position: relative; display: grid; width: 100%; min-height: 112px; grid-template-columns: 1fr 1fr; gap: 14px; }
+.choice-toggle button { position: relative; display: grid; min-width: 0; padding: 17px 18px; overflow: hidden; place-items: center; border: 1px solid var(--test-border); border-radius: 22px; background: var(--test-surface); box-shadow: inset 0 1px 0 #fff9dc18, 0 14px 32px var(--test-shadow); color: var(--test-muted); font: inherit; text-align: center; cursor: pointer; transition: color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
 .choice-toggle button::after { position: absolute; top: -70%; bottom: -70%; left: -30%; width: 25%; background: linear-gradient(90deg, transparent, #fff9, transparent); content: ""; opacity: 0; transform: skewX(-20deg); pointer-events: none; }
 .choice-toggle button:hover { border-color: color-mix(in srgb, var(--test-gold), transparent 32%); transform: translateY(-2px); }
 .choice-toggle button > span { position: relative; z-index: 1; }
-.choice-toggle button > span:last-child { display: grid; gap: 5px; justify-items: center; }
-.choice-toggle button strong { font-size: 19px; letter-spacing: .08em; }
-.choice-toggle button small { font-size: 11px; font-weight: 650; line-height: 1.3; }
+.choice-toggle button > span:last-child { display: grid; gap: 7px; justify-items: center; }
+.choice-toggle button strong { font-size: 23px; letter-spacing: .065em; line-height: 1.05; }
+.choice-toggle button small { font-size: 14px; font-weight: 700; line-height: 1.3; }
 .choice-toggle button[aria-selected="true"] { border-color: #f9dc83; background: linear-gradient(135deg, #fff2b8, #e3a423); box-shadow: 0 12px 30px #c98c2238; color: #271807; }
 .choice-toggle button[aria-selected="true"]::after { opacity: 1; animation: choice-shine 3.2s ease-in-out infinite; }
 .choice-toggle button:focus-visible { outline: 2px solid var(--test-gold); outline-offset: -5px; border-radius: 19px; }
@@ -188,7 +188,7 @@ body.audience-prompt-open { overflow: hidden; }
   .audience-prompt-footer p { font-size: 11px; }
   .audience-prompt-cta { width: 100%; min-height: 48px; }
 }
-@media (max-width: 600px) { .choice-gate { width: calc(100% - 20px); padding-top: 18px; } .choice-gate .choice-heading { margin-bottom: 17px; font-size: clamp(27px, 8.4vw, 34px); } .choice-instruction { font-size: 14px; } .choice-toggle-row { grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 4px; } .choice-side-arrow { font-size: 22px; } .choice-toggle { min-height: 96px; gap: 8px; } .choice-toggle button { padding: 10px 7px; border-radius: 18px; } .choice-toggle button strong { font-size: 14px; } .choice-toggle button small { font-size: 9px; line-height: 1.25; } .subfleet-network-image { border-radius: 18px; } }
+@media (max-width: 600px) { .choice-gate { width: calc(100% - 20px); padding-top: 18px; } .choice-gate .choice-heading { margin-bottom: 17px; font-size: clamp(27px, 8.4vw, 34px); } .choice-instruction { font-size: 14px; } .choice-toggle-row { grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 4px; } .choice-side-arrow { font-size: 22px; } .choice-toggle { min-height: 110px; gap: 8px; } .choice-toggle button { padding: 12px 8px; border-radius: 18px; } .choice-toggle button > span:last-child { gap: 6px; } .choice-toggle button strong { font-size: 17px; } .choice-toggle button small { font-size: 11px; line-height: 1.25; } .subfleet-network-image { border-radius: 18px; } }
 @media (prefers-reduced-motion: reduce) { .choice-toggle button, .choice-toggle button::after, .choice-side-arrow, .choice-panel, .audience-prompt-backdrop, .audience-prompt-dialog { animation: none; transition: none; } }
 
 /* Compact audience bridge prompt. */
