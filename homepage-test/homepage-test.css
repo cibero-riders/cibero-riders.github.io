@@ -189,3 +189,105 @@ body.audience-prompt-open { overflow: hidden; }
 }
 @media (max-width: 600px) { .choice-gate { width: calc(100% - 28px); padding-top: 28px; } .choice-gate h1 { font-size: 38px; } .choice-instruction { font-size: 14px; } .choice-toggle { min-height: 74px; border-radius: 21px; } .choice-toggle button { padding: 9px 11px; grid-template-columns: 25px 1fr; } .choice-toggle button strong { font-size: 16px; } .choice-toggle button small { font-size: 9px; } .choice-toggle-slider { border-radius: 16px; } .subfleet-network-image { border-radius: 18px; } }
 @media (prefers-reduced-motion: reduce) { .choice-toggle-slider, .choice-toggle-slider::after, .choice-empty span, .choice-panel, .audience-prompt-backdrop, .audience-prompt-dialog { animation: none; transition: none; } }
+
+/* Compact audience bridge prompt. */
+.audience-prompt-dialog {
+  width: min(780px, 100%);
+  max-height: min(850px, calc(100dvh - 28px));
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  border-radius: 22px;
+}
+.audience-prompt-toolbar {
+  display: flex;
+  padding: 17px 18px 7px;
+  gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.audience-prompt-toolbar .audience-info-toggle {
+  width: 250px;
+  min-height: 36px;
+  margin: 0;
+  padding: 3px;
+  border-radius: 12px;
+}
+.audience-prompt-toolbar .audience-info-slider {
+  inset: 3px auto 3px 3px;
+  width: calc(50% - 3px);
+  border-radius: 9px;
+}
+.audience-prompt-toolbar .audience-info-toggle button { font-size: 11px; }
+.audience-prompt-toolbar .audience-prompt-close { width: 34px; font-size: 21px; }
+.audience-prompt-content,
+.audience-prompt-content[data-mode="detailed"] {
+  display: block;
+  padding: 8px clamp(22px, 4vw, 38px) 22px;
+  overflow: auto;
+}
+.audience-info-section + .audience-info-section { margin-top: 25px; }
+.audience-info-section h3 {
+  margin: 0 0 13px;
+  color: var(--test-text);
+  font-size: 19px;
+  line-height: 1.2;
+  letter-spacing: -.015em;
+}
+.audience-info-list { display: grid; margin: 0; padding: 0; gap: 13px; list-style: none; }
+.audience-info-row {
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  gap: 14px;
+  align-items: center;
+}
+.audience-info-row > span {
+  display: grid;
+  width: 42px;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid color-mix(in srgb, var(--test-gold), transparent 30%);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--test-gold), transparent 91%);
+  color: var(--test-gold);
+  font-size: 17px;
+  box-shadow: inset 0 1px 0 #fff4c51f;
+}
+.audience-info-row p {
+  margin: 0;
+  color: var(--test-muted);
+  font-size: 16px;
+  font-weight: 550;
+  line-height: 1.45;
+}
+.audience-prompt-content[data-mode="general"] .audience-info-row p { font-size: 17px; }
+.audience-prompt-footer {
+  display: flex;
+  padding: 18px clamp(18px, 4vw, 38px) 22px;
+  justify-content: center;
+  border-top: 1px solid var(--test-border);
+}
+.audience-prompt-cta {
+  width: min(620px, 100%);
+  min-height: 56px;
+  padding: 0 24px;
+  border-radius: 7px;
+  font: 800 16px/1.2 inherit;
+  cursor: pointer;
+}
+@media (max-width: 720px) {
+  .audience-prompt-dialog { max-height: calc(100dvh - 8px); border-radius: 20px 20px 14px 14px; }
+  .audience-prompt-toolbar { padding: 12px 12px 5px; gap: 7px; }
+  .audience-prompt-toolbar .audience-info-toggle { width: 218px; min-height: 34px; }
+  .audience-prompt-toolbar .audience-info-toggle button { font-size: 10px; }
+  .audience-prompt-toolbar .audience-prompt-close { width: 32px; font-size: 19px; }
+  .audience-prompt-content,
+  .audience-prompt-content[data-mode="detailed"] { display: block; padding: 8px 16px 17px; }
+  .audience-info-section + .audience-info-section { margin-top: 21px; }
+  .audience-info-section h3 { margin-bottom: 11px; font-size: 17px; }
+  .audience-info-list { gap: 11px; }
+  .audience-info-row { grid-template-columns: 40px minmax(0, 1fr); gap: 11px; }
+  .audience-info-row > span { width: 38px; font-size: 15px; }
+  .audience-info-row p,
+  .audience-prompt-content[data-mode="general"] .audience-info-row p { font-size: 15px; line-height: 1.4; }
+  .audience-prompt-footer { display: flex; padding: 14px 12px 13px; }
+  .audience-prompt-cta { width: 100%; min-height: 54px; border-radius: 6px; font-size: 15px; }
+}

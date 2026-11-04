@@ -8,6 +8,7 @@
   const courierLoading = document.querySelector('[data-courier-loading]');
   let courierReady = false;
   let languageReady = false;
+  let activeChoice = null;
   let promptAudience = null;
   let infoMode = 'general';
   let promptReturnFocus = null;
@@ -19,19 +20,14 @@
   const audienceCopy = {
     ro: {
       common: {
-        kicker: 'CIBERO · INFORMAȚII ESENȚIALE',
         general: 'Per general',
         detailed: 'În detaliu',
         detailLevel: 'Nivelul detaliilor',
         close: 'Închide fereastra informativă',
-        sectionTitles: ['Ce oferim', 'Care sunt condițiile', 'Ce e bine să știi dinainte'],
-        footnote: 'Comută pe „În detaliu” pentru a vedea toate criteriile înainte să continui.'
+        sectionTitles: ['Ce oferim', 'Care sunt condițiile', 'Ce e bine să știi dinainte']
       },
       courier: {
-        symbol: '↗',
         title: 'Colaborare pentru curieri',
-        intro: 'Vezi rapid ce primești, ce condiții trebuie să îndeplinești și cum funcționează activitatea.',
-        href: '../',
         cta: 'Mergi la pagina de Curieri',
         general: [
           'Acces la Bolt Food, Glovo și Wolt, îndrumare la început, suport operațional și rapoarte clare.',
@@ -62,10 +58,7 @@
         ]
       },
       subfleet: {
-        symbol: '◆',
         title: 'Parteneriat pentru sub-flote',
-        intro: 'Descoperă infrastructura oferită de CIBERO și responsabilitățile care rămân în administrarea echipei tale.',
-        href: '../subflote/',
         cta: 'Mergi la pagina de Sub-Flote',
         general: [
           'Panou propriu, administrarea curierilor, recrutare, tichete, rapoarte și suport operațional într-un singur ecosistem.',
@@ -99,19 +92,14 @@
     },
     en: {
       common: {
-        kicker: 'CIBERO · ESSENTIAL INFORMATION',
         general: 'General Info',
         detailed: 'Detailed Info',
         detailLevel: 'Level of detail',
         close: 'Close information window',
-        sectionTitles: ['What we offer', 'Requirements', 'What to know beforehand'],
-        footnote: 'Switch to “Detailed Info” to review every criterion before continuing.'
+        sectionTitles: ['What we offer', 'Requirements', 'What to know beforehand']
       },
       courier: {
-        symbol: '↗',
         title: 'Courier collaboration',
-        intro: 'Quickly review what you receive, the requirements and how delivery work operates.',
-        href: '../',
         cta: 'Go to the Courier page',
         general: [
           'Access to Bolt Food, Glovo and Wolt, initial guidance, operational support and clear reports.',
@@ -142,10 +130,7 @@
         ]
       },
       subfleet: {
-        symbol: '◆',
         title: 'Sub-fleet partnership',
-        intro: 'Discover the infrastructure CIBERO provides and the responsibilities that remain with your team management.',
-        href: '../subflote/',
         cta: 'Go to the Sub-Fleet page',
         general: [
           'Your own dashboard, courier administration, recruitment, tickets, reports and operational support in one ecosystem.',
@@ -248,14 +233,10 @@
     const language = currentLanguage();
     const common = audienceCopy[language].common;
     const copy = audienceCopy[language][promptAudience];
-    const sectionIcons = ['✦', '✓', 'i'];
-    document.querySelector('[data-prompt-symbol]').textContent = copy.symbol;
-    document.querySelector('[data-prompt-kicker]').textContent = common.kicker;
-    document.querySelector('[data-prompt-title]').textContent = copy.title;
-    document.querySelector('[data-prompt-intro]').textContent = copy.intro;
-    document.querySelector('[data-prompt-footnote]').textContent = common.footnote;
-    const cta = document.querySelector('[data-prompt-cta]');
-    cta.href = copy.href;
+    const iconSets = promptAudience === 'courier'
+      ? [['📱', '🤝', '🛠', '📊', '🕒'], ['🔞', '🪪', '📱', '🚲', '🤝', '💵'], ['📈', '⏳', '⚠']]
+      : [['💻', '⚙', '👥', '🎫', '📊', '🤝'], ['🏢', '☎', '✓', '📋', '🔒', '💵'], ['📈', '🔐', '🤝']];
+    prompt.querySelector('.audience-prompt-dialog').setAttribute('aria-label', copy.title);
     document.querySelector('[data-prompt-cta-label]').textContent = copy.cta;
     infoToggle.setAttribute('aria-label', common.detailLevel);
     infoToggle.dataset.infoActive = infoMode;
@@ -266,20 +247,31 @@
       button.tabIndex = active ? 0 : -1;
     });
     document.querySelectorAll('[data-prompt-close]').forEach(button => button.setAttribute('aria-label', common.close));
-    const content = infoMode === 'general' ? copy.general : copy.detailed;
+    const content = infoMode === 'general' ? copy.general.map(item => [item]) : copy.detailed;
     promptContent.dataset.mode = infoMode;
     promptContent.innerHTML = common.sectionTitles.map((title, index) => {
-      const body = infoMode === 'general'
-        ? `<p>${content[index]}</p>`
-        : `<ul>${content[index].map(item => `<li>${item}</li>`).join('')}</ul>`;
-      return `<article class="audience-info-card"><header><span aria-hidden="true">${sectionIcons[index]}</span><h3>${title}</h3></header>${body}</article>`;
+      const rows = content[index].map((item, itemIndex) => {
+        const icon = infoMode === 'general' ? ['✦', '✓', 'i'][index] : iconSets[index][itemIndex];
+        return `<li class="audience-info-row"><span aria-hidden="true">${icon}</span><p>${item}</p></li>`;
+      }).join('');
+      return `<section class="audience-info-section"><h3>${title}</h3><ul class="audience-info-list">${rows}</ul></section>`;
     }).join('');
+  }
+
+  function syncChoiceTabs(value) {
+    tabs.forEach(tab => {
+      const selected = tab.dataset.choice === value;
+      tab.setAttribute('aria-selected', String(selected));
+      tab.tabIndex = selected || !value ? 0 : -1;
+    });
+    tablist.dataset.active = value || '';
   }
 
   function openAudiencePrompt(audience, returnFocus) {
     promptAudience = audience;
     infoMode = 'general';
     promptReturnFocus = returnFocus || document.querySelector(`[data-choice="${audience}"]`);
+    syncChoiceTabs(audience);
     renderAudiencePrompt();
     prompt.hidden = false;
     document.body.classList.add('audience-prompt-open');
@@ -290,6 +282,7 @@
     if (!prompt || prompt.hidden) return;
     prompt.hidden = true;
     document.body.classList.remove('audience-prompt-open');
+    syncChoiceTabs(activeChoice);
     promptReturnFocus?.focus();
   }
 
@@ -320,25 +313,24 @@
     }
   }
 
-  function activate(value, updateHash = true, showPrompt = false, returnFocus = null) {
-    tabs.forEach(tab => { const active = tab.dataset.choice === value; tab.setAttribute('aria-selected', String(active)); tab.tabIndex = active ? 0 : -1; });
+  function activate(value, updateHash = true) {
+    activeChoice = value;
+    syncChoiceTabs(value);
     panels.forEach(panel => { const active = panel.dataset.choicePanel === value; panel.hidden = !active; panel.classList.toggle('is-active', active); });
-    tablist.dataset.active = value;
     gate.classList.add('has-selection');
     emptyState.hidden = true;
     if (updateHash) history.replaceState(null, '', value === 'subfleet' ? '#sub-flote' : '#curieri');
     if (value === 'courier') prepareCourier();
-    if (showPrompt) openAudiencePrompt(value, returnFocus);
   }
 
   tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => activate(tab.dataset.choice, true, true, tab));
+    tab.addEventListener('click', () => openAudiencePrompt(tab.dataset.choice, tab));
     tab.addEventListener('keydown', event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
       tabs[next].focus();
-      activate(tabs[next].dataset.choice, true, true, tabs[next]);
+      openAudiencePrompt(tabs[next].dataset.choice, tabs[next]);
     });
   });
 
@@ -355,6 +347,15 @@
     infoButtons[next].focus();
   }));
   document.querySelectorAll('[data-prompt-close]').forEach(button => button.addEventListener('click', closeAudiencePrompt));
+  document.querySelector('[data-prompt-cta]')?.addEventListener('click', () => {
+    const value = promptAudience;
+    if (!value) return;
+    activate(value);
+    prompt.hidden = true;
+    document.body.classList.remove('audience-prompt-open');
+    const panel = panels.find(item => item.dataset.choicePanel === value);
+    requestAnimationFrame(() => panel?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  });
   document.addEventListener('keydown', event => {
     if (!prompt || prompt.hidden) return;
     if (event.key === 'Escape') { closeAudiencePrompt(); return; }
