@@ -2,96 +2,84 @@
 <html lang="ro" data-theme="night">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <meta name="robots" content="noindex, nofollow" />
-  <meta name="description" content="Demo pentru noua pagină principală CibeRO, cu trasee separate pentru curieri și sub-flote." />
-  <title>Demo homepage Curieri / Sub-flote | CibeRO</title>
+  <meta name="description" content="Demo CibeRO pentru alegerea traseului de curier sau sub-flotă." />
+  <title>Demo Curieri / Sub-Flote | CibeRO</title>
   <link rel="icon" type="image/png" sizes="any" href="../assets/cibero-favicon.png?v=6" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="../main-page.css?v=40" />
   <link rel="stylesheet" href="../site-navigation.css?v=32" />
+  <link rel="stylesheet" href="../smooth-typography.css?v=1" />
   <link rel="stylesheet" href="../site-theme.css?v=13" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=3" />
-  <link rel="stylesheet" href="homepage-test.css?v=1" />
+  <link rel="stylesheet" href="../homepage-showcase.css?v=4" />
+  <link rel="stylesheet" href="homepage-test.css?v=2" />
 </head>
-<body class="audience-demo-body">
+<body class="testmode-page homepage-choice-page">
   <header class="site-header global-header">
     <a class="brand brand-wordmark" href="../" aria-label="CibeRO, pagina principală"><img src="../assets/cibero-header-wordmark.png" alt="CibeRO" /></a>
-    <div class="header-socials" aria-label="Urmărește CibeRO">
-      <a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" width="38" height="38" /></a>
-      <a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" width="38" height="38" /></a>
-      <a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" width="38" height="38" /></a>
-      <a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" width="38" height="38" /></a>
-    </div>
+    <div class="header-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" width="38" height="38" /></a></div>
     <button class="menu-toggle" type="button" aria-label="Deschide meniul" aria-controls="main-nav" aria-expanded="false">☰</button>
     <nav id="main-nav" aria-label="Navigație principală"><a href="../">Site principal</a><a href="../orase/">Orașe</a><a href="../campanii/">Campanii</a><a href="../platforme/">Bolt Food, Glovo sau Wolt?</a><a class="nav-account" href="https://cibero-manager-tool.bolt.host/inscriere">Înregistrare</a></nav>
     <div class="language-switch public-language-switch" role="group" aria-label="Alege limba"><button class="active" type="button" data-language="ro" aria-pressed="true">RO</button><button type="button" data-language="en" aria-pressed="false">EN</button></div>
   </header>
 
-  <main class="audience-demo">
-    <header class="audience-intro">
-      <p class="audience-kicker"><span></span>PAGINĂ DEMO<span></span></p>
-      <h1>O singură infrastructură.<br /><em>Două moduri de colaborare.</em></h1>
-      <p>Alege traseul care te reprezintă. Conținutul se schimbă fără să părăsești pagina.</p>
-    </header>
-
-    <div class="audience-tabs" role="tablist" aria-label="Alege tipul de colaborare" data-active="courier">
-      <span class="audience-tab-glow" aria-hidden="true"></span>
-      <button id="tab-curieri" type="button" role="tab" aria-selected="true" aria-controls="panel-curieri" tabindex="0" data-audience-tab="courier"><span aria-hidden="true">↗</span><strong>Curieri</strong><small>Vreau să livrez</small></button>
-      <button id="tab-subflote" type="button" role="tab" aria-selected="false" aria-controls="panel-subflote" tabindex="-1" data-audience-tab="subfleet"><span aria-hidden="true">◆</span><strong>Sub-flote</strong><small>Vreau să-mi dezvolt echipa</small></button>
-    </div>
-
-    <section id="panel-curieri" class="audience-panel is-active" role="tabpanel" aria-labelledby="tab-curieri" data-audience-panel="courier">
-      <div class="demo-hero demo-hero-courier">
-        <div class="demo-hero-copy">
-          <p class="demo-overline">CURIERI PARTENERI</p>
-          <h2>Tot ce ai nevoie <em>ca să livrezi.</em></h2>
-          <p>Acces la toate cele trei platforme, ghidare de la primul pas și suport când ai nevoie.</p>
-          <div class="demo-actions"><a class="demo-primary" href="https://cibero-manager-tool.bolt.host/inscriere">Înregistrează-te <span>→</span></a><a class="demo-secondary" href="#conditii-curieri">Vezi condițiile <span>↓</span></a></div>
-        </div>
-        <div class="demo-video-frame" data-youtube-id="GtTUzil6IV0">
-          <button class="demo-video-poster" type="button" aria-label="Redă prezentarea CibeRO pentru curieri"><img src="https://i.ytimg.com/vi/GtTUzil6IV0/maxresdefault.jpg" alt="Coperta prezentării CibeRO pentru curieri" /><span class="demo-play" aria-hidden="true">▶</span></button>
-        </div>
+  <main id="acasa" class="homepage-choice-main">
+    <section class="choice-gate" aria-labelledby="choice-title">
+      <p class="choice-kicker"><span></span>ALEGE TRASEUL TĂU<span></span></p>
+      <h1 id="choice-title">Cum vrei să colaborezi cu <em>CibeRO?</em></h1>
+      <p class="choice-instruction">Selectează o opțiune pentru a afișa pagina dedicată.</p>
+      <div class="choice-toggle" role="tablist" aria-label="Alege tipul de colaborare" data-active="">
+        <span class="choice-toggle-slider" aria-hidden="true"></span>
+        <button id="choice-tab-curier" type="button" role="tab" aria-selected="false" aria-controls="choice-panel-curier" tabindex="0" data-choice="courier"><span class="choice-icon" aria-hidden="true">↗</span><span><strong>Curieri</strong><small>Vreau să livrez</small></span></button>
+        <button id="choice-tab-subflota" type="button" role="tab" aria-selected="false" aria-controls="choice-panel-subflota" tabindex="0" data-choice="subfleet"><span class="choice-icon" aria-hidden="true">◆</span><span><strong>Sub-Flote</strong><small>Vreau să-mi dezvolt echipa</small></span></button>
       </div>
-
-      <div class="demo-benefit-rail" aria-label="Avantaje principale pentru curieri"><article><span>◷</span><h3>Program flexibil</h3><p>Lucrezi când vrei și cât vrei.</p></article><article><span>⚡</span><h3>Activare ghidată</h3><p>Te ajutăm cu actele și primii pași.</p></article><article><span>▤</span><h3>Plăți clare</h3><p>Vezi ce ai câștigat și ce s-a reținut.</p></article><article><span>◇</span><h3>Suport real</h3><p>Cont, vehicul, oraș sau plăți.</p></article></div>
-
-      <div id="conditii-curieri" class="demo-info-grid">
-        <article class="demo-info-card demo-card-offer"><header><span>01</span><div><p>START CLAR</p><h3>Ce oferim</h3></div></header><ul><li>Acces la Bolt Food, Glovo și Wolt, prin flota CIBERO.</li><li>Ajutor la început: te ghidăm la crearea contului, la acte și la primele livrări.</li><li>Suport când apare o problemă cu contul, vehiculul, orașul sau plățile. Ne scrii sau ne suni și rezolvăm cât putem de repede.</li><li>Plăți și rapoarte clare: vezi ce ai câștigat, ce ți s-a reținut și de ce.</li><li>Program flexibil: lucrezi când vrei, cât vrei.</li></ul></article>
-        <article class="demo-info-card"><header><span>02</span><div><p>BAZA COLABORĂRII</p><h3>Ce cerem / Condiții</h3></div></header><ul><li>Să ai minim 18 ani.</li><li>Acte de identitate valabile. Pentru cetățenii străini, documentele cerute de lege pentru a lucra în România.</li><li>Un smartphone cu internet.</li><li>Un vehicul potrivit, conform cerințelor platformei. Pentru scuter sau mașină: permis și acte la zi.</li><li>Seriozitate: respecți regulile platformei, clienții, restaurantele și comenzile.</li><li>Cash corect: dacă accepți comenzi plătite cash, predai banii la timp. Neregulile duc la blocarea accesului la cash.</li></ul></article>
-        <article class="demo-info-card demo-card-note"><header><span>03</span><div><p>TRANSPARENȚĂ</p><h3>Ce e bine să știi dinainte</h3></div></header><ul><li>Câștigul depinde de câte ore lucrezi, oraș, zi și vreme. Nu promitem o sumă fixă.</li><li>Activarea poate dura câteva zile, în funcție de platformă și listele de așteptare.</li><li>Platformele au propriile reguli. Nerespectarea lor poate duce la suspendarea contului de către platformă.</li></ul></article>
-      </div>
+      <div class="choice-empty" data-choice-empty><span aria-hidden="true">↓</span><p>Alege „Curieri” sau „Sub-Flote” pentru a descoperi ce îți oferim.</p></div>
     </section>
 
-    <section id="panel-subflote" class="audience-panel" role="tabpanel" aria-labelledby="tab-subflote" data-audience-panel="subfleet" hidden>
-      <div class="demo-hero demo-hero-subfleet">
-        <div class="demo-hero-copy">
-          <p class="demo-overline">PARTENERI SUB-FLOTĂ</p>
-          <h2>Tu îți dezvolți echipa — <em>noi îți oferim infrastructura.</em></h2>
-          <p>CIBERO Manager, recrutare, operațiuni și suport într-un sistem construit pentru creștere.</p>
-          <div class="demo-actions"><a class="demo-primary" href="https://cibero-manager-tool.bolt.host/inscriere">Aplică drept sub-flotă <span>→</span></a><a class="demo-secondary" href="#conditii-subflote">Vezi condițiile <span>↓</span></a></div>
-          <small>În formular, selectează opțiunea „SRL”.</small>
+    <section id="choice-panel-curier" class="choice-panel" role="tabpanel" aria-labelledby="choice-tab-curier" data-choice-panel="courier" hidden><div class="choice-loading" data-courier-loading>Pregătim pagina pentru curieri…</div><div data-courier-content></div></section>
+
+    <section id="choice-panel-subflota" class="choice-panel" role="tabpanel" aria-labelledby="choice-tab-subflota" data-choice-panel="subfleet" hidden>
+      <section class="test-showcase subfleet-showcase" aria-labelledby="subfleet-benefits-title">
+        <div class="test-presentation">
+          <h2 class="test-heading"><svg class="showcase-heading-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5" /></svg><span>Introducere</span><svg class="showcase-heading-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5" /></svg></h2>
+          <div class="video-frame subfleet-local-video" data-local-video="../assets/cibero-subflote-promo.mp4" data-video-title="Prezentare CIBERO pentru sub-flote"><button class="video-poster" type="button" aria-label="Redă prezentarea CIBERO pentru sub-flote"><img src="../assets/cibero-subflote-promo-poster-v2.jpg" alt="Coperta prezentării CIBERO pentru sub-flote" /><span class="video-shade" aria-hidden="true"></span><span class="video-play" aria-hidden="true"><i></i></span><span class="video-action" aria-hidden="true">infrastructură pentru creștere</span></button></div>
+          <a class="mobile-registration-cta" href="https://cibero-manager-tool.bolt.host/inscriere">Aplică drept sub-flotă <span aria-hidden="true">→</span></a>
         </div>
-        <div class="demo-subfleet-media"><button class="demo-infographic" type="button" aria-label="Deschide pagina completă pentru sub-flote"><img src="../assets/cibero-subfleet-network-infographic.png" alt="Rețeaua operațională CIBERO pentru sub-flote" /></button><div class="demo-local-video" data-video-src="../assets/cibero-subflote-promo.mp4"><button type="button" aria-label="Redă prezentarea pentru sub-flote"><img src="../assets/cibero-subflote-promo-poster-v2.jpg" alt="Coperta prezentării pentru sub-flote" /><span class="demo-play" aria-hidden="true">▶</span></button></div></div>
-      </div>
-
-      <div class="demo-benefit-rail" aria-label="Avantaje principale pentru sub-flote"><article><span>▦</span><h3>Panou propriu</h3><p>Curieri, statusuri și istoric.</p></article><article><span>↗</span><h3>Leaduri</h3><p>Candidați urmăriți până la activare.</p></article><article><span>⌘</span><h3>Operațiuni</h3><p>Cereri și instrumente într-un singur loc.</p></article><article><span>◎</span><h3>Rapoarte</h3><p>Activitate și situații financiare.</p></article></div>
-
-      <div id="conditii-subflote" class="demo-info-grid">
-        <article class="demo-info-card demo-card-offer"><header><span>01</span><div><p>INFRASTRUCTURĂ</p><h3>Ce oferim</h3></div></header><ul><li>Panou propriu în CIBERO Manager: curieri, statusuri, cereri și istoric.</li><li>Administrare Bolt Food: curieri, vehicule, solduri și acces la cash.</li><li>Recrutare și leaduri: primești candidați și îi urmărești până la activare.</li><li>Sistem de tichete cu urmărirea stadiului cererilor.</li><li>Rapoarte și situații financiare: activitate, plăți, solduri și clarificarea diferențelor.</li><li>Suport pentru curierii tăi: onboarding, transferuri și modificări de cont sau vehicul.</li></ul></article>
-        <article class="demo-info-card"><header><span>02</span><div><p>PARTENERIAT RESPONSABIL</p><h3>Ce cerem / Condiții</h3></div></header><ul><li>Firmă activă (SRL) și acte la zi.</li><li>O persoană de contact responsabilă pentru curierii echipei.</li><li>Curieri verificați, care respectă condițiile de colaborare.</li><li>Respectarea regulilor platformelor și a regulilor interne CIBERO.</li><li>Protecția datelor (GDPR): datele curierilor sunt folosite numai pentru colaborare.</li><li>Control pe cash: răspunzi de curierii tăi care lucrează cu bani numerar.</li></ul></article>
-        <article class="demo-info-card demo-card-note"><header><span>03</span><div><p>DE ȘTIUT</p><h3>Ce e bine să știi dinainte</h3></div></header><ul><li>Rezultatele depind de activitatea echipei. Noi oferim infrastructura, iar coordonarea rămâne la tine.</li><li>Accesul în panou este limitat la curierii sub-flotei tale.</li><li>Condițiile financiare le stabilim direct, înainte de semnare.</li></ul><a class="demo-inline-link" href="../subflote/">Vezi pagina actuală pentru sub-flote <span>→</span></a></article>
-      </div>
+        <div class="test-benefits subfleet-benefits">
+          <h1 id="subfleet-benefits-title" class="test-heading test-heading-question"><svg class="showcase-heading-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5" /></svg><span>Ce primești ca sub-flotă</span><svg class="showcase-heading-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5" /></svg></h1>
+          <div class="test-benefit-grid">
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-0"><span class="test-benefit-icon" aria-hidden="true">▦</span><span>Panou propriu</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-0" aria-hidden="true" inert><p><strong>Control într-un singur loc</strong></p><p>Îți vezi curierii, statusurile, cererile și istoricul operațiunilor disponibile.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-1"><span class="test-benefit-icon" aria-hidden="true">⌘</span><span>Administrare Bolt Food</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-1" aria-hidden="true" inert><p><strong>Operațiuni rapide</strong></p><p>Cauți curieri și verifici vehiculul, soldurile, statusul contului și accesul la cash.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-2"><span class="test-benefit-icon" aria-hidden="true">◇</span><span>Control cash și antifraudă</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-2" aria-hidden="true" inert><p><strong>Risc gestionat mai clar</strong></p><p>Verifici balanțele și controlezi accesul curierilor la comenzile cu numerar.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-3"><span class="test-benefit-icon" aria-hidden="true">☷</span><span>Liste de așteptare</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-3" aria-hidden="true" inert><p><strong>Înscrieri bine organizate</strong></p><p>Urmărești candidații, platforma, disponibilitatea și progresul până la activare.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-4"><span class="test-benefit-icon" aria-hidden="true">↗</span><span>Recrutare și leaduri</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-4" aria-hidden="true" inert><p><strong>Oportunități noi de recrutare</strong></p><p>Primești candidați alocați și îi urmărești în sistem până la activare.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-5"><span class="test-benefit-icon" aria-hidden="true">◎</span><span>Tichete și suport</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-5" aria-hidden="true" inert><p><strong>Cereri urmărite cap-coadă</strong></p><p>Trimiți solicitări pentru conturi, vehicule sau date și vezi stadiul lor.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-6"><span class="test-benefit-icon" aria-hidden="true">▤</span><span>Rapoarte și financiar</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-6" aria-hidden="true" inert><p><strong>Situații mai ușor de urmărit</strong></p><p>Ai acces la rapoarte de activitate, plăți, solduri și clarificarea diferențelor.</p></div></article>
+            <article class="showcase-benefit test-benefit" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-7"><span class="test-benefit-icon" aria-hidden="true">♢</span><span>Suport pentru curierii tăi</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-7" aria-hidden="true" inert><p><strong>Sprijin înainte și după activare</strong></p><p>Onboarding, transferuri și modificări de cont, vehicul sau oraș.</p></div></article>
+            <article class="showcase-benefit test-benefit test-benefit-opportunity" data-showcase-benefit><h2><button class="showcase-benefit-toggle" type="button" aria-expanded="false" aria-controls="sub-benefit-8"><span class="test-benefit-icon" aria-hidden="true">⚙</span><span>Automatizări CIBERO Manager</span><span class="test-benefit-cue" aria-hidden="true">↗</span></button></h2><div class="showcase-benefit-detail" id="sub-benefit-8" aria-hidden="true" inert><p><strong>Mai puțină muncă manuală, mai mult control</strong></p><p>Operațiunile integrate reduc pașii repetați și păstrează istoricul acțiunilor.</p></div></article>
+          </div>
+        </div>
+      </section>
+      <div data-shared-about></div>
+      <section class="home-activity-video subfleet-network" aria-labelledby="subfleet-network-title"><h2 id="subfleet-network-title" class="showcase-section-title"><svg class="showcase-heading-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5" /></svg><span>Cum funcționează rețeaua operațională CIBERO</span><svg class="showcase-heading-arrow" aria-hidden="true" viewBox="0 0 24 24" fill="none"><path d="M12 3v17M5.5 13.5 12 20l6.5-6.5" /></svg></h2><a class="subfleet-network-image" href="../subflote/"><img src="../assets/cibero-subfleet-network-infographic.png" alt="Infografic despre rețeaua operațională CIBERO pentru sub-flote" /></a><a class="activity-video-link" href="../subflote/">Vezi pagina completă pentru sub-flote ↗</a></section>
+      <section class="home-faq" aria-labelledby="subfleet-faq-title"><header><p class="showcase-kicker"><span></span>Informații utile<span></span></p><h2 id="subfleet-faq-title">Întrebări frecvente pentru sub-flote</h2></header><div class="home-faq-list" data-exclusive-accordion>
+        <details><summary>Cine poate aplica drept sub-flotă?<span aria-hidden="true"></span></summary><p>O societate activă (SRL), cu acte la zi și o persoană de contact responsabilă de administrarea curierilor proprii.</p></details>
+        <details><summary>Cum aplic pentru parteneriat?<span aria-hidden="true"></span></summary><p>Completezi formularul de <a href="https://cibero-manager-tool.bolt.host/inscriere">Înregistrare</a>, selectezi „SRL” și menționezi că vrei să colaborezi ca sub-flotă.</p></details>
+        <details><summary>Ce pot administra în CIBERO Manager?<span aria-hidden="true"></span></summary><p>În funcție de permisiuni: curieri, statusuri, cereri, vehicule, balanțe, acces cash, leaduri și istoricul operațiunilor.</p></details>
+        <details><summary>Primesc ajutor pentru recrutare?<span aria-hidden="true"></span></summary><p>Da. Poți primi candidați prin sistemul de repartizare și îi poți urmări până la activare. Contactarea și coordonarea lor rămân în responsabilitatea ta.</p></details>
+        <details><summary>Cine răspunde de banii cash?<span aria-hidden="true"></span></summary><p>Administratorul sub-flotei răspunde de curierii proprii care lucrează cu numerar și de respectarea termenelor de depunere.</p></details>
+        <details><summary>Cum stabilim comisionul și plățile?<span aria-hidden="true"></span></summary><p>Condițiile financiare se discută direct și sunt stabilite clar înainte de semnarea colaborării.</p></details>
+        <details><summary>Ce suport primesc curierii mei?<span aria-hidden="true"></span></summary><p>Îndrumare pentru onboarding, transferuri, modificări de cont sau vehicul și clarificări administrative, în limitele operațiunilor disponibile.</p></details>
+      </div></section>
     </section>
   </main>
-
   <footer class="site-footer"><div class="footer-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" width="38" height="38" /></a></div><div class="footer-company-details"><span><b class="footer-company-name">CibeRO S.R.L.</b> <i aria-hidden="true">·</i> CUI RO53182698 <i aria-hidden="true">·</i> Constanța, România <i aria-hidden="true">·</i> <a class="footer-admin-phone" href="tel:+40736364334">+40 736 364 334</a></span></div><nav class="footer-legal-links" aria-label="Informații juridice"><a href="../termeni/">Termeni și Condiții</a><a href="../confidentialitate/">Confidențialitate &amp; GDPR</a><a href="../cookie-uri/">Politica de Cookie-uri</a><a href="https://wa.me/40736364334" target="_blank" rel="noopener noreferrer" aria-label="Contactează administratorul CibeRO pe WhatsApp">Contact</a></nav><span class="footer-copyright">© Powered by CibeRO – 2026 | Toate drepturile rezervate</span></footer>
-  <script src="../main-page.js?v=13"></script>
-  <script src="../site-theme.js?v=5"></script>
-  <script src="../site-language.js?v=15"></script>
-  <script src="homepage-test.js?v=1"></script>
-  <script defer src="/site-analytics.js?v=1"></script>
+  <script src="../main-page.js?v=13"></script><script src="../site-theme.js?v=5"></script><script src="homepage-test.js?v=2"></script><script defer src="/site-analytics.js?v=1"></script>
 </body>
 </html>
