@@ -18,7 +18,7 @@
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=3" />
   <link rel="stylesheet" href="../homepage-showcase.css?v=4" />
-  <link rel="stylesheet" href="homepage-test.css?v=7" />
+  <link rel="stylesheet" href="homepage-test.css?v=8" />
 </head>
 <body class="testmode-page homepage-choice-page">
   <header class="site-header global-header">
@@ -31,12 +31,15 @@
 
   <main id="acasa" class="homepage-choice-main">
     <section class="choice-gate" aria-label="Alege tipul de colaborare">
-      <div class="choice-toggle" role="tablist" aria-label="Alege tipul de colaborare" data-active="">
-        <span class="choice-toggle-slider" aria-hidden="true"></span>
-        <button id="choice-tab-curier" type="button" role="tab" aria-selected="false" aria-controls="choice-panel-curier" tabindex="0" data-choice="courier"><span class="choice-icon" aria-hidden="true">↗</span><span><strong>Curieri</strong><small>Vreau să livrez</small></span></button>
-        <button id="choice-tab-subflota" type="button" role="tab" aria-selected="false" aria-controls="choice-panel-subflota" tabindex="0" data-choice="subfleet"><span class="choice-icon" aria-hidden="true">◆</span><span><strong>Sub-Flote</strong><small>Vreau să-mi dezvolt echipa</small></span></button>
+      <div class="choice-toggle-row">
+        <span class="choice-side-arrow" aria-hidden="true">↓</span>
+        <div class="choice-toggle" role="tablist" aria-label="Alege tipul de colaborare" data-active="">
+          <button id="choice-tab-curier" type="button" role="tab" aria-selected="false" aria-controls="choice-panel-curier" tabindex="0" data-choice="courier"><span class="choice-icon" aria-hidden="true">↗</span><span><strong>Curieri</strong><small>Vreau să livrez</small></span></button>
+          <button id="choice-tab-subflota" type="button" role="tab" aria-selected="false" aria-controls="choice-panel-subflota" tabindex="0" data-choice="subfleet"><span class="choice-icon" aria-hidden="true">◆</span><span><strong>Sub-Flote</strong><small>Vreau să-mi dezvolt echipa</small></span></button>
+        </div>
+        <span class="choice-side-arrow" aria-hidden="true">↓</span>
       </div>
-      <div class="choice-empty" data-choice-empty><span aria-hidden="true">↓</span><p>Alege „Curieri” sau „Sub-Flote” pentru a descoperi ce îți oferim.</p></div>
+      <div class="choice-empty" data-choice-empty><span aria-hidden="true">↓</span><p>Alege tab-ul „Curieri” sau „Sub-Flote” pentru informațiile aferente.</p></div>
     </section>
 
     <section id="choice-panel-curier" class="choice-panel" role="tabpanel" aria-labelledby="choice-tab-curier" data-choice-panel="courier" hidden><div class="choice-loading" data-courier-loading>Pregătim pagina pentru curieri…</div><div data-courier-content></div></section>

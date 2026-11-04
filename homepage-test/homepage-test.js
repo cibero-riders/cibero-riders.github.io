@@ -25,7 +25,7 @@
     'Vreau să livrez': 'I want to deliver',
     'Sub-Flote': 'Sub-Fleets',
     'Vreau să-mi dezvolt echipa': 'I want to grow my team',
-    'Alege „Curieri” sau „Sub-Flote” pentru a descoperi ce îți oferim.': 'Choose “Couriers” or “Sub-Fleets” to discover what we offer.',
+    'Alege tab-ul „Curieri” sau „Sub-Flote” pentru informațiile aferente.': 'Choose the “Couriers” or “Sub-Fleets” tab for the relevant information.',
     'Pregătim pagina pentru curieri…': 'Preparing the courier page…',
     'Introducere': 'Introduction',
     'Prezentare CIBERO pentru sub-flote': 'CIBERO presentation for sub-fleets',

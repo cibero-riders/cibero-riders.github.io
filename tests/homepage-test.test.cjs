@@ -11,6 +11,9 @@ assert.match(html, /name="robots" content="noindex, nofollow"/, 'The demo is exc
 assert.match(html, /role="tablist"/);
 assert.match(html, /data-choice="courier"/);
 assert.match(html, /data-choice="subfleet"/);
+assert.match(html, /class="choice-toggle-row"/);
+assert.equal((html.match(/class="choice-side-arrow"/g) || []).length, 2, 'Two arrows flank the audience selector');
+assert.match(html, /Alege tab-ul „Curieri” sau „Sub-Flote” pentru informațiile aferente\./);
 assert.doesNotMatch(html, /ALEGE TRASEUL TĂU|Cum vrei să colaborezi cu|Selectează o opțiune pentru a afișa/);
 assert.match(html, /data-choice-panel="courier"[^>]*hidden/);
 assert.match(html, /data-choice-panel="subfleet"[^>]*hidden/);
@@ -24,7 +27,7 @@ assert.match(html, /Ce primești ca sub-flotă/);
 assert.match(html, /id="subfleet-faq-title">Întrebări frecvente</);
 assert.match(html, /youtube-nocookie\.com\/embed\/JSIBthWjTgc/);
 assert.match(html, /cibero-subfleet-network-infographic\.png/);
-assert.match(css, /\.choice-toggle-slider::after/);
+assert.match(css, /\.choice-toggle button\[aria-selected="true"\]/);
 assert.match(css, /animation: choice-shine/);
 assert.match(css, /\.audience-prompt-toolbar \.audience-info-toggle button \{ font-size: 13px; font-weight: 850; \}/);
 assert.match(js, /ArrowLeft/);
