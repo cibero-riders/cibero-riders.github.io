@@ -3,7 +3,6 @@
   const tablist = document.querySelector('.choice-toggle');
   const tabs = [...document.querySelectorAll('[data-choice]')];
   const panels = [...document.querySelectorAll('[data-choice-panel]')];
-  const emptyState = document.querySelector('[data-choice-empty]');
   const courierContent = document.querySelector('[data-courier-content]');
   const courierLoading = document.querySelector('[data-courier-loading]');
   let courierReady = false;
@@ -21,6 +20,11 @@
 
   const pageTranslations = {
     'Alege tipul de colaborare': 'Choose how you want to collaborate',
+    'Alege direcția potrivită pentru tine': 'Choose the right direction for you',
+    'CURIERI': 'COURIERS',
+    'Livrează la Bolt Food/Glovo/Wolt': 'Deliver with Bolt Food/Glovo/Wolt',
+    'SUB-FLOTE': 'SUB-FLEETS',
+    'Dezvoltă-ți propria afacere în delivery': 'Grow your own delivery business',
     'Curieri': 'Couriers',
     'Vreau să livrez': 'I want to deliver',
     'Sub-Flote': 'Sub-Fleets',
@@ -32,6 +36,7 @@
     'Redă prezentarea CIBERO pentru sub-flote': 'Play the CIBERO presentation for sub-fleets',
     'Coperta prezentării CIBERO pentru sub-flote': 'CIBERO sub-fleet presentation cover',
     'infrastructură pentru creștere': 'infrastructure for growth',
+    'VEZI O SCURTĂ PREZENTARE': 'WATCH A SHORT PRESENTATION',
     'Aplică drept sub-flotă': 'Apply as a sub-fleet',
     'Ce primești ca sub-flotă': 'What you get as a sub-fleet',
     'Panou propriu': 'Your own dashboard',
@@ -122,6 +127,8 @@
     });
     const benefitTitle = courierContent?.querySelector('#showcase-title > span');
     if (benefitTitle) benefitTitle.textContent = language === 'en' ? 'What you get as a courier' : 'Ce primești ca și curier';
+    const courierVideoAction = courierContent?.querySelector('.test-showcase .video-action');
+    if (courierVideoAction) courierVideoAction.textContent = language === 'en' ? 'WATCH A SHORT PRESENTATION' : 'VEZI O SCURTĂ PREZENTARE';
     const courierAboutParagraph = courierContent?.querySelector('[data-testmode-i18n="about-values"]');
     if (courierAboutParagraph) courierAboutParagraph.textContent = language === 'en' ? pageTranslations['Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori ai resurselor lor.'] : 'Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori ai resurselor lor.';
     const courierAboutLinkText = courierContent?.querySelector('[data-testmode-i18n="first-step"]');
@@ -444,7 +451,6 @@
     syncChoiceTabs(value);
     panels.forEach(panel => { const active = panel.dataset.choicePanel === value; panel.hidden = !active; panel.classList.toggle('is-active', active); });
     gate.classList.add('has-selection');
-    emptyState.hidden = true;
     if (updateHash) history.replaceState(null, '', value === 'subfleet' ? '#sub-flote' : '#curieri');
     if (value === 'courier') prepareCourier();
   }
@@ -522,5 +528,6 @@
   });
 
   initAccordions(document);
+  initVideos(document);
   prepareCourier();
 })();
