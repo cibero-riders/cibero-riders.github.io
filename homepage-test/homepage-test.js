@@ -122,6 +122,10 @@
     });
     const benefitTitle = courierContent?.querySelector('#showcase-title > span');
     if (benefitTitle) benefitTitle.textContent = language === 'en' ? 'What you get as a courier' : 'Ce primești ca și curier';
+    const courierAboutParagraph = courierContent?.querySelector('[data-testmode-i18n="about-values"]');
+    if (courierAboutParagraph) courierAboutParagraph.textContent = language === 'en' ? pageTranslations['Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori ai resurselor lor.'] : 'Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori ai resurselor lor.';
+    const courierAboutLinkText = courierContent?.querySelector('[data-testmode-i18n="first-step"]');
+    if (courierAboutLinkText) courierAboutLinkText.textContent = language === 'en' ? 'take the first step' : 'fă primul pas';
     gate?.setAttribute('aria-label', language === 'en' ? 'Choose how you want to collaborate' : 'Alege tipul de colaborare');
     const homeLink = document.querySelector('.site-header nav > a:first-child');
     if (homeLink) homeLink.textContent = language === 'en' ? 'Main site' : 'Site principal';
@@ -461,8 +465,12 @@
     const target = panel?.querySelector('.test-showcase') || panel;
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (!target) return;
-      const top = target.getBoundingClientRect().top + window.scrollY - 12;
-      window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+      const headerOffset = (document.querySelector('.site-header')?.offsetHeight || 0) + 16;
+      const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
+      const previousScrollBehavior = document.documentElement.style.scrollBehavior;
+      document.documentElement.style.scrollBehavior = 'auto';
+      window.scrollTo(0, Math.max(0, top));
+      requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = previousScrollBehavior; });
     }));
   }
 
