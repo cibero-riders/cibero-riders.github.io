@@ -7,8 +7,9 @@
 .choice-gate h1 em { color: var(--test-gold); font-family: Georgia, "Times New Roman", serif; font-weight: 500; }
 .choice-instruction { margin: 18px 0 28px; color: var(--test-muted); font-size: 16px; }
 .choice-toggle-row { display: grid; width: min(750px, 100%); margin: 0 auto; grid-template-columns: 36px minmax(0, 650px) 36px; gap: 10px; align-items: center; justify-content: center; }
-.choice-side-arrow { color: var(--test-gold); font-size: 30px; line-height: 1; animation: choice-bounce 1.8s ease-in-out infinite; }
-.choice-side-arrow:last-child { animation-delay: .22s; }
+.choice-side-arrow { color: var(--test-gold); font-size: 30px; font-weight: 800; line-height: 1; }
+.choice-side-arrow:first-child { animation: choice-nudge-right 1.8s ease-in-out infinite; }
+.choice-side-arrow:last-child { animation: choice-nudge-left 1.8s .22s ease-in-out infinite; }
 .choice-toggle { position: relative; display: grid; width: 100%; min-height: 82px; grid-template-columns: 1fr 1fr; gap: 14px; }
 .choice-toggle button { position: relative; display: grid; min-width: 0; padding: 12px 20px; overflow: hidden; grid-template-columns: 34px 1fr; align-items: center; border: 1px solid var(--test-border); border-radius: 22px; background: var(--test-surface); box-shadow: inset 0 1px 0 #fff9dc18, 0 14px 32px var(--test-shadow); color: var(--test-muted); font: inherit; text-align: left; cursor: pointer; transition: color .25s ease, border-color .25s ease, transform .25s ease, box-shadow .25s ease; }
 .choice-toggle button::after { position: absolute; top: -70%; bottom: -70%; left: -30%; width: 25%; background: linear-gradient(90deg, transparent, #fff9, transparent); content: ""; opacity: 0; transform: skewX(-20deg); pointer-events: none; }
@@ -22,9 +23,9 @@
 .choice-toggle button[aria-selected="true"]::after { opacity: 1; animation: choice-shine 3.2s ease-in-out infinite; }
 .choice-toggle button[aria-selected="true"] .choice-icon { color: #6c4307; }
 .choice-toggle button:focus-visible { outline: 2px solid var(--test-gold); outline-offset: -5px; border-radius: 19px; }
-.choice-empty { display: grid; min-height: 92px; margin-top: 7px; place-content: start center; color: var(--test-muted); transition: opacity .3s ease, min-height .3s ease, margin .3s ease; }
-.choice-empty span { color: var(--test-gold); font-size: 25px; animation: choice-bounce 1.8s ease-in-out infinite; }
-.choice-empty p { margin: 3px 0 0; }
+.choice-empty { display: grid; min-height: 82px; margin-top: 10px; place-content: start center; color: var(--test-muted); transition: opacity .3s ease, min-height .3s ease, margin .3s ease; }
+.choice-empty p { display: flex; max-width: 650px; min-height: 48px; margin: 0; padding: 11px 18px; gap: 10px; align-items: center; border: 1px solid color-mix(in srgb, var(--test-gold), transparent 56%); border-radius: 15px; background: color-mix(in srgb, var(--test-gold), transparent 91%); font-size: 16px; font-weight: 750; line-height: 1.4; box-shadow: inset 0 1px 0 #fff9dc18; }
+.choice-empty p::before { display: grid; width: 24px; aspect-ratio: 1; flex: 0 0 24px; place-items: center; border: 1px solid color-mix(in srgb, var(--test-gold), transparent 34%); border-radius: 50%; color: var(--test-gold); content: "i"; font-size: 13px; font-weight: 850; }
 .choice-gate.has-selection .choice-empty { min-height: 0; margin: 0; opacity: 0; pointer-events: none; }
 .choice-panel { animation: choice-panel-in .48s ease both; }
 .choice-panel[hidden] { display: none; }
@@ -169,6 +170,8 @@
 body.audience-prompt-open { overflow: hidden; }
 @keyframes choice-shine { 0%, 52% { transform: translateX(-100%) skewX(-20deg); opacity: 0; } 62% { opacity: 1; } 88%, 100% { transform: translateX(560%) skewX(-20deg); opacity: 0; } }
 @keyframes choice-bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+@keyframes choice-nudge-right { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(6px); } }
+@keyframes choice-nudge-left { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(-6px); } }
 @keyframes choice-panel-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 @keyframes audience-backdrop-in { from { opacity: 0; } }
 @keyframes audience-dialog-in { from { opacity: 0; transform: translateY(22px) scale(.975); } }
@@ -190,8 +193,8 @@ body.audience-prompt-open { overflow: hidden; }
   .audience-prompt-footer p { font-size: 11px; }
   .audience-prompt-cta { width: 100%; min-height: 48px; }
 }
-@media (max-width: 600px) { .choice-gate { width: calc(100% - 20px); padding-top: 18px; } .choice-gate h1 { font-size: 38px; } .choice-instruction { font-size: 14px; } .choice-toggle-row { grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 4px; } .choice-side-arrow { font-size: 22px; } .choice-toggle { min-height: 74px; gap: 8px; } .choice-toggle button { padding: 9px 8px; grid-template-columns: 22px 1fr; border-radius: 18px; } .choice-toggle button strong { font-size: 15px; } .choice-toggle button small { font-size: 8px; } .choice-empty { min-height: 88px; } .choice-empty p { max-width: 330px; font-size: 13px; } .subfleet-network-image { border-radius: 18px; } }
-@media (prefers-reduced-motion: reduce) { .choice-toggle button, .choice-toggle button::after, .choice-side-arrow, .choice-empty span, .choice-panel, .audience-prompt-backdrop, .audience-prompt-dialog { animation: none; transition: none; } }
+@media (max-width: 600px) { .choice-gate { width: calc(100% - 20px); padding-top: 18px; } .choice-gate h1 { font-size: 38px; } .choice-instruction { font-size: 14px; } .choice-toggle-row { grid-template-columns: 18px minmax(0, 1fr) 18px; gap: 4px; } .choice-side-arrow { font-size: 22px; } .choice-toggle { min-height: 74px; gap: 8px; } .choice-toggle button { padding: 9px 8px; grid-template-columns: 22px 1fr; border-radius: 18px; } .choice-toggle button strong { font-size: 15px; } .choice-toggle button small { font-size: 8px; } .choice-empty { min-height: 90px; margin-top: 9px; } .choice-empty p { max-width: 350px; min-height: 0; padding: 10px 12px; gap: 8px; font-size: 14px; font-weight: 750; } .choice-empty p::before { width: 22px; flex-basis: 22px; } .subfleet-network-image { border-radius: 18px; } }
+@media (prefers-reduced-motion: reduce) { .choice-toggle button, .choice-toggle button::after, .choice-side-arrow, .choice-panel, .audience-prompt-backdrop, .audience-prompt-dialog { animation: none; transition: none; } }
 
 /* Compact audience bridge prompt. */
 .audience-prompt-dialog {
