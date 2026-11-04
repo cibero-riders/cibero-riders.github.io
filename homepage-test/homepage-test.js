@@ -81,7 +81,9 @@
     'Cum stabilim comisionul și plățile?': 'How are commission and payments agreed?',
     'Condițiile financiare se discută direct și sunt stabilite clar înainte de semnarea colaborării.': 'Financial terms are discussed directly and clearly agreed before the partnership is signed.',
     'Ce suport primesc curierii mei?': 'What support do my couriers receive?',
-    'Îndrumare pentru onboarding, transferuri, modificări de cont sau vehicul și clarificări administrative, în limitele operațiunilor disponibile.': 'Guidance for onboarding, transfers, account or vehicle changes and administrative clarification within the available operations.'
+    'Îndrumare pentru onboarding, transferuri, modificări de cont sau vehicul și clarificări administrative, în limitele operațiunilor disponibile.': 'Guidance for onboarding, transfers, account or vehicle changes and administrative clarification within the available operations.',
+    'Susținem ideea că, atunci când oamenii au libertate la a alege ei cum își gestionează viața, timpul, banii, și nu mai sunt condiționați de o rutină strictă și norme rigide, sunt mult mai predispuși să se dezvolte și să devină mai buni administratori ai resurselor lor.': 'We believe that when people are free to choose how they manage their lives, time and money, without being tied to a strict routine and rigid rules, they are much more likely to grow and become better stewards of their resources.',
+    'fă primul pas': 'take the first step'
   };
   const pageOriginalText = new WeakMap();
   const pageOriginalAttributes = new WeakMap();
@@ -107,7 +109,7 @@
   }
 
   function translateTestPage(language = currentLanguage()) {
-    [gate, document.querySelector('[data-choice-panel="subfleet"]')].filter(Boolean).forEach(root => {
+    [gate, document.querySelector('[data-choice-panel="subfleet"]'), document.querySelector('[data-shared-about]')].filter(Boolean).forEach(root => {
       root.querySelectorAll('*').forEach(element => {
         Array.from(element.childNodes).filter(node => node.nodeType === Node.TEXT_NODE).forEach(node => {
           const original = pageOriginalText.get(node);
@@ -120,6 +122,13 @@
     });
     const benefitTitle = courierContent?.querySelector('#showcase-title > span');
     if (benefitTitle) benefitTitle.textContent = language === 'en' ? 'What you get as a courier' : 'Ce primești ca și curier';
+    gate?.setAttribute('aria-label', language === 'en' ? 'Choose how you want to collaborate' : 'Alege tipul de colaborare');
+    const homeLink = document.querySelector('.site-header nav > a:first-child');
+    if (homeLink) homeLink.textContent = language === 'en' ? 'Main site' : 'Site principal';
+    const contactLink = document.querySelector('.footer-legal-links a:last-child');
+    contactLink?.setAttribute('aria-label', language === 'en' ? 'Contact the CibeRO administrator on WhatsApp' : 'Contactează administratorul CibeRO pe WhatsApp');
+    const copyright = document.querySelector('.footer-copyright');
+    if (copyright) copyright.textContent = language === 'en' ? '© Powered by CibeRO – 2026 | All rights reserved' : '© Powered by CibeRO – 2026 | Toate drepturile rezervate';
   }
 
   [gate, document.querySelector('[data-choice-panel="subfleet"]')].filter(Boolean).forEach(rememberPageCopy);
@@ -411,7 +420,10 @@
       initAccordions(courierContent);
       const about = source.querySelector('.home-about');
       const sharedAbout = document.querySelector('[data-shared-about]');
-      if (about && sharedAbout) sharedAbout.replaceChildren(document.importNode(about, true));
+      if (about && sharedAbout) {
+        sharedAbout.replaceChildren(document.importNode(about, true));
+        rememberPageCopy(sharedAbout);
+      }
       courierReady = true;
       loadLanguageScript();
       translateTestPage();
@@ -450,7 +462,7 @@
     requestAnimationFrame(() => requestAnimationFrame(() => {
       if (!target) return;
       const top = target.getBoundingClientRect().top + window.scrollY - 12;
-      window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
     }));
   }
 
