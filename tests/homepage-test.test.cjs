@@ -42,6 +42,7 @@ assert.match(js, /await prepareCourier\(\)/);
 assert.match(js, /target\.getBoundingClientRect\(\)\.top \+ window\.scrollY - headerOffset/);
 assert.match(js, /document\.documentElement\.style\.scrollBehavior = 'auto'/);
 assert.match(js, /const headerOffset = \(document\.querySelector\('\.site-header'\)\?\.offsetHeight \|\| 0\) \+ 16/);
+assert.match(js, /}, 360\)/);
 assert.match(js, /'Ce primești ca sub-flotă': 'What you get as a sub-fleet'/);
 assert.match(js, /'Curieri': 'Couriers'/);
 assert.doesNotMatch(js, /href: '\.\.\/subflote\/'/, 'The bridge CTA must not redirect to the separate sub-fleet page');

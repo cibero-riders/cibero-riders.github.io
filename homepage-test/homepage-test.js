@@ -463,7 +463,7 @@
     if (value === 'courier') await prepareCourier();
     const panel = panels.find(item => item.dataset.choicePanel === value);
     const target = panel?.querySelector('.test-showcase') || panel;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
+    setTimeout(() => {
       if (!target) return;
       const headerOffset = (document.querySelector('.site-header')?.offsetHeight || 0) + 16;
       const top = target.getBoundingClientRect().top + window.scrollY - headerOffset;
@@ -471,7 +471,7 @@
       document.documentElement.style.scrollBehavior = 'auto';
       window.scrollTo(0, Math.max(0, top));
       requestAnimationFrame(() => { document.documentElement.style.scrollBehavior = previousScrollBehavior; });
-    }));
+    }, 360);
   }
 
   tabs.forEach((tab, index) => {
