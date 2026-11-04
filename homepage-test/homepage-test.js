@@ -461,7 +461,7 @@
       openAudiencePrompt(value, sourceTab);
       return;
     }
-    revealAudience(value);
+    activate(value);
   }
 
   async function revealAudience(value) {
