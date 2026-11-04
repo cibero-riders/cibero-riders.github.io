@@ -24,7 +24,7 @@
     'CURIERI': 'COURIERS',
     'Livrează la Bolt Food/Glovo/Wolt': 'Deliver with Bolt Food/Glovo/Wolt',
     'SUB-FLOTE': 'SUB-FLEETS',
-    'Dezvoltă-ți propria afacere în delivery': 'Grow your own delivery business',
+    'Dezvoltă propria afacere în Delivery': 'Grow your own delivery business',
     'Curieri': 'Couriers',
     'Vreau să livrez': 'I want to deliver',
     'Sub-Flote': 'Sub-Fleets',
@@ -461,7 +461,28 @@
       openAudiencePrompt(value, sourceTab);
       return;
     }
+    switchAudienceWithoutScroll(value);
+  }
+
+  function switchAudienceWithoutScroll(value) {
+    const left = window.scrollX;
+    const top = window.scrollY;
+    const root = document.documentElement;
+    const previousBehavior = root.style.scrollBehavior;
+    const previousOverflowAnchor = root.style.overflowAnchor;
+    root.style.scrollBehavior = 'auto';
+    root.style.overflowAnchor = 'none';
     activate(value);
+    const restorePosition = () => window.scrollTo(left, top);
+    restorePosition();
+    requestAnimationFrame(() => {
+      restorePosition();
+      requestAnimationFrame(() => {
+        restorePosition();
+        root.style.scrollBehavior = previousBehavior;
+        root.style.overflowAnchor = previousOverflowAnchor;
+      });
+    });
   }
 
   async function revealAudience(value) {
