@@ -21,9 +21,9 @@
   const pageTranslations = {
     'Alege tipul de colaborare': 'Choose how you want to collaborate',
     'Alege direcția potrivită pentru tine': 'Choose the right direction for you',
-    'CURIERI': 'COURIERS',
+    'CURIER': 'COURIER',
     'Livrează la Bolt Food/Glovo/Wolt': 'Deliver with Bolt Food/Glovo/Wolt',
-    'SUB-FLOTE': 'SUB-FLEETS',
+    'SUB-FLOTĂ': 'SUB-FLEET',
     'Dezvoltă propria afacere în Delivery': 'Grow your own delivery business',
     'Curieri': 'Couriers',
     'Vreau să livrez': 'I want to deliver',
