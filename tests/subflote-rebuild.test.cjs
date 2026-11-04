@@ -18,7 +18,7 @@ assert.match(css, /\.sf-hero h1 \{[^}]*font-size: clamp\(50px, 5\.8vw, 74px\)/, 
 assert.match(css, /padding: clamp\(36px, 4\.5vw, 58px\) 0 58px/, 'The compact hero begins close to the site header');
 assert.match(css, /font-size: clamp\(44px, 12vw, 60px\)/, 'The stronger hero scale carries through to mobile');
 assert.match(html, /class="sf-hero-media"[\s\S]*?class="sf-infographic"[\s\S]*?class="sf-video-showcase"/, 'The infographic leads the hero media and the presentation video sits beside it');
-assert.match(html, /data-video-src="\.\.\/assets\/cibero-subflote-promo\.mp4"/, 'The copyright-safe local presentation video is featured in the hero');
+assert.match(html, /youtube-nocookie\.com\/embed\/JSIBthWjTgc/, 'The resolved YouTube presentation video is embedded in the hero');
 assert.doesNotMatch(html, /Descoperă parteneriatul CIBERO pentru sub-flote/, 'The long video heading was removed');
 assert.doesNotMatch(html, /class="sf-video-eyebrow"|class="sf-video-arrow"/, 'The video is presented without the redundant heading and arrows');
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The local presentation video keeps a vertical frame');

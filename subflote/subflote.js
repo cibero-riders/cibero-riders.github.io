@@ -112,8 +112,7 @@
   const nodes = document.querySelectorAll('[data-i18n]');
   nodes.forEach(node => originals.set(node, node.textContent));
   const description = document.querySelector('meta[name="description"]');
-  const videoFrame = document.querySelector('.sf-video-frame[data-video-src]');
-  const videoPoster = videoFrame?.querySelector('.sf-video-poster');
+  const videoIframe = document.querySelector('.sf-video-frame iframe');
   const infographicOpen = document.querySelector('.sf-infographic-open');
   const infographicDialog = document.querySelector('.sf-infographic-dialog');
   const infographicDialogContent = infographicDialog?.querySelector('.sf-infographic-dialog-content');
@@ -128,12 +127,9 @@
     description?.setAttribute('content', isEnglish
       ? 'Manage and grow your sub-fleet with CIBERO Manager, operational tools, recruitment and dedicated support.'
       : 'Administrează și dezvoltă-ți sub-flota cu CIBERO Manager, instrumente operaționale, recrutare și suport dedicat.');
-    if (videoFrame) videoFrame.dataset.videoTitle = isEnglish
+    videoIframe?.setAttribute('title', isEnglish
       ? 'CIBERO presentation for partner sub-fleets'
-      : 'Prezentare CIBERO pentru sub-flote';
-    videoPoster?.setAttribute('aria-label', isEnglish
-      ? 'Play the CIBERO presentation for partner sub-fleets'
-      : 'Redă prezentarea CIBERO pentru sub-flote');
+      : 'Prezentare CIBERO pentru sub-flote');
   }
 
   document.addEventListener('cibero:language-change', event => setLanguage(event.detail.language));
@@ -156,23 +152,4 @@
     });
   }
 
-  if (videoFrame && videoPoster) {
-    videoPoster.addEventListener('click', () => {
-      const videoSource = videoFrame.dataset.videoSrc;
-      if (!videoSource) return;
-      const video = document.createElement('video');
-      video.src = videoSource;
-      video.poster = videoFrame.dataset.videoPoster || '';
-      video.title = videoFrame.dataset.videoTitle || 'Prezentare CIBERO pentru sub-flote';
-      video.setAttribute('aria-label', video.title);
-      video.controls = true;
-      video.autoplay = true;
-      video.playsInline = true;
-      video.preload = 'metadata';
-      video.setAttribute('webkit-playsinline', '');
-      videoFrame.replaceChildren(video);
-      video.focus();
-      video.play().catch(() => {});
-    }, { once: true });
-  }
 })();

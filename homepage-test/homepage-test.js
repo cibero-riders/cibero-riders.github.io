@@ -65,7 +65,7 @@
     'Infografic despre rețeaua operațională CIBERO pentru sub-flote': 'Infographic about the CIBERO operational network for sub-fleets',
     'Vezi pagina completă pentru sub-flote ↗': 'View the full sub-fleet page ↗',
     'Informații utile': 'Useful information',
-    'Întrebări frecvente pentru sub-flote': 'Frequently asked questions for sub-fleets',
+    'Întrebări frecvente': 'Frequently asked questions',
     'Cine poate aplica drept sub-flotă?': 'Who can apply as a sub-fleet?',
     'O societate activă (SRL), cu acte la zi și o persoană de contact responsabilă de administrarea curierilor proprii.': 'An active company with up-to-date documents and a contact person responsible for managing its couriers.',
     'Cum aplic pentru parteneriat?': 'How do I apply for a partnership?',
@@ -520,17 +520,6 @@
     renderAudiencePrompt();
     translateTestPage(event.detail?.language || currentLanguage());
   });
-
-  document.querySelectorAll('[data-local-video]').forEach(frame => frame.querySelector('button')?.addEventListener('click', () => {
-    const video = document.createElement('video');
-    video.src = frame.dataset.localVideo;
-    video.title = frame.dataset.videoTitle || 'Prezentare CIBERO pentru sub-flote';
-    video.controls = true;
-    video.autoplay = true;
-    video.playsInline = true;
-    frame.replaceChildren(video);
-    video.play().catch(() => {});
-  }, { once: true }));
 
   initAccordions(document);
   prepareCourier();
