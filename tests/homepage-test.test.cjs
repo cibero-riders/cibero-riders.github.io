@@ -34,6 +34,8 @@ assert.match(html, /data-youtube-id="JSIBthWjTgc"/);
 assert.match(html, /data-youtube-id="JSIBthWjTgc"[\s\S]*?https:\/\/i\.ytimg\.com\/vi\/GtTUzil6IV0\/maxresdefault\.jpg/, 'The sub-fleet video uses the same preview image as the courier video');
 assert.match(html, /data-thumbnail-fallback="https:\/\/i\.ytimg\.com\/vi\/GtTUzil6IV0\/hqdefault\.jpg"/);
 assert.match(html, /cibero-subfleet-network-infographic\.png/);
+assert.match(html, /data-infographic-en-src="\.\.\/assets\/cibero-subfleet-network-infographic-en\.png"/);
+assert.match(js, /image\.src = isEnglish \? image\.dataset\.infographicEnSrc : image\.dataset\.infographicRoSrc/);
 assert.match(css, /\.choice-toggle button\[aria-selected="true"\]/);
 assert.match(css, /\.choice-toggle button\[aria-selected="true"\] :is\(strong, small\) \{ color: inherit; \}/, 'Selected tab labels must preserve contrast in night mode');
 assert.match(css, /html\[data-theme="night"\] \.choice-toggle button\[aria-selected="true"\] \{[^}]*background: linear-gradient\(145deg, #3b3b36, #1b1c19 72%\)/, 'Night mode uses a dark selected-tab highlight');

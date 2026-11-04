@@ -144,6 +144,11 @@
     contactLink?.setAttribute('aria-label', language === 'en' ? 'Contact the CibeRO administrator on WhatsApp' : 'Contactează administratorul CibeRO pe WhatsApp');
     const copyright = document.querySelector('.footer-copyright');
     if (copyright) copyright.textContent = language === 'en' ? '© Powered by CibeRO – 2026 | All rights reserved' : '© Powered by CibeRO – 2026 | Toate drepturile rezervate';
+    document.querySelectorAll('[data-infographic-ro-src][data-infographic-en-src]').forEach(image => {
+      const isEnglish = language === 'en';
+      image.src = isEnglish ? image.dataset.infographicEnSrc : image.dataset.infographicRoSrc;
+      image.alt = isEnglish ? image.dataset.infographicEnAlt : image.dataset.infographicRoAlt;
+    });
   }
 
   [gate, document.querySelector('[data-choice-panel="subfleet"]')].filter(Boolean).forEach(rememberPageCopy);

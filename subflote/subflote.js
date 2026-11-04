@@ -117,6 +117,7 @@
   const infographicDialog = document.querySelector('.sf-infographic-dialog');
   const infographicDialogContent = infographicDialog?.querySelector('.sf-infographic-dialog-content');
   const infographicClose = infographicDialog?.querySelector('.sf-infographic-close');
+  const infographicImages = document.querySelectorAll('[data-infographic-ro-src][data-infographic-en-src]');
 
   function setLanguage(language) {
     const isEnglish = language === 'en';
@@ -130,6 +131,14 @@
     videoIframe?.setAttribute('title', isEnglish
       ? 'CIBERO presentation for partner sub-fleets'
       : 'Prezentare CIBERO pentru sub-flote');
+    infographicImages.forEach(image => {
+      image.src = isEnglish ? image.dataset.infographicEnSrc : image.dataset.infographicRoSrc;
+      image.alt = isEnglish
+        ? 'Infographic about the CIBERO operational network for sub-fleets: platforms, management dashboard, recruitment, operational systems and automation'
+        : 'Infografic despre rețeaua operațională CIBERO pentru sub-flote: platforme, panou propriu, recrutare, sisteme operaționale și automatizări';
+    });
+    infographicOpen?.setAttribute('aria-label', isEnglish ? 'Enlarge the CIBERO operational network infographic' : 'Mărește infograficul rețelei operaționale CIBERO');
+    infographicDialog?.setAttribute('aria-label', isEnglish ? 'CIBERO operational network infographic' : 'Infograficul rețelei operaționale CIBERO');
   }
 
   document.addEventListener('cibero:language-change', event => setLanguage(event.detail.language));

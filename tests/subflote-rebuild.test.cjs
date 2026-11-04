@@ -23,6 +23,8 @@ assert.doesNotMatch(html, /Descoperă parteneriatul CIBERO pentru sub-flote/, 'T
 assert.doesNotMatch(html, /class="sf-video-eyebrow"|class="sf-video-arrow"/, 'The video is presented without the redundant heading and arrows');
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The local presentation video keeps a vertical frame');
 assert.match(html, /assets\/cibero-subfleet-network-infographic\.png/, 'The new operational-network infographic is included');
+assert.equal((html.match(/data-infographic-en-src="\.\.\/assets\/cibero-subfleet-network-infographic-en\.png"/g) || []).length, 2, 'The English infographic is configured in the page and lightbox');
+assert.match(js, /image\.src = isEnglish \? image\.dataset\.infographicEnSrc : image\.dataset\.infographicRoSrc/, 'Language switching updates both infographic images');
 assert.doesNotMatch(html, /CIBERO Manager îți oferă un singur loc/, 'The redundant hero description was removed');
 assert.match(css, /\.subfleet-body \{[\s\S]*?margin: 0;/, 'The page removes the browser body margin so the header reaches every viewport edge');
 assert.match(html, /subflote\.css\?v=16/, 'The refreshed Sub-fleet stylesheet version is loaded');
