@@ -21,7 +21,8 @@ const pages = [
 
 for (const page of pages) {
   const html = fs.readFileSync(path.join(root, page), 'utf8');
-  assert.match(html, /href="tel:\+40736364334"/, `${page} exposes the clickable administrator phone number`);
+  assert.doesNotMatch(html, /href="tel:\+40736364334"/, `${page} no longer exposes a telephone link in the footer`);
+  assert.doesNotMatch(html, /\+40 736 364 334/, `${page} no longer displays the administrator phone number in the footer`);
   assert.match(html, /href="https:\/\/wa\.me\/40736364334"/, `${page} sends Contact to the administrator on WhatsApp`);
   assert.match(html, /Powered by CibeRO – 2026 \| Toate drepturile rezervate/, `${page} uses the unified Romanian copyright`);
   assert.doesNotMatch(html, /mailto:cibero\.riders@gmail\.com">Contact/, `${page} no longer sends Contact to email`);

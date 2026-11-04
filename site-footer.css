@@ -31,10 +31,6 @@ html[data-theme] footer.site-footer { background: transparent; }
 }
 .site-footer .footer-company-name { font-weight: 700; }
 .site-footer .footer-company-details i { padding-inline: 3px; color: #e2bd56; font-style: normal; }
-.site-footer .footer-admin-phone { color: inherit; font-weight: 650; text-decoration: none; white-space: nowrap; }
-.site-footer .footer-admin-phone:hover,
-.site-footer .footer-admin-phone:focus-visible { color: #f1d374; text-decoration: underline; text-underline-offset: 3px; }
-.site-footer .footer-admin-phone:focus-visible { outline: 2px solid #e2bd56; outline-offset: 3px; }
 .site-footer .footer-legal-links {
   display: flex;
   width: auto;
@@ -68,8 +64,6 @@ html[data-theme] footer.site-footer { background: transparent; }
 .site-footer .footer-socials { display: none; }
 html[data-theme="light"] .site-footer .footer-company-details { color: #4b4450; }
 html[data-theme="light"] .site-footer .footer-company-name { color: #6e3d84; }
-html[data-theme="light"] .site-footer .footer-admin-phone:hover,
-html[data-theme="light"] .site-footer .footer-admin-phone:focus-visible { color: #6e3d84; }
 html[data-theme="light"] .site-footer .footer-legal-links a { color: #6d4913; }
 html[data-theme="light"] .site-footer .footer-legal-links a:hover,
 html[data-theme="light"] .site-footer .footer-legal-links a:focus-visible { color: #6e3d84; }
