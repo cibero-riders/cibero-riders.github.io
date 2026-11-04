@@ -34,6 +34,7 @@ assert.match(html, /data-youtube-id="JSIBthWjTgc"/);
 assert.match(html, /cibero-subfleet-video-poster\.png/);
 assert.match(html, /cibero-subfleet-network-infographic\.png/);
 assert.match(css, /\.choice-toggle button\[aria-selected="true"\]/);
+assert.match(css, /\.choice-toggle button\[aria-selected="true"\] :is\(strong, small\) \{ color: inherit; \}/, 'Selected tab labels must preserve contrast in night mode');
 assert.match(css, /animation: choice-shine/);
 assert.match(css, /\.audience-prompt-toolbar \.audience-info-toggle button \{ font-size: 13px; font-weight: 850; \}/);
 assert.match(js, /ArrowLeft/);
