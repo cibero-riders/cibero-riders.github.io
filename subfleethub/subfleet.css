@@ -26,12 +26,20 @@ body.hub-body[data-hub-variant="subfleet"] {
 }
 
 .subfleet-footer {
+  display: flex;
   padding: 0 20px 35px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
   color: var(--hb-muted);
   font-size: 12px;
   line-height: 1.5;
   text-align: center;
 }
+.subfleet-footer a { color: var(--hb-gold); font-weight: 750; text-decoration: none; }
+.subfleet-footer a:hover, .subfleet-footer a:focus-visible { text-decoration: underline; text-underline-offset: 3px; }
+.subfleet-footer small { flex: 0 0 100%; font: inherit; }
 
 @media (max-width: 760px) {
   .subfleet-header {

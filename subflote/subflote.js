@@ -25,7 +25,7 @@
     platformAvailability: 'depending on city and availability',
     benefitsOverline: 'WHAT YOU RECEIVE AS A PARTNER',
     benefitsTitle: 'The infrastructure for a well-organised sub-fleet.',
-    benefitsIntro: 'Four areas in one system: management, Bolt operations, recruitment and financial support.',
+    benefitsIntro: 'Eight connected components in one system: management, operations, recruitment and financial support.',
     jump1: 'Your own dashboard',
     jump2: 'Bolt management',
     jump3: 'Recruitment and leads',
