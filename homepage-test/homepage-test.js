@@ -8,6 +8,176 @@
   const courierLoading = document.querySelector('[data-courier-loading]');
   let courierReady = false;
   let languageReady = false;
+  let promptAudience = null;
+  let infoMode = 'general';
+  let promptReturnFocus = null;
+  const prompt = document.querySelector('[data-audience-prompt]');
+  const promptContent = document.querySelector('[data-prompt-content]');
+  const infoToggle = document.querySelector('.audience-info-toggle');
+  const infoButtons = [...document.querySelectorAll('[data-info-mode]')];
+
+  const audienceCopy = {
+    ro: {
+      common: {
+        kicker: 'CIBERO · INFORMAȚII ESENȚIALE',
+        general: 'Per general',
+        detailed: 'În detaliu',
+        detailLevel: 'Nivelul detaliilor',
+        close: 'Închide fereastra informativă',
+        sectionTitles: ['Ce oferim', 'Care sunt condițiile', 'Ce e bine să știi dinainte'],
+        footnote: 'Comută pe „În detaliu” pentru a vedea toate criteriile înainte să continui.'
+      },
+      courier: {
+        symbol: '↗',
+        title: 'Colaborare pentru curieri',
+        intro: 'Vezi rapid ce primești, ce condiții trebuie să îndeplinești și cum funcționează activitatea.',
+        href: '../',
+        cta: 'Mergi la pagina de Curieri',
+        general: [
+          'Acces la Bolt Food, Glovo și Wolt, îndrumare la început, suport operațional și rapoarte clare.',
+          'Ai minimum 18 ani, acte valabile, smartphone cu internet, un vehicul potrivit și respecți regulile platformelor.',
+          'Câștigul și activarea variază în funcție de activitate, oraș, platformă și disponibilitate.'
+        ],
+        detailed: [
+          [
+            'Acces la Bolt Food, Glovo și Wolt, prin flota CIBERO.',
+            'Ajutor la început: te ghidăm la crearea contului, la acte și la primele livrări.',
+            'Suport când apare o problemă cu contul, vehiculul, orașul sau plățile. Ne scrii sau ne suni și rezolvăm cât putem de repede.',
+            'Plăți și rapoarte clare: vezi ce ai câștigat, ce ți s-a reținut și de ce.',
+            'Program flexibil: lucrezi când vrei, cât vrei.'
+          ],
+          [
+            'Să ai minimum 18 ani.',
+            'Acte de identitate valabile. Pentru cetățenii străini, documentele cerute de lege pentru a lucra în România.',
+            'Un smartphone cu internet.',
+            'Un vehicul potrivit (bicicletă, trotinetă, scuter, mașină), conform cerințelor fiecărei platforme. Pentru scuter sau mașină: permis și acte la zi.',
+            'Seriozitate: respecți regulile platformei, ești politicos cu clienții și restaurantele și ai grijă de comenzi.',
+            'Cash corect: dacă accepți comenzi plătite cash, predai banii la timp. Neregulile duc la blocarea accesului la comenzile cash.'
+          ],
+          [
+            'Câștigul depinde de tine: de câte ore lucrezi, de oraș, de zi și de vreme. Nu promitem o sumă fixă.',
+            'Activarea contului poate dura câteva zile, în funcție de platformă și de listele de așteptare.',
+            'Platformele au regulile lor. Dacă nu le respecți, contul poate fi suspendat de platformă, nu de noi.'
+          ]
+        ]
+      },
+      subfleet: {
+        symbol: '◆',
+        title: 'Parteneriat pentru sub-flote',
+        intro: 'Descoperă infrastructura oferită de CIBERO și responsabilitățile care rămân în administrarea echipei tale.',
+        href: '../subflote/',
+        cta: 'Mergi la pagina de Sub-Flote',
+        general: [
+          'Panou propriu, administrarea curierilor, recrutare, tichete, rapoarte și suport operațional într-un singur ecosistem.',
+          'Ai un SRL activ, o persoană responsabilă, curieri verificați și respecți regulile platformelor, GDPR și controlul cash.',
+          'CIBERO oferă infrastructura; coordonarea echipei, rezultatele și responsabilitatea curierilor rămân la tine.'
+        ],
+        detailed: [
+          [
+            'Panou propriu în CIBERO Manager: îți vezi curierii, statusurile, cererile și istoricul.',
+            'Administrare Bolt Food: cauți curieri, verifici vehiculul înregistrat, soldurile și accesul la cash.',
+            'Recrutare și leaduri: primești candidați și îi urmărești până la activare.',
+            'Sistem de tichete: trimiți cereri și vezi stadiul lor.',
+            'Rapoarte și situații financiare: activitate, plăți, solduri, lămurirea diferențelor.',
+            'Suport pentru curierii tăi: onboarding, transferuri, modificări de cont sau de vehicul.'
+          ],
+          [
+            'Firmă activă (SRL) și acte la zi.',
+            'O persoană de contact responsabilă, care răspunde la telefon și se ocupă de curierii ei.',
+            'Curieri verificați: oamenii aduși de tine respectă condițiile pentru curieri.',
+            'Respectarea regulilor platformelor și a regulilor interne CIBERO.',
+            'Protecția datelor (GDPR): datele curierilor se folosesc doar pentru colaborare și nu se dau mai departe.',
+            'Control pe cash: răspunzi de curierii tăi care lucrează cu bani cash.'
+          ],
+          [
+            'Rezultatele depind de cât de activă e echipa ta. Noi îți dăm infrastructura, iar munca de coordonare rămâne la tine.',
+            'Accesul în panou e limitat la curierii sub-flotei tale.',
+            'Condițiile financiare (comision, plăți) le stabilim direct, la discuție, înainte de semnare.'
+          ]
+        ]
+      }
+    },
+    en: {
+      common: {
+        kicker: 'CIBERO · ESSENTIAL INFORMATION',
+        general: 'General Info',
+        detailed: 'Detailed Info',
+        detailLevel: 'Level of detail',
+        close: 'Close information window',
+        sectionTitles: ['What we offer', 'Requirements', 'What to know beforehand'],
+        footnote: 'Switch to “Detailed Info” to review every criterion before continuing.'
+      },
+      courier: {
+        symbol: '↗',
+        title: 'Courier collaboration',
+        intro: 'Quickly review what you receive, the requirements and how delivery work operates.',
+        href: '../',
+        cta: 'Go to the Courier page',
+        general: [
+          'Access to Bolt Food, Glovo and Wolt, initial guidance, operational support and clear reports.',
+          'You are at least 18, have valid documents, an internet-enabled smartphone, a suitable vehicle and follow platform rules.',
+          'Earnings and activation vary based on your activity, city, platform and availability.'
+        ],
+        detailed: [
+          [
+            'Access to Bolt Food, Glovo and Wolt through the CIBERO fleet.',
+            'Getting-started help: we guide you through account creation, documents and your first deliveries.',
+            'Support when an issue arises with your account, vehicle, city or payments. Message or call us and we will resolve it as quickly as possible.',
+            'Clear payments and reports: see what you earned, what was withheld and why.',
+            'Flexible schedule: work when you want, for as long as you want.'
+          ],
+          [
+            'You must be at least 18 years old.',
+            'Valid identity documents. Foreign citizens need the documents legally required to work in Romania.',
+            'A smartphone with internet access.',
+            'A suitable vehicle (bicycle, e-scooter, scooter or car), according to each platform’s requirements. For a scooter or car: valid licence and documents.',
+            'Reliability: follow platform rules, be polite to customers and restaurants, and take care of orders.',
+            'Correct cash handling: if you accept cash orders, deposit the money on time. Irregularities lead to cash-order access being blocked.'
+          ],
+          [
+            'Your earnings depend on you: hours worked, city, day and weather. We do not promise a fixed amount.',
+            'Account activation may take several days, depending on the platform and waiting lists.',
+            'Platforms have their own rules. If you do not follow them, the platform—not us—may suspend your account.'
+          ]
+        ]
+      },
+      subfleet: {
+        symbol: '◆',
+        title: 'Sub-fleet partnership',
+        intro: 'Discover the infrastructure CIBERO provides and the responsibilities that remain with your team management.',
+        href: '../subflote/',
+        cta: 'Go to the Sub-Fleet page',
+        general: [
+          'Your own dashboard, courier administration, recruitment, tickets, reports and operational support in one ecosystem.',
+          'You have an active company, a responsible contact person, verified couriers, and follow platform, GDPR and cash-control rules.',
+          'CIBERO provides the infrastructure; team coordination, results and courier responsibility remain with you.'
+        ],
+        detailed: [
+          [
+            'Your own CIBERO Manager dashboard: view your couriers, statuses, requests and history.',
+            'Bolt Food administration: find couriers and check registered vehicles, balances and cash access.',
+            'Recruitment and leads: receive candidates and track them through activation.',
+            'Ticketing system: submit requests and follow their progress.',
+            'Reports and financial statements: activity, payments, balances and discrepancy clarification.',
+            'Support for your couriers: onboarding, transfers, and account or vehicle changes.'
+          ],
+          [
+            'An active limited company (SRL) with up-to-date documents.',
+            'A responsible contact person who answers the phone and manages their couriers.',
+            'Verified couriers: the people you bring meet the courier requirements.',
+            'Compliance with platform rules and CIBERO internal rules.',
+            'Data protection (GDPR): courier data is used only for the collaboration and is not shared further.',
+            'Cash control: you are responsible for your couriers who work with cash.'
+          ],
+          [
+            'Results depend on how active your team is. We provide the infrastructure; coordination remains your responsibility.',
+            'Dashboard access is limited to your sub-fleet’s couriers.',
+            'Financial terms (commission and payments) are agreed directly before signing.'
+          ]
+        ]
+      }
+    }
+  };
 
   function loadLanguageScript() {
     if (languageReady) return;
@@ -69,6 +239,60 @@
     })));
   }
 
+  function currentLanguage() {
+    return document.documentElement.lang === 'en' ? 'en' : 'ro';
+  }
+
+  function renderAudiencePrompt() {
+    if (!promptAudience || !promptContent) return;
+    const language = currentLanguage();
+    const common = audienceCopy[language].common;
+    const copy = audienceCopy[language][promptAudience];
+    const sectionIcons = ['✦', '✓', 'i'];
+    document.querySelector('[data-prompt-symbol]').textContent = copy.symbol;
+    document.querySelector('[data-prompt-kicker]').textContent = common.kicker;
+    document.querySelector('[data-prompt-title]').textContent = copy.title;
+    document.querySelector('[data-prompt-intro]').textContent = copy.intro;
+    document.querySelector('[data-prompt-footnote]').textContent = common.footnote;
+    const cta = document.querySelector('[data-prompt-cta]');
+    cta.href = copy.href;
+    document.querySelector('[data-prompt-cta-label]').textContent = copy.cta;
+    infoToggle.setAttribute('aria-label', common.detailLevel);
+    infoToggle.dataset.infoActive = infoMode;
+    infoButtons.forEach(button => {
+      const active = button.dataset.infoMode === infoMode;
+      button.textContent = button.dataset.infoMode === 'general' ? common.general : common.detailed;
+      button.setAttribute('aria-selected', String(active));
+      button.tabIndex = active ? 0 : -1;
+    });
+    document.querySelectorAll('[data-prompt-close]').forEach(button => button.setAttribute('aria-label', common.close));
+    const content = infoMode === 'general' ? copy.general : copy.detailed;
+    promptContent.dataset.mode = infoMode;
+    promptContent.innerHTML = common.sectionTitles.map((title, index) => {
+      const body = infoMode === 'general'
+        ? `<p>${content[index]}</p>`
+        : `<ul>${content[index].map(item => `<li>${item}</li>`).join('')}</ul>`;
+      return `<article class="audience-info-card"><header><span aria-hidden="true">${sectionIcons[index]}</span><h3>${title}</h3></header>${body}</article>`;
+    }).join('');
+  }
+
+  function openAudiencePrompt(audience, returnFocus) {
+    promptAudience = audience;
+    infoMode = 'general';
+    promptReturnFocus = returnFocus || document.querySelector(`[data-choice="${audience}"]`);
+    renderAudiencePrompt();
+    prompt.hidden = false;
+    document.body.classList.add('audience-prompt-open');
+    requestAnimationFrame(() => prompt.querySelector('.audience-prompt-close')?.focus());
+  }
+
+  function closeAudiencePrompt() {
+    if (!prompt || prompt.hidden) return;
+    prompt.hidden = true;
+    document.body.classList.remove('audience-prompt-open');
+    promptReturnFocus?.focus();
+  }
+
   async function prepareCourier() {
     if (courierReady) return;
     try {
@@ -96,7 +320,7 @@
     }
   }
 
-  function activate(value, updateHash = true) {
+  function activate(value, updateHash = true, showPrompt = false, returnFocus = null) {
     tabs.forEach(tab => { const active = tab.dataset.choice === value; tab.setAttribute('aria-selected', String(active)); tab.tabIndex = active ? 0 : -1; });
     panels.forEach(panel => { const active = panel.dataset.choicePanel === value; panel.hidden = !active; panel.classList.toggle('is-active', active); });
     tablist.dataset.active = value;
@@ -104,18 +328,45 @@
     emptyState.hidden = true;
     if (updateHash) history.replaceState(null, '', value === 'subfleet' ? '#sub-flote' : '#curieri');
     if (value === 'courier') prepareCourier();
+    if (showPrompt) openAudiencePrompt(value, returnFocus);
   }
 
   tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => activate(tab.dataset.choice));
+    tab.addEventListener('click', () => activate(tab.dataset.choice, true, true, tab));
     tab.addEventListener('keydown', event => {
       if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
       event.preventDefault();
       const next = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
       tabs[next].focus();
-      activate(tabs[next].dataset.choice);
+      activate(tabs[next].dataset.choice, true, true, tabs[next]);
     });
   });
+
+  infoButtons.forEach((button, index) => button.addEventListener('click', () => {
+    infoMode = button.dataset.infoMode;
+    renderAudiencePrompt();
+  }));
+  infoButtons.forEach((button, index) => button.addEventListener('keydown', event => {
+    if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0 : event.key === 'End' ? infoButtons.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + infoButtons.length) % infoButtons.length;
+    infoMode = infoButtons[next].dataset.infoMode;
+    renderAudiencePrompt();
+    infoButtons[next].focus();
+  }));
+  document.querySelectorAll('[data-prompt-close]').forEach(button => button.addEventListener('click', closeAudiencePrompt));
+  document.addEventListener('keydown', event => {
+    if (!prompt || prompt.hidden) return;
+    if (event.key === 'Escape') { closeAudiencePrompt(); return; }
+    if (event.key !== 'Tab') return;
+    const focusable = [...prompt.querySelectorAll('button:not([disabled]), a[href]')].filter(element => element.offsetParent !== null);
+    if (!focusable.length) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last.focus(); }
+    else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first.focus(); }
+  });
+  document.addEventListener('cibero:language-change', renderAudiencePrompt);
 
   document.querySelectorAll('[data-local-video]').forEach(frame => frame.querySelector('button')?.addEventListener('click', () => {
     const video = document.createElement('video');
