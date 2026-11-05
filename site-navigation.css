@@ -571,3 +571,22 @@ html[data-theme="night"] .site-header.global-header nav > a:not(.nav-account) { 
   .site-header.global-header > .mobile-header-account { padding-inline: 10px; font-size: 13px; }
 }
 .home-about { scroll-margin-top: 100px; }
+
+/* Keep the five page links between the brand and account controls as a compact group. */
+@media (min-width: 761px) {
+  .site-header.global-header {
+    grid-template-columns: calc(4 * var(--header-social-size) + 3 * var(--header-social-gap) + var(--header-logo-gap) + var(--header-logo-width) + 20px) minmax(0, 1fr) calc(var(--header-action-width) + var(--header-action-gap) + var(--header-theme-width) + var(--header-language-space) + 20px);
+  }
+  .site-header.global-header nav { flex-wrap: wrap; column-gap: var(--header-nav-gap); row-gap: 0; }
+  .site-header.global-header nav > a:not(.nav-account) { padding-block: 7px; }
+}
+.hub-audience-links { display: none; }
+@media (max-width: 760px) {
+  body.hub-body:not([data-hub-variant="subfleet"]) .site-header.global-header[data-hub-mobile-simple="true"]:has(.hub-audience-links) {
+    height: auto; min-height: 108px; padding-bottom: 38px;
+  }
+  body.hub-body .site-header.global-header .hub-audience-links {
+    position: absolute; right: 12px; bottom: 7px; left: 12px; display: flex; justify-content: center; gap: 22px;
+  }
+  .hub-audience-links a { color: var(--gold); font: 700 13px/1.3 "DM Sans", sans-serif; text-decoration: none; }
+}

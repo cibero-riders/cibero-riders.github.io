@@ -48,7 +48,7 @@ assert.match(css, /animation: choice-shine/);
 assert.match(css, /\.audience-prompt-toolbar \.audience-info-toggle button \{ font-size: 13px; font-weight: 850; \}/);
 assert.match(js, /ArrowLeft/);
 assert.match(js, /history\.replaceState/);
-assert.match(js, /fetch\('\.\.\/index\.html'/, 'The courier tab mirrors the current public homepage');
+assert.match(js, /fetch\('\/homepage-test\/courier-content\.html'/, 'The courier tab loads the preserved courier content independently of the new homepage');
 assert.match(js, /benefitTitle\.textContent = 'Ce primești ca și curier'/);
 assert.match(js, /General Info/);
 assert.match(js, /Detailed Info/);

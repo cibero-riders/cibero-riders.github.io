@@ -5,6 +5,7 @@
   const originalTitle = document.title;
   const originalDescription = document.querySelector('meta[name="description"]')?.getAttribute('content');
   const translations = {
+    'Pentru curieri': 'For couriers', 'Pentru sub-flote': 'For sub-fleets',
     'Prezentare': 'Overview', 'Orașe': 'Cities', 'Campanii': 'Campaigns', 'Înregistrare': 'Sign up',
     'Bolt Food, Glovo sau Wolt?': 'Bolt Food, Glovo, or Wolt?', 'sau': 'or', 'Termeni și Condiții': 'Terms and Conditions',
     'Confidențialitate & GDPR': 'Privacy & GDPR', 'Politica de Cookie-uri': 'Cookie Policy', 'Contact': 'Contact',

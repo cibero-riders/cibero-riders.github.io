@@ -302,7 +302,7 @@
     if (languageReady) return;
     languageReady = true;
     const script = document.createElement('script');
-    script.src = '../site-language.js?v=15';
+    script.src = '/site-language.js?v=18';
     document.body.append(script);
   }
 
@@ -424,7 +424,7 @@
     if (courierReady) return;
     if (courierPromise) return courierPromise;
     courierPromise = (async () => { try {
-      const response = await fetch('../index.html', { cache: 'no-store' });
+      const response = await fetch('/homepage-test/courier-content.html', { cache: 'no-store' });
       if (!response.ok) throw new Error(`Homepage unavailable: ${response.status}`);
       const source = new DOMParser().parseFromString(await response.text(), 'text/html');
       const sourceMain = source.querySelector('main#acasa');
@@ -590,7 +590,31 @@
     });
   }
 
+  function audienceFromHash() {
+    return location.hash === '#sub-flote' ? 'subfleet' : location.hash === '#curieri' ? 'courier' : null;
+  }
+
+  function openAudienceFromNavigation(value) {
+    seenPrompts.add(value);
+    prompt.hidden = true;
+    document.body.classList.remove('audience-prompt-open');
+    revealAudience(value);
+  }
+
+  document.querySelectorAll('.site-header [data-audience-link]').forEach(link => {
+    link.addEventListener('click', event => {
+      event.preventDefault();
+      openAudienceFromNavigation(link.dataset.audienceLink);
+    });
+  });
+  window.addEventListener('hashchange', () => {
+    const value = audienceFromHash();
+    if (value) openAudienceFromNavigation(value);
+  });
+
   initAccordions(document);
   initVideos(document);
   prepareCourier();
+  const initialAudience = audienceFromHash();
+  if (initialAudience) openAudienceFromNavigation(initialAudience);
 })();
