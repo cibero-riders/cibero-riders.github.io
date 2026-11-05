@@ -19,11 +19,13 @@
 .choice-toggle button > span:last-child { display: grid; gap: 8px; justify-items: center; }
 .choice-tab-icon { width: clamp(72px, 8vw, 94px); margin-bottom: 12px; overflow: visible; color: currentColor; filter: drop-shadow(0 7px 12px color-mix(in srgb, var(--test-shadow), transparent 30%)); }
 .choice-tab-icon * { vector-effect: non-scaling-stroke; }
-.choice-icon-disc { fill: color-mix(in srgb, var(--test-gold), transparent 93%); }
-.choice-icon-solid { fill: currentColor; }
-.choice-icon-gold { fill: var(--test-gold); }
-.choice-icon-cut { fill: var(--test-surface); }
-.choice-toggle button[aria-selected="true"] .choice-icon-gold { fill: currentColor; }
+.choice-tab-icon-courier { --icon-backdrop: #123f43; }
+.choice-tab-icon-business { --icon-backdrop: #30234c; }
+.choice-tab-icon { color: #fff8e8; }
+.choice-icon-disc { fill: var(--icon-backdrop); stroke: #eac775; stroke-width: 1.5; }
+.choice-icon-solid { fill: #fff8e8; }
+.choice-icon-gold { fill: #f8c550; }
+.choice-icon-cut { fill: var(--icon-backdrop); }
 .choice-icon-halo { fill: color-mix(in srgb, var(--test-gold), transparent 89%); stroke: color-mix(in srgb, var(--test-gold), transparent 42%); stroke-width: 1.5; }
 .choice-icon-main { stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .choice-icon-wheel { fill: color-mix(in srgb, var(--test-text), transparent 88%); stroke: currentColor; stroke-width: 3; }
