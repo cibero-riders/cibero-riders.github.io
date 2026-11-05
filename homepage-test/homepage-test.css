@@ -19,13 +19,14 @@
 .choice-toggle button > span:last-child { display: grid; gap: 8px; justify-items: center; }
 .choice-tab-icon { width: clamp(72px, 8vw, 94px); margin-bottom: 12px; overflow: visible; color: currentColor; filter: drop-shadow(0 7px 12px color-mix(in srgb, var(--test-shadow), transparent 30%)); }
 .choice-tab-icon * { vector-effect: non-scaling-stroke; }
-.choice-tab-icon-courier { --icon-backdrop: #123f43; }
-.choice-tab-icon-business { --icon-backdrop: #30234c; }
+.choice-tab-icon-courier { --icon-backdrop: #0b5361; --icon-disc: url(#courier-disc); --icon-gold: url(#courier-gold); --icon-ivory: url(#courier-ivory); }
+.choice-tab-icon-business { --icon-backdrop: #43266c; --icon-disc: url(#business-disc); --icon-gold: url(#business-gold); --icon-ivory: url(#business-ivory); }
 .choice-tab-icon { color: #fff8e8; }
-.choice-icon-disc { fill: var(--icon-backdrop); stroke: #eac775; stroke-width: 1.5; }
-.choice-icon-solid { fill: #fff8e8; }
-.choice-icon-gold { fill: #f8c550; }
+.choice-icon-disc { fill: var(--icon-disc); stroke: #f5db97; stroke-width: 1.5; }
+.choice-icon-solid { fill: var(--icon-ivory); }
+.choice-icon-gold { fill: var(--icon-gold); }
 .choice-icon-cut { fill: var(--icon-backdrop); }
+.choice-icon-reflection { fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; opacity: .4; }
 .choice-icon-halo { fill: color-mix(in srgb, var(--test-gold), transparent 89%); stroke: color-mix(in srgb, var(--test-gold), transparent 42%); stroke-width: 1.5; }
 .choice-icon-main { stroke: currentColor; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
 .choice-icon-wheel { fill: color-mix(in srgb, var(--test-text), transparent 88%); stroke: currentColor; stroke-width: 3; }
