@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="../site-theme.css?v=13" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=3" />
-  <link rel="stylesheet" href="subflote.css?v=16" />
+  <link rel="stylesheet" href="subflote.css?v=17" />
 </head>
 <body class="subfleet-body">
   <header class="site-header global-header">
@@ -60,8 +60,13 @@
         <span class="sf-media-arrow" aria-hidden="true">→</span>
 
         <aside class="sf-video-showcase" aria-label="Prezentare video CIBERO pentru sub-flote">
-          <div class="sf-video-frame">
-            <iframe src="https://www.youtube-nocookie.com/embed/JSIBthWjTgc?playsinline=1&amp;rel=0" title="Prezentare CIBERO pentru sub-flote" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <div class="sf-video-frame" data-youtube-id="JSIBthWjTgc">
+            <button class="sf-video-poster" type="button" aria-label="Redă prezentarea CIBERO pentru sub-flote">
+              <img src="https://i.ytimg.com/vi/GtTUzil6IV0/maxresdefault.jpg" data-thumbnail-fallback="https://i.ytimg.com/vi/GtTUzil6IV0/hqdefault.jpg" alt="Coperta prezentării CIBERO pentru sub-flote" />
+              <span class="sf-video-shade" aria-hidden="true"></span>
+              <span class="sf-video-play" aria-hidden="true"><i></i></span>
+              <span class="sf-video-action" aria-hidden="true">VEZI O SCURTĂ PREZENTARE</span>
+            </button>
           </div>
         </aside>
       </div>
@@ -224,7 +229,7 @@
   <script src="../site-theme.js?v=5"></script>
   <script src="../site-language.js?v=13"></script>
   <script src="../site-accordion.js?v=1"></script>
-  <script src="subflote.js?v=11"></script>
+  <script src="subflote.js?v=12"></script>
   <script defer src="/site-analytics.js?v=1"></script>
 </body>
 </html>

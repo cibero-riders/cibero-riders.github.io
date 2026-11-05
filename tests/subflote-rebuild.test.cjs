@@ -18,7 +18,11 @@ assert.match(css, /\.sf-hero h1 \{[^}]*font-size: clamp\(50px, 5\.8vw, 74px\)/, 
 assert.match(css, /padding: clamp\(36px, 4\.5vw, 58px\) 0 58px/, 'The compact hero begins close to the site header');
 assert.match(css, /font-size: clamp\(44px, 12vw, 60px\)/, 'The stronger hero scale carries through to mobile');
 assert.match(html, /class="sf-hero-media"[\s\S]*?class="sf-infographic"[\s\S]*?class="sf-video-showcase"/, 'The infographic leads the hero media and the presentation video sits beside it');
-assert.match(html, /youtube-nocookie\.com\/embed\/JSIBthWjTgc/, 'The resolved YouTube presentation video is embedded in the hero');
+assert.match(html, /class="sf-video-frame" data-youtube-id="JSIBthWjTgc"/, 'The sub-fleet presentation video is configured in the hero');
+assert.match(html, /i\.ytimg\.com\/vi\/GtTUzil6IV0\/maxresdefault\.jpg/, 'The standalone sub-fleet page uses the same preview cover as the test page');
+assert.match(html, /data-thumbnail-fallback="https:\/\/i\.ytimg\.com\/vi\/GtTUzil6IV0\/hqdefault\.jpg"/, 'The video preview has a resilient thumbnail fallback');
+assert.match(js, /youtube-nocookie\.com\/embed\/\$\{encodeURIComponent\(videoId\)\}/, 'The sub-fleet YouTube Short is loaded only after the preview is activated');
+assert.match(js, /videoPoster\?\.addEventListener\('click'/, 'The preview button starts the presentation');
 assert.doesNotMatch(html, /Descoperă parteneriatul CIBERO pentru sub-flote/, 'The long video heading was removed');
 assert.doesNotMatch(html, /class="sf-video-eyebrow"|class="sf-video-arrow"/, 'The video is presented without the redundant heading and arrows');
 assert.match(css, /\.sf-video-frame \{[\s\S]*?aspect-ratio: 9 \/ 16/, 'The local presentation video keeps a vertical frame');
@@ -27,7 +31,7 @@ assert.equal((html.match(/data-infographic-en-src="\.\.\/assets\/cibero-subfleet
 assert.match(js, /image\.src = isEnglish \? image\.dataset\.infographicEnSrc : image\.dataset\.infographicRoSrc/, 'Language switching updates both infographic images');
 assert.doesNotMatch(html, /CIBERO Manager îți oferă un singur loc/, 'The redundant hero description was removed');
 assert.match(css, /\.subfleet-body \{[\s\S]*?margin: 0;/, 'The page removes the browser body margin so the header reaches every viewport edge');
-assert.match(html, /subflote\.css\?v=16/, 'The refreshed Sub-fleet stylesheet version is loaded');
+assert.match(html, /subflote\.css\?v=17/, 'The refreshed Sub-fleet stylesheet version is loaded');
 assert.match(html, /class="sf-infographic"[\s\S]*?target="_blank"/, 'The infographic can be opened at full size');
 assert.match(css, /\.sf-infographic-open \{[^}]*border-radius: 28px/, 'The infographic has rounded corners');
 assert.doesNotMatch(html, /class="sf-platform-strip"/, 'The redundant platform strip was removed');
