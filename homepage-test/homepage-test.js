@@ -302,7 +302,7 @@
     if (languageReady) return;
     languageReady = true;
     const script = document.createElement('script');
-    script.src = '/site-language.js?v=18';
+    script.src = '/site-language.js?v=19';
     document.body.append(script);
   }
 
