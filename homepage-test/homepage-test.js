@@ -138,8 +138,6 @@
     const courierAboutLinkText = courierContent?.querySelector('[data-testmode-i18n="first-step"]');
     if (courierAboutLinkText) courierAboutLinkText.textContent = language === 'en' ? 'take the first step' : 'fă primul pas';
     gate?.setAttribute('aria-label', language === 'en' ? 'Choose how you want to collaborate' : 'Alege tipul de colaborare');
-    const homeLink = document.querySelector('.site-header nav > a:first-child');
-    if (homeLink) homeLink.textContent = language === 'en' ? 'Main site' : 'Site principal';
     const contactLink = document.querySelector('.footer-legal-links a:last-child');
     contactLink?.setAttribute('aria-label', language === 'en' ? 'Contact the CibeRO administrator on WhatsApp' : 'Contactează administratorul CibeRO pe WhatsApp');
     const copyright = document.querySelector('.footer-copyright');
