@@ -56,7 +56,7 @@ html.network-image-open { overflow: hidden; }
 .network-image-dialog { box-sizing: border-box; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: clamp(16px, 3vw, 36px); border: 0; background: transparent; color: #fff4d2; }
 .network-image-dialog[open] { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
 .network-image-dialog::backdrop { background: #08050de8; backdrop-filter: blur(10px); }
-.network-image-dialog > img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 130px); object-fit: contain; border-radius: 20px; box-shadow: 0 20px 70px #0008; }
+.network-image-dialog > img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 130px); object-fit: contain; border-radius: 20px; box-shadow: 0 20px 70px #0008; touch-action: pan-x pan-y pinch-zoom; }
 .network-image-back { flex: 0 0 auto; align-self: flex-start; min-height: 44px; padding: 10px 22px; border: 1px solid #f1d083; border-radius: 12px; background: linear-gradient(135deg, #fff0b0, #dfa82d); color: #291b09; font: 800 16px/1.2 "DM Sans", sans-serif; cursor: pointer; }
 .network-image-back:hover { filter: brightness(1.08); }
 .network-image-back:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }

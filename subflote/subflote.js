@@ -101,7 +101,7 @@
     tag2: 'Automation',
     tag3: 'Recruitment',
     tag4: 'Support',
-    closeInfographic: 'Close',
+    closeInfographic: 'Back',
     finalOverline: 'THE NEXT STEP',
     finalTitle: 'Build your sub-fleet on a solid foundation.',
     finalBody: 'Complete the registration form and select “SRL”. The CIBERO team will review your request and contact you about the next steps.',
@@ -146,6 +146,7 @@
     });
     infographicOpen?.setAttribute('aria-label', isEnglish ? 'Enlarge the CIBERO operational network infographic' : 'Mărește infograficul rețelei operaționale CIBERO');
     infographicDialog?.setAttribute('aria-label', isEnglish ? 'CIBERO operational network infographic' : 'Infograficul rețelei operaționale CIBERO');
+    infographicClose?.setAttribute('aria-label', isEnglish ? 'Back to page' : 'Înapoi la pagină');
   }
 
   document.addEventListener('cibero:language-change', event => setLanguage(event.detail.language));

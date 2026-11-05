@@ -31,7 +31,7 @@ assert.equal((html.match(/data-infographic-en-src="\.\.\/assets\/cibero-subfleet
 assert.match(js, /image\.src = isEnglish \? image\.dataset\.infographicEnSrc : image\.dataset\.infographicRoSrc/, 'Language switching updates both infographic images');
 assert.doesNotMatch(html, /CIBERO Manager îți oferă un singur loc/, 'The redundant hero description was removed');
 assert.match(css, /\.subfleet-body \{[\s\S]*?margin: 0;/, 'The page removes the browser body margin so the header reaches every viewport edge');
-assert.match(html, /subflote\.css\?v=17/, 'The refreshed Sub-fleet stylesheet version is loaded');
+assert.match(html, /subflote\.css\?v=18/, 'The refreshed Sub-fleet stylesheet version is loaded');
 assert.match(html, /class="sf-infographic"[\s\S]*?target="_blank"/, 'The infographic can be opened at full size');
 assert.match(css, /\.sf-infographic-open \{[^}]*border-radius: 28px/, 'The infographic has rounded corners');
 assert.doesNotMatch(html, /class="sf-platform-strip"/, 'The redundant platform strip was removed');

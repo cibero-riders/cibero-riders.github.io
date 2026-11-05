@@ -1,26 +1,19 @@
 (() => {
-  const STORAGE_KEY = "cibero-public-theme";
-  const USER_CHOICE_KEY = "cibero-public-theme-user-choice";
+  const SESSION_KEY = "cibero-session-theme";
+  let channel = null;
   const THEMES = ["light", "midday", "night"];
   const icons = { light: "☀", midday: "◐", night: "☾" };
   const labels = { light: "Day mode", midday: "Midday mode", night: "Night mode" };
 
   function defaultTheme() {
-    return /^\/(?:public\/)?onboarding(?:\/|$)/.test(window.location.pathname) ? "midday" : "night";
+    return "midday";
   }
 
   function storedTheme() {
-    const value = localStorage.getItem(STORAGE_KEY);
-    const hasExplicitChoice = localStorage.getItem(USER_CHOICE_KEY) === "1";
-    if (hasExplicitChoice && THEMES.includes(value)) return value;
-
-    // Before this marker existed, Midday was written automatically on every visit.
-    // Preserve legacy Day/Night values because those necessarily came from the user.
-    if (value === "light" || value === "night") {
-      localStorage.setItem(USER_CHOICE_KEY, "1");
-      return value;
-    }
-
+    try {
+      const value = sessionStorage.getItem(SESSION_KEY);
+      if (THEMES.includes(value)) return value;
+    } catch { /* Themes still work when browser storage is unavailable. */ }
     return defaultTheme();
   }
 
@@ -28,8 +21,7 @@
     const nextTheme = THEMES.includes(theme) ? theme : defaultTheme();
     document.documentElement.dataset.theme = nextTheme;
     if (persist) {
-      localStorage.setItem(USER_CHOICE_KEY, "1");
-      localStorage.setItem(STORAGE_KEY, nextTheme);
+      try { sessionStorage.setItem(SESSION_KEY, nextTheme); } catch { /* Storage is optional. */ }
     }
     document.querySelectorAll("[data-public-theme]").forEach((button) => {
       const active = button.dataset.publicTheme === nextTheme;
@@ -50,7 +42,10 @@
       button.title = labels[theme];
       button.setAttribute("aria-label", labels[theme]);
       button.innerHTML = `<span aria-hidden="true">${icons[theme]}</span>`;
-      button.addEventListener("click", () => applyTheme(theme, true));
+      button.addEventListener("click", () => {
+        applyTheme(theme, true);
+        channel?.postMessage({ type: "choice", theme });
+      });
       control.append(button);
     });
     return control;
@@ -58,7 +53,7 @@
 
   function installSwitch() {
     if (document.querySelector(".public-theme-switch")) return;
-    const header = document.querySelector(".global-header, .registration-header, .availability-header, .site-title");
+    const header = document.querySelector(".global-header, .registration-header, .availability-header, .site-title, .subfleet-header");
     if (!header) return;
     const control = buildSwitch();
     const navigation = header.matches(".global-header") ? header.querySelector("nav") : null;
@@ -89,16 +84,24 @@
     const controls = document.createElement("div");
     controls.className = "mobile-menu-controls";
     const mobile = window.matchMedia("(max-width: 760px)");
+    const simplifiedHubMobile = header.dataset.hubMobileSimple === "true";
 
     function arrangeNavigation() {
       navigation.classList.remove("open");
       header.querySelector(".menu-toggle")?.setAttribute("aria-expanded", "false");
       if (mobile.matches) {
-        header.insertBefore(account, navigation);
-        account.classList.add("mobile-header-account");
-        if (language) controls.append(language);
-        if (theme) controls.append(theme);
-        navigation.append(controls);
+        if (simplifiedHubMobile) {
+          account.classList.remove("mobile-header-account");
+          if (theme) header.append(theme);
+          if (language) header.append(language);
+          controls.remove();
+        } else {
+          header.insertBefore(account, navigation);
+          account.classList.add("mobile-header-account");
+          if (language) controls.append(language);
+          if (theme) controls.append(theme);
+          navigation.append(controls);
+        }
       } else {
         accountSlot.after(account);
         account.classList.remove("mobile-header-account");
@@ -120,7 +123,33 @@
   applyTheme(storedTheme());
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", installHeaderControls, { once: true });
   else installHeaderControls();
-  window.addEventListener("storage", (event) => {
-    if (event.key === STORAGE_KEY || event.key === USER_CHOICE_KEY) applyTheme(storedTheme());
+  function connectThemeTabs() {
+    if (typeof BroadcastChannel !== "function") return;
+    channel = new BroadcastChannel("cibero-theme-session");
+    channel.addEventListener("message", ({ data }) => {
+      if (data?.type === "request") {
+        channel.postMessage({ type: "state", theme: document.documentElement.dataset.theme });
+      } else if ((data?.type === "choice" || data?.type === "state") && THEMES.includes(data.theme)) {
+        applyTheme(data.theme, true);
+      }
+    });
+    channel.postMessage({ type: "request" });
+  }
+  connectThemeTabs();
+  window.addEventListener("pagehide", () => {
+    channel?.close();
+    channel = null;
+  });
+  // Leaving this origin ends this tab's visit; internal navigation and refresh keep it.
+  window.navigation?.addEventListener("navigate", (event) => {
+    if (new URL(event.destination.url).origin !== window.location.origin) {
+      try { sessionStorage.removeItem(SESSION_KEY); } catch { /* Storage is optional. */ }
+    }
+  });
+  window.addEventListener("pageshow", (event) => {
+    if (event.persisted) {
+      applyTheme(storedTheme());
+      connectThemeTabs();
+    }
   });
 })();
