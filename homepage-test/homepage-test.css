@@ -51,6 +51,15 @@ html[data-theme="night"] .choice-toggle button[aria-selected="true"] small { col
 .subfleet-network-image { display: block; width: min(1100px, 100%); overflow: hidden; border: 1px solid var(--test-border); border-radius: 26px; box-shadow: 0 24px 65px var(--test-shadow); transition: transform .25s ease, border-color .25s ease; }
 .subfleet-network-image:hover, .subfleet-network-image:focus-visible { border-color: var(--test-gold); transform: translateY(-3px); }
 .subfleet-network-image img { display: block; width: 100%; height: auto; }
+.subfleet-network-image { cursor: zoom-in; }
+html.network-image-open { overflow: hidden; }
+.network-image-dialog { box-sizing: border-box; width: 100vw; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: clamp(16px, 3vw, 36px); border: 0; background: transparent; color: #fff4d2; }
+.network-image-dialog[open] { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; }
+.network-image-dialog::backdrop { background: #08050de8; backdrop-filter: blur(10px); }
+.network-image-dialog > img { display: block; width: auto; height: auto; max-width: 100%; max-height: calc(100dvh - 130px); object-fit: contain; border-radius: 20px; box-shadow: 0 20px 70px #0008; }
+.network-image-back { flex: 0 0 auto; align-self: flex-start; min-height: 44px; padding: 10px 22px; border: 1px solid #f1d083; border-radius: 12px; background: linear-gradient(135deg, #fff0b0, #dfa82d); color: #291b09; font: 800 16px/1.2 "DM Sans", sans-serif; cursor: pointer; }
+.network-image-back:hover { filter: brightness(1.08); }
+.network-image-back:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
 .audience-prompt[hidden] { display: none; }
 .audience-prompt {
   position: fixed;

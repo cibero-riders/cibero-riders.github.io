@@ -555,6 +555,41 @@
     translateTestPage(event.detail?.language || currentLanguage());
   });
 
+  const infographicLink = document.querySelector('.subfleet-network-image');
+  const infographicSource = infographicLink?.querySelector('img');
+  if (infographicLink && infographicSource) {
+    // Keep a usable image destination when JavaScript interaction is unavailable.
+    infographicLink.href = infographicSource.src;
+    infographicLink.setAttribute('aria-haspopup', 'dialog');
+    const imageDialog = document.createElement('dialog');
+    imageDialog.className = 'network-image-dialog';
+    const backButton = document.createElement('button');
+    backButton.type = 'button';
+    backButton.className = 'network-image-back';
+    const enlargedImage = infographicSource.cloneNode(true);
+    imageDialog.append(backButton, enlargedImage);
+    document.body.append(imageDialog);
+    infographicLink.addEventListener('click', event => {
+      event.preventDefault();
+      enlargedImage.src = infographicSource.src;
+      enlargedImage.alt = infographicSource.alt;
+      const isEnglish = currentLanguage() === 'en';
+      backButton.textContent = isEnglish ? '← Back' : '← Înapoi';
+      imageDialog.setAttribute('aria-label', isEnglish ? 'Enlarged CIBERO infographic' : 'Infografic CIBERO mărit');
+      imageDialog.showModal();
+      document.documentElement.classList.add('network-image-open');
+      backButton.focus();
+    });
+    backButton.addEventListener('click', () => imageDialog.close());
+    imageDialog.addEventListener('click', event => {
+      if (event.target === imageDialog) imageDialog.close();
+    });
+    imageDialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('network-image-open');
+      infographicLink.focus({ preventScroll: true });
+    });
+  }
+
   initAccordions(document);
   initVideos(document);
   prepareCourier();
