@@ -334,6 +334,18 @@
         const action=index===0?calendarTemplate:calendarTemplate.cloneNode(true);
         action.classList.add('hub-pay-card-calendar');
         row.querySelector('.hub-pay-brand')?.append(action);
+        const brand=row.querySelector('.hub-pay-brand');
+        const platformHeading=document.createElement('div');
+        platformHeading.className='hub-pay-platform-heading';
+        platformHeading.append(brand.querySelector('img'),brand.querySelector('h3'));
+        const browser=document.createElement('div');
+        browser.className='hub-pay-browser';
+        browser.innerHTML='<p data-payment-browser-hint></p><div class="hub-pay-browser-controls"><button type="button" data-payment-step="-1"><span aria-hidden="true">←</span></button><button type="button" data-payment-current></button><button type="button" data-payment-step="1"><span aria-hidden="true">→</span></button></div><span data-payment-view aria-live="polite"></span>';
+        brand.prepend(platformHeading,browser);
+        const history=document.createElement('details');
+        history.className='hub-pay-history';
+        history.innerHTML='<summary></summary><p class="hub-pay-history-note"></p><div class="hub-pay-history-scroll"><table><caption></caption><thead></thead><tbody></tbody></table></div>';
+        row.append(history);
       });
     }
     shell.append(back,heading,...(caveat?[caveat]:[]),content);
@@ -357,8 +369,8 @@
   const addDays=(date,days)=>new Date(date.getTime()+days*DAY);
   const getParts=date=>({year:date.getUTCFullYear(),month:date.getUTCMonth()+1,day:date.getUTCDate()});
   const daysInMonth=(year,month)=>new Date(Date.UTC(year,month,0)).getUTCDate();
-  const formatDate=date=>new Intl.DateTimeFormat(language==='en'?'en-GB':'ro-RO',{day:'numeric',month:'long',timeZone:'UTC'}).format(date);
-  const formatWeekdayDate=date=>new Intl.DateTimeFormat(language==='en'?'en-GB':'ro-RO',{weekday:'long',day:'numeric',month:'long',timeZone:'UTC'}).format(date);
+  const formatDate=date=>new Intl.DateTimeFormat(language==='en'?'en-GB':'ro-RO',{day:'numeric',month:'long',...(date.getUTCFullYear()!==bucharestNow().year?{year:'numeric'}:{}),timeZone:'UTC'}).format(date);
+  const formatWeekdayDate=date=>new Intl.DateTimeFormat(language==='en'?'en-GB':'ro-RO',{weekday:'long',day:'numeric',month:'long',...(date.getUTCFullYear()!==bucharestNow().year?{year:'numeric'}:{}),timeZone:'UTC'}).format(date);
   function bucharestNow(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Bucharest',year:'numeric',month:'2-digit',day:'2-digit',weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());const value=type=>parts.find(part=>part.type===type)?.value;const weekdays={Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};return{year:Number(value('year')),month:Number(value('month')),day:Number(value('day')),hour:Number(value('hour')),minute:Number(value('minute')),weekday:weekdays[value('weekday')]};}
   function weeklyPaymentSchedule(now){
     const today=dateFromParts(now.year,now.month,now.day);
@@ -385,10 +397,74 @@
     return{...displayed,payment:paymentFridayForWolt(displayed.end),reset:displayed.end,delayed:weekday===4||weekday===5};
   }
   function glovoResetDate(now){const today=dateFromParts(now.year,now.month,now.day);let daysUntilTuesday=(2-now.weekday+7)%7;if(now.weekday===2&&now.hour===23&&now.minute>=59)daysUntilTuesday=7;return addDays(today,daysUntilTuesday);}
-  function scheduleFor(platform){const now=bucharestNow();if(platform==='wolt')return woltPaymentSchedule(now);const weekly=weeklyPaymentSchedule(now);return platform==='glovo'?{...weekly,reset:glovoResetDate(now)}:weekly;}
+  function scheduleFor(platform,now=bucharestNow()){if(platform==='wolt')return woltPaymentSchedule(now);const weekly=weeklyPaymentSchedule(now);return platform==='glovo'?{...weekly,reset:glovoResetDate(now)}:weekly;}
+  function scheduleForPeriod(platform,start){
+    if(platform==='wolt'){
+      const period=woltFiscalPeriod(start);
+      const weekday=period.end.getUTCDay();
+      return{...period,payment:paymentFridayForWolt(period.end),reset:period.end,delayed:weekday===4||weekday===5};
+    }
+    const end=addDays(start,6);
+    return{start,end,payment:addDays(start,11),reset:platform==='glovo'?addDays(end,2):end};
+  }
+  function adjacentPaymentPeriod(platform,schedule,direction){
+    const date=platform==='wolt'?(direction<0?addDays(schedule.start,-1):addDays(schedule.end,1)):addDays(schedule.start,direction*7);
+    return scheduleForPeriod(platform,date);
+  }
+  function paymentHistoryCutoff(now){
+    const month=new Date(Date.UTC(now.year,now.month-4,1,12));
+    return dateFromParts(month.getUTCFullYear(),month.getUTCMonth()+1,Math.min(now.day,daysInMonth(month.getUTCFullYear(),month.getUTCMonth()+1)));
+  }
+  function paymentHistory(platform,now=bucharestNow()){
+    const today=dateFromParts(now.year,now.month,now.day);
+    const cutoff=paymentHistoryCutoff(now);
+    const rows=[];
+    let period=scheduleFor(platform,now);
+    while(period.payment>=cutoff){
+      if(period.payment<=today)rows.push(period);
+      period=adjacentPaymentPeriod(platform,period,-1);
+    }
+    return rows;
+  }
+  const paymentSelections=new Map();
+  function displayedSchedule(platform){const start=paymentSelections.get(platform);const current=scheduleFor(platform);return start&&start.getTime()!==current.start.getTime()?scheduleForPeriod(platform,start):current;}
   const capitalizeDate=value=>value.replace(/\p{L}/u,letter=>letter.toUpperCase());
-  function scheduleText(platform){const schedule=scheduleFor(platform);const resetDate=capitalizeDate(formatWeekdayDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;const paymentPrefix=schedule.delayed?(language==='en'?'Friday, ':'Vineri, '):(language==='en'?'no later than Friday, ':'cel târziu Vineri, ');const resetTime=platform==='glovo'?(language==='en'?', 14:00':', ora 14:00'):(language==='en'?', 23:59':', ora 23:59');return{payment:paymentPrefix+formatDate(schedule.payment)+(language==='en'?', 17:00':', ora 17:00'),period,note:resetDate+resetTime,delayed:Boolean(schedule.delayed)};}
-  function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;});}
+  function scheduleText(platform){const schedule=displayedSchedule(platform);const resetDate=capitalizeDate(formatWeekdayDate(schedule.reset));const sameMonth=schedule.start.getUTCFullYear()===schedule.end.getUTCFullYear()&&schedule.start.getUTCMonth()===schedule.end.getUTCMonth();const period=platform==='wolt'&&sameMonth?`${schedule.start.getUTCDate()}–${formatDate(schedule.end)}`:`${formatDate(schedule.start)} – ${formatDate(schedule.end)}`;const paymentPrefix=schedule.delayed?(language==='en'?'Friday, ':'Vineri, '):(language==='en'?'no later than Friday, ':'cel târziu Vineri, ');const resetTime=platform==='glovo'?(language==='en'?', 14:00':', ora 14:00'):(language==='en'?', 23:59':', ora 23:59');return{payment:paymentPrefix+formatDate(schedule.payment)+(language==='en'?', 17:00':', ora 17:00'),period,note:resetDate+resetTime,delayed:Boolean(schedule.delayed)};}
+  function renderPaymentBrowser(platform,row){
+    const en=language==='en';
+    const selected=displayedSchedule(platform);
+    const current=scheduleFor(platform);
+    const isCurrent=selected.start.getTime()===current.start.getTime();
+    const isPast=selected.start<current.start;
+    const fullDate=date=>new Intl.DateTimeFormat(en?'en-GB':'ro-RO',{day:'numeric',month:'long',year:'numeric',timeZone:'UTC'}).format(date);
+    const previous=row.querySelector('[data-payment-step="-1"]');
+    previous.disabled=adjacentPaymentPeriod(platform,selected,-1).payment<paymentHistoryCutoff(bucharestNow());
+    previous.setAttribute('aria-label',en?'Previous payment period':'Perioada de plată anterioară');
+    row.querySelector('[data-payment-step="1"]').setAttribute('aria-label',en?'Next payment period':'Perioada de plată următoare');
+    row.querySelector('[data-payment-browser-hint]').textContent=en?'← Earlier periods · Future periods →':'← Perioade anterioare · Perioade viitoare →';
+    const currentButton=row.querySelector('[data-payment-current]');
+    currentButton.textContent=en?'Current period':'Perioada curentă';
+    currentButton.disabled=isCurrent;
+    row.querySelector('[data-payment-view]').textContent=en?(isCurrent?'Current schedule':isPast?'Previous period · estimated':'Future period · estimated'):(isCurrent?'Calendarul curent':isPast?'Perioadă anterioară · estimativ':'Perioadă viitoare · estimativ');
+    row.querySelector('.hub-pay-detail-payment [data-hub-i18n]').textContent=isCurrent?(en?'Next payment:':'Următoarea plată:'):(en?'Scheduled payment:':'Plată programată:');
+    const history=row.querySelector('.hub-pay-history');
+    history.querySelector('summary').textContent=en?'Payment history · last 3 months':'Istoric plăți · ultimele 3 luni';
+    history.querySelector('.hub-pay-history-note').textContent=en?'Estimated calendar, not confirmation of completed transfers. Payments may be made earlier; report processing can cause delays.':'Calendar estimativ, nu confirmare a transferurilor efectuate. Plățile pot fi făcute mai devreme; procesarea rapoartelor poate produce decalări.';
+    history.querySelector('caption').textContent=en?'Scheduled payment dates · Romania time':'Date de plată programate · ora României';
+    history.querySelector('thead').innerHTML=en?'<tr><th scope="col">Earnings period</th><th scope="col">Scheduled payment</th><th scope="col">Status</th></tr>':'<tr><th scope="col">Perioada veniturilor</th><th scope="col">Plată programată</th><th scope="col">Situație</th></tr>';
+    history.querySelector('tbody').innerHTML=paymentHistory(platform).map(period=>`<tr><td>${fullDate(period.start)} – ${fullDate(period.end)}</td><td>${capitalizeDate(fullDate(period.payment))}<small>${en?'Friday · by 17:00':'Vineri · ora 17:00'}</small></td><td><span class="hub-pay-history-status">${en?'Estimated':'Estimativ'}</span>${period.delayed?`<small>${en?'Possible delay':'Posibilă decalare'}</small>`:''}</td></tr>`).join('');
+  }
+  function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;renderPaymentBrowser(platform,document.querySelector(`[data-payment-card="${platform}"]`));});}
+  document.querySelectorAll('[data-payment-card]').forEach(row=>{
+    const platform=row.dataset.paymentCard;
+    row.querySelectorAll('[data-payment-step]').forEach(button=>button.addEventListener('click',()=>{
+      const period=adjacentPaymentPeriod(platform,displayedSchedule(platform),Number(button.dataset.paymentStep));
+      if(period.payment<paymentHistoryCutoff(bucharestNow()))return;
+      paymentSelections.set(platform,period.start);
+      renderPayments();
+    }));
+    row.querySelector('[data-payment-current]').addEventListener('click',()=>{paymentSelections.delete(platform);renderPayments();});
+  });
   function setLanguage(next){language=next==='en'?'en':'ro';nodes.forEach(node=>node.textContent=language==='en'?(translations[node.dataset.hubI18n]||originals.get(node)):(node.dataset.hubI18n==='reimbursementTitle'?'5% Decontare':originals.get(node)));document.querySelectorAll('.hub-category-dialog-intro h2').forEach(node=>node.textContent=formatDialogHeading(node.textContent));htmlNodes.forEach(node=>node.innerHTML=language==='en'?(translations[node.dataset.hubI18nHtml]||htmlOriginals.get(node)):htmlOriginals.get(node));ariaNodes.forEach(node=>node.setAttribute('aria-label',language==='en'?(translations[node.dataset.hubI18nAria]||ariaOriginals.get(node)):ariaOriginals.get(node)));titleNodes.forEach(node=>node.setAttribute('title',language==='en'?(translations[node.dataset.hubI18nTitle]||titleOriginals.get(node)):titleOriginals.get(node)));document.title=isSubfleet?'Courier Hub':'CIBERO Hub';if(description)description.content=language==='en'?(isSubfleet?'Courier Hub — general information and resources for partner couriers.':'CIBERO Hub — information and resources for CibeRO couriers.'):originalDescription;renderPayments();}
   document.addEventListener('cibero:language-change',event=>setLanguage(event.detail.language));
   const hoverQuery=window.matchMedia('(hover: hover) and (pointer: fine)');
