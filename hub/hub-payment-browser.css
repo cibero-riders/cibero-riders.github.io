@@ -1,3 +1,10 @@
+.hub-category-dialog.hub-category-payments .hub-category-dialog-shell {
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--hb-gold) transparent;
+}
 .hub-category-payments .hub-payment-content .hub-pay-brand {
   display: grid;
   grid-template-columns: minmax(120px, 1fr) minmax(230px, 1.25fr) minmax(180px, 1fr);
