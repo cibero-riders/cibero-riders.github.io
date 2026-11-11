@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const source = fs.readFileSync(require('node:path').join(__dirname, '../hub/hub.js'), 'utf8');
 // Exercise the production calendar functions without a browser or the bot runtime.
-const calendar = new Function(source.slice(source.indexOf('  const DAY='), source.indexOf('  const paymentSelections=')) + ';return {weeklyPaymentSchedule,woltPaymentSchedule,woltFiscalPeriod,glovoResetDate,bucharestNow,scheduleForPeriod,adjacentPaymentPeriod,paymentHistory,paymentHistoryCutoff};')();
+const calendar = new Function(source.slice(source.indexOf('  const DAY='), source.indexOf('  const paymentOffsets=')) + ';return {weeklyPaymentSchedule,woltPaymentSchedule,woltFiscalPeriod,glovoResetDate,bucharestNow,scheduleForPeriod,adjacentPaymentPeriod,relativePaymentSchedule,scheduleFor};')();
 function now(day, hour = 12, minute = 0) {
   const date = new Date(day + 'T12:00:00Z');
   return {year:date.getUTCFullYear(), month:date.getUTCMonth()+1, day:date.getUTCDate(), weekday:date.getUTCDay(), hour, minute};
@@ -47,27 +47,26 @@ check(calendar.weeklyPaymentSchedule, now('2027-01-02',0), ['2026-12-28','2027-0
 console.log('Payment calendar: payout periods, Glovo Tuesday rollover, Wolt rollovers, leap year and year boundary passed.');
 
 for (const platform of ['bolt', 'glovo', 'wolt']) {
-  const history = calendar.paymentHistory(platform, now('2026-11-11'));
-  assert.ok(history.length >= 11, `${platform}: three months of payment dates`);
-  const cutoff = calendar.paymentHistoryCutoff(now('2026-11-11'));
-  assert.equal(iso(cutoff), '2026-08-11');
-  history.forEach((row, index) => {
-    assert.ok(row.payment >= cutoff && iso(row.payment) <= '2026-11-11');
-    assert.equal(row.payment.getUTCDay(), 5);
-    if (index) assert.ok(row.start < history[index - 1].start);
-  });
-  let cursor = history[0];
-  for (let i = 0; i < 90; i++) {
-    const future = calendar.adjacentPaymentPeriod(platform, cursor, 1);
-    assert.equal(iso(future.start), iso(new Date(cursor.end.getTime() + 86400000)));
-    assert.equal(iso(calendar.adjacentPaymentPeriod(platform, future, -1).start), iso(cursor.start));
-    cursor = future;
+  const input = now('2026-11-11');
+  const current = calendar.relativePaymentSchedule(platform, 0, input);
+  const previous = calendar.relativePaymentSchedule(platform, -1, input);
+  const future = calendar.relativePaymentSchedule(platform, 1, input);
+  assert.equal(iso(current.start), iso(calendar.scheduleFor(platform, input).start));
+  assert.equal(iso(previous.end), iso(new Date(current.start.getTime() - 86400000)));
+  assert.equal(iso(future.start), iso(new Date(current.end.getTime() + 86400000)));
+  assert.ok(previous.payment < current.payment && future.payment > current.payment);
+  assert.equal(iso(calendar.relativePaymentSchedule(platform, 2, input).start), iso(current.start), 'only adjacent periods are supported');
+  if (platform !== 'wolt') {
+    assert.equal(iso(previous.reset), iso(new Date(current.reset.getTime() - 7 * 86400000)));
+    assert.equal(iso(future.reset), iso(new Date(current.reset.getTime() + 7 * 86400000)));
   }
-  assert.ok(cursor.start.getUTCFullYear() > 2027, 'future navigation continues beyond the current year');
 }
+check(input => calendar.relativePaymentSchedule('bolt', -1, input), now('2026-11-11'), ['2026-10-26','2026-11-01','2026-11-06','2026-11-08']);
+check(input => calendar.relativePaymentSchedule('glovo', 1, input), now('2026-11-11'), ['2026-11-09','2026-11-15','2026-11-20','2026-11-24']);
+check(input => calendar.relativePaymentSchedule('wolt', -1, input), now('2026-11-11'), ['2026-10-23','2026-10-31','2026-11-06','2026-10-31']);
+assert.equal(calendar.relativePaymentSchedule('wolt', -1, now('2026-11-11')).delayed, true, 'Saturday endings retain the delay note in the previous-period view');
+check(input => calendar.relativePaymentSchedule('wolt', 1, input), now('2026-11-11'), ['2026-11-08','2026-11-15','2026-11-20','2026-11-15']);
 const leapPeriod = calendar.scheduleForPeriod('wolt', new Date('2028-02-23T12:00Z'));
 assert.equal(iso(leapPeriod.end), '2028-02-29');
 assert.equal(iso(calendar.adjacentPaymentPeriod('wolt', leapPeriod, 1).start), '2028-03-01');
-assert.equal(iso(calendar.paymentHistoryCutoff(now('2027-05-31'))), '2027-02-28');
-assert.equal(iso(calendar.scheduleForPeriod('glovo', new Date('2026-11-02T12:00Z')).reset), '2026-11-10');
-console.log('Payment browser: three-month history, reversible future navigation, leap days and month clamping passed.');
+console.log('Payment browser: previous/current/next periods and corresponding resets passed.');
