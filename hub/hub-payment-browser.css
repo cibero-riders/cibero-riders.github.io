@@ -15,21 +15,22 @@
 .hub-pay-platform-heading { grid-column: 1; grid-row: 1; }
 .hub-pay-browser { grid-column: 2; grid-row: 1; }
 .hub-pay-browser { min-width: 0; text-align: center; color: var(--hb-text); }
-.hub-pay-browser > p { margin: 0 0 8px; font-size: 12px; font-weight: 700; line-height: 1.4; }
 .hub-pay-browser-controls { display: flex; align-items: center; justify-content: center; gap: 7px; }
 .hub-pay-browser-controls button { min-height: 44px; padding: 7px 12px; border: 1px solid color-mix(in srgb, var(--platform), transparent 30%); border-radius: 12px; background: color-mix(in srgb, var(--hb-panel), var(--platform) 12%); color: var(--hb-text); font: 750 12px/1.2 "DM Sans", sans-serif; cursor: pointer; transition: background .2s, border-color .2s; }
 .hub-pay-browser-controls [data-payment-step] { flex: 0 0 44px; font-size: 24px; }
 .hub-pay-browser-controls button:hover:not(:disabled) { border-color: var(--platform); background: color-mix(in srgb, var(--hb-panel), var(--platform) 26%); }
 .hub-pay-browser-controls button:focus-visible { outline: 2px solid var(--platform); outline-offset: 3px; }
 .hub-pay-browser-controls button:disabled { cursor: default; opacity: .55; }
-.hub-pay-browser > [data-payment-view] { display: block; margin-top: 7px; font-size: 12px; line-height: 1.3; }
+.hub-category-payments a.hub-pay-reset { text-decoration: none; color: var(--hb-text); cursor: pointer; transition: border-color .2s, background .2s; }
+.hub-category-payments a.hub-pay-reset:hover { border-color: var(--platform); background: color-mix(in srgb, var(--platform), transparent 82%); }
+.hub-category-payments a.hub-pay-reset:focus-visible { outline: 2px solid var(--platform); outline-offset: 3px; }
+.hub-pay-reset-guide { grid-column: 1 / -1; justify-self: end; color: var(--hb-text); font: 700 12px/1.3 "DM Sans", sans-serif; }
 .hub-category-payments .hub-pay-brand .hub-calendar-button.hub-youtube-button.hub-pay-card-calendar { grid-column: 3; grid-row: 1; width: 100%; min-width: 0; max-width: 290px; margin: 0; justify-self: end; }
 @media (max-width: 900px) {
   .hub-category-payments .hub-payment-content .hub-pay-brand { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px 12px; }
   .hub-pay-platform-heading { grid-column: 1; grid-row: 1; }
   .hub-category-payments .hub-pay-brand .hub-calendar-button.hub-youtube-button.hub-pay-card-calendar { grid-column: 2; grid-row: 1; width: 100%; }
   .hub-pay-browser { grid-column: 1 / -1; grid-row: 2; }
-  .hub-pay-browser > p { font-size: 13px; }
   .hub-pay-browser-controls button { font-size: 13px; }
   .hub-pay-browser-controls [data-payment-step] { font-size: 24px; }
 }
