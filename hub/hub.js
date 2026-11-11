@@ -150,7 +150,7 @@
     woltDepositGuide:'Watch the deposit video guide',
     aircashLocations:'See Aircash locations',
     appsDialogTitle:'Choose the platform whose mobile app you want to download',
-    paymentsDialogTitle:'Choose the platform whose current fiscal periods and next payment you want to view',
+    paymentsDialogTitle:'Dynamic payment calendar',
     cashDialogTitle:'Choose the platform whose cash, balance, deposit and reset rules you want to view',
     reimbursementDialogTitle:'See how the 5% reimbursement works',
     faqDialogTitle:'Choose the platform whose FAQ you want to view',
@@ -252,7 +252,7 @@
     },
     plati:{
       titleKey:'paymentsDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi perioadele fiscale curente și următoarea plată'
+      title:'Calendar dinamic de plată'
     },
     'reguli-cash-si-reset':{
       titleKey:'cashDialogTitle',
