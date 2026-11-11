@@ -445,14 +445,14 @@
     const currentButton=row.querySelector('[data-payment-current]');
     currentButton.textContent=en?'Current period':'Perioada curentă';
     currentButton.disabled=isCurrent;
-    row.querySelector('[data-payment-view]').textContent=en?(isCurrent?'Current schedule':isPast?'Previous period · estimated':'Future period · estimated'):(isCurrent?'Calendarul curent':isPast?'Perioadă anterioară · estimativ':'Perioadă viitoare · estimativ');
-    row.querySelector('.hub-pay-detail-payment [data-hub-i18n]').textContent=isCurrent?(en?'Next payment:':'Următoarea plată:'):(en?'Scheduled payment:':'Plată programată:');
+    row.querySelector('[data-payment-view]').textContent=en?(isCurrent?'Current schedule':isPast?'Previous period':'Future period'):(isCurrent?'Calendarul curent':isPast?'Perioadă anterioară':'Perioadă viitoare');
+    row.querySelector('.hub-pay-detail-payment [data-hub-i18n]').textContent=isCurrent?(en?'Next payment:':'Următoarea plată:'):(en?'Payment day:':'Ziua plății:');
     const history=row.querySelector('.hub-pay-history');
     history.querySelector('summary').textContent=en?'Payment history · last 3 months':'Istoric plăți · ultimele 3 luni';
-    history.querySelector('.hub-pay-history-note').textContent=en?'Estimated calendar, not confirmation of completed transfers. Payments may be made earlier; report processing can cause delays.':'Calendar estimativ, nu confirmare a transferurilor efectuate. Plățile pot fi făcute mai devreme; procesarea rapoartelor poate produce decalări.';
-    history.querySelector('caption').textContent=en?'Scheduled payment dates · Romania time':'Date de plată programate · ora României';
-    history.querySelector('thead').innerHTML=en?'<tr><th scope="col">Earnings period</th><th scope="col">Scheduled payment</th><th scope="col">Status</th></tr>':'<tr><th scope="col">Perioada veniturilor</th><th scope="col">Plată programată</th><th scope="col">Situație</th></tr>';
-    history.querySelector('tbody').innerHTML=paymentHistory(platform).map(period=>`<tr><td>${fullDate(period.start)} – ${fullDate(period.end)}</td><td>${capitalizeDate(fullDate(period.payment))}<small>${en?'Friday · by 17:00':'Vineri · ora 17:00'}</small></td><td><span class="hub-pay-history-status">${en?'Estimated':'Estimativ'}</span>${period.delayed?`<small>${en?'Possible delay':'Posibilă decalare'}</small>`:''}</td></tr>`).join('');
+    history.querySelector('.hub-pay-history-note').textContent=en?'Dates follow the platform payment calendars and do not confirm completed transfers. Payments may be made earlier; report processing can cause delays.':'Datele urmează calendarele de plată ale platformelor și nu confirmă transferurile efectuate. Plățile pot fi făcute mai devreme; procesarea rapoartelor poate produce decalări.';
+    history.querySelector('caption').textContent=en?'Payment calendar':'Calendarul plăților';
+    history.querySelector('thead').innerHTML=en?'<tr><th scope="col">Earnings period</th><th scope="col">Payment day</th></tr>':'<tr><th scope="col">Perioada veniturilor</th><th scope="col">Ziua plății</th></tr>';
+    history.querySelector('tbody').innerHTML=paymentHistory(platform).map(period=>`<tr><td>${fullDate(period.start)} – ${fullDate(period.end)}</td><td>${capitalizeDate(fullDate(period.payment))}</td></tr>`).join('');
   }
   function renderPayments(){if(!document.querySelector('[data-card-payment]'))return;['bolt','glovo','wolt'].forEach(platform=>{const data=scheduleText(platform);document.querySelector(`[data-card-payment="${platform}"]`).textContent=data.payment;document.querySelector(`[data-card-period="${platform}"]`).textContent=data.period;document.querySelector(`[data-card-reset="${platform}"]`).textContent=data.note;if(platform==='wolt')document.querySelector('[data-card-delay="wolt"]').hidden=!data.delayed;renderPaymentBrowser(platform,document.querySelector(`[data-payment-card="${platform}"]`));});}
   document.querySelectorAll('[data-payment-card]').forEach(row=>{
