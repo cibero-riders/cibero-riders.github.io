@@ -151,7 +151,7 @@
     aircashLocations:'See Aircash locations',
     appsDialogTitle:'Choose the platform whose mobile app you want to download',
     paymentsDialogTitle:'Dynamic payment calendar',
-    cashDialogTitle:'Choose the platform whose cash, balance, deposit and reset rules you want to view',
+    cashDialogTitle:'Cash rules and deposit guide',
     reimbursementDialogTitle:'See how the 5% reimbursement works',
     faqDialogTitle:'Choose the platform whose FAQ you want to view',
     faqDialogCaveat:'Some information may not be up to date.',
@@ -256,7 +256,7 @@
     },
     'reguli-cash-si-reset':{
       titleKey:'cashDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi regulile de cash, balanță, depunere și reset'
+      title:'Regulile Cash și Ghid de Depunere'
     },
     decontare:{
       titleKey:'reimbursementDialogTitle',
