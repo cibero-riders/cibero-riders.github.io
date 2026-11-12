@@ -1,0 +1,60 @@
+.hub-category-cash .hub-cash-deadline-guide:nth-child(n) {
+  order: -1;
+  border-width: 2px;
+  background: linear-gradient(115deg,
+    color-mix(in srgb, var(--hb-panel-2) 72%, var(--cash-accent) 28%),
+    color-mix(in srgb, var(--hb-panel) 90%, var(--hb-gold) 10%));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text) 15%, transparent),
+    0 14px 30px #0003, 0 0 18px color-mix(in srgb, var(--cash-accent) 14%, transparent);
+}
+
+.hub-category-cash .hub-cash-deadline-guide > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 20px;
+  align-items: center;
+  min-width: 0;
+}
+
+.hub-category-cash .hub-cash-deadline-guide > div > strong,
+.hub-category-cash .hub-cash-deadline-guide > div > p {
+  grid-column: 1;
+}
+
+.hub-category-cash .hub-cash-deadline-guide > div > p {
+  grid-row: 2;
+}
+
+.hub-category-cash .hub-cash-deadline-guide .hub-rule-actions {
+  display: flex;
+  grid-column: 2;
+  grid-row: 1 / 3;
+  justify-self: end;
+  min-width: 0;
+  max-width: 310px;
+  margin: 0;
+}
+
+.hub-category-cash .hub-cash-deadline-guide .hub-rule-actions a {
+  min-height: 48px;
+  padding: 8px 13px;
+}
+
+@media (max-width: 760px) {
+  .hub-category-cash .hub-cash-deadline-guide > div {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hub-category-cash .hub-cash-deadline-guide .hub-rule-actions {
+    grid-column: 1;
+    grid-row: 3;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
+    margin-top: 15px;
+  }
+
+  .hub-category-cash .hub-cash-deadline-guide .hub-rule-actions a {
+    width: 100%;
+  }
+}

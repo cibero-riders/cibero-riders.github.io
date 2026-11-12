@@ -279,6 +279,30 @@
       title:'Alege canalul WhatsApp pe care vrei\u00a0să\u2011l\u00a0deschizi'
     }
   };
+  function prioritizeCashDeposit(content){
+    const boltDeadline=content.querySelector('[data-rule-platform="bolt"] .hub-cash-deadline-guide');
+    const glovoRule=content.querySelector('[data-rule-platform="glovo"]');
+    const glovoDeadline=glovoRule?.querySelector('.hub-cash-fact-deadline');
+    if(boltDeadline&&glovoDeadline){
+      const description=glovoDeadline.innerHTML;
+      const body=document.createElement('div');
+      const title=boltDeadline.querySelector('[data-hub-i18n="mandatoryDepositTitle"]').cloneNode(true);
+      const paragraph=document.createElement('p');
+      paragraph.dataset.hubI18nHtml='glovoResetRule1';
+      paragraph.innerHTML=description;
+      body.append(title,paragraph);
+      glovoDeadline.removeAttribute('data-hub-i18n-html');
+      glovoDeadline.classList.add('hub-cash-deadline-guide');
+      glovoDeadline.replaceChildren(boltDeadline.querySelector('.hub-cash-deadline-icon').cloneNode(true),body);
+      glovoRule.querySelector('.hub-cash-facts').prepend(glovoDeadline);
+    }
+    content.querySelectorAll('[data-rule-platform]').forEach(rule=>{
+      const deadline=rule.querySelector('.hub-cash-deadline-guide');
+      const actions=rule.querySelector('.hub-cash-head .hub-rule-actions');
+      const body=deadline?.querySelector(':scope > div');
+      if(body&&actions)body.append(actions);
+    });
+  }
   const categoryDialogs=new Map();
   document.querySelectorAll('.hub-category-accordion').forEach(category=>{
     const summary=category.querySelector(':scope > summary');
@@ -327,6 +351,7 @@
       caveatText.textContent=copy.caveat;
       caveatText.dataset.hubI18n=copy.caveatKey;
     }
+    if(category.id==='reguli-cash-si-reset')prioritizeCashDeposit(content);
     content.classList.add('hub-category-dialog-content');
     const calendarTemplate=category.id==='plati'?content.querySelector('.hub-calendar-button'):null;
     if(calendarTemplate){
