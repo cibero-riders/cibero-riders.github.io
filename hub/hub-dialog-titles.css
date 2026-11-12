@@ -46,3 +46,10 @@
     font-size: clamp(16px, 4.3vw, 20px);
   }
 }
+
+@media (min-width: 360px) and (max-width: 760px) {
+  .hub-category-payments .hub-category-dialog-intro { padding-inline: 21px; }
+  .hub-category-payments .hub-category-dialog-intro h2 {
+    font-size: clamp(17px, 4.6vw, 20px);
+  }
+}
