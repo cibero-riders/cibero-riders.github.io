@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ro" data-theme="midday">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="robots" content="noindex, nofollow" />
+  <meta name="description" content="Demo CibeRO: calendar grafic pentru perioadele fiscale, reseturi și plățile programate." />
+  <title>Calendar de plată — demo CibeRO</title>
+  <link rel="icon" href="../assets/cibero-favicon.png?v=6" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../site-theme.css?v=13" />
+  <link rel="stylesheet" href="calendar.css?v=1" />
+  <script defer src="../site-theme.js?v=7"></script>
+  <script defer src="calendar.js?v=1"></script>
+</head>
+<body>
+  <header class="subfleet-header demo-header">
+    <a class="back-link" href="../hub/" id="back-link">← Înapoi la Hub</a>
+    <span class="demo-tag">CibeRO <span aria-hidden="true">✦</span> DEMO</span>
+    <div class="language-switch public-language-switch" role="group" aria-label="Alege limba"><button class="active" type="button" data-language="ro" aria-pressed="true">RO</button><button type="button" data-language="en" aria-pressed="false">EN</button></div>
+  </header>
+  <main class="page">
+    <div class="eyebrow" id="eyebrow">CONCEPT · CALENDAR DINAMIC</div>
+    <h1 id="page-title">Trei platforme. Un calendar clar.</h1>
+    <p class="intro" id="intro">Perioade fiscale, reseturi de numerar și zile de plată programate, într-o singură privire.</p>
+    <section class="calendar-shell" aria-labelledby="calendar-title">
+      <div class="month-controls">
+        <div><span class="section-kicker" id="range-label">PRIVIRE PE TREI LUNI</span><h2 id="calendar-title">Calendar de plată</h2></div>
+        <div class="months" id="months" role="group" aria-label="Selectează luna"></div>
+      </div>
+      <div class="legend" id="legend" aria-label="Legendă calendar">
+        <span><i class="swatch bolt"></i>Bolt Food</span><span><i class="swatch glovo"></i>Glovo</span><span><i class="swatch wolt"></i>Wolt</span>
+        <span class="legend-note" id="legend-note">● reset &nbsp; ◆ plată programată</span>
+      </div>
+      <div class="calendar-layout">
+        <div class="calendar-board"><div class="weekdays" id="weekdays"></div><div class="day-grid" id="day-grid" role="grid" aria-labelledby="calendar-title"></div></div>
+        <aside class="day-panel" aria-live="polite"><span class="section-kicker" id="day-kicker">ZI SELECTATĂ</span><h3 id="selected-heading"></h3><p id="selected-caption"></p><div id="day-details"></div></aside>
+      </div>
+      <p class="disclaimer" id="disclaimer">Calendarul este calculat după regulile curente ale platformelor. Zilele de plată sunt programate, nu confirmări ale unor transferuri efectuate. Wolt poate avea decalări când perioada fiscală se încheie joi sau vineri.</p>
+    </section>
+  </main>
+</body>
+</html>
