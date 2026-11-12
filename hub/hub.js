@@ -149,7 +149,7 @@
     woltDepositInfo:'Depositing through Aircash updates your balance instantly. You can deposit by card directly in Aircash or with cash at PayPoint, Un-doi Centru de plăți, Kaseria, StartPay and Inmedio.',
     woltDepositGuide:'Watch the deposit video guide',
     aircashLocations:'See Aircash locations',
-    appsDialogTitle:'Choose the platform whose mobile app you want to download',
+    appsDialogTitle:'Choose a platform and device',
     paymentsDialogTitle:'Dynamic payment calendar',
     cashDialogTitle:'Cash rules and deposit guide',
     reimbursementDialogTitle:'See how the 5% reimbursement works',
@@ -248,7 +248,7 @@
   const categoryDialogCopy={
     'aplicatii-mobile':{
       titleKey:'appsDialogTitle',
-      title:'Alege platforma pentru care vrei să descarci aplicația mobilă'
+      title:'Alege platforma și dispozitivul'
     },
     plati:{
       titleKey:'paymentsDialogTitle',
