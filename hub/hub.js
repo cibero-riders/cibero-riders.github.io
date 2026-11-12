@@ -155,7 +155,7 @@
     reimbursementDialogTitle:'See how the 5% reimbursement works',
     faqDialogTitle:'Choose the platform whose FAQ you want to view',
     faqDialogCaveat:'Some information may not be up to date.',
-    gearDialogTitle:'Choose the platform whose official equipment store you want to view',
+    gearDialogTitle:'Choose an online equipment store',
     gearDialogNote:'Bags, helmets, gloves and other useful equipment and accessories.',
     whatsappDialogTitle:'Choose the WhatsApp channel you\u00a0want\u00a0to\u00a0open'
   });
@@ -270,7 +270,7 @@
     },
     'echipament-oficial':{
       titleKey:'gearDialogTitle',
-      title:'Alege platforma pentru care vrei să vezi magazinul online de echipament',
+      title:'Alege magazinul online de echipament',
       noteKey:'gearDialogNote',
       note:'Genți, căști, mănuși și alte echipamente sau accesorii utile.'
     },
