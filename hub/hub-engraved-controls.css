@@ -1,0 +1,129 @@
+/* The five platform menu entries use broad, inset plaques instead of small icons. */
+.hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) {
+  border: 1px solid color-mix(in srgb, var(--hb-gold), transparent 34%);
+  border-radius: 19px;
+  background:
+    radial-gradient(circle at 17px 17px, #fff6cc 0 2px, var(--hb-gold) 3px, transparent 5px),
+    radial-gradient(circle at calc(100% - 17px) 17px, #fff6cc 0 2px, var(--hb-gold) 3px, transparent 5px),
+    radial-gradient(circle at 17px calc(100% - 17px), #fff6cc 0 2px, var(--hb-gold) 3px, transparent 5px),
+    radial-gradient(circle at calc(100% - 17px) calc(100% - 17px), #fff6cc 0 2px, var(--hb-gold) 3px, transparent 5px),
+    linear-gradient(155deg, color-mix(in srgb, var(--hb-panel-2), var(--hb-gold) 10%), var(--hb-panel));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text), transparent 72%),
+    inset 0 0 0 5px color-mix(in srgb, var(--hb-bg), transparent 48%),
+    inset 0 -5px 12px #00000019, 0 12px 26px #00000029;
+}
+
+.hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary {
+  grid-template-columns: minmax(0, 1fr) 40px;
+  gap: 0;
+  min-height: 100px;
+  padding: 21px 25px;
+  background: transparent;
+}
+
+.hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary:hover {
+  background: linear-gradient(90deg, color-mix(in srgb, var(--hb-gold), transparent 86%), transparent 65%);
+}
+
+.hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary > .hub-category-symbol {
+  display: none;
+}
+
+.hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary > .hub-category-title {
+  grid-column: 1;
+  padding-left: 40px;
+  color: var(--hb-text);
+  text-shadow: 0 1px 0 #00000030;
+}
+
+html[data-theme="light"] .hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary > .hub-category-title {
+  text-shadow: none;
+}
+
+.hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary > i {
+  grid-column: 2;
+  border-color: color-mix(in srgb, var(--hb-gold), transparent 27%);
+  border-radius: 12px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--hb-gold), var(--hb-panel) 75%), var(--hb-panel-2));
+  color: var(--hb-text);
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text), transparent 75%), 0 3px 8px #0003;
+}
+
+/* Smaller colored plaques for platform and device selectors inside dialogs. */
+.hub-category-dialog .hub-app-selector button,
+.hub-category-dialog .hub-platform-tabs button {
+  --plate-accent: var(--app-accent, var(--platform-tab-accent, var(--hb-gold)));
+  position: relative;
+  isolation: isolate;
+  min-height: 58px;
+  border: 1px solid color-mix(in srgb, var(--plate-accent), var(--hb-line) 33%);
+  border-radius: 14px;
+  background: linear-gradient(155deg,
+    color-mix(in srgb, var(--hb-panel-2), var(--plate-accent) 16%),
+    color-mix(in srgb, var(--hb-panel), var(--plate-accent) 5%));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text), transparent 76%),
+    inset 0 0 0 3px color-mix(in srgb, var(--hb-bg), transparent 66%),
+    inset 0 -3px 7px #0000001a, 0 6px 14px #00000024;
+  color: var(--hb-text);
+  font-weight: 850;
+  text-shadow: 0 1px 0 #00000026;
+}
+
+.hub-category-dialog .hub-app-selector button::after,
+.hub-category-dialog .hub-platform-tabs button::after {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 6px;
+  height: 6px;
+  border: 1px solid color-mix(in srgb, var(--plate-accent), var(--hb-text) 30%);
+  border-radius: 50%;
+  background: var(--hb-gold);
+  box-shadow: inset 0 1px #fff8, 0 1px 3px #0005;
+  content: "";
+  pointer-events: none;
+}
+
+.hub-category-dialog .hub-app-selector button:hover,
+.hub-category-dialog .hub-platform-tabs button:hover {
+  border-color: var(--plate-accent);
+  background: linear-gradient(155deg,
+    color-mix(in srgb, var(--hb-panel-2), var(--plate-accent) 23%),
+    color-mix(in srgb, var(--hb-panel), var(--plate-accent) 8%));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text), transparent 65%),
+    inset 0 0 0 3px color-mix(in srgb, var(--hb-bg), transparent 66%),
+    0 8px 17px #0003, 0 0 15px color-mix(in srgb, var(--plate-accent), transparent 76%);
+}
+
+.hub-category-dialog .hub-app-selector button:is(.active, [aria-selected="true"]),
+.hub-category-dialog .hub-platform-tabs button:is(.active, [aria-selected="true"]) {
+  border-width: 2px;
+  border-color: var(--plate-accent);
+  background: linear-gradient(155deg,
+    color-mix(in srgb, var(--hb-panel-2), var(--plate-accent) 27%),
+    color-mix(in srgb, var(--hb-panel), var(--plate-accent) 11%));
+  box-shadow: inset 0 1px color-mix(in srgb, var(--hb-text), transparent 61%),
+    inset 0 0 0 3px color-mix(in srgb, var(--hb-bg), transparent 58%),
+    0 8px 19px #0003, 0 0 17px color-mix(in srgb, var(--plate-accent), transparent 67%);
+  color: var(--hb-text);
+}
+
+html[data-theme="light"] .hub-category-dialog :is(.hub-app-selector, .hub-platform-tabs) button {
+  text-shadow: none;
+}
+
+@media (max-width: 760px) {
+  .hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary {
+    min-height: 88px;
+    padding: 18px 20px;
+  }
+
+  .hub-essential-list > .hub-category-accordion:not(.hub-category-whatsapp) > summary > .hub-category-title {
+    padding-left: 34px;
+  }
+
+  .hub-category-dialog .hub-app-selector button,
+  .hub-category-dialog .hub-platform-tabs button {
+    min-height: 53px;
+  }
+}
