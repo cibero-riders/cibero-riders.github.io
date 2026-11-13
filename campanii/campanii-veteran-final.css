@@ -1,0 +1,54 @@
+/* Final Veteran results stay visible; the original rules remain available below. */
+.leaderboard-trigger { text-decoration: none; }
+.veteran-final-results { scroll-margin-top: 100px; margin-top: 24px; }
+.veteran-finished { display: flex; align-items: center; gap: 17px; padding: 19px 22px; border: 1px solid #e5bb5a; border-radius: 16px; background: linear-gradient(115deg, #674516, #38223d 55%, #24142e); box-shadow: inset 0 1px 0 #fff1bb51, 0 12px 28px #09031134; }
+.veteran-finished > span { display: grid; place-items: center; flex: none; width: 48px; height: 48px; border-radius: 50%; background: #f0ca6b; color: #30201e; font-size: 27px; }
+.veteran-finished strong { display: block; color: #fff1c5; font-size: clamp(20px, 2.6vw, 27px); line-height: 1.18; }
+.veteran-finished p { margin: 5px 0 0; color: #f1e3e4; line-height: 1.45; }
+.veteran-final-results > .section-title { margin: 30px 0 17px; }
+.veteran-final-podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0; padding: 0; list-style: none; }
+.veteran-final-podium li { display: flex; align-items: flex-start; gap: 13px; min-width: 0; min-height: 145px; padding: 18px; border: 1px solid #9a729e9c; border-radius: 14px; background: linear-gradient(145deg, #39213e, #211329); }
+.veteran-final-podium li.winner-first { border-color: #f5cf69; background: linear-gradient(145deg, #69491e, #2c1a2f 75%); }
+.veteran-final-podium li.winner-second { border-color: #c4c9d2; background: linear-gradient(145deg, #41414c, #241729 75%); }
+.veteran-final-podium li.winner-third { border-color: #cc9671; background: linear-gradient(145deg, #5b392f, #271728 75%); }
+.veteran-rank { display: grid; place-items: center; flex: none; width: 35px; height: 35px; border: 1px solid #dfb954a3; border-radius: 50%; color: #f5d47b; font-weight: 800; }
+.winner-first .veteran-rank { background: #e6ba4a; color: #27160e; }
+.winner-second .veteran-rank { background: #c9ccd2; color: #29272d; }
+.winner-third .veteran-rank { background: #c58b69; color: #30201d; }
+.veteran-final-podium strong { display: block; color: #fff3d8; font-size: 17px; line-height: 1.3; overflow-wrap: anywhere; }
+.veteran-final-podium p { margin: 9px 0 0; color: #e6dbe6; font-size: 14px; line-height: 1.45; }
+.veteran-final-podium p strong { display: inline; color: inherit; font-size: inherit; }
+.veteran-prize-choice { margin: 16px 0 0; color: #eadac7; font-size: 14px; font-weight: 700; }
+.veteran-following { margin-top: 24px; padding: 20px 22px; border: 1px solid #dfb95466; border-radius: 14px; background: #24142d; }
+.veteran-following h4 { margin: 0 0 11px; color: #f4d682; font-size: 17px; }
+.veteran-following ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px 15px; margin: 0; padding-left: 23px; }
+.veteran-following li { padding-left: 2px; color: #eee2eb; font-weight: 700; overflow-wrap: anywhere; }
+.veteran-following li::marker { color: #f4d682; }
+.veteran-future { margin: 22px 0 0; padding: 18px 21px; border-left: 3px solid #e4bb5b; border-radius: 0 11px 11px 0; background: #e4bb5b1d; color: #f8e8c4; font-weight: 700; line-height: 1.5; }
+.veteran-archive { margin-top: 24px; border: 1px solid #dfb95466; border-radius: 14px; background: #1d0d25bd; }
+.veteran-archive > summary { cursor: pointer; padding: 17px 21px; color: #ffe49b; font-weight: 800; list-style-position: inside; }
+.veteran-archive > summary:hover { background: #dfb95416; }
+.veteran-archive > .prizes, .veteran-archive > .veteran-how { margin: 0 20px 20px; }
+
+html[data-theme="light"] .veteran-finished { background: linear-gradient(115deg, #f6d77e, #fff5db 55%, #f8eddd); }
+html[data-theme="light"] .veteran-finished strong { color: #392315; }
+html[data-theme="light"] .veteran-finished p { color: #5c4850; }
+html[data-theme="light"] .veteran-final-podium li { border-color: #c49a4c80; background: #fffaf1; }
+html[data-theme="light"] .veteran-final-podium li.winner-first { background: linear-gradient(145deg, #ffe6a2, #fff8e7); }
+html[data-theme="light"] .veteran-final-podium li.winner-second { background: linear-gradient(145deg, #e4e6eb, #fff); }
+html[data-theme="light"] .veteran-final-podium li.winner-third { background: linear-gradient(145deg, #f3cfb7, #fff7ef); }
+html[data-theme="light"] .veteran-final-podium strong, html[data-theme="light"] .veteran-final-podium p { color: #39283d; }
+html[data-theme="light"] .veteran-prize-choice { color: #58465b; }
+html[data-theme="light"] .veteran-following, html[data-theme="light"] .veteran-archive { border-color: #c49a4c80; background: #fffaf1; }
+html[data-theme="light"] .veteran-following h4, html[data-theme="light"] .veteran-archive > summary { color: #81530d; }
+html[data-theme="light"] .veteran-following li { color: #38263a; }
+html[data-theme="light"] .veteran-future { background: #f8edcf; color: #503710; }
+html[data-theme="night"] .veteran-finished { background: linear-gradient(115deg, #51422a, #2a2a25 65%, #20211f); }
+html[data-theme="night"] .veteran-final-podium li { border-color: #80674770; background: #242521; }
+html[data-theme="night"] .veteran-final-podium li.winner-first { background: linear-gradient(145deg, #4e4128, #25251f); }
+html[data-theme="night"] .veteran-final-podium li.winner-second { background: linear-gradient(145deg, #414244, #242521); }
+html[data-theme="night"] .veteran-final-podium li.winner-third { background: linear-gradient(145deg, #49392f, #242521); }
+html[data-theme="night"] .veteran-following, html[data-theme="night"] .veteran-archive { background: #20211d; }
+
+@media (max-width: 850px) { .veteran-final-podium { grid-template-columns: repeat(2, minmax(0, 1fr)); } .veteran-following ol { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 540px) { .veteran-final-podium { grid-template-columns: 1fr; } .veteran-final-podium li { min-height: 0; } .veteran-finished { padding: 16px; } .veteran-finished > span { width: 39px; height: 39px; font-size: 22px; } .veteran-following ol { grid-template-columns: 1fr; } .veteran-archive > .prizes, .veteran-archive > .veteran-how { margin: 0 12px 12px; } }

@@ -58,16 +58,24 @@ const translations = {
     campaignShellLabel: 'Campanii CibeRO',
     tabListLabel: 'Selectează campania',
     heroTitle: 'Campaniile <em>CibeRO</em>',
-    heroSubtitle: 'Trei moduri de a câștiga. Alege campania și descoperă regulile și premiile.',
-    extendedCampaign: 'CAMPANIE EXTINSĂ',
+    heroSubtitle: 'Vezi rezultatele campaniei Veteran și descoperă celelalte campanii.',
+    extendedCampaign: 'CAMPANIE ÎNCHEIATĂ',
     biweeklyCampaign: 'CAMPANIE BI-SĂPTĂMÂNALĂ',
     raffleTitle: 'Tombolă',
     veteranPeriod: '07 Septembrie, 00:00 — 07 Noiembrie, 23:59 · 2 luni',
+    veteranViewResults: 'Vezi rezultatele finale',
+    veteranFinished: 'Campania Veteran s-a încheiat',
+    veteranFinishedDate: 'Perioada 7 septembrie – 7 noiembrie 2026 s-a încheiat. Clasamentul final este mai jos.',
+    veteranFinalTitle: 'Clasamentul final',
+    veteranPrizeChoice: 'Premiile vor fi acordate conform preferințelor fiecărui câștigător.',
+    veteranFollowing: 'Clasamentul ar fi continuat cu',
+    veteranFuture: 'Campaniile viitoare vor fi afișate aici și anunțate pe grupul nostru.',
+    veteranArchive: 'Regulile și premiile campaniei',
     veteranHowTitle: 'Cum funcționează',
     veteranStep1: '<strong>Toți curierii</strong> care au activitate în perioada de desfășurare a campaniei Veteran (7 Septembrie - 7 Noiembrie) <strong>sunt înscriși automat în campanie.</strong>',
     veteranStep2: 'Curierii cu <strong>cele mai mari</strong> venituri realizate la livrări în intervalul campaniei <strong>ocupă locurile în clasament.</strong>',
-    veteranStep3: 'Statisticile sunt <strong>actualizate săptămânal</strong> pentru a ține evidența clasamentului.',
-    veteranStep4: 'Rezultatele finale vor fi afișate <strong>la scurt timp după încheierea campaniei.</strong>',
+    veteranStep3: 'Statisticile au fost <strong>actualizate săptămânal</strong> pe parcursul campaniei.',
+    veteranStep4: 'Clasamentul final a fost stabilit <strong>după încheierea campaniei.</strong>',
     goalTitle: 'Scop',
     veteranGoal: 'Cele mai mari venituri realizate în intervalul <strong>07 Septembrie 00:00 – 07 Noiembrie 23:59</strong>.',
     allPlatformsTitle: 'Folosește toate platformele',
@@ -85,8 +93,6 @@ const translations = {
     prize4: 'Un plin din partea flotei sau contravaloarea în bani.',
     prize5: 'Comision 0 timp de <strong>2 săptămâni</strong>.',
     prize6: 'Comision 0 timp de <strong>o săptămână</strong>.',
-    veteranResults: 'Rezultatele vor fi afișate la scurt timp după încheierea campaniei.',
-    veteranClosing: '🔥 Spor și hype pe traseu! Cei mai implicați vor fi recompensați! 🙏',
     rafflePeriod: 'Durata tombolei: 2 săptămâni',
     raffleTagline: 'Șanse bi-săptămânale automate pentru toți curierii activi.',
     rafflePrizesChoiceTitle: 'Premii - la alegere între',
@@ -136,16 +142,24 @@ const translations = {
     campaignShellLabel: 'CibeRO campaigns',
     tabListLabel: 'Choose a campaign',
     heroTitle: '<em>CibeRO</em> Campaigns',
-    heroSubtitle: 'Three ways to earn. Choose a campaign and discover its rules and prizes.',
-    extendedCampaign: 'EXTENDED CAMPAIGN',
+    heroSubtitle: 'See the Veteran campaign results and explore the other campaigns.',
+    extendedCampaign: 'COMPLETED CAMPAIGN',
     biweeklyCampaign: 'BIWEEKLY CAMPAIGN',
     raffleTitle: 'Raffle',
     veteranPeriod: '07 September, 00:00 — 07 November, 23:59 · 2 months',
+    veteranViewResults: 'View final results',
+    veteranFinished: 'The Veteran campaign has ended',
+    veteranFinishedDate: 'The 7 September – 7 November 2026 campaign period has ended. The final ranking is below.',
+    veteranFinalTitle: 'Final ranking',
+    veteranPrizeChoice: 'Prizes will be awarded according to each winner’s preference.',
+    veteranFollowing: 'The ranking would have continued with',
+    veteranFuture: 'Future campaigns will be shown here and announced in our group.',
+    veteranArchive: 'Campaign rules and prizes',
     veteranHowTitle: 'How it works',
     veteranStep1: '<strong>All couriers</strong> who are active during the Veteran campaign (7 September - 7 November) <strong>are automatically entered.</strong>',
     veteranStep2: 'Couriers with <strong>the highest</strong> delivery earnings during the campaign period <strong>take the top places on the leaderboard.</strong>',
-    veteranStep3: 'The statistics are <strong>updated weekly</strong> to track the leaderboard.',
-    veteranStep4: 'The final results will be published <strong>shortly after the campaign ends.</strong>',
+    veteranStep3: 'The statistics were <strong>updated weekly</strong> during the campaign.',
+    veteranStep4: 'The final ranking was determined <strong>after the campaign ended.</strong>',
     goalTitle: 'Goal',
     veteranGoal: 'The highest earnings achieved between <strong>07 September 00:00 and 07 November 23:59</strong>.',
     allPlatformsTitle: 'Use all platforms',
@@ -163,8 +177,6 @@ const translations = {
     prize4: 'One full tank courtesy of the fleet, or the equivalent amount in cash.',
     prize5: '<strong>0% commission</strong> for 2 weeks.',
     prize6: '<strong>0% commission</strong> for one week.',
-    veteranResults: 'The results will be announced shortly after the campaign ends.',
-    veteranClosing: '🔥 Good luck on the road! The most committed couriers will be rewarded! 🙏',
     rafflePeriod: 'Raffle duration: 2 weeks',
     raffleTagline: 'Automatic biweekly chances for all active couriers.',
     rafflePrizesChoiceTitle: 'Prizes - choose between',
@@ -231,34 +243,3 @@ document.addEventListener('cibero:language-change', event => {
   setLanguage(event.detail.language);
 });
 setLanguage(document.documentElement.lang);
-
-const leaderboardDialog = document.getElementById('veteran-leaderboard');
-const leaderboardTrigger = document.querySelector('.leaderboard-trigger');
-const leaderboardHistoryToggle = document.querySelector('.leaderboard-history-toggle');
-const leaderboardCurrentView = document.querySelector('.leaderboard-current-view');
-const leaderboardHistoryView = document.querySelector('.leaderboard-history-view');
-const leaderboardTitle = document.getElementById('leaderboard-title');
-
-function setLeaderboardView(showHistory) {
-  if (!leaderboardCurrentView || !leaderboardHistoryView || !leaderboardHistoryToggle || !leaderboardTitle) return;
-  leaderboardCurrentView.hidden = showHistory;
-  leaderboardHistoryView.hidden = !showHistory;
-  leaderboardHistoryToggle.setAttribute('aria-pressed', String(showHistory));
-  leaderboardHistoryToggle.textContent = showHistory ? 'Înapoi la clasamentul actual' : 'Rezultatele pe săptămâna anterioară';
-  leaderboardTitle.textContent = showHistory ? 'Rezultatele săptămânii anterioare' : 'Clasamentul actual';
-}
-
-if (leaderboardDialog && leaderboardTrigger) {
-  leaderboardTrigger.addEventListener('click', () => {
-    setLeaderboardView(false);
-    leaderboardDialog.showModal();
-  });
-
-  leaderboardHistoryToggle?.addEventListener('click', () => {
-    setLeaderboardView(Boolean(leaderboardHistoryView?.hidden));
-  });
-
-  leaderboardDialog.addEventListener('click', event => {
-    if (event.target === leaderboardDialog) leaderboardDialog.close();
-  });
-}

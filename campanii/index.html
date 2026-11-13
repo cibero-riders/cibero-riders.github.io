@@ -34,6 +34,7 @@
   <link rel="stylesheet" href="../site-theme.css?v=13" />
   <link rel="stylesheet" href="campaigns-natural.css?v=2" />
   <link rel="stylesheet" href="campanii-referral.css?v=5" />
+  <link rel="stylesheet" href="campanii-veteran-final.css?v=1" />
   <link rel="stylesheet" href="../site-language.css?v=3" />
   <link rel="stylesheet" href="../site-footer.css?v=3" />
 </head>
@@ -63,14 +64,14 @@
   <main>
     <section class="hero">
       <h1 data-i18n="heroTitle">Campaniile <em>CibeRO</em></h1>
-      <p data-i18n="heroSubtitle">Trei moduri de a câștiga. Alege campania și descoperă regulile și premiile.</p>
+      <p data-i18n="heroSubtitle">Vezi rezultatele campaniei Veteran și descoperă celelalte campanii.</p>
     </section>
 
     <section class="campaign-shell" aria-label="Campanii CibeRO" data-i18n-aria="campaignShellLabel">
       <div class="tabs" role="tablist" aria-label="Selectează campania" data-i18n-aria="tabListLabel">
         <button id="tab-veteran" class="tab active" type="button" role="tab" aria-selected="true" aria-controls="panel-veteran" data-tab="veteran">
           <span class="tab-icon">🏆</span>
-          <span><small data-i18n="extendedCampaign">Campanie extinsă</small><strong>Veteran</strong></span>
+          <span><small data-i18n="extendedCampaign">Campanie încheiată</small><strong>Veteran</strong></span>
         </button>
         <button id="tab-tombola" class="tab" type="button" role="tab" aria-selected="false" aria-controls="tombola" data-tab="tombola" tabindex="-1">
           <span class="tab-icon">🎟️</span>
@@ -87,17 +88,32 @@
           <header class="panel-header">
             <div class="campaign-seal">🏆</div>
             <div>
-              <p data-i18n="extendedCampaign">CAMPANIE EXTINSĂ</p>
+              <p data-i18n="extendedCampaign">CAMPANIE ÎNCHEIATĂ</p>
               <h2>Veteran</h2>
               <div class="campaign-period">
                 <span class="period-value" data-i18n="veteranPeriod">07 Septembrie, 00:00 — 07 Noiembrie, 23:59 · 2 luni</span>
               </div>
             </div>
-            <button class="leaderboard-trigger" type="button" aria-haspopup="dialog" aria-controls="veteran-leaderboard">
-              Vezi clasamentul actual <span aria-hidden="true">→</span>
-            </button>
+            <a class="leaderboard-trigger" href="#veteran-results"><span data-i18n="veteranViewResults">Vezi rezultatele finale</span> <span aria-hidden="true">↓</span></a>
           </header>
 
+          <section id="veteran-results" class="veteran-final-results" aria-labelledby="veteran-results-title">
+            <div class="veteran-finished"><span aria-hidden="true">✦</span><div><strong data-i18n="veteranFinished">Campania Veteran s-a încheiat</strong><p data-i18n="veteranFinishedDate">Perioada 7 septembrie – 7 noiembrie 2026 s-a încheiat. Clasamentul final este mai jos.</p></div></div>
+            <div class="section-title"><span aria-hidden="true">🏆</span><h3 id="veteran-results-title" data-i18n="veteranFinalTitle">Clasamentul final</h3></div>
+            <ol class="veteran-final-podium">
+              <li class="winner-first"><span class="veteran-rank">1</span><div><strong>Nwankwo Abuchi Collins</strong><p data-i18n="prize1">Premiu surpriză în valoare de <b>1.500 lei</b> sau contravaloarea în bani.</p></div></li>
+              <li class="winner-second"><span class="veteran-rank">2</span><div><strong>Ali Haider</strong><p data-i18n="prize2">Premiu surpriză în valoare de <b>1.000 lei</b> sau contravaloarea în bani.</p></div></li>
+              <li class="winner-third"><span class="veteran-rank">3</span><div><strong>Mohammad Nishan Bin Azam</strong><p data-i18n="prize3">Premiu surpriză în valoare de <b>500 lei</b> sau contravaloarea în bani.</p></div></li>
+              <li><span class="veteran-rank">4</span><div><strong>Aman Adeel</strong><p data-i18n="prize4">Un plin din partea flotei sau contravaloarea în bani.</p></div></li>
+              <li><span class="veteran-rank">5</span><div><strong>Md Saiful Islam</strong><p data-i18n="prize5">Comision 0 timp de <b>2 săptămâni</b>.</p></div></li>
+              <li><span class="veteran-rank">6</span><div><strong>Sabbir Hosen</strong><p data-i18n="prize6">Comision 0 timp de <b>o săptămână</b>.</p></div></li>
+            </ol>
+            <p class="veteran-prize-choice" data-i18n="veteranPrizeChoice">Premiile vor fi acordate conform preferințelor fiecărui câștigător.</p>
+            <div class="veteran-following"><h4 data-i18n="veteranFollowing">Clasamentul ar fi continuat cu</h4><ol start="7"><li>Hamrouni Malek</li><li>Molla Shamim</li><li>Md Sakib Khan</li><li>Anass Rguyeg</li></ol></div>
+            <p class="veteran-future" data-i18n="veteranFuture">Campaniile viitoare vor fi afișate aici și anunțate pe grupul nostru.</p>
+          </section>
+
+          <details class="veteran-archive"><summary data-i18n="veteranArchive">Regulile și premiile campaniei</summary>
           <section class="prizes">
             <div class="section-title"><span>🎁</span><h3 data-i18n="prizesTitle">Premii</h3></div>
             <ol class="prize-list veteran-prizes campaign-awards">
@@ -115,11 +131,12 @@
             <ol>
               <li data-i18n="veteranStep1"><strong>Toți curierii</strong> care au activitate în perioada de desfășurare a campaniei Veteran (7 Septembrie - 7 Noiembrie) <strong>sunt înscriși automat în campanie.</strong></li>
               <li data-i18n="veteranStep2">Curierii cu <strong>cele mai mari</strong> venituri realizate la livrări în intervalul campaniei <strong>ocupă locurile în clasament.</strong></li>
-              <li data-i18n="veteranStep3">Statisticile sunt <strong>actualizate săptămânal</strong> pentru a ține evidența clasamentului.</li>
-              <li data-i18n="veteranStep4">Rezultatele finale vor fi afișate <strong>la scurt timp după încheierea campaniei.</strong></li>
+              <li data-i18n="veteranStep3">Statisticile au fost <strong>actualizate săptămânal</strong> pe parcursul campaniei.</li>
+              <li data-i18n="veteranStep4">Clasamentul final a fost stabilit <strong>după încheierea campaniei.</strong></li>
             </ol>
             <p class="veteran-platform-note"><span aria-hidden="true">ⓘ</span><span data-i18n="allPlatformsBody">Se iau în calcul veniturile de pe <strong>toate cele 3 platforme</strong>, așa că puteți fi ingenioși.</span></p>
           </section>
+          </details>
         </article>
 
         <article id="tombola" class="campaign-panel" role="tabpanel" aria-labelledby="tab-tombola" data-panel="tombola" hidden>
@@ -198,59 +215,6 @@
     </section>
   </main>
 
-  <dialog id="veteran-leaderboard" class="leaderboard-dialog" aria-labelledby="leaderboard-title">
-    <form method="dialog" class="leaderboard-dialog-actions">
-      <button class="leaderboard-close" type="submit" aria-label="Închide clasamentul">×</button>
-    </form>
-    <header class="leaderboard-dialog-header">
-      <p>Campania Veteran</p>
-      <div class="leaderboard-title-row"><h2 id="leaderboard-title">Clasamentul actual</h2><time class="leaderboard-updated" datetime="2026-09-26">Ultima actualizare: 26 septembrie</time></div>
-      <button class="leaderboard-history-toggle" type="button" aria-pressed="false">Rezultatele pe săptămâna anterioară</button>
-    </header>
-
-    <div class="leaderboard-current-view">
-      <ol class="leaderboard-top" aria-label="Primele șase poziții">
-        <li class="leaderboard-entry first"><span aria-hidden="true">🥇</span><div><b>1 · ElSayed Negm</b><p>🎁 Premiu surpriză în valoare de 1.500 lei sau contravaloarea în bani</p></div></li>
-        <li class="leaderboard-entry second"><span aria-hidden="true">🥈</span><div><b>2 · ALI HAIDER</b><p>🎁 Premiu surpriză în valoare de 1.000 lei sau contravaloarea în bani</p></div></li>
-        <li class="leaderboard-entry third"><span aria-hidden="true">🥉</span><div><b>3 · Akor Kenneth</b><p>🎁 Premiu surpriză în valoare de 500 lei sau contravaloarea în bani</p></div></li>
-        <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>4 · Mohammad Nishan Bin Azam</b><p>⛽ Un plin din partea flotei sau contravaloarea în bani</p></div></li>
-        <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>5 · AMAN ADEEL</b><p>💸 Comision 0 timp de 2 săptămâni</p></div></li>
-        <li class="leaderboard-entry"><span aria-hidden="true">🏅</span><div><b>6 · Banu Claudiu-Ionut</b><p>💸 Comision 0 timp de o săptămână</p></div></li>
-      </ol>
-
-      <section class="leaderboard-following" aria-label="Pozițiile 7–15">
-        <ol start="7" class="leaderboard-rest">
-          <li>Dragos-Catalin-Andrei Miu</li><li>CURECHERIU ALEXANDRU</li><li>JAHIDUL Islam Apu</li><li>Sabbir Hosen</li>
-          <li>Kingsley Chimezie</li><li>Batepola Janka Gamini</li><li>Miah Mohammad Lebu</li><li>Jeelan Muhammad</li><li>Md Saiful Islam</li>
-        </ol>
-        <div class="leaderboard-notes">
-          <p><span class="leaderboard-note-icon" aria-hidden="true">i</span>Cei aflați în afara primelor 6 locuri, pot ocupa locurile din top în următoarele săptămâni. Fiecare săptămână poate schimba ordinea.</p>
-          <p><span class="leaderboard-note-icon" aria-hidden="true">i</span>Campania continuă până pe 07 Noiembrie, ora 23:59, moment în care se va trage linia și se vor stabili câștigătorii.</p>
-        </div>
-      </section>
-    </div>
-
-    <section class="leaderboard-history-view" aria-label="Comparație cu săptămâna anterioară" hidden>
-      <p class="leaderboard-history-intro">Clasamentul de mai jos arată schimbarea fiecărui loc față de săptămâna anterioară.</p>
-      <ol class="leaderboard-history-list">
-        <li><b>1</b><p><span>Înainte:</span> ElSayed Negm</p><p><span>Actual:</span> ElSayed Negm</p></li>
-        <li><b>2</b><p><span>Înainte:</span> CURECHERIU ALEXANDRU</p><p><span>Actual:</span> ALI HAIDER</p></li>
-        <li><b>3</b><p><span>Înainte:</span> Mohammad Nishan Bin Azam</p><p><span>Actual:</span> Akor Kenneth</p></li>
-        <li><b>4</b><p><span>Înainte:</span> Banu Claudiu-Ionut</p><p><span>Actual:</span> Mohammad Nishan Bin Azam</p></li>
-        <li><b>5</b><p><span>Înainte:</span> Nwankwo Abuchi Collins</p><p><span>Actual:</span> AMAN ADEEL</p></li>
-        <li><b>6</b><p><span>Înainte:</span> Akor Kenneth</p><p><span>Actual:</span> Banu Claudiu-Ionut</p></li>
-        <li><b>7</b><p><span>Înainte:</span> MACOVEI N. ALEXANDR</p><p><span>Actual:</span> Dragos-Catalin-Andrei Miu</p></li>
-        <li><b>8</b><p><span>Înainte:</span> ALI HAIDER</p><p><span>Actual:</span> CURECHERIU ALEXANDRU</p></li>
-        <li><b>9</b><p><span>Înainte:</span> JAHIDUL Islam Apu</p><p><span>Actual:</span> JAHIDUL Islam Apu</p></li>
-        <li><b>10</b><p><span>Înainte:</span> Molla-Shamim</p><p><span>Actual:</span> Sabbir Hosen</p></li>
-        <li><b>11</b><p><span>Înainte:</span> Miah Mohammad Lebu</p><p><span>Actual:</span> Kingsley Chimezie</p></li>
-        <li><b>12</b><p><span>Înainte:</span> Cosmin-Gabriel Boian</p><p><span>Actual:</span> Batepola Janka Gamini</p></li>
-        <li><b>13</b><p><span>Înainte:</span> Kingsley Chimezie</p><p><span>Actual:</span> Miah Mohammad Lebu</p></li>
-        <li><b>14</b><p><span>Înainte:</span> Sabbir Hosen</p><p><span>Actual:</span> Jeelan Muhammad</p></li>
-        <li><b>15</b><p><span>Înainte:</span> Denis-Fabian Stoleru</p><p><span>Actual:</span> Md Saiful Islam</p></li>
-      </ol>
-    </section>
-  </dialog>
 
   <footer class="site-footer">
     <div class="footer-socials" aria-label="Urmărește CibeRO"><a href="https://www.facebook.com/cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Facebook"><img src="../assets/social-facebook-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.instagram.com/cibero_riders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe Instagram"><img src="../assets/social-instagram-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.tiktok.com/@cibero.riders" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe TikTok"><img src="../assets/social-tiktok-cibero.png" alt="" width="38" height="38" /></a><a href="https://www.youtube.com/@CibeRORiders/" target="_blank" rel="noopener noreferrer" aria-label="CibeRO pe YouTube"><img src="../assets/social-youtube-cibero.png" alt="" width="38" height="38" /></a></div>
@@ -259,7 +223,7 @@
     <span class="footer-copyright">© Powered by CibeRO – 2026 | Toate drepturile rezervate</span>
   </footer>
   <script src="../site-language.js?v=19"></script>
-  <script src="campanii.js?v=15"></script>
+  <script src="campanii.js?v=16"></script>
   <script src="../main-page.js?v=7"></script>
   <script src="../site-theme.js?v=7"></script>
   <script defer src="/site-analytics.js?v=1"></script>
