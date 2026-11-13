@@ -32,23 +32,18 @@ tabs.forEach((tab, index) => {
 const requestedTab = location.hash.replace('#', '');
 activateTab(['veteran', 'tombola', 'recomandare'].includes(requestedTab) ? requestedTab : 'veteran', false);
 
-const focusRaffleWinners = () => {
+const focusRaffle = () => {
   if (location.hash !== '#tombola') return;
 
   const raffleHeader = document.querySelector('.raffle-header');
-  const raffleWinners = document.querySelector('.raffle-winners');
-  if (!raffleHeader || !raffleWinners) return;
+  if (!raffleHeader) return;
 
   const headerOffset = 96;
   const targetTop = Math.max(0, raffleHeader.getBoundingClientRect().top + window.scrollY - headerOffset);
   window.scrollTo({ top: targetTop, behavior: 'auto' });
-  raffleWinners.classList.remove('is-highlighted');
-  void raffleWinners.offsetWidth;
-  raffleWinners.classList.add('is-highlighted');
-  window.setTimeout(() => raffleWinners.classList.remove('is-highlighted'), 3200);
 };
 
-window.addEventListener('load', () => window.requestAnimationFrame(focusRaffleWinners), { once: true });
+window.addEventListener('load', () => window.requestAnimationFrame(focusRaffle), { once: true });
 
 const translations = {
   ro: {
@@ -99,7 +94,7 @@ const translations = {
     raffleHowTitle: 'Cum funcționează',
     raffleStep1: 'Toți curierii activi în cele 2 săptămâni de desfășurare a campaniei <strong>sunt înregistrați automat</strong> în tombolă.',
     raffleStep2: '<strong>Fiecare 500 lei</strong> încasați din livrări în cele 2 săptămâni de desfășurare a campaniei înseamnă <strong>un bilet la tragerea la sorți.</strong> Mai multe bilete înseamnă mai multe șanse de câștig.',
-    raffleStep3: 'La finalul celor 2 săptămâni, <strong>dăm de roată</strong> și <strong>anunțăm câștigătorii</strong> pe grup. Câștigătorii sunt afișați și în această pagină.',
+    raffleStep3: 'La finalul celor 2 săptămâni, <strong>dăm de roată</strong> și <strong>anunțăm câștigătorii</strong> pe grup.',
     raffleCommissionInfo: 'reducția de comision se aplică veniturilor încasate în a doua săptămână din cele două în care campania e desfășurată',
     raffleGoal: 'La fiecare <strong>500 lei</strong> câștigați în cele 2 săptămâni de desfășurare a campaniei, primești un bilet la tragerea la sorți. Mai multe bilete înseamnă mai multe șanse de câștig.',
     exampleTitle: 'Exemplu',
@@ -111,9 +106,6 @@ const translations = {
     orLabel: 'sau',
     raffleCommissionPrize: '0% comision pentru a 2-a săptămână',
     raffleDiscountNote: 'Dacă alegi 0% comision pentru a 2-a săptămână, reducerea se aplică veniturilor încasate în a doua săptămână din cele două în care campania e desfășurată.',
-    raffleWinnersTitle: 'Câștigătorii tombolei · 21–27 Septembrie',
-    rafflePrizeLabel: 'Premiu',
-    raffleWinnersPrize: '100 lei sau 0% comision pentru a 2-a săptămână.',
     raffleResults: 'Rezultatele vor fi afișate la începutul săptămânii următoare încheierii campaniei.',
     raffleChance: '😉 Toți au o șansă la câștig, însă cei care colectează mai multe bilete au mai multe șanse.',
     raffleClosing: 'Spor și succes! 🙏',
@@ -183,7 +175,7 @@ const translations = {
     raffleHowTitle: 'How it works',
     raffleStep1: 'All couriers active during the 2 campaign weeks <strong>are automatically entered</strong> into the raffle.',
     raffleStep2: '<strong>Every 500 lei</strong> earned from deliveries during the 2 campaign weeks counts as <strong>one raffle ticket.</strong> More tickets mean more chances to win.',
-    raffleStep3: 'At the end of the 2 weeks, <strong>we spin the wheel</strong> and <strong>announce the winners</strong> in the group. The winners are also listed on this page.',
+    raffleStep3: 'At the end of the 2 weeks, <strong>we spin the wheel</strong> and <strong>announce the winners</strong> in the group.',
     raffleCommissionInfo: 'the commission discount applies to earnings received during the second of the two campaign weeks',
     raffleGoal: 'For every <strong>500 lei</strong> earned during the 2 campaign weeks, you receive one raffle ticket. More tickets mean more chances to win.',
     exampleTitle: 'Example',
@@ -195,9 +187,6 @@ const translations = {
     orLabel: 'or',
     raffleCommissionPrize: '0% commission for the second week',
     raffleDiscountNote: 'If you choose 0% commission for the second week, the discount applies to earnings received during the second of the two campaign weeks.',
-    raffleWinnersTitle: 'Raffle winners · 21–27 September',
-    rafflePrizeLabel: 'Prize',
-    raffleWinnersPrize: '100 lei or 0% commission for the second week.',
     raffleResults: 'The results will be announced at the beginning of the week following the end of the campaign.',
     raffleChance: '😉 Everyone has a chance to win, but couriers who collect more tickets have more chances.',
     raffleClosing: 'Good luck! 🙏',
